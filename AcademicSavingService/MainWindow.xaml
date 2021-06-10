@@ -74,6 +74,11 @@
 	</Window.Resources>
 
 	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="5"/>
+		</Grid.RowDefinitions>
+		<Rectangle Fill="{DynamicResource MahApps.Brushes.AccentBase}" Grid.Row="1"/>
 		<Rectangle Fill="White" Margin="0, 48, 0, 0"/>
 		<mah:HamburgerMenu  x:Name="HamburgerMenuControl"
 		                    DisplayMode="CompactInline"

@@ -5,8 +5,79 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AcademicSavingService.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+             d:DesignHeight="900" d:DesignWidth="1600">
+	<Grid Margin="10">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="80*"/>
+			<ColumnDefinition Width="20*" MaxWidth="350" MinWidth="150"/>
+		</Grid.ColumnDefinitions>
 
+		<!-- Saving account parts -->
+		<Grid Grid.Column="0" Margin="0, 0, 10, 0">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="60*"/>
+				<RowDefinition Height="40*" MaxHeight="300" MinHeight="200"/>
+			</Grid.RowDefinitions>
+
+			<Border Margin="4, 0, 0, 20" Grid.Row="0" BorderThickness="2" HorizontalAlignment="Stretch" BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="4">
+				<Grid Background="{DynamicResource MahApps.Brushes.AccentBase}">
+					<DataGrid Margin="0, 10, 0, 10" MinWidth="500" FontSize="16" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}">
+						<DataGrid.Columns>
+							<DataGridTextColumn Width="50" Header="ID"/>
+							<DataGridTextColumn Width="50" Header="Owner ID"/>
+							<DataGridTextColumn Width="120" Header="Create date"/>
+							<DataGridTextColumn Width="120" Header="Close date"/>
+							<DataGridTextColumn Width="120" Header="Last update"/>
+							<DataGridTextColumn Header="Balance" Width="*"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</Grid>
+			</Border>
+
+			<Border CornerRadius="5" Grid.Row="1"
+					Background="{DynamicResource MahApps.Brushes.AccentBase}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="20*" MinWidth="50" MaxWidth="120"/>
+						<ColumnDefinition Width="80*"/>
+					</Grid.ColumnDefinitions>
+
+					<Grid Grid.Column="0" Margin="5, 5, 0, 5">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+						</Grid.RowDefinitions>
+						<Grid.Resources>
+							<Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
+								<Setter Property="Margin" Value="0, 3, 0, 3"/>
+								<Setter Property="FontSize" Value="16"/>
+								<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
+								<Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
+								<Setter Property="FontWeight" Value="Bold"/>
+							</Style>
+						</Grid.Resources>
+						<Button Grid.Row="0" Margin="0, 3, 0, 3" Content="ADD"/>
+						<Button Grid.Row="1" Margin="0, 3, 0, 3" Content="REMOVE"/>
+						<Button Grid.Row="2" Margin="0, 3, 0, 3" Content="UPDATE"/>
+						<Button Grid.Row="3" Margin="0, 3, 0, 3" Content="UPDATE ALL"/>
+					</Grid>
+				</Grid>
+			</Border>
+		</Grid>
+
+		<!-- Customer parts -->
+		<Border Margin="4, 0, 0, 0" Grid.Column="1" BorderThickness="2" BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="4">
+			<Grid Background="{DynamicResource MahApps.Brushes.AccentBase}">
+				<DataGrid Margin="0, 10, 0, 10" FontSize="16" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="ID"/>
+						<DataGridTextColumn Header="Identity Number"/>
+						<DataGridTextColumn Header="Full Name" Width="*"/>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+		</Border>
 	</Grid>
 </UserControl>

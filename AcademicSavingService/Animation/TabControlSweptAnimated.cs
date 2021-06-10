@@ -14,7 +14,7 @@ namespace AcademicSavingService.Animation
 {
 	public class TabControlSweptAnimated : TabControl
 	{
-		public static readonly DependencyProperty AnimationDurationProperty = DependencyProperty.Register("AnimationDuration", typeof(double), typeof(TabControlSweptAnimated), new PropertyMetadata(0.4));
+		public static readonly DependencyProperty AnimationDurationProperty = DependencyProperty.Register("AnimationDuration", typeof(double), typeof(TabControlSweptAnimated), new PropertyMetadata(0.8));
 		public double AnimationDuration
 		{ 
 			get { return (double)GetValue(AnimationDurationProperty); }
