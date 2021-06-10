@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="AcademicSavingService.View.ServicesManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AcademicSavingService.View"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:viewModel="clr-namespace:AcademicSavingService.ViewModel"
+             xmlns:view="clr-namespace:AcademicSavingService.View"
+             xmlns:anim="clr-namespace:AcademicSavingService.Animation"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+			 mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<DataTemplate DataType="{x:Type viewModel:SavingAccountsManagerViewModel}">
+				<view:SavingAccountsManager DataContext="{Binding}" />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type viewModel:DepositsManagerViewModel}">
+				<view:DepositsManager DataContext="{Binding}" />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type viewModel:WithdrawsManagerViewModel}">
+				<view:WithdrawsManager DataContext="{Binding}" />
+			</DataTemplate>
+			<DataTemplate DataType="{x:Type viewModel:CustomersManagerViewModel}">
+				<view:CustomersManager DataContext="{Binding}" />
+			</DataTemplate>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	<anim:TabControlSweptAnimated x:Name="TabControl" TabStripPlacement="Top" 
+	                              ItemsSource="{Binding TabItems}"
+								  ItemTemplate="{StaticResource TabItemTemplate}"
+	                              SelectedIndex="{Binding SelectedIndex}"
+								  BorderThickness="0">
+	</anim:TabControlSweptAnimated>
+</UserControl>
