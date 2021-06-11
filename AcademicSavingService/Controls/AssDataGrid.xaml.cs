@@ -6,6 +6,7 @@ using PropertyChanged;
 using System.Collections;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace AcademicSavingService.Controls
 {
@@ -48,6 +49,30 @@ namespace AcademicSavingService.Controls
 
 		public ObservableCollection<DataGridColumn> Columns
 		{ get { return dataGrid.Columns; } }
+
+		//Selected stuff
+		public static readonly DependencyProperty SelectedItemProperty =
+			DependencyProperty.Register("SelectedItem", typeof(object), typeof(AssDataGrid));
+		public object SelectedItem
+		{
+			get { return GetValue(SelectedItemProperty); }
+			set { SetValue(SelectedItemProperty, value); }
+		}
+
+		public IList SelectedItems
+		{
+			get { return dataGrid.SelectedItems; }
+		}
+
+		public static readonly DependencyProperty SelectedIndexProperty =
+			DependencyProperty.Register("SelectedIndex", typeof(int), typeof(AssDataGrid));
+		public int SelectedIndex
+		{
+			get { return (int)GetValue(SelectedIndexProperty); }
+			set { SetValue(SelectedIndexProperty, value); }
+		}
+
+
 
 		protected CancellationTokenSource cancelCulture;
 		protected bool isSearching = false;

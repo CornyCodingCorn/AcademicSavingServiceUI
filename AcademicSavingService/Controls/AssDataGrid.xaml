@@ -55,6 +55,8 @@
 				<DataGrid FontSize="16" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}"
 						  Name="dataGrid"
 						  ItemsSource="{Binding ItemsSource}"
+						  SelectedIndex="{Binding SelectedIndex}"
+						  SelectedItem="{Binding SelectedItem}"
 						  AutoGenerateColumns="False"
 						  IsReadOnly="True"
 						  CanUserAddRows="False"
