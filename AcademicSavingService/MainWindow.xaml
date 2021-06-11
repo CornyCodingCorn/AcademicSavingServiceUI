@@ -1,4 +1,4 @@
-﻿<mah:MetroWindow x:Class="AcademicSavingService.MainWindow"
+﻿<ctrl:AssWindow x:Class="AcademicSavingService.MainWindow"
 				 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 				 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 				 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,6 +7,7 @@
 				 xmlns:viewModel="clr-namespace:AcademicSavingService.ViewModel"
 				 xmlns:view="clr-namespace:AcademicSavingService.View"
 				 xmlns:local="clr-namespace:AcademicSavingService"
+				 xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
 				 mc:Ignorable="d"
 				 Title="Academic Saving Service" 
 				 Height="600"
@@ -147,4 +148,4 @@
 			</mah:HamburgerMenu.Content>
 		</mah:HamburgerMenu>
 	</Grid>
-</mah:MetroWindow>
+</ctrl:AssWindow>

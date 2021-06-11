@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="AcademicSavingService.Controls.AssDataGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:conv="clr-namespace:AcademicSavingService.Converters"
+			 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:local="clr-namespace:AcademicSavingService.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<conv:SearchToVisability x:Key="SearchToVisibilityConverter"/>
+			<conv:BoolVisabilityConverter x:Key="BoolToVisibilityConverter"/>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="../Resources/CRUDStyle.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+	
+	<Border x:Name="content" BorderThickness="2" HorizontalAlignment="Stretch" BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="5">
+		<Grid Background="{DynamicResource MahApps.Brushes.AccentBase}">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+
+			<Grid Margin="{StaticResource DataGridHeaderMargin}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="55*"/>
+					<ColumnDefinition Width="30*" MinWidth="200" MaxWidth="300"/>
+				</Grid.ColumnDefinitions>
+
+				<Grid.Resources>
+					<ResourceDictionary>
+						<ResourceDictionary.MergedDictionaries>
+							<ResourceDictionary Source="..\Resources\CRUDStyle.xaml"/>
+						</ResourceDictionary.MergedDictionaries>
+					</ResourceDictionary>
+				</Grid.Resources>
+
+				<TextBox x:Name="txtFullTextSearch"
+						 Grid.Column="1" 
+						 HorizontalAlignment="Stretch" 
+						 mah:TextBoxHelper.ClearTextButton="True" 
+						 Visibility="{Binding EnableFullTextSearch, Converter={StaticResource BoolToVisibilityConverter}}" 
+						 TextAlignment="Right" 
+						 mah:TextBoxHelper.Watermark="Search..." 
+						 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+						 TextChanged="txtFullTextSearch_TextChanged"/>
+			</Grid>
+
+			<ScrollViewer Grid.Row="1" Margin="{StaticResource DataGridMargin}" HorizontalScrollBarVisibility="Disabled">
+				<DataGrid FontSize="16" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}"
+						  Name="dataGrid"
+						  ItemsSource="{Binding ItemsSource}"
+						  AutoGenerateColumns="False"
+						  IsReadOnly="True"
+						  CanUserAddRows="False"
+						  CanUserDeleteRows="False">
+					<DataGrid.ItemContainerStyle>
+						<Style TargetType="{x:Type DataGridRow}" 
+							   BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
+							<Setter Property="Visibility">
+								<Setter.Value>
+									<MultiBinding Converter="{StaticResource SearchToVisibilityConverter}" 
+												  UpdateSourceTrigger="PropertyChanged">
+										<Binding ElementName="txtFullTextSearch" Path="Text"/>
+										<Binding BindsDirectlyToSource="True"/>
+									</MultiBinding>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</DataGrid.ItemContainerStyle>
+				</DataGrid>
+			</ScrollViewer>
+		</Grid>
+	</Border>
+</UserControl>

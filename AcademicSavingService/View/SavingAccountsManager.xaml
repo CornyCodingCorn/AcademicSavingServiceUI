@@ -4,10 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AcademicSavingService.View"
+             xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
 			 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1600">
 	<Grid Margin="10">
+		<Grid.Resources>
+			<ResourceDictionary>
+				<ResourceDictionary.MergedDictionaries>
+					<ResourceDictionary Source="../Resources/CRUDStyle.xaml"/>
+				</ResourceDictionary.MergedDictionaries>
+			</ResourceDictionary>
+		</Grid.Resources>
+
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="65*"/>
 			<ColumnDefinition Width="25*" MaxWidth="350" MinWidth="150"/>
@@ -20,28 +29,23 @@
 				<RowDefinition Height="30*" MaxHeight="220" MinHeight="200"/>
 			</Grid.RowDefinitions>
 
-			<Border Margin="0, 0, 0, 20" Grid.Row="0" BorderThickness="2" HorizontalAlignment="Stretch" BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="4">
-				<Grid Background="{DynamicResource MahApps.Brushes.AccentBase}">
-					<ScrollViewer Margin="12, 12, 0, 12" HorizontalScrollBarVisibility="Disabled">
-						<DataGrid FontSize="16" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}">
-							<DataGrid.Columns>
-								<DataGridTextColumn Width="50" Header="ID"/>
-								<DataGridTextColumn Width="100" Header="Owner ID"/>
-								<DataGridTextColumn Width="120" Header="Create date"/>
-								<DataGridTextColumn Width="120" Header="Close date"/>
-								<DataGridTextColumn Width="120" Header="Last update"/>
-								<DataGridTextColumn Width="80" Header="Period"/>
-								<DataGridTextColumn Width="140" Header="Interest Rate"/>
-								<DataGridTextColumn Width="*" Header="Balance"/>
-							</DataGrid.Columns>
-						</DataGrid>
-					</ScrollViewer>
-				</Grid>
-			</Border>
+			<!-- Customer Data grid-->
+			<ctrl:AssDataGrid Margin="0, 0, 0, 20" EnableFullTextSearch="True">
+				<ctrl:AssDataGrid.Columns>
+					<DataGridTextColumn Width="50" Header="ID"/>
+					<DataGridTextColumn Width="100" Header="Owner ID"/>
+					<DataGridTextColumn Width="120" Header="Create date"/>
+					<DataGridTextColumn Width="120" Header="Close date"/>
+					<DataGridTextColumn Width="120" Header="Last update"/>
+					<DataGridTextColumn Width="80" Header="Period"/>
+					<DataGridTextColumn Width="140" Header="Interest Rate"/>
+					<DataGridTextColumn Width="*" Header="Balance"/>
+				</ctrl:AssDataGrid.Columns>
+			</ctrl:AssDataGrid>
 
 			<Border CornerRadius="5" Grid.Row="1"
 					Background="{DynamicResource MahApps.Brushes.AccentBase}">
-				<Grid Margin="12">
+				<Grid Margin="{StaticResource PaddingWidth}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="20*" MinWidth="50" MaxWidth="120"/>
 						<ColumnDefinition Width="80*"/>
@@ -70,47 +74,6 @@
 					</Grid>
 
 					<Grid Grid.Column="1">
-						<Grid.Resources>
-							<ResourceDictionary>
-								<Style TargetType="{x:Type Border}">
-									<Setter Property="CornerRadius" Value="5"/>
-								</Style>
-								<Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MahApps.Styles.TextBlock}">
-									<Setter Property="HorizontalAlignment" Value="Left"/>
-									<Setter Property="VerticalAlignment" Value="Center"/>
-									<Setter Property="Foreground" Value="White"/>
-									<Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
-									<Setter Property="FontSize" Value="16"/>
-									<Setter Property="FontWeight" Value="Bold"/>
-									<Setter Property="Margin" Value="10, 0, 0, 0"/>
-								</Style>
-
-								<Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MahApps.Styles.TextBox}">
-									<Setter Property="Height" Value="32"/>
-									<Setter Property="Margin" Value="20, 0, 0, 0"/>
-									<Setter Property="mah:TextBoxHelper.WatermarkAlignment" Value="Right"/>
-									<Setter Property="TextAlignment" Value="Left"/>
-									<Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
-									<Setter Property="mah:ControlsHelper.FocusBorderBrush" Value="{DynamicResource MahApps.Brushes.Button.Flat.Foreground}"/>
-									<Setter Property="mah:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource MahApps.Brushes.Accent2}"/>
-									<Setter Property="mah:ControlsHelper.FocusBorderThickness" Value="5"/>
-									<Setter Property="HorizontalAlignment" Value="Left"/>
-									<Setter Property="FontSize" Value="16"/>
-								</Style>
-
-								<Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource MahApps.Styles.DatePicker}">
-									<Setter Property="Height" Value="32"/>
-									<Setter Property="Margin" Value="20, 0, 0, 0"/>
-									<Setter Property="mah:TextBoxHelper.WatermarkAlignment" Value="Right"/>
-									<Setter Property="HorizontalAlignment" Value="Left"/>
-									<Setter Property="FontSize" Value="16"/>
-									<Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
-									<Setter Property="mah:ControlsHelper.FocusBorderBrush" Value="{DynamicResource MahApps.Brushes.Button.Flat.Foreground}"/>
-									<Setter Property="mah:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource MahApps.Brushes.Accent2}"/>
-									<Setter Property="mah:ControlsHelper.FocusBorderThickness" Value="5"/>
-								</Style>
-							</ResourceDictionary>
-						</Grid.Resources>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="60*" MaxWidth="650" MinWidth="400"/>
@@ -139,14 +102,14 @@
 							<TextBlock Text="Period"		Grid.Column="2" Grid.Row="2"/>
 							<TextBlock Text="Interest rate" Grid.Column="2" Grid.Row="3"/>
 
-							<TextBox Grid.Column="1" Grid.Row="0" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID number"/>
-							<TextBox Grid.Column="1" Grid.Row="1" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Owner ID"/>
-							<TextBox Grid.Column="1" Grid.Row="2" Width="120" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Close date"/>
-							<TextBox Grid.Column="1" Grid.Row="3" Width="120" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Update date"/>
+							<TextBox	Grid.Column="1" Grid.Row="0" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID number"/>
+							<TextBox	Grid.Column="1" Grid.Row="1" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Owner ID"/>
+							<TextBox	Grid.Column="1" Grid.Row="2" Width="120" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Close date"/>
+							<TextBox	Grid.Column="1" Grid.Row="3" Width="120" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Update date"/>
 							<DatePicker Grid.Column="3" Grid.Row="0" Width="120" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"/>
-							<TextBox Grid.Column="3" Grid.Row="2" Width="60" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Period"/>
-							<TextBox Grid.Column="3" Grid.Row="1" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Balance" mah:TextBoxHelper.ClearTextButton="True"/>
-							<TextBox Grid.Column="3" Grid.Row="3" Width="60" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate"/>
+							<TextBox	Grid.Column="3" Grid.Row="1" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Balance" mah:TextBoxHelper.ClearTextButton="True"/>
+							<ComboBox	Grid.Column="3" Grid.Row="2" Width="80"  HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Period"/>
+							<TextBox	Grid.Column="3" Grid.Row="3" Width="80"  IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate"/>
 						</Grid>
 					</Grid>						 
 				</Grid>
@@ -154,18 +117,12 @@
 		</Grid>
 
 		<!-- Customer parts -->
-		<Border Margin="4, 0, 0, 0" Grid.Column="1" BorderThickness="2" BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="4">
-			<Grid Background="{DynamicResource MahApps.Brushes.AccentBase}">
-				<ScrollViewer Margin="12, 12, 0, 12" HorizontalScrollBarVisibility="Disabled">
-					<DataGrid FontSize="16" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}">
-						<DataGrid.Columns>
-							<DataGridTextColumn Header="ID"/>
-							<DataGridTextColumn Header="Identity Number"/>
-							<DataGridTextColumn Header="Full Name" Width="*"/>
-						</DataGrid.Columns>
-					</DataGrid>
-				</ScrollViewer>
-			</Grid>
-		</Border>
+		<ctrl:AssDataGrid Grid.Column="1" Margin="5, 0, 0, 0" EnableFullTextSearch="True">
+			<ctrl:AssDataGrid.Columns>
+				<DataGridTextColumn Header="ID"/>
+				<DataGridTextColumn Header="Identity Num"/>
+				<DataGridTextColumn Header="Full Name" Width="*"/>
+			</ctrl:AssDataGrid.Columns>
+		</ctrl:AssDataGrid>
 	</Grid>
 </UserControl>
