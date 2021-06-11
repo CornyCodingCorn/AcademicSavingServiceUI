@@ -1,14 +1,12 @@
 ﻿using AcademicSavingService.Model;
 using AcademicSavingService.InpcContainers;
 using System.Collections.ObjectModel;
-using SqlKata;
 using SqlKata.Compilers;
 using SqlKata.Execution;
-using System;
 
 namespace AcademicSavingService.DataAccess
 {
-    public class CustomersDA : BaseDataAccess<CustomerViewModel>
+    public class CustomerDA : BaseDataAccess
     {
         public ObservableCollection<CustomerViewModel> GetAllCustomers()
         {
@@ -40,17 +38,27 @@ namespace AcademicSavingService.DataAccess
             return new ObservableCollection<CustomerViewModel>(collection);
         }
 
-        public void CreateCustomer(Customer customer)
+        public bool CreateCustomer(Customer customer)
         {
-            db.Query(_tableName).Insert(customer);
+            try
+            {
+                db.Query(_tableName).Insert(customer);
+                return true;
+            }
+            catch { return false; }
         }
 
-        public void UpdateCustomerByMaKH(Customer updatedCustomer)
+        public bool UpdateCustomerByMaKH(Customer updatedCustomer)
         {
-            db.Query(_tableName).Where(_MaKH, updatedCustomer.MaKH).Update(updatedCustomer);
+            try
+            {
+                db.Query(_tableName).Where(_MaKH, updatedCustomer.MaKH).Update(updatedCustomer);
+                return true;
+            }
+            catch { return false; }
         }
 
-        public CustomersDA()
+        public CustomerDA()
         {
             MySqlCompiler compiler = new();
             db = new QueryFactory(BaseDBConnection.Connection, compiler);

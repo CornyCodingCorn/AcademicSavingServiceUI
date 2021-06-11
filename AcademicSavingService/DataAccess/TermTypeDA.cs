@@ -8,7 +8,7 @@ using SqlKata.Execution;
 
 namespace AcademicSavingService.DataAccess
 {
-    public class TermTypeDA : BaseDataAccess<TermTypeViewModel>
+    public class TermTypeDA : BaseDataAccess
     {
         public ObservableCollection<TermTypeViewModel> GetAllTermTypes()
         {
@@ -22,7 +22,7 @@ namespace AcademicSavingService.DataAccess
             return new ObservableCollection<TermTypeViewModel>(collection);
         }
 
-        public void CreateLoaiKyHan(TermType term)
+        public bool CreateLoaiKyHan(TermType term)
         {
             string q = $"CALL ThemKyHan({_KyHanVar}, {_LaiSuatVar}, {_NgayTaoVar}, {_NgayNgungSuDungVar})";
             cmd.CommandText = q;
@@ -34,11 +34,16 @@ namespace AcademicSavingService.DataAccess
             cmd.Prepare();
 
             BaseDBConnection.OpenConnection();
-            cmd.ExecuteNonQuery();
-            BaseDBConnection.CloseConnection();
+            try
+            {
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch { return false; }
+            finally { BaseDBConnection.CloseConnection(); }
         }
 
-        public void SetKyHanUnused(TermType term, DateTime stopDate)
+        public bool SetKyHanUnused(TermType term, DateTime stopDate)
         {
             string q = $"CALL NgungSuDungKyHan({_KyHanVar}, {_NgayNgungSuDungMoiVar})";
             cmd.CommandText = q;
@@ -48,8 +53,13 @@ namespace AcademicSavingService.DataAccess
             cmd.Prepare();
 
             BaseDBConnection.OpenConnection();
-            cmd.ExecuteNonQuery();
-            BaseDBConnection.CloseConnection();
+            try
+            {
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch { return false; }
+            finally { BaseDBConnection.CloseConnection(); }
         }
 
         public TermTypeDA()

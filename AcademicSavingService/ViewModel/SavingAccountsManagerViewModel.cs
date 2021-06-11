@@ -17,7 +17,7 @@ namespace AcademicSavingService.ViewModel
 		public SavingAccountsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
 			_accountDA = new SavingAccountDA();
-			_testCustomersDA = new CustomersDA();
+			_testCustomersDA = new CustomerDA();
 			_testCommand = new RelayCommand(TestFunction, (obj) => true);
 
             _accounts = _accountDA.GetAllSavingAccounts();
@@ -26,7 +26,7 @@ namespace AcademicSavingService.ViewModel
 		#region TESTING
 
 		// only for TESTING
-		private CustomersDA _testCustomersDA;
+		private CustomerDA _testCustomersDA;
         private RelayCommand _testCommand;
 
 		public ICommand TestCommand => _testCommand;

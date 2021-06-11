@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace AcademicSavingService.DataAccess
 {
-    public abstract class BaseDataAccess<T>
+    public abstract class BaseDataAccess
     {
         protected MySqlCommand cmd;
 

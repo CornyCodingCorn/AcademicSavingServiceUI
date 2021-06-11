@@ -7,7 +7,7 @@ using SqlKata.Compilers;
 
 namespace AcademicSavingService.DataAccess
 {
-    public class TransactionSlipsDA : BaseDataAccess<TransactionSlipViewModel>
+    public class TransactionSlipDA : BaseDataAccess
     {
         public ObservableCollection<TransactionSlipViewModel> GetAllSlips()
         {
@@ -27,7 +27,7 @@ namespace AcademicSavingService.DataAccess
             return new ObservableCollection<TransactionSlipViewModel>(collection);
         }
 
-        public void CreateSlip(TransactionSlip slip)
+        public bool CreateSlip(TransactionSlip slip)
         {
             string q = $"CALL ThemPhieu({_MaSoVar}, {_SoTienVar}, {_MaKHVar}, {_MaNVVar}, {_GhiChuVar}, {_NgayTaoVar})";
             cmd.CommandText = q;
@@ -41,13 +41,23 @@ namespace AcademicSavingService.DataAccess
             cmd.Prepare();
 
             BaseDBConnection.OpenConnection();
-            cmd.ExecuteNonQuery();
-            BaseDBConnection.CloseConnection();
+            try
+            {
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch { return false; }
+            finally { BaseDBConnection.CloseConnection(); }
         }
 
-        public void UpdateSlipByMaPhieu(TransactionSlip updatedSlip)
+        public bool UpdateSlipByMaPhieu(TransactionSlip updatedSlip)
         {
-            db.Query(_tableName).Where(_MaPhieu, updatedSlip.MaPhieu).Update(updatedSlip);
+            try
+            {
+                db.Query(_tableName).Where(_MaPhieu, updatedSlip.MaPhieu).Update(updatedSlip);
+                return true;
+            }
+            catch { return false; }
         }
 
         public bool DeleteSlipByMaPhieu(int MaPhieu)
@@ -70,7 +80,7 @@ namespace AcademicSavingService.DataAccess
             catch { return false; }
         }
 
-        public TransactionSlipsDA()
+        public TransactionSlipDA()
         {
             MySqlCompiler compiler = new();
             db = new QueryFactory(BaseDBConnection.Connection, compiler);

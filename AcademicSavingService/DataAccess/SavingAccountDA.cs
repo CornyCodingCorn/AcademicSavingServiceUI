@@ -9,7 +9,7 @@ using SqlKata.Compilers;
 
 namespace AcademicSavingService.DataAccess
 {
-    public class SavingAccountDA : BaseDataAccess<SavingAccountViewModel>
+    public class SavingAccountDA : BaseDataAccess
     {
         public ObservableCollection<SavingAccountViewModel> GetAllSavingAccounts()
         {
@@ -23,7 +23,13 @@ namespace AcademicSavingService.DataAccess
             return new ObservableCollection<SavingAccountViewModel>(collection);
         }
 
-        public void CreateSavingAccount(SavingAccount account)
+        public ObservableCollection<SavingAccountViewModel> GetSavingAccountsByMaKH(int MaKH)
+        {
+            var collection = db.Query(_tableName).Where(_MaKH, MaKH).Get<SavingAccountViewModel>();
+            return new ObservableCollection<SavingAccountViewModel>(collection);
+        }
+
+        public bool CreateSavingAccount(SavingAccount account)
         {
             string q = $"CALL ThemSoTietKiem({_MaKHVar}, {_KyHanVar}, {_SoTienBanDauVar}, {_NgayTaoVar})";
             cmd.CommandText = q;
@@ -35,11 +41,16 @@ namespace AcademicSavingService.DataAccess
             cmd.Prepare();
 
             BaseDBConnection.OpenConnection();
-            cmd.ExecuteNonQuery();
-            BaseDBConnection.CloseConnection();
+            try
+            {
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch { return false; }
+            finally { BaseDBConnection.CloseConnection(); }
         }
 
-        public void UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
+        public bool UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
         {
             string q = $"CALL UpdateSoTietKiem({_MaSoVar}, {_NgayCanUpdateVar})";
             cmd.CommandText = q;
@@ -49,8 +60,13 @@ namespace AcademicSavingService.DataAccess
             cmd.Prepare();
 
             BaseDBConnection.OpenConnection();
-            cmd.ExecuteNonQuery();
-            BaseDBConnection.CloseConnection();
+            try
+            {
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch { return false; }
+            finally { BaseDBConnection.CloseConnection(); }
         }
 
         //TODO: Implement UpdateSavingAccountInfo
@@ -69,6 +85,7 @@ namespace AcademicSavingService.DataAccess
         private readonly QueryFactory db;
 
         private readonly string _MaSo = "MaSo";
+        private readonly string _MaKH = "MaKH";
 
         private readonly string _MaSoVar = "@MaSo";
         private readonly string _MaKHVar = "@MaKH";
