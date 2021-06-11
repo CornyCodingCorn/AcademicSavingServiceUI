@@ -24,7 +24,7 @@
 			   Right="{StaticResource ScrollBarWidth}"/>
 
 	<Thickness x:Key="DataGridHeaderMargin"
-			   Top="5"
+			   Top="{StaticResource ScrollBarWidth}"
 			   Bottom="5"
 			   Left="0"
 			   Right="{StaticResource ScrollBarWidth}"/>

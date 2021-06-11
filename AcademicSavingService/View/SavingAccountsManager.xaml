@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AcademicSavingService.View"
+             xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
 			 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1600">
@@ -28,48 +29,19 @@
 				<RowDefinition Height="30*" MaxHeight="220" MinHeight="200"/>
 			</Grid.RowDefinitions>
 
-			<Border Margin="0, 0, 0, 20" Grid.Row="0" BorderThickness="2" HorizontalAlignment="Stretch" BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="5">
-				<Grid Background="{DynamicResource MahApps.Brushes.AccentBase}">
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="*"/>
-					</Grid.RowDefinitions>
-
-					<Grid Margin="{StaticResource DataGridHeaderMargin}">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="55*"/>
-							<ColumnDefinition Width="15*" MaxWidth="140"/>
-							<ColumnDefinition Width="30*" MaxWidth="300"/>
-						</Grid.ColumnDefinitions>
-
-						<Grid.Resources>
-							<ResourceDictionary>
-								<ResourceDictionary.MergedDictionaries>
-									<ResourceDictionary Source="..\Resources\CRUDStyle.xaml"/>
-								</ResourceDictionary.MergedDictionaries>
-							</ResourceDictionary>
-						</Grid.Resources>
-
-						<TextBox Grid.Column="2" Style="{DynamicResource SearchBoxStyle}"/>
-						<ComboBox Grid.Column="1" HorizontalAlignment="Stretch" Margin="0, 0, 20, 0" mah:TextBoxHelper.Watermark="Search by"/>
-					</Grid>
-					
-					<ScrollViewer Grid.Row="1" Margin="{StaticResource DataGridMargin}" HorizontalScrollBarVisibility="Disabled">
-						<DataGrid FontSize="16" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}">
-							<DataGrid.Columns>
-								<DataGridTextColumn Width="50" Header="ID"/>
-								<DataGridTextColumn Width="100" Header="Owner ID"/>
-								<DataGridTextColumn Width="120" Header="Create date"/>
-								<DataGridTextColumn Width="120" Header="Close date"/>
-								<DataGridTextColumn Width="120" Header="Last update"/>
-								<DataGridTextColumn Width="80" Header="Period"/>
-								<DataGridTextColumn Width="140" Header="Interest Rate"/>
-								<DataGridTextColumn Width="*" Header="Balance"/>
-							</DataGrid.Columns>
-						</DataGrid>
-					</ScrollViewer>
-				</Grid>
-			</Border>
+			<!-- Customer Data grid-->
+			<ctrl:AssDataGrid Margin="0, 0, 0, 20" EnableFullTextSearch="True">
+				<ctrl:AssDataGrid.Columns>
+					<DataGridTextColumn Width="50" Header="ID"/>
+					<DataGridTextColumn Width="100" Header="Owner ID"/>
+					<DataGridTextColumn Width="120" Header="Create date"/>
+					<DataGridTextColumn Width="120" Header="Close date"/>
+					<DataGridTextColumn Width="120" Header="Last update"/>
+					<DataGridTextColumn Width="80" Header="Period"/>
+					<DataGridTextColumn Width="140" Header="Interest Rate"/>
+					<DataGridTextColumn Width="*" Header="Balance"/>
+				</ctrl:AssDataGrid.Columns>
+			</ctrl:AssDataGrid>
 
 			<Border CornerRadius="5" Grid.Row="1"
 					Background="{DynamicResource MahApps.Brushes.AccentBase}">
@@ -145,26 +117,12 @@
 		</Grid>
 
 		<!-- Customer parts -->
-		<Border Margin="5, 0, 0, 0" Grid.Column="1" BorderThickness="2" BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="5">
-			<Grid Background="{DynamicResource MahApps.Brushes.AccentBase}">
-				<Grid.Resources>
-					<ResourceDictionary>
-						<ResourceDictionary.MergedDictionaries>
-							<ResourceDictionary Source="../Resources/CRUDStyle.xaml"/>
-						</ResourceDictionary.MergedDictionaries>
-					</ResourceDictionary>
-				</Grid.Resources>
-				
-				<ScrollViewer Margin="{StaticResource DataGridMargin}" HorizontalScrollBarVisibility="Disabled">
-					<DataGrid FontSize="16" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}">
-						<DataGrid.Columns>
-							<DataGridTextColumn Header="ID"/>
-							<DataGridTextColumn Header="Identity Number"/>
-							<DataGridTextColumn Header="Full Name" Width="*"/>
-						</DataGrid.Columns>
-					</DataGrid>
-				</ScrollViewer>
-			</Grid>
-		</Border>
+		<ctrl:AssDataGrid Grid.Column="1" Margin="5, 0, 0, 0" EnableFullTextSearch="True">
+			<ctrl:AssDataGrid.Columns>
+				<DataGridTextColumn Header="ID"/>
+				<DataGridTextColumn Header="Identity Num"/>
+				<DataGridTextColumn Header="Full Name" Width="*"/>
+			</ctrl:AssDataGrid.Columns>
+		</ctrl:AssDataGrid>
 	</Grid>
 </UserControl>
