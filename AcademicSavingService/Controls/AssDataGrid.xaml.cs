@@ -39,6 +39,11 @@ namespace AcademicSavingService.Controls
 			get { return dataGrid.Items.Count; }
 		}
 
+		public ItemCollection Items
+		{
+			get { return dataGrid.Items; }
+		}
+
 		public static readonly DependencyProperty SearchTextProperty =
 			DependencyProperty.Register("SearchText", typeof(string), typeof(AssDataGrid));
 		public string SearchText
@@ -71,7 +76,6 @@ namespace AcademicSavingService.Controls
 			get { return (int)GetValue(SelectedIndexProperty); }
 			set { SetValue(SelectedIndexProperty, value); }
 		}
-
 
 
 		protected CancellationTokenSource cancelCulture;
