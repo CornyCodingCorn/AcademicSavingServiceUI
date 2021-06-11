@@ -3,95 +3,29 @@ using AcademicSavingService.Model;
 
 namespace AcademicSavingService.InpcContainers
 {
-    public class TransactionSlipViewModel : BaseINPC
+    public class TransactionSlipViewModel : BaseViewModel, IReturnModel<TransactionSlip>
     {
-        private TransactionSlip _slip;
-
         public TransactionSlipViewModel() { }
 
-        public TransactionSlipViewModel(TransactionSlip slip)
+        public TransactionSlipViewModel(int maPhieu, DateTime ngayTao, decimal soTien, string ghiChu, int maSo, int maKH, int maNV)
         {
-            _slip = slip;
+            MaPhieu = maPhieu;
+            NgayTao = ngayTao;
+            SoTien = soTien;
+            GhiChu = ghiChu;
+            MaSo = maSo;
+            MaKH = maKH;
+            MaNV = maNV;
         }
 
-        public int MaPhieu
-        {
-            get => _slip.MaPhieu;
-            set
-            {
-                _slip.MaPhieu = value;
-                RaisePropertyChanged(nameof(MaPhieu));
-            }
-        }
+        public TransactionSlip Model => new(MaPhieu, NgayTao, SoTien, GhiChu, MaSo, MaKH, MaNV);
 
-        public DateTime NgayTao
-        {
-            get => _slip.NgayTao;
-            set
-            {
-                _slip.NgayTao = value;
-                RaisePropertyChanged(nameof(NgayTao));
-            }
-        }
-
-        public decimal SoTien
-        {
-            get => _slip.SoTien;
-            set
-            {
-                _slip.SoTien = value;
-                RaisePropertyChanged(nameof(SoTien));
-            }
-        }
-
-        public string GhiChu
-        {
-            get => _slip.GhiChu;
-            set
-            {
-                _slip.GhiChu = value;
-                RaisePropertyChanged(nameof(GhiChu));
-            }
-        }
-
-        public int MaSo
-        {
-            get => _slip.MaSo;
-            set
-            {
-                _slip.MaSo = value;
-                RaisePropertyChanged(nameof(MaSo));
-            }
-        }
-
-        public int MaKH
-        {
-            get => _slip.MaKH;
-            set
-            {
-                _slip.MaKH = value;
-                RaisePropertyChanged(nameof(MaKH));
-            }
-        }
-
-        public int MaNV
-        {
-            get => _slip.MaNV;
-            set
-            {
-                _slip.MaNV = value;
-                RaisePropertyChanged(nameof(MaNV));
-            }
-        }
-
-        public int MaUQ
-        {
-            get => _slip.MaUQ;
-            set
-            {
-                _slip.MaUQ = value;
-                RaisePropertyChanged(nameof(MaUQ));
-            }
-        }
+        public int MaPhieu { get; set; }
+        public DateTime NgayTao { get; set; }
+        public decimal SoTien { get; set; }
+        public string GhiChu { get; set; }
+        public int MaSo { get; set; }
+        public int MaKH { get; set; }
+        public int MaNV { get; set; }
     }
 }

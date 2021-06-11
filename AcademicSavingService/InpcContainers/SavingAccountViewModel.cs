@@ -3,95 +3,34 @@ using AcademicSavingService.Model;
 
 namespace AcademicSavingService.InpcContainers
 {
-    public class SavingAccountViewModel : BaseINPC
+    public class SavingAccountViewModel : BaseViewModel, IReturnModel<SavingAccount>
     {
-        private SavingAccount _account;
+        public SavingAccountViewModel() { }
 
-        public SavingAccountViewModel() { _account = new(); }
-
-        public SavingAccountViewModel(SavingAccount account)
+        public SavingAccountViewModel(int maSo, int maKH, DateTime ngayTao, DateTime? ngayDongSo, int kyHan, float laiSuat,
+            decimal soTienBD, decimal soDu, DateTime? capNhatCuoi)
         {
-            this._account = account;
+            MaSo = maSo;
+            MaKH = maKH;
+            NgayTao = ngayTao;
+            NgayDongSo = ngayDongSo;
+            KyHan = kyHan;
+            LaiSuat = laiSuat;
+            SoTienBanDau = soTienBD;
+            SoDu = soDu;
+            LanCapNhatCuoi = capNhatCuoi;
         }
 
-        public int MaSo
-        {
-            get => _account.MaSo;
-            set
-            {
-                _account.MaSo = value;
-                RaisePropertyChanged(nameof(MaSo));
-            }
-        }
+        public SavingAccount Model => new(MaSo, MaKH, NgayTao, NgayDongSo, KyHan, LaiSuat, SoTienBanDau, SoDu, LanCapNhatCuoi);
 
-        public int MaKH
-        {
-            get => _account.MaKH;
-            set
-            {
-                _account.MaKH = value;
-                RaisePropertyChanged(nameof(MaKH));
-            }
-        }
-
-        public DateTime NgayTao
-        {
-            get => _account.NgayTao;
-            set
-            {
-                _account.NgayTao = value;
-                RaisePropertyChanged(nameof(NgayTao));
-            }
-        }
-
-        public DateTime? NgayDongSo
-        {
-            get => _account.NgayDongSo;
-            set
-            {
-                _account.NgayDongSo = value;
-                RaisePropertyChanged(nameof(NgayDongSo));
-            }
-        }
-
-        public int MaKyHan
-        {
-            get => _account.MaKyHan;
-            set
-            {
-                _account.MaKyHan = value;
-                RaisePropertyChanged(nameof(MaKyHan));
-            }
-        }
-
-        public decimal SoTienBanDau
-        {
-            get => _account.SoTienBanDau;
-            set
-            {
-                _account.SoTienBanDau = value;
-                RaisePropertyChanged(nameof(SoTienBanDau));
-            }
-        }
-
-        public decimal SoDu
-        {
-            get => _account.SoDu;
-            set
-            {
-                _account.SoDu = value;
-                RaisePropertyChanged(nameof(SoDu));
-            }
-        }
-
-        public DateTime? LanCapNhatCuoi
-        {
-            get => _account.LanCapNhatCuoi;
-            set
-            {
-                _account.LanCapNhatCuoi = value;
-                RaisePropertyChanged(nameof(LanCapNhatCuoi));
-            }
-        }
+        public int MaSo { get; set; }
+        public int MaKH { get; set; }
+        public DateTime NgayTao { get; set; }
+        public DateTime? NgayDongSo { get; set; }
+        public int KyHan { get; set; }
+        public float LaiSuat { get; set; }
+        public decimal SoTienBanDau { get; set; }
+        public decimal SoDu { get; set; }
+        public DateTime? LanCapNhatCuoi { get; set; }
     }
 }

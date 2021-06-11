@@ -3,83 +3,29 @@ using AcademicSavingService.Model;
 
 namespace AcademicSavingService.InpcContainers
 {
-    public class CustomerViewModel : BaseINPC
+    public class CustomerViewModel : BaseViewModel, IReturnModel<Customer>
     {
-        private Customer _customer;
+        public CustomerViewModel() { }
 
-        public int MaKH
+        public CustomerViewModel(int maKH, string hoTen, string cmnd, string sdt, string diaChi, int noiDangKy, DateTime ngayDangKy)
         {
-            get => _customer.MaKH;
-            set
-            {
-                _customer.MaKH = value;
-                RaisePropertyChanged(nameof(MaKH));
-            }
+            MaKH = maKH;
+            HoTen = hoTen;
+            CMND = cmnd;
+            SDT = sdt;
+            DiaChi = diaChi;
+            NoiDangKy = noiDangKy;
+            NgayDangKy = ngayDangKy;
         }
 
-        public string HoTen
-        {
-            get => _customer.HoTen;
-            set
-            {
-                _customer.HoTen = value;
-                RaisePropertyChanged(nameof(HoTen));
-            }
-        }
+        public Customer Model => new(MaKH, HoTen, CMND, SDT, DiaChi, NoiDangKy, NgayDangKy);
 
-        public string CMND
-        {
-            get => _customer.CMND;
-            set
-            {
-                _customer.CMND = value;
-                RaisePropertyChanged(nameof(CMND));
-            }
-        }
-
-        public string SDT
-        {
-            get => _customer.SDT;
-            set
-            {
-                _customer.SDT = value;
-                RaisePropertyChanged(nameof(SDT));
-            }
-        }
-
-        public string DiaChi
-        {
-            get => _customer.DiaChi;
-            set
-            {
-                _customer.DiaChi = value;
-                RaisePropertyChanged(nameof(DiaChi));
-            }
-        }
-
-        public int NoiDangKy
-        {
-            get => _customer.NoiDangKy;
-            set
-            {
-                _customer.NoiDangKy = value;
-                RaisePropertyChanged(nameof(NoiDangKy));
-            }
-        }
-
-        public DateTime NgayDangKy
-        {
-            get => _customer.NgayDangKy;
-            set
-            {
-                _customer.NgayDangKy = value;
-                RaisePropertyChanged(nameof(NgayDangKy));
-            }
-        }
-
-        public CustomerViewModel()
-        {
-            _customer = new Customer();
-        }
+        public int MaKH { get; set; }
+        public string HoTen { get; set; }
+        public string CMND { get; set; }
+        public string SDT { get; set; }
+        public string DiaChi { get; set; }
+        public int NoiDangKy { get; set; }
+        public DateTime NgayDangKy { get; set; }
     }
 }

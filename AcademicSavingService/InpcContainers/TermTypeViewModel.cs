@@ -3,63 +3,25 @@ using AcademicSavingService.Model;
 
 namespace AcademicSavingService.InpcContainers
 {
-    public class TermTypeViewModel : BaseINPC
+    public class TermTypeViewModel : BaseViewModel, IReturnModel<TermType>
     {
-        private TermType _term;
+        public TermTypeViewModel() { }
 
-        public int MaKyHan
+        public TermTypeViewModel(int maKyhan, int kyHan, float laiSuat, DateTime ngayTao, DateTime? ngayNgungSuDung)
         {
-            get => _term.MaKyHan;
-            set
-            {
-                _term.MaKyHan = value;
-                RaisePropertyChanged(nameof(MaKyHan));
-            }
+            MaKyHan = maKyhan;
+            KyHan = kyHan;
+            LaiSuat = laiSuat;
+            NgayTao = ngayTao;
+            NgayNgungSuDung = ngayNgungSuDung;
         }
 
-        public int KyHan
-        {
-            get => _term.KyHan;
-            set
-            {
-                _term.KyHan = value;
-                RaisePropertyChanged(nameof(KyHan));
-            }
-        }
+        public TermType Model => new(MaKyHan, KyHan, LaiSuat, NgayTao, NgayNgungSuDung);
 
-        public float LaiSuat
-        {
-            get => _term.LaiSuat;
-            set
-            {
-                _term.LaiSuat = value;
-                RaisePropertyChanged(nameof(LaiSuat));
-            }
-        }
-
-        public DateTime NgayTao
-        {
-            get => _term.NgayTao;
-            set
-            {
-                _term.NgayTao = value;
-                RaisePropertyChanged(nameof(NgayTao));
-            }
-        }
-
-        public DateTime NgayNgungSuDung
-        {
-            get => _term.NgayNgungSuDung;
-            set
-            {
-                _term.NgayNgungSuDung = value;
-                RaisePropertyChanged(nameof(NgayNgungSuDung));
-            }
-        }
-
-        public TermTypeViewModel()
-        {
-            _term = new();
-        }
+        public int MaKyHan { get; set; }
+        public int KyHan { get; set; }
+        public float LaiSuat { get; set; }
+        public DateTime NgayTao { get; set; }
+        public DateTime? NgayNgungSuDung { get; set; }
     }
 }

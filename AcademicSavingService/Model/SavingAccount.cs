@@ -8,19 +8,21 @@ namespace AcademicSavingService.Model
         public int MaKH { get; set; }
         public DateTime NgayTao { get; set; }
         public DateTime? NgayDongSo { get; set; }
-        public int MaKyHan { get; set; }
+        public int KyHan { get; set; }
+        public float LaiSuat { get; set; }
         public decimal SoTienBanDau { get; set; }
         public decimal SoDu { get; set; }
         public DateTime? LanCapNhatCuoi { get; set; }
 
-        public SavingAccount(int maSo, int maKH, DateTime ngayTao, DateTime? ngayDong, 
-            int maKyHan, decimal soTienBanDau, decimal soDu, DateTime? capNhatCuoi)
+        public SavingAccount(int maSo, int maKH, DateTime ngayTao, DateTime? ngayDong, int kyHan, float laiSuat, 
+            decimal soTienBanDau, decimal soDu, DateTime? capNhatCuoi)
         {
             MaSo = maSo;
             MaKH = maKH;
             NgayTao = ngayTao;
             NgayDongSo = ngayDong;
-            MaKyHan = maKyHan;
+            KyHan = kyHan;
+            LaiSuat = laiSuat;
             SoTienBanDau = soTienBanDau;
             SoDu = soDu;
             LanCapNhatCuoi = capNhatCuoi;

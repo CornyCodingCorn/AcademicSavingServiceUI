@@ -23,16 +23,17 @@
 			<Border Margin="0, 0, 0, 20" Grid.Row="0" BorderThickness="2" HorizontalAlignment="Stretch" BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="4">
 				<Grid Background="{DynamicResource MahApps.Brushes.AccentBase}">
 					<ScrollViewer Margin="12, 12, 0, 12" HorizontalScrollBarVisibility="Disabled">
-						<DataGrid FontSize="16" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}">
+						<DataGrid FontSize="16" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" ItemsSource="{Binding SavingAccounts}"
+                                  AutoGenerateColumns="False">
 							<DataGrid.Columns>
-								<DataGridTextColumn Width="50" Header="ID"/>
-								<DataGridTextColumn Width="100" Header="Owner ID"/>
-								<DataGridTextColumn Width="120" Header="Create date"/>
-								<DataGridTextColumn Width="120" Header="Close date"/>
-								<DataGridTextColumn Width="120" Header="Last update"/>
-								<DataGridTextColumn Width="80" Header="Period"/>
-								<DataGridTextColumn Width="140" Header="Interest Rate"/>
-								<DataGridTextColumn Width="*" Header="Balance"/>
+								<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}"/>
+								<DataGridTextColumn Width="100" Header="Owner ID" Binding="{Binding MaKH}"/>
+								<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao}"/>
+								<DataGridTextColumn Width="120" Header="Close date" Binding="{Binding NgayDongSo}"/>
+								<DataGridTextColumn Width="120" Header="Last update" Binding="{Binding LanCapNhatCuoi}"/>
+								<DataGridTextColumn Width="80" Header="Period" Binding="{Binding KyHan}"/>
+								<DataGridTextColumn Width="140" Header="Interest Rate" Binding="{Binding LaiSuat}"/>
+								<DataGridTextColumn Width="*" Header="Balance" Binding="{Binding SoDu}"/>
 							</DataGrid.Columns>
 						</DataGrid>
 					</ScrollViewer>
