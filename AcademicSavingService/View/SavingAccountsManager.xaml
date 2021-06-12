@@ -102,7 +102,7 @@
 							<TextBlock Text="Close date"	Grid.Column="0" Grid.Row="2"/>
 							<TextBlock Text="Update date"	Grid.Column="0" Grid.Row="3"/>
 							<TextBlock Text="Create date"	Grid.Column="2" Grid.Row="0"/>
-							<TextBlock Text="Period"		Grid.Column="2" Grid.Row="1"/>
+							<TextBlock Text="Term"		Grid.Column="2" Grid.Row="1"/>
 							<TextBlock Text="Balance"		Grid.Column="2" Grid.Row="2"/>
 							<TextBlock Text="Initial Balance" Grid.Column="2" Grid.Row="3"/>
 
@@ -112,8 +112,16 @@
 							<TextBox	Grid.Column="1" Grid.Row="3" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Update date" Text="{Binding LastUpdateDate, StringFormat='dd/MM/yyyy'}"/>
 							<DatePicker Grid.Column="3" Grid.Row="0" Width="180" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding CreateDate, StringFormat='dd/MM/yyyy'}"/>
 							<StackPanel Grid.Column="3" Grid.Row="1" Orientation="Horizontal">
-								<ComboBox Width="90" Grid.Column="0" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Period"/>
-								<TextBox Width="90" Grid.Column="2" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate"/>
+								<ComboBox Width="90" Grid.Column="0" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Term" ItemsSource="{Binding TermsList}" SelectedIndex="{Binding SelectedTermIndex}">
+									<ComboBox.Resources>
+										<Style TargetType="{x:Type TextBlock}">
+											<Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Text}"/>
+											<Setter Property="FontWeight" Value="Light"/>
+											<Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
+										</Style>
+									</ComboBox.Resources>
+								</ComboBox>
+								<TextBox Width="90" Grid.Column="2" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate" Text="{Binding InterestRate, StringFormat='{}{0}%'}"/>
 							</StackPanel>
 							<ctrl:DigitTextBox	Grid.Column="3" Grid.Row="2" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding Balance, FallbackValue=0}"/>
 							<ctrl:DigitTextBox	Grid.Column="3" Grid.Row="3" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Initial Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding InitialBalance, FallbackValue=0}"/>

@@ -53,11 +53,54 @@ namespace AcademicSavingService.ViewModel
 			}
 		}
 
-		public ObservableCollection<int> PeriodList { get; set; }
-		public int Period { get; set; }
+		public ObservableCollection<int> TermsList { get; set; } = new ObservableCollection<int>();
+		public ObservableCollection<float> InterestRateList { get; set; } = new ObservableCollection<float>();
+
+		protected int _selectedTermIndex;
+		public int SelectedTermIndex 
+		{ 
+			get { return _selectedTermIndex; }
+			set
+			{
+				if (_selectedTermIndex != value)
+				{
+					_selectedTermIndex = value;
+					if (value < 0 || value >= InterestRateList.Count)
+						InterestRate = 0;
+					else
+						InterestRate = InterestRateList[value];
+				}
+			}
+		}
+
+		public float InterestRate { get; set; }
+
 		public int ID { get; set; }
 		public int OwnerID { get; set; }
-		public DateTime CreateDate { get; set; }
+
+		protected DateTime _createDate;
+		public DateTime CreateDate 
+		{ 
+			get { return _createDate; }
+			set
+			{
+				if (value != _createDate)
+				{
+					_createDate = value;
+					TermsList.Clear();
+					InterestRateList.Clear();
+					SelectedTermIndex = 0;
+
+					var tempContainer = TermTypeViewModel.GetTermWithDate(value);
+					foreach (var item in tempContainer)
+					{
+						TermsList.Add(item.Key);
+						InterestRateList.Add(item.Value);
+					}
+				}
+			}
+		}
+
 		public DateTime? LastUpdateDate { get; set; }
 		public DateTime? CloseDate { get; set; }
 		public decimal Balance { get; set; }
@@ -69,6 +112,7 @@ namespace AcademicSavingService.ViewModel
 		{
             SavingAccounts = SavingAccountViewModel.Container;
 			Customers = CustomerViewModel.Container;
+
 		}
     }
 }

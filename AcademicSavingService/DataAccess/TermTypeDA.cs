@@ -22,6 +22,26 @@ namespace AcademicSavingService.DataAccess
             return new ObservableCollection<TermTypeViewModel>(collection);
         }
 
+        public ObservableCollection<KeyValuePair<int, float>> GetClosetTermAndInterestToDate(DateTime NgayKiemTra)
+        {
+            string q = $"CALL LayKyHanVaLaiSuat({_NgayTaoVar})";
+            cmd.CommandText = q;
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddWithValue(_NgayTaoVar, NgayKiemTra);
+
+            BaseDBConnection.OpenConnection();
+            try
+            {
+                var container = new ObservableCollection<KeyValuePair<int, float>>();
+                var result = cmd.ExecuteReader();
+                while(result.Read())
+                    container.Add(new KeyValuePair<int, float>(result.GetInt32("KyHan"), result.GetFloat("LaiSuat")));
+                return container;
+            }
+            catch { return new ObservableCollection<KeyValuePair<int, float>>(); }
+            finally { BaseDBConnection.CloseConnection(); }
+        }
+
         public bool CreateLoaiKyHan(TermType term)
         {
             string q = $"CALL ThemKyHan({_KyHanVar}, {_LaiSuatVar}, {_NgayTaoVar}, {_NgayNgungSuDungVar})";
