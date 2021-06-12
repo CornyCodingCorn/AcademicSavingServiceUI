@@ -19,6 +19,9 @@
 			<DataTemplate DataType="{x:Type viewModel:EmployeesManagerViewModel}">
 				<view:EmployeesManager DataContext="{Binding}" />
 			</DataTemplate>
+			<DataTemplate DataType="{x:Type viewModel:TermsManagerViewModel}">
+				<view:TermsManager DataContext="{Binding}" />
+			</DataTemplate>
 		</ResourceDictionary>
 	</UserControl.Resources>
 	<anim:TabControlSweptAnimated x:Name="TabControl" TabStripPlacement="Top" 

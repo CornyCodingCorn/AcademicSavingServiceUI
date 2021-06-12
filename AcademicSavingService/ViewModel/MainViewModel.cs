@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using MahApps.Metro.IconPacks;
 using System.Windows.Media;
 using System.Windows;
+using ControlzEx.Theming;
 
 namespace AcademicSavingService.ViewModel
 {
@@ -15,7 +16,6 @@ namespace AcademicSavingService.ViewModel
 		public ObservableCollection<MenuItemViewModel> MenuItems { get; set; }
 		public ObservableCollection<MenuItemViewModel> MenuOptionItems { get; set; }
         public SolidColorBrush TitleBarBackGround { get; set; }
-        public bool IsActive { get; set; }
 
         public MainViewModel()
         {
@@ -46,11 +46,11 @@ namespace AcademicSavingService.ViewModel
                     Label = "Services manager",
                     ToolTip = "Where you manage services"
                 },
-                new TermsManagerViewModel(this)
+                new ReportsManagerViewModel(this)
                 {
                     Icon = new PackIconMaterial() {Kind = PackIconMaterialKind.Notebook},
-                    Label = "Terms manager",
-                    ToolTip = "where you manager terms"
+                    Label = "Reports",
+                    ToolTip = "where you manage reports"
                 }
             };
 
