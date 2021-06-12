@@ -46,11 +46,11 @@ namespace AcademicSavingService.ViewModel
                     Label = "Services manager",
                     ToolTip = "Where you manage services"
                 },
-                new TermsManagerViewModel(this)
+                new ReportsManagerViewModel(this)
                 {
                     Icon = new PackIconMaterial() {Kind = PackIconMaterialKind.Notebook},
-                    Label = "Terms manager",
-                    ToolTip = "where you manager terms"
+                    Label = "Reports",
+                    ToolTip = "where you manage reports"
                 }
             };
 

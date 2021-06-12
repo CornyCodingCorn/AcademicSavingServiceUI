@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace AcademicSavingService.ViewModel
 {
-	class TermsManagerViewModel : TabItemViewModel
+	class ReportsManagerViewModel : MenuItemViewModel
 	{
-		public TermsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
-		{}
+		public ReportsManagerViewModel(MainViewModel mainViewModel) : base(mainViewModel)
+		{
+		}
 	}
 }
