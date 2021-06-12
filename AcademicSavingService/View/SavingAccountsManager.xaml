@@ -32,16 +32,15 @@
 			<!-- Customer Data grid-->
 			<ctrl:AssDataGrid Margin="0, 0, 0, 20" EnableFullTextSearch="True" DataGridName="SAVING ACCOUNTS">
 				<ctrl:AssDataGrid.Columns>
-					<DataGridTextColumn Width="50" Header="ID"/>
-					<DataGridTextColumn Width="100" Header="Owner ID"/>
-					<DataGridTextColumn Width="120" Header="Create date"/>
-					<DataGridTextColumn Width="120" Header="Close date"/>
-					<DataGridTextColumn Width="120" Header="Last update"/>
-					<DataGridTextColumn Width="80" Header="Period"/>
-					<DataGridTextColumn Width="140" Header="Interest Rate"/>
-					<DataGridTextColumn Width="*" Header="Balance"/>
+								<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}"/>
+								<DataGridTextColumn Width="100" Header="Owner ID" Binding="{Binding MaKH}"/>
+								<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao}"/>
+								<DataGridTextColumn Width="120" Header="Close date" Binding="{Binding NgayDongSo}"/>
+								<DataGridTextColumn Width="120" Header="Last update" Binding="{Binding LanCapNhatCuoi}"/>
+								<DataGridTextColumn Width="80" Header="Period" Binding="{Binding KyHan}"/>
+								<DataGridTextColumn Width="140" Header="Interest Rate" Binding="{Binding LaiSuat}"/>
+								<DataGridTextColumn Width="*" Header="Balance" Binding="{Binding SoDu}"/>
 				</ctrl:AssDataGrid.Columns>
-			</ctrl:AssDataGrid>
 
 			<Border CornerRadius="5" Grid.Row="1"
 					Background="{DynamicResource MahApps.Brushes.AccentBase}">
