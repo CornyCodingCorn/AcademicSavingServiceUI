@@ -41,6 +41,7 @@
 								<DataGridTextColumn Width="140" Header="Interest Rate" Binding="{Binding LaiSuat}"/>
 								<DataGridTextColumn Width="*" Header="Balance" Binding="{Binding SoDu}"/>
 				</ctrl:AssDataGrid.Columns>
+			</ctrl:AssDataGrid>
 
 			<Border CornerRadius="5" Grid.Row="1"
 					Background="{DynamicResource MahApps.Brushes.AccentBase}">
