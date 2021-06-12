@@ -34,6 +34,14 @@ namespace AcademicSavingService.Controls
 			set { SetValue(ItemsSourceProperty, value); }
 		}
 
+		public static readonly DependencyProperty DataGridNameProperty =
+			DependencyProperty.Register("DataGridName", typeof(string), typeof(AssDataGrid));
+		public string DataGridName
+		{
+			get { return (string)GetValue(DataGridNameProperty); }
+			set { SetValue(DataGridNameProperty, value); }
+		}
+
 		public int ItemsSize
 		{
 			get { return dataGrid.Items.Count; }

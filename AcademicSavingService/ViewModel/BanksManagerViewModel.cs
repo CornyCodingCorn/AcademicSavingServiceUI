@@ -14,13 +14,19 @@ namespace AcademicSavingService.ViewModel
 			{
 				new BranchesManagerViewModel(this)
 				{
-					Header = "Saving accounts",
+					Header = "Branches",
 					Width = _tabsWidth,
 					Margin = _tabsMargin
 				},
 				new EmployeesManagerViewModel(this)
 				{
-					Header = "Deposits",
+					Header = "Employees",
+					Width = _tabsWidth,
+					Margin = _tabsMargin
+				},
+				new TermsManagerViewModel(this)
+				{
+					Header = "Terms",
 					Width = _tabsWidth,
 					Margin = _tabsMargin
 				}

@@ -23,14 +23,14 @@
 		</Grid.ColumnDefinitions>
 
 		<!-- Saving account parts -->
-		<Grid Grid.Column="0" Margin="0, 0, 10, 0">
+		<Grid Grid.Column="0">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="70*"/>
 				<RowDefinition Height="30*" MaxHeight="220" MinHeight="200"/>
 			</Grid.RowDefinitions>
 
 			<!-- Customer Data grid-->
-			<ctrl:AssDataGrid Margin="0, 0, 0, 20" EnableFullTextSearch="True">
+			<ctrl:AssDataGrid Margin="0, 0, 0, 20" EnableFullTextSearch="True" DataGridName="SAVING ACCOUNTS">
 				<ctrl:AssDataGrid.Columns>
 					<DataGridTextColumn Width="50" Header="ID"/>
 					<DataGridTextColumn Width="100" Header="Owner ID"/>
@@ -117,7 +117,7 @@
 		</Grid>
 
 		<!-- Customer parts -->
-		<ctrl:AssDataGrid Grid.Column="1" Margin="5, 0, 0, 0" EnableFullTextSearch="True">
+		<ctrl:AssDataGrid Grid.Column="1" Margin="20, 0, 0, 0" EnableFullTextSearch="True" DataGridName="CUSTOMERS">
 			<ctrl:AssDataGrid.Columns>
 				<DataGridTextColumn Header="ID"/>
 				<DataGridTextColumn Header="Identity Num"/>
