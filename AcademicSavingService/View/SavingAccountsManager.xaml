@@ -30,15 +30,19 @@
 			</Grid.RowDefinitions>
 
 			<!-- Customer Data grid-->
-			<ctrl:AssDataGrid Margin="0, 0, 0, 20" EnableFullTextSearch="True" DataGridName="SAVING ACCOUNTS">
+			<ctrl:AssDataGrid Margin="0, 0, 0, 20" 
+							  ItemsSource="{Binding SavingAccounts}" 
+							  EnableFullTextSearch="True" 
+							  DataGridName="SAVING ACCOUNTS"
+							  SelectedItem="{Binding SelectedAccount,  Mode=TwoWay}">
 				<ctrl:AssDataGrid.Columns>
 								<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}"/>
 								<DataGridTextColumn Width="100" Header="Owner ID" Binding="{Binding MaKH}"/>
-								<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao}"/>
-								<DataGridTextColumn Width="120" Header="Close date" Binding="{Binding NgayDongSo}"/>
-								<DataGridTextColumn Width="120" Header="Last update" Binding="{Binding LanCapNhatCuoi}"/>
+								<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='d/M/yyyy'}" TextBlock.TextAlignment="Center"/>
+								<DataGridTextColumn Width="120" Header="Close date" Binding="{Binding NgayDongSo, StringFormat='d/M/yyyy'}"/>
+								<DataGridTextColumn Width="120" Header="Last update" Binding="{Binding LanCapNhatCuoi, StringFormat='dd/MM/yyyy'}"/>
 								<DataGridTextColumn Width="80" Header="Period" Binding="{Binding KyHan}"/>
-								<DataGridTextColumn Width="140" Header="Interest Rate" Binding="{Binding LaiSuat}"/>
+								<DataGridTextColumn Width="140" Header="Interest Rate" Binding="{Binding LaiSuat, StringFormat='{}{0}%'}"/>
 								<DataGridTextColumn Width="*" Header="Balance" Binding="{Binding SoDu}"/>
 				</ctrl:AssDataGrid.Columns>
 			</ctrl:AssDataGrid>
@@ -76,15 +80,15 @@
 					<Grid Grid.Column="1">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
-							<ColumnDefinition Width="60*" MaxWidth="650" MinWidth="400"/>
+							<ColumnDefinition Width="60*" MaxWidth="950" MinWidth="400"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
 						<Grid Grid.Column="1">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="110"/>
-								<ColumnDefinition Width="40*"/>
-								<ColumnDefinition Width="110"/>
-								<ColumnDefinition Width="60*"/>
+								<ColumnDefinition Width="130"/>
+								<ColumnDefinition Width="80*"/>
+								<ColumnDefinition Width="130"/>
+								<ColumnDefinition Width="80*"/>
 							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="*"/>
@@ -98,18 +102,21 @@
 							<TextBlock Text="Close date"	Grid.Column="0" Grid.Row="2"/>
 							<TextBlock Text="Update date"	Grid.Column="0" Grid.Row="3"/>
 							<TextBlock Text="Create date"	Grid.Column="2" Grid.Row="0"/>
-							<TextBlock Text="Balance"		Grid.Column="2" Grid.Row="1"/>
-							<TextBlock Text="Period"		Grid.Column="2" Grid.Row="2"/>
-							<TextBlock Text="Interest rate" Grid.Column="2" Grid.Row="3"/>
+							<TextBlock Text="Period"		Grid.Column="2" Grid.Row="1"/>
+							<TextBlock Text="Balance"		Grid.Column="2" Grid.Row="2"/>
+							<TextBlock Text="Initial Balance" Grid.Column="2" Grid.Row="3"/>
 
-							<TextBox	Grid.Column="1" Grid.Row="0" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID number"/>
-							<TextBox	Grid.Column="1" Grid.Row="1" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Owner ID"/>
-							<TextBox	Grid.Column="1" Grid.Row="2" Width="120" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Close date"/>
-							<TextBox	Grid.Column="1" Grid.Row="3" Width="120" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Update date"/>
-							<DatePicker Grid.Column="3" Grid.Row="0" Width="120" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"/>
-							<TextBox	Grid.Column="3" Grid.Row="1" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Balance" mah:TextBoxHelper.ClearTextButton="True"/>
-							<ComboBox	Grid.Column="3" Grid.Row="2" Width="80"  HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Period"/>
-							<TextBox	Grid.Column="3" Grid.Row="3" Width="80"  IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate"/>
+							<TextBox	Grid.Column="1" Grid.Row="0" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID number" Text="{Binding ID}"/>
+							<TextBox	Grid.Column="1" Grid.Row="1" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Owner ID" Text="{Binding OwnerID}"/>
+							<TextBox	Grid.Column="1" Grid.Row="2" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Close date" Text="{Binding CloseDate, StringFormat='dd/MM/yyyy'}"/>
+							<TextBox	Grid.Column="1" Grid.Row="3" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Update date" Text="{Binding LastUpdateDate, StringFormat='dd/MM/yyyy'}"/>
+							<DatePicker Grid.Column="3" Grid.Row="0" Width="180" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding CreateDate, StringFormat='dd/MM/yyyy'}"/>
+							<StackPanel Grid.Column="3" Grid.Row="1" Orientation="Horizontal">
+								<ComboBox Width="90" Grid.Column="0" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Period"/>
+								<TextBox Width="90" Grid.Column="2" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate"/>
+							</StackPanel>
+							<ctrl:DigitTextBox	Grid.Column="3" Grid.Row="2" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding Balance, FallbackValue=0}"/>
+							<ctrl:DigitTextBox	Grid.Column="3" Grid.Row="3" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Initial Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding InitialBalance, FallbackValue=0}"/>
 						</Grid>
 					</Grid>						 
 				</Grid>
@@ -117,11 +124,15 @@
 		</Grid>
 
 		<!-- Customer parts -->
-		<ctrl:AssDataGrid Grid.Column="1" Margin="20, 0, 0, 0" EnableFullTextSearch="True" DataGridName="CUSTOMERS">
+		<ctrl:AssDataGrid Grid.Column="1" Margin="20, 0, 0, 0" 
+						  EnableFullTextSearch="True" 
+						  DataGridName="CUSTOMERS" 
+						  ItemsSource="{Binding Customers}"
+						  SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 			<ctrl:AssDataGrid.Columns>
-				<DataGridTextColumn Header="ID"/>
-				<DataGridTextColumn Header="Identity Num"/>
-				<DataGridTextColumn Header="Full Name" Width="*"/>
+				<DataGridTextColumn Header="ID" Binding="{Binding MaKH}"/>
+				<DataGridTextColumn Header="Identity Num" Binding="{Binding CMND}"/>
+				<DataGridTextColumn Header="Full Name" Width="*" Binding="{Binding HoTen}"/>
 			</ctrl:AssDataGrid.Columns>
 		</ctrl:AssDataGrid>
 	</Grid>

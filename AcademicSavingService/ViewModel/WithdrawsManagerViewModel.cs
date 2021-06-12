@@ -10,15 +10,8 @@ namespace AcademicSavingService.ViewModel
 {
 	class WithdrawsManagerViewModel : TabItemViewModel
 	{
-		public ObservableCollection<Test> Tests { get; set; }
-
 		public WithdrawsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
-			Tests = new ObservableCollection<Test>();
-			Tests.Add(new Test());
-			Tests.Add(new Test());
-			Tests.Add(new Test());
-			Tests.Add(new Test());
 		}
 	}
 }

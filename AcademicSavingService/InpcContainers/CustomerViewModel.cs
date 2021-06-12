@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using AcademicSavingService.DataAccess;
 using AcademicSavingService.Model;
 
 namespace AcademicSavingService.InpcContainers
@@ -18,6 +22,20 @@ namespace AcademicSavingService.InpcContainers
             NgayDangKy = ngayDangKy;
         }
 
+
+        public static void CallLoadCustomers()
+        {
+            _needUpdate = false;
+            _stopwatch.Restart();
+            var contents = _dataAccess.GetAllCustomers();
+            _container.Clear();
+            foreach (var row in contents)
+            {
+                if (!Container.Contains(row))
+                    Container.Add(row);
+            }
+        }
+
         public Customer Model => new(MaKH, HoTen, CMND, SDT, DiaChi, NoiDangKy, NgayDangKy);
 
         public int MaKH { get; set; }
@@ -27,5 +45,31 @@ namespace AcademicSavingService.InpcContainers
         public string DiaChi { get; set; }
         public int NoiDangKy { get; set; }
         public DateTime NgayDangKy { get; set; }
+
+        protected static readonly CustomerDA _dataAccess = new CustomerDA();
+        protected static volatile bool _needUpdate = true;
+        protected static readonly object _containerLock = new object();
+        protected static Stopwatch _stopwatch = new Stopwatch();
+        protected static ObservableCollection<CustomerViewModel> _container = new ObservableCollection<CustomerViewModel>();
+        public static ObservableCollection<CustomerViewModel> Container
+        {
+            get
+            {
+                lock (_containerLock)
+                {
+                    if (_stopwatch.ElapsedTicks == GlobalVars.UpdateSec * 1000)
+                    {
+                        CallLoadCustomers();
+                    }
+                    return _container;
+                }
+            }
+        }
+
+        static CustomerViewModel()
+        {
+            _stopwatch.Start();
+            CallLoadCustomers();
+        }
     }
 }

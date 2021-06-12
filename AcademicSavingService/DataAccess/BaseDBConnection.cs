@@ -8,7 +8,7 @@ namespace AcademicSavingService.DataAccess
         #region Private fields
 
         private static MySqlConnection _connection;
-        private static string _connectionString = "Server=127.0.0.1;Database=academicsavingservice;Uid=root;Pwd=Nguyen1402";
+        private static string _connectionString = "Server=127.0.0.1;Database=academicsavingservice;Uid=root;Pwd=nguyen1402;";
 
         private static int _connectionAttemptCount = 0;
 

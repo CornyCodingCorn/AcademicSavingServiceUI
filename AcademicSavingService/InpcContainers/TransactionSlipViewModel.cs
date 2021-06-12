@@ -27,5 +27,7 @@ namespace AcademicSavingService.InpcContainers
         public int MaSo { get; set; }
         public int MaKH { get; set; }
         public int MaNV { get; set; }
+
+
     }
 }

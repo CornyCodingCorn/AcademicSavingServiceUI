@@ -7,6 +7,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace AcademicSavingService.Controls
 {
@@ -96,6 +97,12 @@ namespace AcademicSavingService.Controls
 			content.DataContext = this;
 		}
 
+		private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			ScrollViewer scrollViewer = (ScrollViewer)sender;
+			scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+		}
+
 		protected async void txtFullTextSearch_TextChanged(object sender, TextChangedEventArgs e)
 		{
 			if (isSearching && cancelCulture != null)
@@ -105,7 +112,7 @@ namespace AcademicSavingService.Controls
 				cancelCulture.Dispose();
 			}
 			cancelCulture = new CancellationTokenSource();
-			currentSearch = Search(SearchText, ItemsSize, cancelCulture);
+			currentSearch = Search(SearchText.ToLower(), ItemsSize, cancelCulture);
 		}
 
 		protected Task Search(string searchText, int size, CancellationTokenSource token)
@@ -136,7 +143,7 @@ namespace AcademicSavingService.Controls
 					});
 
 					if (token.IsCancellationRequested)
-						throw new TaskCanceledException(task);
+						break;
 				}
 			});
 
