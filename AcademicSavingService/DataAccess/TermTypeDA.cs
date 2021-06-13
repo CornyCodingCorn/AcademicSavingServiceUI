@@ -51,9 +51,9 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_LaiSuatVar, term.LaiSuat);
             cmd.Parameters.AddWithValue(_NgayTaoVar, term.NgayTao);
             cmd.Parameters.AddWithValue(_NgayNgungSuDungVar, term.NgayNgungSuDung);
-            cmd.Prepare();
 
             BaseDBConnection.OpenConnection();
+            cmd.Prepare();
             try
             {
                 cmd.ExecuteNonQuery();
@@ -70,9 +70,10 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue(_KyHanVar, term.KyHan);
             cmd.Parameters.AddWithValue(_NgayNgungSuDungMoiVar, stopDate);
-            cmd.Prepare();
+            
 
             BaseDBConnection.OpenConnection();
+            cmd.Prepare();
             try
             {
                 cmd.ExecuteNonQuery();

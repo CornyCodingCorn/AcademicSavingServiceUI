@@ -10,13 +10,6 @@ BEGIN
     CALL UpdateSoTietKiem(NEW.MaSo, NEW.NgayTao);
     SELECT NgayTao, MaKyHan, SoDu, NgayDongSo, COUNT(*) INTO @NgayTao, @MaKyHan, @SoDu, @NgayDongSo, @Size FROM SOTIETKIEM WHERE MaSo = NEW.MaSo;
     
-    SELECT NgayVaoLam, NgayNghiViec INTO @NgayVaoLam, @NgayNghiViec FROM NHANVIEN WHERE MaNV = NEW.MaNV;
-    IF (@NgayVaoLam > NEW.NgayTao) THEN
-		CALL ThrowException('PH006');
-	ELSEIF (@NgayNghiViec <= NEW.NgayTao) THEN
-		CALL ThrowException('PH007');
-    END IF;
-    
     IF (@Size = 0 OR @NgayDongSo IS NOT NULL) THEN CALL ThrowException('PH001'); END IF;
     IF (NEW.NgayTao < @NgayTao) THEN CALL ThrowException('PH003'); END IF;
     

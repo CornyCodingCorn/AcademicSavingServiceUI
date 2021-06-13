@@ -16,14 +16,12 @@ BEGIN
 			SoTien DECIMAL(15, 2) NOT NULL,
 			GhiChu TEXT,
 			MaSo INT NOT NULL,
-			MaNV INT NOT NULL,
-			MaUQ INT,
 			
 			PRIMARY KEY(MaPhieu)
 		) CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 		
-		INSERT INTO PHIEU(NgayTao, SoTien, GhiChu, MaSo, MaNV, MaUQ) SELECT NgayTao, SoTien, GhiChu, MaSo, MaNV, MaUQ FROM PHIEUGUI;
-		INSERT INTO PHIEU(NgayTao, SoTien, GhiChu, MaSo, MaNV, MaUQ) SELECT NgayTao, (-SoTien) AS SoTien, GhiChu, MaSo, MaNV, MaUQ FROM PHIEURUT;
+		INSERT INTO PHIEU(NgayTao, SoTien, GhiChu, MaSo) SELECT NgayTao, SoTien, GhiChu, MaSo FROM PHIEUGUI;
+		INSERT INTO PHIEU(NgayTao, SoTien, GhiChu, MaSo) SELECT NgayTao, (-SoTien) AS SoTien, GhiChu, MaSo FROM PHIEURUT;
     
     	CALL BatDauCapNhatBaoCaoNgay();
 		SELECT SUM(STK.SoTienBanDau) INTO @TongTienBanDau FROM SOTIETKIEM STK WHERE STK.NgayTao = NgayBaoCao AND (SELECT LKH.KyHan FROM LOAIKYHAN LKH WHERE LKH.MaKyHan = STK.MaKyHan) = KyHanBaoCao;

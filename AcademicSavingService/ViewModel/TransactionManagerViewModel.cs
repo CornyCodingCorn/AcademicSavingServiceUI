@@ -17,7 +17,6 @@ namespace AcademicSavingService.ViewModel
 		#region Insert fields
 		public int ID { get; set; }
 		public int CustomerID { get; set; }
-		public 
 		#endregion
 
 		#region Accounts

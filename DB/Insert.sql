@@ -8,7 +8,6 @@ CALL ForceDeleteAllSoTietKiem();
 TRUNCATE TABLE ErrorTable;
 DELETE FROM QUYDINH;
 DELETE FROM LoaiKyHan;
-DELETE FROM NHANVIEN;
 DELETE FROM KHACHHANG;
 DELETE FROM SOTIETKIEM;
 DELETE FROM PHIEUGUI;
@@ -17,7 +16,6 @@ DELETE FROM BAOCAONGAY;
 DELETE FROM BAOCAOTHANG;
 
 ALTER TABLE KHACHHANG AUTO_INCREMENT = 1;
-ALTER TABLE NHANVIEN AUTO_INCREMENT = 1;
 
 ALTER TABLE SOTIETKIEM AUTO_INCREMENT = 1;
 ALTER TABLE LOAIKYHAN AUTO_INCREMENT = 1;
@@ -51,8 +49,6 @@ INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PH002', 'Phải xóa theo thứ t
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PH003', 'Chỉ được tạo phiếu sau khi tạo tài khoản');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PH004', 'Chỉ chủ tài khoản tiết kiệm hoặc những người được ủy quyền gưi/rút tiền');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PH005', 'Không được cập nhật phiếu');
-INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PH006', 'Nhân viên chưa vào làm khi tạo phiếu');
-INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PH007', 'Nhân viên đã nghỉ việc khi tạo phiếu');
 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('QD000', 'Thêm/Xóa quy định thành công');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('QD001', 'Không được sửa quy định');
@@ -197,54 +193,6 @@ CALL ThemKyHan(12, 6.3, '2021/01/01', NULL);
 
 SELECT * FROM LoaiKyHan;
 
-/*==========Nhân viên==========*/
-
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Đào Việt Thắng', '0342853438', '160 Pasteur, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', '034048979668', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Quách Xuân Kiên', '0130552752', '138 Nam Kỳ Khởi Nghĩa, Bến Nghé, Quận 1, Thành phố Hồ Chí Minh', '033934996725', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Đặng Ðông Phương', '0439807477', '220 Đường Nguyễn Thị Minh Khai, Phường 6, Quận 3, Thành phố Hồ Chí Minh', '063499136887', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Phan Phương Anh', '0240785823', '12 Nguyễn Cảnh Chân, Quận 1, Thành phố Hồ Chí Minh', '077589558324', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Lý Bảo Thúy', '0854626125', '42 Cô Bắc, Phường Cầu Ông Lãnh, Quận 1, Thành phố Hồ Chí Minh', '049696350382', '2016/01/01');
-
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Ngư Hùng Phong', '0377554779', '48 Võ Văn Tần, Phường 6, Quận 3, Thành phố Hồ Chí Minh', '051053442803', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Quang Ngọc Mai', '0700242677', '260 Võ Văn Tần, Phường 5, Quận 3, Thành phố Hồ Chí Minh', '025583866727', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Lý Hồng Diệp', '0129042204', '28 Phạm Ngọc Thạch, Phường 6, Quận 3, Thành phố Hồ Chí Minh', '041208702172', '2016/01/01');
-
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Liễu Thục Trinh', '0425927765', '584 Âu Cơ, Phường 10, Tân Bình, Thành phố Hồ Chí Minh', '045640118617', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Nguyễn Ngọc Hoàn', '0869101786', '10 Hoàng Diệu, Phường 12, Quận 4, Thành phố Hồ Chí Minh', '064691003847', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Thủy Giang Thanh', '0379664658', 'Hẻm 200 Xóm Chiếu, Phường 14, Quận 4, Thành phố Hồ Chí Minh', '038294118438', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Ngư Thanh Hà', '0244118812', '37 Vĩnh Khánh, Phường 8, Quận 4, Thành phố Hồ Chí Minh', '086726357482', '2016/01/01');
-
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Vũ Thăng Long', '0847134099', '379 Thống Nhất, Phường 11, Gò Vấp, Thành phố Hồ Chí Minh', '098682368807', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Võ Minh Kiệt', '0901211603', '2 Nguyễn Văn Lượng, Phường 10, Gò Vấp, Thành phố Hồ Chí Minh', '039503405671', '2016/01/01');
-
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Đỗ Nguyệt Lan', '0319969614', ' 21 Đường Số 3, Hiệp Bình Phước, Thủ Đức, Thành phố Hồ Chí Minh', '012049221386', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Trương Hải Sơn', '0778688264', '62 Đường Số 3, Trường Thọ, Thủ Đức, Thành phố Hồ Chí Minh', '028481963276', '2016/01/01');
-
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Mạc Hữu Cương', '0540937700', '40 Đặng Văn Bi, Bình Thọ, Thủ Đức, Thành phố Hồ Chí Minh', '086222134743', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Đặng Hồng Hà', '0569921817', '26 Kha Vạn Cân, Linh Đông, Thủ Đức, Thành phố Hồ Chí Minh', '062626264556', '2016/01/01');
-INSERT INTO NHANVIEN(HoTen, SDT, DiaChi, CMND, NgayVaoLam)
-VALUES('Dương Ái Khanh', '0698656091', '141 Thống Nhất, Bình Thọ, Thủ Đức, Thành phố Hồ Chí Minh', '076673102852', '2016/01/01');
-
-SELECT * FROM NHANVIEN;
-
 /*==========Khách hàng==========*/
 
 INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
@@ -326,53 +274,53 @@ SELECT * FROM SOTIETKIEM;
 -- (IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 -- (IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 
-CALL ThemPhieu(1, 100000, 2, 'Some things', '2016/03/01');
-CALL ThemPhieu(1, 100000, 1, 'Some things', '2016/05/07');
-CALL ThemPhieu(1, 500000, 1, 'Some things', '2016/06/01');
-CALL ThemPhieu(1, -100000, 1, 'Some things', '2016/06/15');
-CALL RutHetTien(1, 2, 'The end game', '2016/10/01');
+CALL ThemPhieu(1, 100000, 'Some things', '2016/03/01');
+CALL ThemPhieu(1, 100000, 'Some things', '2016/05/07');
+CALL ThemPhieu(1, 500000, 'Some things', '2016/06/01');
+CALL ThemPhieu(1, -100000, 'Some things', '2016/06/15');
+CALL RutHetTien(1, 'The end game', '2016/10/01');
 
-CALL RutHetTien(2, 3, 'The end game', '2018/01/01');
+CALL RutHetTien(2, 'The end game', '2018/01/01');
 
-CALL ThemPhieu(3, 100000, 2, 'Some things', '2016/04/20');
-CALL ThemPhieu(3, -100000, 1, 'Some things', '2016/05/07');
-CALL RutHetTien(3, 4, 'The end game', '2016/10/01');
+CALL ThemPhieu(3, 100000, 'Some things', '2016/04/20');
+CALL ThemPhieu(3, -100000, 'Some things', '2016/05/07');
+CALL RutHetTien(3, 'The end game', '2016/10/01');
 
-CALL ThemPhieu(4, 100000, 2, 'Some things', '2017/04/20');
-CALL RutHetTien(4, 2, 'The end game', '2017/05/30');
+CALL ThemPhieu(4, 100000, 'Some things', '2017/04/20');
+CALL RutHetTien(4, 'The end game', '2017/05/30');
 
-CALL RutHetTien(5, 4, 'The end game', '2017/10/15');
+CALL RutHetTien(5, 'The end game', '2017/10/15');
 
-CALL ThemPhieu(6, 400000, 8, 'Some things', '2016/05/15');
-CALL ThemPhieu(6, -100000, 8, 'Some things', '2016/07/15');
-CALL RutHetTien(6, 6, 'The end game', '2017/01/01');
+CALL ThemPhieu(6, 400000, 'Some things', '2016/05/15');
+CALL ThemPhieu(6, -100000, 'Some things', '2016/07/15');
+CALL RutHetTien(6, 'The end game', '2017/01/01');
 
-CALL ThemPhieu(7, 200000, 7, 'Some things', '2019/04/15');
-CALL RutHetTien(7, 5, 'The end game', '2019/06/15');
+CALL ThemPhieu(7, 200000, 'Some things', '2019/04/15');
+CALL RutHetTien(7, 'The end game', '2019/06/15');
 
-CALL RutHetTien(8, 7, 'The end game', '2020/11/15');
-CALL RutHetTien(9, 6, 'The end game', '2017/02/15');
-CALL RutHetTien(10, 12, 'The end game', '2020/11/15');
-CALL RutHetTien(11, 4, 'The end game', '2016/7/15');
-CALL RutHetTien(12, 14, 'The end game', '2017/04/15');
-CALL RutHetTien(13, 9, 'The end game', '2017/03/15');
+CALL RutHetTien(8, 'The end game', '2020/11/15');
+CALL RutHetTien(9, 'The end game', '2017/02/15');
+CALL RutHetTien(10, 'The end game', '2020/11/15');
+CALL RutHetTien(11, 'The end game', '2016/7/15');
+CALL RutHetTien(12, 'The end game', '2017/04/15');
+CALL RutHetTien(13, 'The end game', '2017/03/15');
 
-CALL ThemPhieu(14, 200000, 7, 'Some things', '2018/03/15');
-CALL RutHetTien(14, 2, 'The end game', '2018/06/15');
+CALL ThemPhieu(14, 200000, 'Some things', '2018/03/15');
+CALL RutHetTien(14, 'The end game', '2018/06/15');
 
-CALL ThemPhieu(15, 200000, 4, 'Some things', '2016/02/15');
-CALL RutHetTien(15, 2, 'The end game', '2016/05/15');
+CALL ThemPhieu(15, 200000, 'Some things', '2016/02/15');
+CALL RutHetTien(15, 'The end game', '2016/05/15');
 
-CALL RutHetTien(16, 2, 'The end game', '2018/02/15');
+CALL RutHetTien(16, 'The end game', '2018/02/15');
 
-CALL RutHetTien(17, 2, 'The end game', '2019/02/15');
-CALL RutHetTien(18, 2, 'The end game', '2019/02/15');
-CALL RutHetTien(19, 9, 'The end game', '2020/12/15');
+CALL RutHetTien(17, 'The end game', '2019/02/15');
+CALL RutHetTien(18, 'The end game', '2019/02/15');
+CALL RutHetTien(19, 'The end game', '2020/12/15');
 
-CALL RutHetTien(21, 5, 'The end game', '2017/12/15');
+CALL RutHetTien(21, 'The end game', '2017/12/15');
 
-CALL ThemPhieu(22, 200000, 4, 'Some things', '2020/03/15');
-CALL RutHetTien(22, 2, 'The end game', '2020/04/15');
+CALL ThemPhieu(22, 200000, 'Some things', '2020/03/15');
+CALL RutHetTien(22, 'The end game', '2020/04/15');
 
 SELECT * FROM PHIEUGUI;
 SELECT * FROM PHIEURUT;
