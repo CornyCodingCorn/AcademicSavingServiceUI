@@ -1,6 +1,5 @@
 ﻿using PropertyChanged;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Windows;
 

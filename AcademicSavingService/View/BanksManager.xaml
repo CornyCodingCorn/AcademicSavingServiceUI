@@ -13,12 +13,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<DataTemplate DataType="{x:Type viewModel:BranchesManagerViewModel}">
-				<view:BranchesManager DataContext="{Binding}" />
-			</DataTemplate>
-			<DataTemplate DataType="{x:Type viewModel:EmployeesManagerViewModel}">
-				<view:EmployeesManager DataContext="{Binding}" />
-			</DataTemplate>
 			<DataTemplate DataType="{x:Type viewModel:TermsManagerViewModel}">
 				<view:TermsManager DataContext="{Binding}" />
 			</DataTemplate>

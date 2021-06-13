@@ -7,7 +7,7 @@ using SqlKata.Compilers;
 
 namespace AcademicSavingService.DataAccess
 {
-    public class TransactionSlipDA : BaseDataAccess
+    public abstract class TransactionSlipDA : BaseDataAccess
     {
         public ObservableCollection<TransactionSlipViewModel> GetAllSlips()
         {
@@ -29,26 +29,26 @@ namespace AcademicSavingService.DataAccess
 
         public virtual TransactionSlip CreateSlip(TransactionSlip slip)
         {
-            string q = $"CALL ThemPhieu({_MaSoVar}, {_SoTienVar}, {_MaKHVar}, {_MaNVVar}, {_GhiChuVar}, {_NgayTaoVar})";
+            TransactionSlip rValue = null;
+            string q = $"CALL ThemPhieu({_MaSoVar}, {_SoTienVar}, {_GhiChuVar}, {_NgayTaoVar})";
             cmd.CommandText = q;
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue(_MaSoVar, slip.MaSo);
             cmd.Parameters.AddWithValue(_SoTienVar, slip.SoTien);
-            cmd.Parameters.AddWithValue(_MaKHVar, slip.MaKH);
-            cmd.Parameters.AddWithValue(_MaNVVar, slip.MaNV);
             cmd.Parameters.AddWithValue(_GhiChuVar, slip.GhiChu);
             cmd.Parameters.AddWithValue(_NgayTaoVar, slip.NgayTao);
 
             BaseDBConnection.OpenConnection();
-            cmd.Prepare();
             var result = cmd.ExecuteReader();
-            result.Read();
-            var rValue = new TransactionSlip
-			{
-                NgayTao = result.GetDateTime("NgayTao"),
-                SoTien = result.GetDecimal("SoTien"),
-                MaPhieu = result.GetInt32("MaPhieu")
-			};
+            if (result.Read())
+            {
+                rValue = new TransactionSlip
+                {
+                    NgayTao = result.GetDateTime(_NgayTao),
+                    SoTien = result.GetDecimal(_SoTien),
+                    MaPhieu = result.GetInt32(_MaPhieu)
+                };
+            }
             BaseDBConnection.CloseConnection();
             return rValue;
         }
@@ -93,14 +93,12 @@ namespace AcademicSavingService.DataAccess
 
         protected readonly string _MaPhieu = "MaPhieu";
         protected readonly string _MaSo = "MaSo";
+        protected readonly string _SoTien = "SoTien";
+        protected readonly string _NgayTao = "NgayTao";
 
         protected readonly string _MaSoVar = "@MaSo";
         protected readonly string _SoTienVar = "@SoTien";
-        protected readonly string _MaKHVar = "@MaKH";
-        protected readonly string _MaNVVar = "@MaNV";
         protected readonly string _GhiChuVar = "@GhiChu";
         protected readonly string _NgayTaoVar = "@NgayTao";
-
-        protected override string _tableName => "Phieu";
     }
 }

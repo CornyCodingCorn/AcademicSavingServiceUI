@@ -21,31 +21,46 @@ namespace AcademicSavingService.ViewModel
 			get { return _selectedAccount; }
 			set
 			{
-				_selectedAccount = (SavingAccountViewModel)value;
-				ID = _selectedAccount.MaSo;
-				CreateDate = _selectedAccount.NgayTao;
-				CloseDate = _selectedAccount.NgayDongSo;
-				LastUpdateDate = _selectedAccount.LanCapNhatCuoi;
-				Balance = _selectedAccount.SoDu;
-				InitialBalance = _selectedAccount.SoTienBanDau;
+				_selectedAccount = value;
+				if (_selectedAccount != null)
+                {
+					ID = _selectedAccount.MaSo;
+					CreateDate = _selectedAccount.NgayTao;
+					CloseDate = _selectedAccount.NgayDongSo;
+					LastUpdateDate = _selectedAccount.LanCapNhatCuoi;
+					Balance = _selectedAccount.SoDu;
+					InitialBalance = _selectedAccount.SoTienBanDau;
 
-				for (int i = 0; i < TermsList.Count; i++)
-				{
-					if (TermsList[i] == _selectedAccount.KyHan)
+					for (int i = 0; i < TermsList.Count; i++)
 					{
-						SelectedTermIndex = i;
-						break;
+						if (TermsList[i] == _selectedAccount.KyHan)
+						{
+							SelectedTermIndex = i;
+							break;
+						}
+					}
+
+					foreach (var account in Customers)
+					{
+						if (account.MaKH == _selectedAccount.MaKH)
+						{
+							SelectedCustomer = account;
+							break;
+						}
 					}
 				}
+				else
+                {
+                    ID = 0;
+                    CreateDate = DateTime.Now;
+                    CloseDate = null;
+                    LastUpdateDate = null;
+                    Balance = 0;
+                    InitialBalance = 0;
 
-				foreach (var account in Customers)
-				{
-					if (account.MaKH == _selectedAccount.MaKH)
-					{
-						SelectedCustomer = account;
-						break;
-					}
-				}
+					SelectedTermIndex = -1;
+					SelectedCustomer = null;
+                }
 			}
 		}
 
@@ -55,8 +70,12 @@ namespace AcademicSavingService.ViewModel
 			get { return _selectedCustomer; }
 			set
 			{
-				_selectedCustomer = (CustomerViewModel)value;
-				CustomerID = _selectedCustomer.MaKH;
+				_selectedCustomer = value;
+				if (_selectedCustomer != null)
+				{
+					CustomerID = _selectedCustomer.MaKH;
+				}
+				else CustomerID = 0;
 			}
 		}
 

@@ -65,7 +65,7 @@ namespace AcademicSavingService.InpcContainers
             }
         }
 
-        protected static readonly DepositSlipDA _dataAccess = new DepositSlipDA();
+        protected static readonly WithdrawSlipDA _dataAccess = new WithdrawSlipDA();
         protected static volatile bool _needUpdate = true;
         protected static readonly object _containerLock = new object();
         protected static Stopwatch _stopwatch = new Stopwatch();

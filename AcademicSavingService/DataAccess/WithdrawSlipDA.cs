@@ -1,15 +1,10 @@
 ﻿using AcademicSavingService.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AcademicSavingService.DataAccess
 {
-	class DepositSlipDA : TransactionSlipDA
+	class WithdrawSlipDA : TransactionSlipDA
 	{
-		protected override string _tableName => "PHIEUGUI";
+		protected override string _tableName => "PHIEURUT";
 
 		public override TransactionSlip CreateSlip(TransactionSlip slip)
 		{

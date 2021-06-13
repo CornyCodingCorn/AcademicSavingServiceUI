@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using AcademicSavingService.InpcContainers;
+﻿using AcademicSavingService.InpcContainers;
 using AcademicSavingService.Model;
 using System.Collections.ObjectModel;
 using System;
-using SqlKata;
 using SqlKata.Execution;
 using SqlKata.Compilers;
 
@@ -31,6 +29,7 @@ namespace AcademicSavingService.DataAccess
 
         public SavingAccount CreateSavingAccount(SavingAccount account)
         {
+            SavingAccount rValue = null;
             string q = $"CALL ThemSoTietKiemVaReturn({_MaKHVar}, {_KyHanVar}, {_SoTienBanDauVar}, {_NgayTaoVar})";
             cmd.CommandText = q;
             cmd.Parameters.Clear();
@@ -41,17 +40,19 @@ namespace AcademicSavingService.DataAccess
 
 
             BaseDBConnection.OpenConnection();
-            cmd.Prepare();
             var result = cmd.ExecuteReader();
-            result.Read();
-            var rValue = new SavingAccount
+            if (result.Read())
             {
-                MaKH = result.GetInt32("MaKH"),
-                MaSo = result.GetInt32("MaSo"),
-                NgayTao = result.GetDateTime("NgayTao"),
-                SoDu = result.GetDecimal("SoDu"),
-                LanCapNhatCuoi = result.GetDateTime("LanCapNhatCuoi")
-            };
+                rValue = new SavingAccount
+                {
+                    MaKH = result.GetInt32(_MaKH),
+                    MaSo = result.GetInt32(_MaSo),
+                    NgayTao = result.GetDateTime(_NgayTao),
+                    SoDu = result.GetDecimal(_SoDu),
+                    SoTienBanDau = result.GetDecimal(_SoTienBanDau),
+                    LanCapNhatCuoi = result.GetDateTime(_LanCapNhatCuoi)
+                };
+            }
             BaseDBConnection.CloseConnection();
 
             return rValue;
@@ -59,6 +60,7 @@ namespace AcademicSavingService.DataAccess
 
         public SavingAccount UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
         {
+            SavingAccount rValue = null;
             string q = $"CALL UpdateSoTietKiemVaReturn({_MaSoVar}, {_NgayCanUpdateVar})";
             cmd.CommandText = q;
             cmd.Parameters.Clear();
@@ -66,14 +68,15 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_NgayCanUpdateVar, NgayCanUpdate);
 
             BaseDBConnection.OpenConnection();
-            cmd.Prepare();
             var result = cmd.ExecuteReader();
-            result.Read();
-            var rValue = new SavingAccount
+            if (result.Read())
             {
-                SoDu = result.GetDecimal("SoDu"),
-                LanCapNhatCuoi = result.GetDateTime("LanCapNhatCuoi")
-            };
+                rValue = new SavingAccount
+                {
+                    SoDu = result.GetDecimal(_SoDu),
+                    LanCapNhatCuoi = result.GetDateTime(_LanCapNhatCuoi)
+                };
+            }
             BaseDBConnection.CloseConnection();
 
             return rValue;
@@ -96,6 +99,10 @@ namespace AcademicSavingService.DataAccess
 
         private readonly string _MaSo = "MaSo";
         private readonly string _MaKH = "MaKH";
+        private readonly string _NgayTao = "NgayTao";
+        private readonly string _SoDu = "SoDu";
+        private readonly string _SoTienBanDau = "SoTienBanDau";
+        private readonly string _LanCapNhatCuoi = "LanCapNhatCuoi";
 
         private readonly string _MaSoVar = "@MaSo";
         private readonly string _MaKHVar = "@MaKH";

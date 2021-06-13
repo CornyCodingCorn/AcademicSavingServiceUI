@@ -35,7 +35,7 @@ namespace AcademicSavingService.DataAccess
                 var container = new ObservableCollection<KeyValuePair<int, float>>();
                 var result = cmd.ExecuteReader();
                 while(result.Read())
-                    container.Add(new KeyValuePair<int, float>(result.GetInt32("KyHan"), result.GetFloat("LaiSuat")));
+                    container.Add(new KeyValuePair<int, float>(result.GetInt32(_KyHan), result.GetFloat(_LaiSuat)));
                 return container;
             }
             catch { return new ObservableCollection<KeyValuePair<int, float>>(); }
@@ -53,7 +53,6 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_NgayNgungSuDungVar, term.NgayNgungSuDung);
 
             BaseDBConnection.OpenConnection();
-            cmd.Prepare();
             try
             {
                 cmd.ExecuteNonQuery();
@@ -73,7 +72,6 @@ namespace AcademicSavingService.DataAccess
             
 
             BaseDBConnection.OpenConnection();
-            cmd.Prepare();
             try
             {
                 cmd.ExecuteNonQuery();
@@ -92,6 +90,8 @@ namespace AcademicSavingService.DataAccess
         private readonly QueryFactory db;
 
         private readonly string _MaKyHan = "MaKyHan";
+        private readonly string _KyHan = "KyHan";
+        private readonly string _LaiSuat = "LaiSuat";
         
         private readonly string _KyHanVar = "@KyHan";
         private readonly string _LaiSuatVar = "@LaiSuat";
