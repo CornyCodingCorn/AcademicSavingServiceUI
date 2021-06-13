@@ -174,3 +174,34 @@ BEGIN
 END;
 $$
 DELIMITER ;
+
+/*===========================================================================UY QUYEN=======================================================================*/
+
+DROP FUNCTION IF EXISTS CanForceDelete;
+DELIMITER $$
+CREATE FUNCTION CanForceDelete() RETURNS BOOL DETERMINISTIC
+BEGIN
+	RETURN (SELECT ForceDelete FROM GLOBALTABLE LIMIT 1);
+END;
+$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS StartForceDelete;
+DELIMITER $$
+CREATE PROCEDURE StartForceDelete()
+BEGIN
+	UPDATE GLOBALTABLE
+    SET ForceDelete = TRUE;
+END;
+$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS EndForceDelete;
+DELIMITER $$
+CREATE PROCEDURE EndForceDelete()
+BEGIN
+	UPDATE GLOBALTABLE
+    SET ForceDelete = FALSE;
+END;
+$$
+DELIMITER ;

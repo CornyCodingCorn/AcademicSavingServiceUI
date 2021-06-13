@@ -27,7 +27,7 @@ namespace AcademicSavingService.DataAccess
             return new ObservableCollection<TransactionSlipViewModel>(collection);
         }
 
-        public bool CreateSlip(TransactionSlip slip)
+        public virtual TransactionSlip CreateSlip(TransactionSlip slip)
         {
             string q = $"CALL ThemPhieu({_MaSoVar}, {_SoTienVar}, {_MaKHVar}, {_MaNVVar}, {_GhiChuVar}, {_NgayTaoVar})";
             cmd.CommandText = q;
@@ -38,19 +38,22 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_MaNVVar, slip.MaNV);
             cmd.Parameters.AddWithValue(_GhiChuVar, slip.GhiChu);
             cmd.Parameters.AddWithValue(_NgayTaoVar, slip.NgayTao);
-            cmd.Prepare();
 
             BaseDBConnection.OpenConnection();
-            try
-            {
-                cmd.ExecuteNonQuery();
-                return true;
-            }
-            catch { return false; }
-            finally { BaseDBConnection.CloseConnection(); }
+            cmd.Prepare();
+            var result = cmd.ExecuteReader();
+            result.Read();
+            var rValue = new TransactionSlip
+			{
+                NgayTao = result.GetDateTime("NgayTao"),
+                SoTien = result.GetDecimal("SoTien"),
+                MaPhieu = result.GetInt32("MaPhieu")
+			};
+            BaseDBConnection.CloseConnection();
+            return rValue;
         }
 
-        public bool UpdateSlipByMaPhieu(TransactionSlip updatedSlip)
+        public virtual bool UpdateSlipByMaPhieu(TransactionSlip updatedSlip)
         {
             try
             {
@@ -60,7 +63,7 @@ namespace AcademicSavingService.DataAccess
             catch { return false; }
         }
 
-        public bool DeleteSlipByMaPhieu(int MaPhieu)
+        public virtual bool DeleteSlipByMaPhieu(int MaPhieu)
         {
             try
             {
@@ -86,17 +89,17 @@ namespace AcademicSavingService.DataAccess
             db = new QueryFactory(BaseDBConnection.Connection, compiler);
         }
 
-        private readonly QueryFactory db;
+        protected readonly QueryFactory db;
 
-        private readonly string _MaPhieu = "MaPhieu";
-        private readonly string _MaSo = "MaSo";
+        protected readonly string _MaPhieu = "MaPhieu";
+        protected readonly string _MaSo = "MaSo";
 
-        private readonly string _MaSoVar = "@MaSo";
-        private readonly string _SoTienVar = "@SoTien";
-        private readonly string _MaKHVar = "@MaKH";
-        private readonly string _MaNVVar = "@MaNV";
-        private readonly string _GhiChuVar = "@GhiChu";
-        private readonly string _NgayTaoVar = "@NgayTao";
+        protected readonly string _MaSoVar = "@MaSo";
+        protected readonly string _SoTienVar = "@SoTien";
+        protected readonly string _MaKHVar = "@MaKH";
+        protected readonly string _MaNVVar = "@MaNV";
+        protected readonly string _GhiChuVar = "@GhiChu";
+        protected readonly string _NgayTaoVar = "@NgayTao";
 
         protected override string _tableName => "Phieu";
     }

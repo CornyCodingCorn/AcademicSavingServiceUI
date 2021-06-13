@@ -64,6 +64,38 @@ END;
 $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS ForceDeleteAllSoTietKiem;
+DELIMITER $$
+CREATE PROCEDURE ForceDeleteAllSoTietKiem()
+BEGIN
+	DECLARE i INT;
+    SET i = 0;
+    SELECT COUNT(*) INTO @Size FROM SOTIETKIEM;
+    WHILE (i < @Size) DO
+		CALL ForceDeleteSoTietKiem((SELECT MaSo FROM SOTIETKIEM LIMIT 1));
+        SET i = i + 1;
+    END WHILE;
+END;
+$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS ForceDeleteSoTietKiem;
+DELIMITER $$
+CREATE PROCEDURE ForceDeleteSoTietKiem(IN MaSo INT)
+BEGIN
+	CALL BatDauCapNhatSoTietKiem();
+    UPDATE SOTIETKIEM STK SET STK.LanCapNhatCuoi = '0/0/0' WHERE STK.MaSo = MaSo;
+    CALL KetThucCapNhatSoTietKiem();
+    
+    CALL StartForceDelete();
+    DELETE FROM PHIEUGUI PG WHERE PG.MaSo = MaSo;
+    DELETE FROM PHIEURUT PR WHERE PR.MaSo = MaSo;
+    DELETE FROM SOTIETKIEM STK WHERE STK.MaSo = MaSo;
+    CALL EndForceDelete();
+END;
+$$
+DELIMITER ;
+
 /*==================================================================================FUNCTIONS=============================================================================*/
 /*===================================================================================TRIGGERS==============================================================================*/
 
