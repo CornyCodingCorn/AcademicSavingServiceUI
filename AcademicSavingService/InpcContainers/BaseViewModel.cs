@@ -11,8 +11,8 @@ namespace AcademicSavingService.InpcContainers
 
         public static void ShowErrorMessage(string baseMessage)
 		{
-            string errorCode = baseMessage.Substring(0, 5);
-            string message = baseMessage.Substring(5, baseMessage.Length - 5);
+            string errorCode = "Warning";
+            string message = baseMessage.Substring(baseMessage.Length);
             MessageBox.ShowMessage(errorCode, message);
         }
     }

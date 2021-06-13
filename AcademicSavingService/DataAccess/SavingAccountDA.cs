@@ -29,7 +29,7 @@ namespace AcademicSavingService.DataAccess
             return new ObservableCollection<SavingAccountViewModel>(collection);
         }
 
-        public bool CreateSavingAccount(SavingAccount account)
+        public SavingAccount CreateSavingAccount(SavingAccount account)
         {
             string q = $"CALL ThemSoTietKiem({_MaKHVar}, {_KyHanVar}, {_SoTienBanDauVar}, {_NgayTaoVar})";
             cmd.CommandText = q;
@@ -38,35 +38,45 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_KyHanVar, account.KyHan);
             cmd.Parameters.AddWithValue(_SoTienBanDauVar, account.SoTienBanDau);
             cmd.Parameters.AddWithValue(_NgayTaoVar, account.NgayTao);
-            cmd.Prepare();
+
 
             BaseDBConnection.OpenConnection();
-            try
+            cmd.Prepare();
+            var result = cmd.ExecuteReader();
+            result.Read();
+            var rValue = new SavingAccount
             {
-                cmd.ExecuteNonQuery();
-                return true;
-            }
-            catch { return false; }
-            finally { BaseDBConnection.CloseConnection(); }
+                MaKH = result.GetInt32("MaKH"),
+                MaSo = result.GetInt32("MaSo"),
+                NgayTao = result.GetDateTime("NgayTao"),
+                SoDu = result.GetDecimal("SoDu"),
+                LanCapNhatCuoi = result.GetDateTime("LanCapNhatCuoi")
+            };
+            BaseDBConnection.CloseConnection();
+
+            return rValue;
         }
 
-        public bool UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
+        public SavingAccount UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
         {
             string q = $"CALL UpdateSoTietKiem({_MaSoVar}, {_NgayCanUpdateVar})";
             cmd.CommandText = q;
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue(_MaSoVar, MaSo);
             cmd.Parameters.AddWithValue(_NgayCanUpdateVar, NgayCanUpdate);
-            cmd.Prepare();
 
             BaseDBConnection.OpenConnection();
-            try
+            cmd.Prepare();
+            var result = cmd.ExecuteReader();
+            result.Read();
+            var rValue = new SavingAccount
             {
-                cmd.ExecuteNonQuery();
-                return true;
-            }
-            catch { return false; }
-            finally { BaseDBConnection.CloseConnection(); }
+                SoDu = result.GetDecimal("SoDu"),
+                LanCapNhatCuoi = result.GetDateTime("LanCapNhatCuoi")
+            };
+            BaseDBConnection.CloseConnection();
+
+            return rValue;
         }
 
         //TODO: Implement UpdateSavingAccountInfo

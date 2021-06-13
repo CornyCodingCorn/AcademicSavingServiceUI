@@ -1,15 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
 using AcademicSavingService.InpcContainers;
-using AcademicSavingService.DataAccess;
 using AcademicSavingService.Commands;
-using AcademicSavingService.Model;
 using PropertyChanged;
-using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using System.Windows;
 using System;
-using System.ComponentModel;
+using AcademicSavingService.Controls;
+using System.Windows.Input;
 
 namespace AcademicSavingService.ViewModel
 {
@@ -18,8 +13,10 @@ namespace AcademicSavingService.ViewModel
 	{
 		public ObservableCollection<SavingAccountViewModel> SavingAccounts { get; set; }
 		public ObservableCollection<CustomerViewModel> Customers { get; set; }
+
+		public int SelectedAccountIndex { get; set; }
 		protected SavingAccountViewModel _selectedAccount;
-		public object SelectedAccount 
+		public SavingAccountViewModel SelectedAccount 
 		{ 
 			get { return _selectedAccount; }
 			set
@@ -32,6 +29,15 @@ namespace AcademicSavingService.ViewModel
 				Balance = _selectedAccount.SoDu;
 				InitialBalance = _selectedAccount.SoTienBanDau;
 
+				for (int i = 0; i < TermsList.Count; i++)
+				{
+					if (TermsList[i] == _selectedAccount.KyHan)
+					{
+						SelectedTermIndex = i;
+						break;
+					}
+				}
+
 				foreach (var account in Customers)
 				{
 					if (account.MaKH == _selectedAccount.MaKH)
@@ -43,13 +49,13 @@ namespace AcademicSavingService.ViewModel
 			}
 		}
 		protected CustomerViewModel _selectedCustomer;
-		public object SelectedCustomer 
+		public CustomerViewModel SelectedCustomer 
 		{ 
 			get { return _selectedCustomer; }
 			set
 			{
 				_selectedCustomer = (CustomerViewModel)value;
-				OwnerID = _selectedCustomer.MaKH;
+				CustomerID = _selectedCustomer.MaKH;
 			}
 		}
 
@@ -76,8 +82,6 @@ namespace AcademicSavingService.ViewModel
 		public float InterestRate { get; set; }
 
 		public int ID { get; set; }
-		public int OwnerID { get; set; }
-
 		protected DateTime _createDate;
 		public DateTime CreateDate 
 		{ 
@@ -89,7 +93,8 @@ namespace AcademicSavingService.ViewModel
 					_createDate = value;
 					TermsList.Clear();
 					InterestRateList.Clear();
-					SelectedTermIndex = 0;
+					SelectedTermIndex = -1;
+					InterestRate = 0;
 
 					var tempContainer = TermTypeViewModel.GetTermWithDate(value);
 					foreach (var item in tempContainer)
@@ -108,11 +113,81 @@ namespace AcademicSavingService.ViewModel
 		public int CustomerID { get; set; }
 
 
+		protected RelayCommand<SavingAccountsManagerViewModel> _addCommand;
+		protected RelayCommand<SavingAccountsManagerViewModel> _deleteCommand;
+		protected RelayCommand<SavingAccountsManagerViewModel> _updateOne;
+		protected RelayCommand<SavingAccountsManagerViewModel> _updateAll;
+
+		public ICommand CreateAccountCommand => _addCommand ?? (_addCommand = new RelayCommand<SavingAccountsManagerViewModel>(param => CreateAccount(), param => CanCreateAccount()));
+		public ICommand DeleteAccountCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand<SavingAccountsManagerViewModel>(param => DeleteAccount(), param => CanDeleteAccount()));
+		public ICommand UpdateOneCommand => _updateOne ?? (_updateOne = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAccount(), param => CanUpdateAccount()));
+		public ICommand UpdateAllCommand => _updateAll ?? (_updateAll = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAllAccounts(), param => CanUpdateAllAccounts()));
+
 		public SavingAccountsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
             SavingAccounts = SavingAccountViewModel.Container;
 			Customers = CustomerViewModel.Container;
+			CreateDate = DateTime.Now;
+		}
 
+		public void CreateAccount()
+		{
+			SavingAccountViewModel.CreateAccount(new SavingAccountViewModel{
+				MaKH = CustomerID,
+				KyHan = TermsList[SelectedTermIndex],
+				SoTienBanDau = InitialBalance,
+				NgayTao = CreateDate,
+				LaiSuat = InterestRate,
+			});
+		}
+
+		public bool CanCreateAccount()
+		{
+			if (CreateDate.Year < 1800 || SelectedTermIndex < 0)
+			{
+				return false;
+			}
+			else
+				return true;
+		}
+
+
+		public void UpdateAccount()
+		{
+			SavingAccountViewModel.CallUpdateOneAccount(SelectedAccount.MaSo, DateTime.Now);
+		}
+
+		public bool CanUpdateAccount()
+		{
+			if (SelectedAccount == null)
+				return false;
+			else
+				return true;
+		}
+
+		public void UpdateAllAccounts()
+		{
+			SavingAccountViewModel.CallUpdateAllAccounts(DateTime.Now);
+		}
+
+		public bool CanUpdateAllAccounts()
+		{
+			return true;
+		}
+
+		public void DeleteAccount()
+		{
+			int index = SelectedAccountIndex;
+			SavingAccountViewModel.DeleteAccount(ID);
+			SelectedTermIndex = index;
+		}
+
+		public bool CanDeleteAccount()
+		{
+			if (SelectedAccount == null)
+				return false;
+			else 
+				return true;
 		}
     }
 }

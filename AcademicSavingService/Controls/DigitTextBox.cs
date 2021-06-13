@@ -28,6 +28,12 @@ namespace AcademicSavingService.Controls
 		{
 			regex = new Regex("[^0-9]+");
 			PreviewTextInput += NumberValidationTextBox;
+			TextChanged += (sender, e) =>
+			{
+				if (((TextBox)sender).Text == "")
+					((TextBox)sender).Text = "0";
+			};
+
 		}
 
 		private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

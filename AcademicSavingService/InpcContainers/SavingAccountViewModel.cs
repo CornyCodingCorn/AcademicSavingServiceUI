@@ -31,19 +31,31 @@ namespace AcademicSavingService.InpcContainers
 		{
             try
 			{
-                _dataAccess.UpdateSavingAccountStateToNgayCanUpdate(maSo, ngayUpdate);
+                var result = _dataAccess.UpdateSavingAccountStateToNgayCanUpdate(maSo, ngayUpdate);
+                for (int i = 0; i < Container.Count; i++)
+				{
+                    if (Container[i].MaSo == maSo)
+					{
+                        Container[i].SoDu = result.SoDu;
+                        Container[i].LanCapNhatCuoi = result.LanCapNhatCuoi;
+					}
+				}
 			}
             catch (MySqlException e)
 			{
                 ShowErrorMessage(e.Message);
+                return;
 			}
-		}
+        }
 
-        public static void UpdateAllAccount(DateTime ngayUpdate)
+        public static void CallUpdateAllAccounts(DateTime ngayUpdate)
 		{
             foreach (var account in Container)
-                _dataAccess.UpdateSavingAccountStateToNgayCanUpdate(account.MaSo, ngayUpdate);
-            CallLoadSavingAccount();
+			{
+                var result = _dataAccess.UpdateSavingAccountStateToNgayCanUpdate(account.MaSo, ngayUpdate);
+                account.SoDu = result.SoDu;
+                account.LanCapNhatCuoi = result.LanCapNhatCuoi;
+            }
         }
 
         public static void CallLoadSavingAccount()
@@ -63,17 +75,20 @@ namespace AcademicSavingService.InpcContainers
 		{
             try
             {
-                _dataAccess.CreateSavingAccount(account.Model);
+                var result = _dataAccess.CreateSavingAccount(account.Model);
+                account.MaSo = result.MaSo;
+                account.SoTienBanDau = result.SoTienBanDau;
+                account.SoDu = result.SoDu;
+                account.LanCapNhatCuoi = result.LanCapNhatCuoi;
+                account.NgayTao = result.NgayTao;
             }
             catch (MySqlException e)
             {
                 ShowErrorMessage(e.Message);
                 return;
             }
-            finally
-            {
-                Container.Add(account);
-            }
+
+            Container.Add(account);
         }
 
         public static void DeleteAccount(int maSo)
@@ -81,23 +96,20 @@ namespace AcademicSavingService.InpcContainers
             try
 			{
                 _dataAccess.DeleteSavingAccount(maSo);
+                for (int i = 0; i < Container.Count; i++)
+                {
+                    if (Container[i].MaSo == maSo)
+                    {
+                        Container.RemoveAt(i);
+                        break;
+                    }
+                }
             }
             catch (MySqlException e)
             {
                 ShowErrorMessage(e.Message);
                 return;
             }
-            finally
-			{
-                for (int i = 0; i < Container.Count; i ++)
-				{
-                    if (Container[i].MaSo == maSo)
-					{
-                        Container.RemoveAt(i);
-                        break;
-                    }
-				}
-			}
 		}
 
         public SavingAccount Model => new(MaSo, MaKH, NgayTao, NgayDongSo, KyHan, LaiSuat, SoTienBanDau, SoDu, LanCapNhatCuoi);
