@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.Generic;
 using System.Windows.Input;
+using System.Windows.Media;
+using System;
 
 namespace AcademicSavingService.Controls
 {
@@ -20,7 +22,7 @@ namespace AcademicSavingService.Controls
 		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
 
 		public static readonly DependencyProperty EnableFullTextSearchProperty =
-			DependencyProperty.Register("EnableFullTextSearch", typeof(bool), typeof(AssDataGrid));
+			DependencyProperty.Register("EnableFullTextSearch", typeof(bool), typeof(AssDataGrid), new PropertyMetadata(OnItemsSourceChangedCallBack));
 		public bool EnableFullTextSearch
 		{
 			get { return (bool)GetValue(EnableFullTextSearchProperty); }
@@ -33,6 +35,15 @@ namespace AcademicSavingService.Controls
 		{ 
 			get { return (IEnumerable)GetValue(ItemsSourceProperty); }
 			set { SetValue(ItemsSourceProperty, value); }
+		}
+		private static void OnItemsSourceChangedCallBack(
+			DependencyObject sender, DependencyPropertyChangedEventArgs e)
+		{
+			AssDataGrid c = sender as AssDataGrid;
+			if (c != null)
+			{
+				c.OnItemsSourceChanged(e);
+			}
 		}
 
 		public static readonly DependencyProperty DataGridNameProperty =
@@ -86,7 +97,6 @@ namespace AcademicSavingService.Controls
 			set { SetValue(SelectedIndexProperty, value); }
 		}
 
-
 		protected CancellationTokenSource cancelCulture;
 		protected bool isSearching = false;
 		protected Task currentSearch;
@@ -95,6 +105,10 @@ namespace AcademicSavingService.Controls
 		{
 			InitializeComponent();
 			content.DataContext = this;
+			this.Loaded += (s, e) =>
+			{
+				StartSearch();
+			};
 		}
 
 		private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -103,16 +117,36 @@ namespace AcademicSavingService.Controls
 			scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
 		}
 
-		protected async void txtFullTextSearch_TextChanged(object sender, TextChangedEventArgs e)
+		protected void txtFullTextSearch_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			StartSearch();
+		}
+
+		private static readonly RoutedEvent ItemsSourceChangedEvent = 
+			EventManager.RegisterRoutedEvent("ItemsSourceChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(AssDataGrid));
+		public event RoutedEventHandler ItemsSourceChanged
+		{
+			add { AddHandler(ItemsSourceChangedEvent, value); }
+			remove { RemoveHandler(ItemsSourceChangedEvent, value); }
+		}
+		protected virtual void OnItemsSourceChanged(DependencyPropertyChangedEventArgs e)
+		{
+			RoutedEventArgs newEventArgs = new RoutedEventArgs(ItemsSourceChangedEvent);
+			RaiseEvent(newEventArgs);
+			if (EnableFullTextSearch && this.IsLoaded)
+				StartSearch();
+		}
+
+		protected void StartSearch()
 		{
 			if (isSearching && cancelCulture != null)
 			{
 				cancelCulture.Cancel();
-				await currentSearch;
+				currentSearch.Wait();
 				cancelCulture.Dispose();
 			}
 			cancelCulture = new CancellationTokenSource();
-			currentSearch = Search(SearchText.ToLower(), ItemsSize, cancelCulture);
+			currentSearch = Search((SearchText ?? "").ToLower(), ItemsSize, cancelCulture);
 		}
 
 		protected Task Search(string searchText, int size, CancellationTokenSource token)
@@ -122,24 +156,35 @@ namespace AcademicSavingService.Controls
 
 			task = Task.Run(() =>
 			{
+				int counter = 0;
 				for (int i = 0; i < size; i++)
 				{
 					dataGrid.Dispatcher.Invoke(() =>
 					{
 						DataGridRow row = (DataGridRow)dataGrid.ItemContainerGenerator.ContainerFromIndex(i);
 						bool show = false;
-						foreach (var item in dataGrid.Items[i].GetType().GetProperties())
+						foreach (DataGridColumn column in dataGrid.Columns)
 						{
-							if (System.Convert.ToString(item.GetValue(dataGrid.Items[i])).ToLower().Contains(searchText))
+							if (column.GetCellContent(row) is TextBlock)
 							{
-								show = true;
-								break;
+								TextBlock cellContent = column.GetCellContent(row) as TextBlock;
+								if (cellContent.Text.ToLower().Contains(searchText))
+								{
+									row.Style = GetColorFromCounter(counter);
+									counter ++;
+									show = true;
+									break;
+								}
 							}
 						}
 						if (show)
 							row.Visibility = Visibility.Visible;
 						else
+						{
 							row.Visibility = Visibility.Collapsed;
+							if (SelectedIndex == i)
+								SelectedIndex++;
+						}
 					});
 
 					if (token.IsCancellationRequested)
@@ -148,6 +193,14 @@ namespace AcademicSavingService.Controls
 			});
 
 			return task;
+		}
+
+		protected Style GetColorFromCounter(int counter)
+		{
+			if (counter % 2 == 0)
+				return this.FindResource("EvenRowStyle") as Style;
+			else
+				return this.FindResource("OddRowStyle") as Style;
 		}
 	}
 }

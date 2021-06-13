@@ -21,7 +21,7 @@
 
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="65*"/>
-			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="550" MinWidth="150"/>
+			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="550" MinWidth="250"/>
 		</Grid.ColumnDefinitions>
 
 		<!-- HORIZONTAL GRID SPLITTER !!! -->
@@ -47,8 +47,8 @@
 				<ctrl:AssDataGrid.Columns>
 					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 					<DataGridTextColumn Width="100" Header="Owner ID" Binding="{Binding MaKH}"/>
-					<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='d/M/yyyy'}" TextBlock.TextAlignment="Center"/>
-					<DataGridTextColumn Width="120" Header="Close date" Binding="{Binding NgayDongSo, StringFormat='d/M/yyyy'}"/>
+					<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='dd/MM/yyyy'}" TextBlock.TextAlignment="Center"/>
+					<DataGridTextColumn Width="120" Header="Close date" Binding="{Binding NgayDongSo, StringFormat='dd/MM/yyyy'}"/>
 					<DataGridTextColumn Width="120" Header="Last update" Binding="{Binding LanCapNhatCuoi, StringFormat='dd/MM/yyyy'}"/>
 					<DataGridTextColumn Width="80" Header="Period" Binding="{Binding KyHan}"/>
 					<DataGridTextColumn Width="140" Header="Interest Rate" Binding="{Binding LaiSuat, StringFormat='{}{0}%'}" CellStyle="{StaticResource GreenKeyStyle}"/>
@@ -107,9 +107,9 @@
 						</Grid.ColumnDefinitions>
 						<Grid Grid.Column="1">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="130"/>
+								<ColumnDefinition Width="20*" MaxWidth="130"/>
 								<ColumnDefinition Width="80*"/>
-								<ColumnDefinition Width="130"/>
+								<ColumnDefinition Width="20*" MaxWidth="130"/>
 								<ColumnDefinition Width="80*"/>
 							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
