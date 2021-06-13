@@ -59,7 +59,8 @@ CREATE TRIGGER BeforeDeleteQuyDinh BEFORE DELETE ON QUYDINH FOR EACH ROW
 BEGIN
 	DECLARE Result BOOL;
     SET Result = EXISTS(SELECT * FROM SOTIETKIEM WHERE NgayTao >= OLD.NgayTao);
-    SET Result = Result OR EXISTS(SELECT * FROM PHIEU WHERE NgayTao >= OLD.NgayTao);
+    SET Result = Result OR EXISTS(SELECT * FROM PHIEUGUI WHERE NgayTao >= OLD.NgayTao);
+    SET Result = Result OR EXISTS(SELECT * FROM PHIEURUT WHERE NgayTao >= OLD.NgayTao);
     IF (Result = TRUE) THEN
 		CALL ThrowException('QD002');
     END IF;
@@ -68,18 +69,3 @@ $$
 DELIMITER ;
 
 /*===================================================================================QUERRIES==============================================================================*/
-
-DELETE FROM QUYDINH;
-
-INSERT INTO QUYDINH (SoTienNapNhoNhat, SoTienMoTaiKhoanNhoNhat, SoNgayToiThieu, NgayTao)
-VALUES(100000, 1000000, 15, '2021/06/06');
-INSERT INTO QUYDINH (SoTienNapNhoNhat, SoTienMoTaiKhoanNhoNhat, SoNgayToiThieu, NgayTao)
-VALUES(10000, 1000000, 10, '2021/06/04');
-INSERT INTO QUYDINH (SoTienNapNhoNhat, SoTienMoTaiKhoanNhoNhat, SoNgayToiThieu, NgayTao)
-VALUES(90000, 900000, 14, '2021/06/07');
-INSERT INTO QUYDINH (SoTienNapNhoNhat, SoTienMoTaiKhoanNhoNhat, SoNgayToiThieu, NgayTao)
-VALUES(90000, 900000, 14, '2020/02/07');
-
-SELECT * FROM SOTIETKIEM WHERE NgayTao >= '2020/02/07';
-
-SELECT * FROM QuyDinh;

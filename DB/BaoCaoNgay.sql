@@ -9,6 +9,22 @@ BEGIN
     DECLARE Counter INT;
 
 	IF (NOT EXISTS(SELECT * FROM BAOCAONGAY WHERE Ngay = NgayBaoCao AND KyHan = KyHanBaoCao)) THEN
+		DROP TEMPORARY TABLE IF EXISTS PHIEU;
+		CREATE TEMPORARY TABLE PHIEU (
+			MaPhieu INT NOT NULL AUTO_INCREMENT,
+			NgayTao DATE NOT NULL DEFAULT '0/0/0',
+			SoTien DECIMAL(15, 2) NOT NULL,
+			GhiChu TEXT,
+			MaSo INT NOT NULL,
+			MaNV INT NOT NULL,
+			MaUQ INT,
+			
+			PRIMARY KEY(MaPhieu)
+		) CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+		
+		INSERT INTO PHIEU(NgayTao, SoTien, GhiChu, MaSo, MaNV, MaUQ) SELECT NgayTao, SoTien, GhiChu, MaSo, MaNV, MaUQ FROM PHIEUGUI;
+		INSERT INTO PHIEU(NgayTao, SoTien, GhiChu, MaSo, MaNV, MaUQ) SELECT NgayTao, (-SoTien) AS SoTien, GhiChu, MaSo, MaNV, MaUQ FROM PHIEURUT;
+    
     	CALL BatDauCapNhatBaoCaoNgay();
 		SELECT SUM(STK.SoTienBanDau) INTO @TongTienBanDau FROM SOTIETKIEM STK WHERE STK.NgayTao = NgayBaoCao AND (SELECT LKH.KyHan FROM LOAIKYHAN LKH WHERE LKH.MaKyHan = STK.MaKyHan) = KyHanBaoCao;
         SET TongThu = IF (@TongTienBanDau IS NULL, 0, @TongTienBanDau);
@@ -34,8 +50,12 @@ BEGIN
 			END WHILE;
         END IF;
         
+        SET TongChi = IF (TongChi IS NULL, 0, TongChi);
+        SET TongThu = IF (TongThu IS NULL, 0, TongThu);
+        
         INSERT INTO BAOCAONGAY(Ngay, KyHan, TongThu, TongChi, ChenhLech) VALUES (NgayBaoCao, KyHanBaoCao, TongThu, TongChi, TongThu - TongChi);
         CALL KetThucCapNhatBaoCaoNgay();
+        DROP TEMPORARY TABLE PHIEU;
     END IF;
 END; 
 $$
@@ -149,7 +169,3 @@ $$
 DELIMITER ;
 
 /*===================================================================================QUERRIES==============================================================================*/
-
-CALL TongHopBaoCao('2021/06/07', 0);
-CALL TongHopBaoCao('2020/4/1', 6);
-SELECT * FROM BAOCAONGAY;

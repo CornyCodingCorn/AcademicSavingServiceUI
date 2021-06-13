@@ -17,6 +17,9 @@ BEGIN
 		SET TongSoMo = (SELECT COUNT(*) FROM SOTIETKIEM WHERE MONTH(NgayTao) = ThangBaoCao AND YEAR(NgayTao) = NamBaoCao);
         SET TongSoDong = (SELECT COUNT(*) FROM SOTIETKIEM WHERE MONTH(NgayDongSo) = ThangBaoCao AND YEAR(NgayDongSo) = NamBaoCao);
         
+        SET TongSoMo = IF (TongSoMo IS NULL, 0, TongSoMo);
+        SET TongSoDong = IF (TongSoDong IS NULL, 0, TongSoDong);
+        
         INSERT INTO BAOCAOTHANG(Thang, Nam, KyHan, SoMo, SoDong) VALUES(ThangBaoCao, NamBaoCao, KyHanBaoCao, TongSoMo, TongSoDong);
     END IF;
 END; 

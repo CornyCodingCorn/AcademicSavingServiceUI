@@ -28,6 +28,18 @@ END;
 $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS LayKyHanVaLaiSuat;
+DELIMITER $$
+CREATE PROCEDURE LayKyHanVaLaiSuat(IN NgayKiemTra DATE)
+BEGIN
+	PREPARE QueryStr FROM 'SELECT LKH.KyHan, LaiSuat FROM LOAIKYHAN LKH JOIN (SELECT MAX(MaKyHan) AS MaKyHan FROM LOAIKYHAN LKH2 WHERE NgayTao <= ? GROUP BY KyHan) KQ ON LKH.MaKyHan = KQ.MaKyHan;';
+	SET @NgayKiemTra = NgayKiemTra;
+	EXECUTE QueryStr USING @NgayKiemTra;
+    DEALLOCATE PREPARE QueryStr;
+END;
+$$
+DELIMITER ;
+
 /*==================================================================================FUNCTIONS=============================================================================*/
 
 DROP FUNCTION IF EXISTS LayLaiSuatPhuHopCuaKyHan;
@@ -142,18 +154,3 @@ $$
 DELIMITER ;
 
 /*===================================================================================QUERRIES==============================================================================*/
-
-DELETE FROM LoaiKyHan;
-
-INSERT INTO LoaiKyHan (KyHan, LaiSuat)
-VALUES(0, 1.1);
-
-CALL ThemKyHan(6, 5, '2020/01/01', '2021/02/03');
-CALL ThemKyHan(6, 5, '2021/04/01', '2021/08/03');
-CALL ThemKyHan(3, 5, '2021/01/01', '2021/02/03');
-CALL ThemKyHan(0, 1.1, '2021/01/07', NULL);
-CALL ThemKyHan(0, 2.2, '2021/02/07', NULL);
-CALL ThemKyHan(0, 3.3, '2021/03/07', NULL);
-CALL ThemKyHan(0, 4.5, '2021/05/07', NULL);
-
-SELECT * FROM LoaiKyHan;

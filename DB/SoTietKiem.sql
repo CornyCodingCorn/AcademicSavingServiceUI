@@ -29,6 +29,18 @@ END;
 $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS UpdateSoTietKiemVaReturn;
+DELIMITER $$
+CREATE PROCEDURE UpdateSoTietKiemVaReturn(IN MaSo INT, IN NgayCanUpdate DATE)
+BEGIN
+	CALL UpdateSoTietKiem(MaSo, NgayCanUpdate);
+    SET @MaSo = MaSo;
+    PREPARE Stmt FROM 'SELECT * FROM SOTIETKIEM WHERE MaSo = ?';
+    EXECUTE Stmt USING @MaSo;
+    DEALLOCATE PREPARE Stmt;
+END;
+$$
+DELIMITER ;
 
 DROP PROCEDURE IF EXISTS ThemSoTietKiem;
 DELIMITER $$
@@ -36,6 +48,18 @@ CREATE PROCEDURE ThemSoTietKiem(IN MaKH INT, IN KyHan TINYINT, IN SoTienBanDau D
 BEGIN
 	SELECT LKH.MaKyHan INTO @MaKyHan FROM LOAIKYHAN LKH WHERE LKH.KyHan = KyHan AND LKH.NgayTao <= NgayTao ORDER BY LKH.NgayTao DESC LIMIT 1;
     INSERT INTO SOTIETKIEM(MaKH, MaKyHan, NgayTao, SoTienBanDau) VALUES(MaKH, @MaKyHan, NgayTao, SoTienBanDau);
+END;
+$$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS ThemSoTietKiemVaReturn;
+DELIMITER $$
+CREATE PROCEDURE ThemSoTietKiemVaReturn(IN MaKH INT, IN KyHan TINYINT, IN SoTienBanDau DECIMAL(15, 2), IN NgayTao DATE)
+BEGIN
+	CALL ThemSoTietKiem(MaKH, KyHan, SoTienBanDau, NgayTao);
+    PREPARE Stmt FROM 'SELECT * FROM SOTIETKIEM ORDER BY MaSo DESC LIMIT 0, 1';
+    EXECUTE Stmt;
+    DEALLOCATE PREPARE Stmt;
 END;
 $$
 DELIMITER ;
@@ -84,33 +108,3 @@ $$
 DELIMITER ;
 
 /*===================================================================================QUERRIES==============================================================================*/
-DELETE FROM SOTIETKIEM;
-
-CALL ThemSoTietKiem(1, 0,  1000000, '2016/01/15');
-CALL ThemSoTietKiem(1, 12,  1000000, '2017/01/01');
-
-CALL ThemSoTietKiem(2, 0,  1000000, '2016/04/15');
-CALL ThemSoTietKiem(3, 6,  1000000, '2016/09/15');
-CALL ThemSoTietKiem(4, 6,  1000000, '2017/04/15');
-
-CALL ThemSoTietKiem(5, 0,  1000000, '2016/05/15');
-CALL ThemSoTietKiem(5, 6,  1000000, '2018/09/15');
-
-CALL ThemSoTietKiem(6, 12,  1000000, '2019/11/15');
-CALL ThemSoTietKiem(7, 3,  1000000, '2016/08/15');
-CALL ThemSoTietKiem(8, 6,  1000000, '2020/04/15');
-CALL ThemSoTietKiem(9, 3,  1000000, '2016/03/15');
-CALL ThemSoTietKiem(10, 1,  1000000, '2017/01/15');
-CALL ThemSoTietKiem(11, 1,  1000000, '2017/01/15');
-
-CALL ThemSoTietKiem(12, 0,  1000000, '2018/02/15');
-CALL ThemSoTietKiem(12, 1,  1000000, '2016/01/15');
-CALL ThemSoTietKiem(12, 3,  1000000, '2017/08/15');
-
-CALL ThemSoTietKiem(13, 3,  1000000, '2018/08/15');
-CALL ThemSoTietKiem(14, 12,  1000000, '2019/11/15');
-CALL ThemSoTietKiem(15, 6,  1000000, '2020/12/15');
-CALL ThemSoTietKiem(16, 3,  1000000, '2016/12/15');
-CALL ThemSoTietKiem(17, 1,  1000000, '2020/01/15');
-
-SELECT * FROM SOTIETKIEM;

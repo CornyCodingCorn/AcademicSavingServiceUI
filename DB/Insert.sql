@@ -15,13 +15,13 @@ INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK004', 'Gọi update tới ngày
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG000', 'Gửi tiền thành công');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG001', 'Số tiền gửi nhỏ hơn số tiền cho phép');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG002', 'Thêm phiếu gửi không thành công');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG003', 'Không thể gửi thêm tiền trước kỳ hạn');
 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR000', 'Rút tiền thành công');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR001', 'Không thể rút tiền trước kỳ hạn hoặc không thể rút tiền trước thời gian tối thiểu cho không kỳ hạn');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR002', 'Rút tiền loại có kỳ hạn phải rút hết');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR003', 'Tài khoản không đủ tiền để rút');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR004', 'Thêm phiếu rút tiền không thành công');
-INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR005', 'Không thể gửi thêm tiền trước kỳ hạn');
 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PH001', 'Tài khoản đã đóng hoặc không tồn tại');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PH002', 'Phải xóa theo thứ tự trong cùng ngày');
@@ -455,7 +455,8 @@ VALUES(17, 22, '2020/01/15', '2020/04/15');
 SELECT * FROM UYQUYEN;
 
 /*========== Phiếu ==========*/
-DELETE FROM PHIEU;
+DELETE FROM PHIEUGUI;
+DELETE FROM PHIEURUT;
 
 -- (IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 -- (IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
@@ -501,14 +502,15 @@ CALL RutHetTien(16, 12, 2, 'The end game', '2018/02/15');
 
 CALL RutHetTien(17, 13, 2, 'The end game', '2019/02/15');
 CALL RutHetTien(18, 13, 2, 'The end game', '2019/02/15');
-CALL RutHetTien(19, 14, 9, 'The end game', '2019/05/15');
+CALL RutHetTien(19, 14, 9, 'The end game', '2020/12/15');
 
 CALL RutHetTien(21, 16, 5, 'The end game', '2017/12/15');
 
 CALL ThemPhieu(22, 200000, 1, 4, 'Some things', '2020/03/15');
 CALL RutHetTien(22, 2, 2, 'The end game', '2020/04/15');
 
-SELECT * FROM PHIEU;
+SELECT * FROM PHIEUGUI;
+SELECT * FROM PHIEURUT;
 
 /*========== Báo cáo ngày ==========*/
 
@@ -518,6 +520,7 @@ CALL TongHopBaoCaoNgay('2017/12/15', 3);
 CALL TongHopBaoCaoNgay('2020/04/15', 6);
 CALL TongHopBaoCaoNgay('2019/02/15', 9);
 CALL TongHopBaoCaoNgay('2020/11/15', 12);
+CALL TongHopBaoCaoNgay('2020/11/15', 0);
 
 SELECT * FROM BAOCAONGAY;
 
