@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using System.Windows.Media;
 using System;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 
 namespace AcademicSavingService.Controls
 {
@@ -20,6 +22,7 @@ namespace AcademicSavingService.Controls
 	public partial class AssDataGrid : UserControl, INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
+
 
 		public static readonly DependencyProperty EnableFullTextSearchProperty =
 			DependencyProperty.Register("EnableFullTextSearch", typeof(bool), typeof(AssDataGrid), new PropertyMetadata(OnItemsSourceChangedCallBack));
@@ -105,7 +108,7 @@ namespace AcademicSavingService.Controls
 		{
 			InitializeComponent();
 			content.DataContext = this;
-			this.Loaded += (s, e) =>
+			Loaded += (s, e) =>
 			{
 				StartSearch();
 			};
@@ -133,8 +136,6 @@ namespace AcademicSavingService.Controls
 		{
 			RoutedEventArgs newEventArgs = new RoutedEventArgs(ItemsSourceChangedEvent);
 			RaiseEvent(newEventArgs);
-			if (EnableFullTextSearch && this.IsLoaded)
-				StartSearch();
 		}
 
 		protected void StartSearch()
@@ -163,6 +164,8 @@ namespace AcademicSavingService.Controls
 					{
 						DataGridRow row = (DataGridRow)dataGrid.ItemContainerGenerator.ContainerFromIndex(i);
 						bool show = false;
+						if (row == null)
+							return;
 						foreach (DataGridColumn column in dataGrid.Columns)
 						{
 							if (column.GetCellContent(row) is TextBlock)
@@ -170,8 +173,6 @@ namespace AcademicSavingService.Controls
 								TextBlock cellContent = column.GetCellContent(row) as TextBlock;
 								if (cellContent.Text.ToLower().Contains(searchText))
 								{
-									row.Style = GetColorFromCounter(counter);
-									counter ++;
 									show = true;
 									break;
 								}
@@ -195,12 +196,23 @@ namespace AcademicSavingService.Controls
 			return task;
 		}
 
-		protected Style GetColorFromCounter(int counter)
+		public void ClearSort()
 		{
-			if (counter % 2 == 0)
-				return this.FindResource("EvenRowStyle") as Style;
-			else
-				return this.FindResource("OddRowStyle") as Style;
+			var view = CollectionViewSource.GetDefaultView(dataGrid.ItemsSource);
+			view?.SortDescriptions.Clear();
+
+			foreach (var column in dataGrid.Columns)
+			{
+				column.SortDirection = null;
+			}
+		}
+
+		private void DataGridColumnHeader_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.RightButton == MouseButtonState.Pressed)
+			{
+				ClearSort();
+			}
 		}
 	}
 }

@@ -11,31 +11,6 @@
 
 	<UserControl.Resources>
 		<ResourceDictionary>
-			<Style x:Key="OddRowStyle" TargetType="{x:Type DataGridRow}">
-				<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent4}"/>
-				<Style.Triggers>
-					<Trigger Property="IsMouseOver" Value="True">
-						<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background.MouseOver}" />
-					</Trigger>
-					<Trigger Property="IsSelected" Value="True">
-						<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Text}"/>
-						<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background}" />
-					</Trigger>
-				</Style.Triggers>
-			</Style>
-			<Style x:Key="EvenRowStyle" TargetType="{x:Type DataGridRow}">
-				<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.SystemControlBackgroundAltHigh}"/>
-				<Style.Triggers>
-					<Trigger Property="IsMouseOver" Value="True">
-						<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background.MouseOver}" />
-					</Trigger>
-					<Trigger Property="IsSelected" Value="True">
-						<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Text}"/>
-						<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background}" />
-					</Trigger>
-				</Style.Triggers>
-			</Style>
-			
 			<conv:SearchToVisability x:Key="SearchToVisibilityConverter"/>
 			<conv:BoolVisabilityConverter x:Key="BoolToVisibilityConverter"/>
 			<ResourceDictionary.MergedDictionaries>
@@ -79,16 +54,38 @@
 
 			<ScrollViewer Grid.Row="1" Margin="{StaticResource DataGridMargin}" HorizontalScrollBarVisibility="Disabled" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
 				<DataGrid FontSize="16"
-						  Name="dataGrid"
-						  ItemsSource="{Binding ItemsSource}"
-						  SelectedIndex="{Binding SelectedIndex}"
-						  SelectedItem="{Binding SelectedItem}"
-						  AutoGenerateColumns="False"
-						  IsReadOnly="True"
-						  CanUserAddRows="False"
-						  CanUserDeleteRows="False"
-						  SelectionMode="Single">
-					
+								  x:Name="dataGrid"
+								  ItemsSource="{Binding ItemsSource}"
+								  SelectedIndex="{Binding SelectedIndex}"
+								  SelectedItem="{Binding SelectedItem}"
+								  AutoGenerateColumns="False"
+								  IsReadOnly="True"
+								  CanUserAddRows="False"
+								  CanUserDeleteRows="False"
+								  SelectionMode="Single">
+					<DataGrid.Style>
+						<Style TargetType="DataGrid" BasedOn="{StaticResource MahApps.Styles.DataGrid.Azure}">
+							<Setter Property="AlternatingRowBackground" Value="{DynamicResource MahApps.Brushes.Accent4}"/>
+						</Style>
+					</DataGrid.Style>
+					<DataGrid.RowStyle>
+						<Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MahApps.Styles.DataGridRow.Azure}">
+							<Style.Triggers>
+								<Trigger Property="IsMouseOver" Value="True">
+									<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background.MouseOver}" />
+								</Trigger>
+								<Trigger Property="IsSelected" Value="True">
+									<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Text}"/>
+									<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background}" />
+								</Trigger>
+							</Style.Triggers>
+						</Style>
+					</DataGrid.RowStyle>
+					<DataGrid.ColumnHeaderStyle>
+						<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MahApps.Styles.DataGridColumnHeader}">
+							<EventSetter Event="MouseDown" Handler="DataGridColumnHeader_MouseDown"/>
+						</Style>
+					</DataGrid.ColumnHeaderStyle>
 					<DataGrid.ItemContainerStyle>
 						<Style TargetType="{x:Type DataGridRow}" 
 							   BasedOn="{StaticResource MahApps.Styles.DataGridRow}">
