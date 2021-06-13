@@ -6,11 +6,13 @@
              xmlns:local="clr-namespace:AcademicSavingService.View"
              xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
 			 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+			 xmlns:conv="clr-namespace:AcademicSavingService.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1600">
 	<Grid Margin="10">
 		<Grid.Resources>
 			<ResourceDictionary>
+				<conv:DoubleGridLengthConverter x:Key="GridLengthConv"/>
 				<ResourceDictionary.MergedDictionaries>
 					<ResourceDictionary Source="../Resources/CRUDStyle.xaml"/>
 				</ResourceDictionary.MergedDictionaries>
@@ -19,37 +21,56 @@
 
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="65*"/>
-			<ColumnDefinition Width="25*" MaxWidth="350" MinWidth="150"/>
+			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="550" MinWidth="150"/>
 		</Grid.ColumnDefinitions>
 
+		<!-- HORIZONTAL GRID SPLITTER !!! -->
+		<GridSplitter Grid.Column="1" Background="{DynamicResource MahApps.Brushes.Accent4}" HorizontalAlignment="Left" Width="4" Margin="-2, 0, 0, 0"/>
+		
 		<!-- Saving account parts -->
-		<Grid Grid.Column="0">
+		<Grid Grid.Column="0" Margin="0, 0, 10, 0" >
 			<Grid.RowDefinitions>
 				<RowDefinition Height="70*"/>
-				<RowDefinition Height="30*" MaxHeight="220" MinHeight="200"/>
+				<RowDefinition Height="{Binding VerticleSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxHeight="520" MinHeight="200"/>
 			</Grid.RowDefinitions>
-
+			
+			<!-- VERTICLE GRID SPLITTER !!! -->
+			<GridSplitter Background="{DynamicResource MahApps.Brushes.Accent4}" VerticalAlignment="Bottom" Height="4" Margin="0, 0, -8, -2"/>
+			
 			<!-- Customer Data grid-->
-			<ctrl:AssDataGrid Margin="0, 0, 0, 20" 
+			<ctrl:AssDataGrid Margin="0, 0, 0, 10" 
 							  ItemsSource="{Binding SavingAccounts}" 
 							  EnableFullTextSearch="True" 
 							  DataGridName="SAVING ACCOUNTS"
 							  SelectedItem="{Binding SelectedAccount,  Mode=TwoWay}"
 							  SelectedIndex="{Binding SelectedAccountIndex}">
 				<ctrl:AssDataGrid.Columns>
-								<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}"/>
-								<DataGridTextColumn Width="100" Header="Owner ID" Binding="{Binding MaKH}"/>
-								<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='d/M/yyyy'}" TextBlock.TextAlignment="Center"/>
-								<DataGridTextColumn Width="120" Header="Close date" Binding="{Binding NgayDongSo, StringFormat='d/M/yyyy'}"/>
-								<DataGridTextColumn Width="120" Header="Last update" Binding="{Binding LanCapNhatCuoi, StringFormat='dd/MM/yyyy'}"/>
-								<DataGridTextColumn Width="80" Header="Period" Binding="{Binding KyHan}"/>
-								<DataGridTextColumn Width="140" Header="Interest Rate" Binding="{Binding LaiSuat, StringFormat='{}{0}%'}"/>
-								<DataGridTextColumn Width="*" Header="Balance" Binding="{Binding SoDu}"/>
+					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
+					<DataGridTextColumn Width="100" Header="Owner ID" Binding="{Binding MaKH}"/>
+					<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='d/M/yyyy'}" TextBlock.TextAlignment="Center"/>
+					<DataGridTextColumn Width="120" Header="Close date" Binding="{Binding NgayDongSo, StringFormat='d/M/yyyy'}"/>
+					<DataGridTextColumn Width="120" Header="Last update" Binding="{Binding LanCapNhatCuoi, StringFormat='dd/MM/yyyy'}"/>
+					<DataGridTextColumn Width="80" Header="Period" Binding="{Binding KyHan}"/>
+					<DataGridTextColumn Width="140" Header="Interest Rate" Binding="{Binding LaiSuat, StringFormat='{}{0}%'}" CellStyle="{StaticResource GreenKeyStyle}"/>
+					<DataGridTextColumn Width="*" Header="Balance" Binding="{Binding SoDu}">
+						<DataGridTextColumn.CellStyle>
+							<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
+								<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
+								<Setter Property="FontWeight" Value="Bold"/>
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding SoDu}" Value="0">
+										<Setter Property="Foreground" Value="{StaticResource ForegroundRed}" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</DataGridTextColumn.CellStyle>
+					</DataGridTextColumn>
 				</ctrl:AssDataGrid.Columns>
 			</ctrl:AssDataGrid>
 
 			<Border CornerRadius="5" Grid.Row="1"
-					Background="{DynamicResource MahApps.Brushes.AccentBase}">
+					Background="{DynamicResource MahApps.Brushes.AccentBase}"
+					Margin="0, 10, 0, 0">
 				<Grid Margin="{StaticResource PaddingWidth}">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="20*" MinWidth="50" MaxWidth="120"/>
@@ -133,13 +154,13 @@
 		</Grid>
 
 		<!-- Customer parts -->
-		<ctrl:AssDataGrid Grid.Column="1" Margin="20, 0, 0, 0" 
+		<ctrl:AssDataGrid Grid.Column="1" Margin="10, 0, 0, 0" 
 						  EnableFullTextSearch="True" 
 						  DataGridName="CUSTOMERS" 
 						  ItemsSource="{Binding Customers}"
 						  SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
 			<ctrl:AssDataGrid.Columns>
-				<DataGridTextColumn Header="ID" Binding="{Binding MaKH}"/>
+				<DataGridTextColumn Header="ID" Binding="{Binding MaKH}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 				<DataGridTextColumn Header="Identity Num" Binding="{Binding CMND}"/>
 				<DataGridTextColumn Header="Full Name" Width="*" Binding="{Binding HoTen}"/>
 			</ctrl:AssDataGrid.Columns>

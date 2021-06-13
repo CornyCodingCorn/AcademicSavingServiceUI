@@ -48,6 +48,7 @@ namespace AcademicSavingService.ViewModel
 				}
 			}
 		}
+
 		protected CustomerViewModel _selectedCustomer;
 		public CustomerViewModel SelectedCustomer 
 		{ 
@@ -112,6 +113,8 @@ namespace AcademicSavingService.ViewModel
 		public decimal InitialBalance { get; set; }
 		public int CustomerID { get; set; }
 
+		public double VerticleSplit { get; set; }
+		public double HorizontalSplit { get; set; }
 
 		protected RelayCommand<SavingAccountsManagerViewModel> _addCommand;
 		protected RelayCommand<SavingAccountsManagerViewModel> _deleteCommand;

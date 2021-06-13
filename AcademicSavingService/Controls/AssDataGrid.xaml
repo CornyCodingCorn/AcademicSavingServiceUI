@@ -53,7 +53,7 @@
 			</Grid>
 
 			<ScrollViewer Grid.Row="1" Margin="{StaticResource DataGridMargin}" HorizontalScrollBarVisibility="Disabled" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-				<DataGrid FontSize="16" Style="{DynamicResource MahApps.Styles.DataGrid.Azure}"
+				<DataGrid FontSize="16"
 						  Name="dataGrid"
 						  ItemsSource="{Binding ItemsSource}"
 						  SelectedIndex="{Binding SelectedIndex}"
@@ -63,6 +63,26 @@
 						  CanUserAddRows="False"
 						  CanUserDeleteRows="False"
 						  SelectionMode="Single">
+					<DataGrid.Style>
+						<Style BasedOn="{StaticResource MahApps.Styles.DataGrid.Azure}" TargetType="{x:Type DataGrid}">
+							<Setter Property="AlternatingRowBackground"
+                            Value="{DynamicResource MahApps.Brushes.Accent4}" />
+						</Style>
+					</DataGrid.Style>
+					<DataGrid.RowStyle>
+
+						<Style TargetType="{x:Type DataGridRow}">
+							<Style.Triggers>
+								<Trigger Property="IsMouseOver" Value="True">
+									<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background.MouseOver}" />
+								</Trigger>
+								<Trigger Property="IsSelected" Value="True">
+									<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Text}"/>
+									<Setter Property="Background" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background}" />
+								</Trigger>
+							</Style.Triggers>
+						</Style>
+					</DataGrid.RowStyle>
 					<DataGrid.ItemContainerStyle>
 						<Style TargetType="{x:Type DataGridRow}" 
 							   BasedOn="{StaticResource MahApps.Styles.DataGridRow}">

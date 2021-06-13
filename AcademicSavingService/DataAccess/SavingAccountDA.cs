@@ -31,7 +31,7 @@ namespace AcademicSavingService.DataAccess
 
         public SavingAccount CreateSavingAccount(SavingAccount account)
         {
-            string q = $"CALL ThemSoTietKiem({_MaKHVar}, {_KyHanVar}, {_SoTienBanDauVar}, {_NgayTaoVar})";
+            string q = $"CALL ThemSoTietKiemVaReturn({_MaKHVar}, {_KyHanVar}, {_SoTienBanDauVar}, {_NgayTaoVar})";
             cmd.CommandText = q;
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue(_MaKHVar, account.MaKH);
@@ -59,7 +59,7 @@ namespace AcademicSavingService.DataAccess
 
         public SavingAccount UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
         {
-            string q = $"CALL UpdateSoTietKiem({_MaSoVar}, {_NgayCanUpdateVar})";
+            string q = $"CALL UpdateSoTietKiemVaReturn({_MaSoVar}, {_NgayCanUpdateVar})";
             cmd.CommandText = q;
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue(_MaSoVar, MaSo);
