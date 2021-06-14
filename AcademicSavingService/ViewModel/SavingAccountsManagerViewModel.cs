@@ -6,6 +6,7 @@ using System;
 using AcademicSavingService.Controls;
 using System.Windows.Input;
 using AcademicSavingService.INPC;
+using MySql.Data.MySqlClient;
 
 namespace AcademicSavingService.ViewModel
 {
@@ -136,8 +137,6 @@ namespace AcademicSavingService.ViewModel
 		public double VerticleSplit { get; set; }
 		public double HorizontalSplit { get; set; }
 
-		#endregion
-
 		public SavingAccountsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
             SavingAccounts = SavingAccountContainer.Instance.Collection;
@@ -155,13 +154,21 @@ namespace AcademicSavingService.ViewModel
 
 		protected override void ExecuteAdd()
 		{
-			SavingAccountContainer.Instance.AddToCollection(new SavingAccountINPC{
-				MaKH = CustomerID,
-				KyHan = TermsList[SelectedTermIndex],
-				SoTienBanDau = InitialBalance,
-				NgayTao = CreateDate,
-				LaiSuat = InterestRate,
-			});
+			try
+			{
+				SavingAccountContainer.Instance.AddToCollection(new SavingAccountINPC
+				{
+					MaKH = CustomerID,
+					KyHan = TermsList[SelectedTermIndex],
+					SoTienBanDau = InitialBalance,
+					NgayTao = CreateDate,
+					LaiSuat = InterestRate,
+				});
+			}
+			catch (MySqlException e)
+			{
+
+			}
 		}
 		protected override bool CanExecuteAdd()
 		{
@@ -175,7 +182,14 @@ namespace AcademicSavingService.ViewModel
 
 		protected void UpdateAccount()
 		{
-			SavingAccountContainer.Instance.UpdateSavingAccountStateToNgayCanUpdate(SelectedAccount.MaSo, DateTime.Now);
+			try
+			{
+				SavingAccountContainer.Instance.UpdateSavingAccountStateToNgayCanUpdate(SelectedAccount.MaSo, DateTime.Now);
+			}
+			catch (MySqlException e)
+			{
+
+			}
 		}
 		protected bool CanUpdateAccount()
 		{
@@ -185,17 +199,16 @@ namespace AcademicSavingService.ViewModel
 				return true;
 		}
 
-		protected override void ExecuteInsertMode()
-		{
-			for (int i = 0; i < SavingAccounts.Count; i++)
-			{
-				SavingAccountContainer.Instance.UpdateSavingAccountStateToNgayCanUpdate(SavingAccounts[i].MaSo, DateTime.Now);
-			}
-		}
-
 		protected void UpdateAllAccounts()
 		{
-			SavingAccountViewModel.CallUpdateAllAccounts(DateTime.Now);
+			try
+			{
+				SavingAccountContainer.Instance.UpdateALLSavingAccountStateToNgayCanUpdate(DateTime.Now);
+			}
+			catch(MySqlException e)
+			{
+
+			}
 		}
 		protected bool CanUpdateAllAccounts()
 		{
@@ -204,9 +217,16 @@ namespace AcademicSavingService.ViewModel
 
 		protected override void ExecuteDelete()
 		{
-			int index = SelectedAccountIndex;
-			SavingAccountContainer.Instance.DeleteFromCollectionByDefaultKey(ID);
-			SelectedTermIndex = index;
+			try
+			{
+				int index = SelectedAccountIndex;
+				SavingAccountContainer.Instance.DeleteFromCollectionByDefaultKey(ID);
+				SelectedTermIndex = index;
+			}
+			catch(MySqlException e)
+			{
+
+			}
 		}
 		protected override bool CanExecuteDelete()
 		{

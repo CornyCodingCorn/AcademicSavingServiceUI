@@ -20,7 +20,7 @@ namespace AcademicSavingService.DataAccess
             return new ObservableCollection<SavingAccountINPC>(collection);
         }
 
-        public void UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
+        public SavingAccountINPC UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
         {
             string q = $"CALL UpdateSoTietKiemVaReturn({_MaSoVar}, {_NgayCanUpdateVar})";
             cmd.CommandText = q;
@@ -28,9 +28,16 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_MaSoVar, MaSo);
             cmd.Parameters.AddWithValue(_NgayCanUpdateVar, NgayCanUpdate);
 
+            var rValue = new SavingAccountINPC();
             BaseDBConnection.OpenConnection();
-            cmd.ExecuteNonQuery();
+            var result = cmd.ExecuteReader();
+            if (result.Read())
+			{
+                rValue.SoDu = result.GetDecimal("SoDu");
+			}
             BaseDBConnection.CloseConnection();
+
+            return rValue;
         }
 
         public override void Create(SavingAccountINPC savingAccount)

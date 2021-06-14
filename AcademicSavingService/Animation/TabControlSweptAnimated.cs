@@ -14,7 +14,7 @@ namespace AcademicSavingService.Animation
 {
 	public class TabControlSweptAnimated : TabControl
 	{
-		public static readonly DependencyProperty AnimationDurationProperty = DependencyProperty.Register("AnimationDuration", typeof(double), typeof(TabControlSweptAnimated), new PropertyMetadata(0.6));
+		public static readonly DependencyProperty AnimationDurationProperty = DependencyProperty.Register("AnimationDuration", typeof(double), typeof(TabControlSweptAnimated), new PropertyMetadata(0.8));
 		public double AnimationDuration
 		{ 
 			get { return (double)GetValue(AnimationDurationProperty); }
@@ -65,13 +65,13 @@ namespace AcademicSavingService.Animation
 				return;
 
 			var animOut = SweptAnimation.CreateAnim(
-				AnimationDuration / 2,
+				AnimationDuration / 4,
 				new Thickness(oldMargin.Left, 0, oldMargin.Right, 0),
 				new Thickness(oldMargin.Left + content.ActualWidth, 0, oldMargin.Right - content.ActualWidth, 0), 
 				AnimationDeceleration
 			);
 			var animIn = SweptAnimation.CreateAnim(
-				AnimationDuration / 2,
+				AnimationDuration / 4 * 3,
 				new Thickness(oldMargin.Left - content.ActualWidth, 0, oldMargin.Right + content.ActualWidth, 0),
 				new Thickness(oldMargin.Left, 0, oldMargin.Right, 0),
 				AnimationDeceleration

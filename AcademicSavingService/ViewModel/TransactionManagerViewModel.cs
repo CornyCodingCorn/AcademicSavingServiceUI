@@ -63,7 +63,6 @@ namespace AcademicSavingService.ViewModel
 				_selectedSlip = value;
 
 				ID = _selectedSlip.MaPhieu;
-				CustomerID = _selectedSlip.MaKH;
 				CreateDate = _selectedSlip.NgayTao;
 				Amount = _selectedSlip.SoTien;
 				Note = _selectedSlip.GhiChu;
