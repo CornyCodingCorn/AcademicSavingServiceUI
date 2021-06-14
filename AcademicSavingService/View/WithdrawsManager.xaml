@@ -6,11 +6,14 @@
              xmlns:local="clr-namespace:AcademicSavingService.View"
 			 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
 			 xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
+			 xmlns:conv="clr-namespace:AcademicSavingService.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1600">
-    <Grid Margin="10">
+	
+	<Grid Margin="10">
 		<Grid.Resources>
 			<ResourceDictionary>
+				<conv:DoubleGridLengthConverter x:Key="GridLengthConv"/>
 				<ResourceDictionary.MergedDictionaries>
 					<ResourceDictionary Source="../Resources/CRUDStyle.xaml"/>
 				</ResourceDictionary.MergedDictionaries>
@@ -18,39 +21,51 @@
 		</Grid.Resources>
 
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="3*"/>
-			<ColumnDefinition Width="2*" MaxWidth="450" MinWidth="200"/>
+			<ColumnDefinition Width="65*"/>
+			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="600" MinWidth="350"/>
 		</Grid.ColumnDefinitions>
 
-		<Grid>
+		<!-- HORIZONTAL GRID SPLITTER !!! -->
+		<GridSplitter Grid.Column="1" Background="{DynamicResource MahApps.Brushes.Accent4}" HorizontalAlignment="Left" Width="4" Margin="-2, 0, 0, 0"/>
+
+		<!-- Saving account parts -->
+		<Grid Grid.Column="0" Margin="0, 0, 10, 0" >
 			<Grid.RowDefinitions>
 				<RowDefinition Height="70*"/>
-				<RowDefinition Height="30*" MaxHeight="220" MinHeight="200"/>
+				<RowDefinition Height="{Binding VerticleSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxHeight="520" MinHeight="200"/>
 			</Grid.RowDefinitions>
 
-			<ctrl:AssDataGrid Margin="0,0,0,20" EnableFullTextSearch="True" x:Name="asd" ItemsSource="{Binding Tests}" DataGridName="WITHDRAW SLIPS">
+			<!-- VERTICLE GRID SPLITTER !!! -->
+			<GridSplitter Background="{DynamicResource MahApps.Brushes.Accent4}" VerticalAlignment="Bottom" Height="4" Margin="0, 0, -8, -2"/>
+
+			<!-- Customer Data grid-->
+			<ctrl:AssDataGrid Margin="0, 0, 0, 10" 
+							  ItemsSource="{Binding Slips}" 
+							  EnableFullTextSearch="True" 
+							  DataGridName="WITHDRAW SLIPS"
+							  SelectedItem="{Binding SelectedSlip,  Mode=TwoWay}"
+							  SelectedIndex="{Binding SelectedSlipIndex, Mode=TwoWay}"
+							  IsEnabled="{Binding IsReadOnly}">
 				<ctrl:AssDataGrid.Columns>
-					<DataGridTextColumn Header="ID" Binding="{Binding shit}"/>
-					<DataGridTextColumn Header="Saving Account"/>
-					<DataGridTextColumn Header="Customer"/>
-					<DataGridTextColumn Header="Employee"/>
-					<DataGridTextColumn Header="Money"/>
-					<DataGridTextColumn Header="Note" Width="*"/>
+					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaPhieu}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
+					<DataGridTextColumn Width="100" Header="Account ID" Binding="{Binding MaSo}"/>
+					<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='dd/MM/yyyy'}" TextBlock.TextAlignment="Center"/>
+					<DataGridTextColumn Width="120" Header="Amount" Binding="{Binding SoTien}">
+						<DataGridTextColumn.CellStyle>
+							<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
+								<Setter Property="Foreground" Value="{StaticResource ForegroundRed}"/>
+								<Setter Property="FontWeight" Value="Bold"/>
+							</Style>
+						</DataGridTextColumn.CellStyle>
+					</DataGridTextColumn>
+					<DataGridTextColumn Width="*" Header="Note" Binding="{Binding GhiChu}"/>
 				</ctrl:AssDataGrid.Columns>
 			</ctrl:AssDataGrid>
 
-			<Border CornerRadius="5" Grid.Row="1"
-					Background="{DynamicResource MahApps.Brushes.AccentBase}">
-				<Grid Margin="{StaticResource PaddingWidth}">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="20*" MinWidth="50" MaxWidth="120"/>
-						<ColumnDefinition Width="80*"/>
-					</Grid.ColumnDefinitions>
-
-					<Grid Grid.Column="0">
+			<ctrl:AssCRUDPanel Grid.Row="1">
+				<ctrl:AssCRUDPanel.Left>
+					<Grid>
 						<Grid.RowDefinitions>
-							<RowDefinition Height="*"/>
-							<RowDefinition Height="*"/>
 							<RowDefinition Height="*"/>
 							<RowDefinition Height="*"/>
 						</Grid.RowDefinitions>
@@ -63,24 +78,21 @@
 								<Setter Property="FontWeight" Value="Bold"/>
 							</Style>
 						</Grid.Resources>
-						<Button Grid.Row="0" Margin="0, 2, 0, 2" Content="ADD"/>
-						<Button Grid.Row="1" Margin="0, 2, 0, 2" Content="REMOVE"/>
-						<Button Grid.Row="2" Margin="0, 2, 0, 2" Content="UPDATE"/>
-						<Button Grid.Row="3" Margin="0, 2, 0, 2" Content="UPDATE ALL"/>
-					</Grid>
 
-					<Grid Grid.Column="1">
+						<Button Grid.Row="0" Margin="0, 2, 0, 2" Command="{Binding DeleteCommand}" Content="REMOVE"/>
+						<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding UpdateCommand}" Content="UPDATE"/>
+					</Grid>
+				</ctrl:AssCRUDPanel.Left>
+				<ctrl:AssCRUDPanel.Middle>
+					<Grid>
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*"/>
-							<ColumnDefinition Width="60*" MaxWidth="650" MinWidth="400"/>
-							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="50*" MaxWidth="400" MinWidth="200"/>
+							<ColumnDefinition Width="70*"/>
 						</Grid.ColumnDefinitions>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="0">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="110"/>
-								<ColumnDefinition Width="40*"/>
-								<ColumnDefinition Width="110"/>
-								<ColumnDefinition Width="60*"/>
+								<ColumnDefinition Width="50*" MaxWidth="130"/>
+								<ColumnDefinition Width="80*"/>
 							</Grid.ColumnDefinitions>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="*"/>
@@ -90,49 +102,57 @@
 							</Grid.RowDefinitions>
 
 							<TextBlock Text="ID"			Grid.Column="0" Grid.Row="0"/>
-							<TextBlock Text="Owner ID"		Grid.Column="0" Grid.Row="1"/>
-							<TextBlock Text="Close date"	Grid.Column="0" Grid.Row="2"/>
-							<TextBlock Text="Update date"	Grid.Column="0" Grid.Row="3"/>
-							<TextBlock Text="Create date"	Grid.Column="2" Grid.Row="0"/>
-							<TextBlock Text="Balance"		Grid.Column="2" Grid.Row="1"/>
-							<TextBlock Text="Period"		Grid.Column="2" Grid.Row="2"/>
-							<TextBlock Text="Interest rate" Grid.Column="2" Grid.Row="3"/>
+							<TextBlock Text="Account ID"	Grid.Column="0" Grid.Row="1"/>
+							<TextBlock Text="Create date"	Grid.Column="0" Grid.Row="2"/>
+							<TextBlock Text="Amount"		Grid.Column="0" Grid.Row="3"/>
 
-							<TextBox	Grid.Column="1" Grid.Row="0" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID number"/>
-							<TextBox	Grid.Column="1" Grid.Row="1" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Owner ID"/>
-							<TextBox	Grid.Column="1" Grid.Row="2" Width="120" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Close date"/>
-							<TextBox	Grid.Column="1" Grid.Row="3" Width="120" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Update date"/>
-							<DatePicker Grid.Column="3" Grid.Row="0" Width="120" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"/>
-							<TextBox	Grid.Column="3" Grid.Row="1" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Balance" mah:TextBoxHelper.ClearTextButton="True"/>
-							<ComboBox	Grid.Column="3" Grid.Row="2" Width="80"  HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Period"/>
-							<TextBox	Grid.Column="3" Grid.Row="3" Width="80"  IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate"/>
+							<TextBox			Grid.Column="1" Grid.Row="0" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID number" Text="{Binding ID}"/>
+							<TextBox			Grid.Column="1" Grid.Row="1" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Account ID" Text="{Binding AccountID}"/>
+							<DatePicker			Grid.Column="1" Grid.Row="2" Width="180" IsEnabled="{Binding IsInsertMode}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"  SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged}"/>
+							<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="3" Width="180" IsReadOnly="{Binding IsReadOnly}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" Text="{Binding Amount}"/>
+						</Grid>
+
+						<Grid Grid.Column="1" Margin="0, 0, 30, 4">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="30"/>
+								<RowDefinition Height="3*"/>
+							</Grid.RowDefinitions>
+							<TextBlock Grid.Row="0" Text="Note"/>
+							<TextBox Grid.Row="1" 
+									 VerticalAlignment="Stretch" 
+									 HorizontalAlignment="Stretch" 
+									 Width="Auto" Height="Auto" 
+									 AllowDrop="True" 
+									 TextWrapping="Wrap" 
+									 AcceptsReturn="True" 
+									 VerticalScrollBarVisibility="Visible"
+									 Text="{Binding Note}"/>
 						</Grid>
 					</Grid>
-				</Grid>
-			</Border>
+				</ctrl:AssCRUDPanel.Middle>
+			</ctrl:AssCRUDPanel>
 		</Grid>
 
-		<Grid Grid.Column="1" Margin="20, 0, 0, 0">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*"/>
-				<RowDefinition Height="*"/>
-			</Grid.RowDefinitions>
-
-			<ctrl:AssDataGrid Grid.Row="0" Margin="0, 0, 0 10" DataGridName="CUSTOMERS" EnableFullTextSearch="True">
-				<ctrl:AssDataGrid.Columns>
-					<DataGridTextColumn Header="ID"/>
-					<DataGridTextColumn Header="Identity num"/>
-					<DataGridTextColumn Header="Full Name" Width="*"/>
-				</ctrl:AssDataGrid.Columns>
-			</ctrl:AssDataGrid>
-
-			<ctrl:AssDataGrid Grid.Row="1" Margin="0, 10, 0, 0" DataGridName="SAVING ACCOUNTS" EnableFullTextSearch="True">
-				<ctrl:AssDataGrid.Columns>
-					<DataGridTextColumn Header="ID"/>
-					<DataGridTextColumn Header="Owner"/>
-					<DataGridTextColumn Header="Balance" Width="*"/>
-				</ctrl:AssDataGrid.Columns>
-			</ctrl:AssDataGrid>
-		</Grid>
+		<!-- Customer parts -->
+		<ctrl:AssDataGrid Grid.Column="1" Margin="10, 0, 0, 0" 
+						  EnableFullTextSearch="True" 
+						  DataGridName="ACCOUNTS" 
+						  SelectedIndex="{Binding SelectedAccountIndex}"
+						  ItemsSource="{Binding SavingAccounts}"
+						  SelectedItem="{Binding SelectedAccount, Mode=TwoWay}">
+			<ctrl:AssDataGrid.Columns>
+				<DataGridTextColumn Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
+				<DataGridTextColumn Header="Owner ID" Binding="{Binding MaKH}"/>
+				<DataGridTextColumn Header="Balance" Binding="{Binding SoDu}">
+					<DataGridTextColumn.CellStyle>
+						<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
+							<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
+							<Setter Property="FontWeight" Value="Bold"/>
+						</Style>
+					</DataGridTextColumn.CellStyle>
+				</DataGridTextColumn>
+				<DataGridTextColumn Header="Update Date" Width="*" Binding="{Binding LanCapNhatCuoi, StringFormat='dd/MM/yyyy'}"/>
+			</ctrl:AssDataGrid.Columns>
+		</ctrl:AssDataGrid>
 	</Grid>
 </UserControl>
