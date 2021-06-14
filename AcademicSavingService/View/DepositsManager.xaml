@@ -41,11 +41,11 @@
 
 			<!-- Customer Data grid-->
 			<ctrl:AssDataGrid Margin="0, 0, 0, 10" 
-							  ItemsSource="{Binding SavingAccounts}" 
+							  ItemsSource="{Binding Slips}" 
 							  EnableFullTextSearch="True" 
 							  DataGridName="DEPOSIT SLIPS"
-							  SelectedItem="{Binding SelectedAccount,  Mode=TwoWay}"
-							  SelectedIndex="{Binding SelectedAccountIndex}">
+							  SelectedItem="{Binding SelectedSlip,  Mode=TwoWay}"
+							  SelectedIndex="{Binding SelectedSlipIndex}">
 				<ctrl:AssDataGrid.Columns>
 					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 					<DataGridTextColumn Width="100" Header="Account ID" Binding="{Binding MaKH}"/>
@@ -164,12 +164,13 @@
 		<ctrl:AssDataGrid Grid.Column="1" Margin="10, 0, 0, 0" 
 						  EnableFullTextSearch="True" 
 						  DataGridName="ACCOUNTS" 
-						  ItemsSource="{Binding Customers}"
-						  SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
+						  SelectedIndex="{Binding SelectedAccountIndex}"
+						  ItemsSource="{Binding SavingAccounts}"
+						  SelectedItem="{Binding SelectedAccount, Mode=TwoWay}">
 			<ctrl:AssDataGrid.Columns>
-				<DataGridTextColumn Header="ID" Binding="{Binding MaKH}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
-				<DataGridTextColumn Header="Owner ID" Binding="{Binding CMND}"/>
-				<DataGridTextColumn Header="Balance" Binding="{Binding HoTen}">
+				<DataGridTextColumn Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
+				<DataGridTextColumn Header="Owner ID" Binding="{Binding MaKH}"/>
+				<DataGridTextColumn Header="Balance" Binding="{Binding SoDu}">
 					<DataGridTextColumn.CellStyle>
 						<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 							<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
@@ -177,7 +178,7 @@
 						</Style>
 					</DataGridTextColumn.CellStyle>
 				</DataGridTextColumn>
-				<DataGridTextColumn Header="UpdateDate" Width="*" Binding="{Binding HoTen}"/>
+				<DataGridTextColumn Header="Update Date" Width="*" Binding="{Binding LanCapNhatCuoi}"/>
 			</ctrl:AssDataGrid.Columns>
 		</ctrl:AssDataGrid>
 	</Grid>

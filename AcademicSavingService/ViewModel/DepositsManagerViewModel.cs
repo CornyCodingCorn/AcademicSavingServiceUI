@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AcademicSavingService.Containers;
 
 namespace AcademicSavingService.ViewModel
 {
 	class DepositsManagerViewModel : TransactionManagerViewModel
 	{
 		public DepositsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
-		{}
+		{
+			Slips = DepositSlipContainer.Instance.Collection;
+		}
 	}
 }

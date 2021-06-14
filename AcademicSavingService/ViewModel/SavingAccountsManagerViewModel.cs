@@ -167,7 +167,7 @@ namespace AcademicSavingService.ViewModel
 			}
 			catch (MySqlException e)
 			{
-
+				ShowErrorMessage(e);
 			}
 		}
 		protected override bool CanExecuteAdd()
@@ -188,7 +188,7 @@ namespace AcademicSavingService.ViewModel
 			}
 			catch (MySqlException e)
 			{
-
+				ShowErrorMessage(e);
 			}
 		}
 		protected bool CanUpdateAccount()
@@ -207,7 +207,7 @@ namespace AcademicSavingService.ViewModel
 			}
 			catch(MySqlException e)
 			{
-
+				ShowErrorMessage(e);
 			}
 		}
 		protected bool CanUpdateAllAccounts()
@@ -225,7 +225,7 @@ namespace AcademicSavingService.ViewModel
 			}
 			catch(MySqlException e)
 			{
-
+				ShowErrorMessage(e);
 			}
 		}
 		protected override bool CanExecuteDelete()
@@ -255,6 +255,25 @@ namespace AcademicSavingService.ViewModel
 			CloseDate = null;
 			LastUpdateDate = null;
 			SelectedTermIndex = 1;
+		}
+
+		protected override void ShowErrorMessage(MySqlException exception)
+		{
+			string endMessage;
+			switch (exception.Number)
+			{
+				case UserDefinedErrorNumber:
+					endMessage = TranslateImplementedMessage(exception.Message);
+					break;
+				case CantUpdateOrDeleteCauseOfConstraintErrorNumber:
+					endMessage = "There is a slip exists that connected to this saving account";
+					break;
+				default:
+					endMessage = exception.Message;
+					break;
+			}
+
+			ShowMessage("Warning!", endMessage);
 		}
 
 		#endregion
