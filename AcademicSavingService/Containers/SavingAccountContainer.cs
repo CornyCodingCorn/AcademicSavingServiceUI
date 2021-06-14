@@ -44,8 +44,7 @@ namespace AcademicSavingService.Containers
         }
 
         private SavingAccountDA _accountDA = new();
-        private readonly SavingAccountContainer _instance = new();
-
-        public SavingAccountContainer Instance => _instance;
+        private static readonly SavingAccountContainer _instance = new();
+        public static SavingAccountContainer Instance => _instance;
     }
 }

@@ -63,8 +63,7 @@ namespace AcademicSavingService.Containers
         }
 
         private CustomerDA _customerDA = new();
-        private readonly CustomerContainer _instance = new();
-
-        public CustomerContainer Instance => _instance;
+        private static readonly CustomerContainer _instance = new();
+        public static CustomerContainer Instance => _instance;
     }
 }

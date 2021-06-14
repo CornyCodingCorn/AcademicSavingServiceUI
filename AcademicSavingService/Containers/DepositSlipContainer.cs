@@ -9,8 +9,7 @@ namespace AcademicSavingService.Containers
             _slipDA = new DepositSlipDA();
         }
 
-        private readonly DepositSlipContainer _instance = new();
-
-        public DepositSlipContainer Instance => _instance;
+        private static readonly DepositSlipContainer _instance = new();
+        public static DepositSlipContainer Instance => _instance;
     }
 }

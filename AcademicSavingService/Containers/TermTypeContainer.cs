@@ -50,8 +50,7 @@ namespace AcademicSavingService.Containers
         }
 
         private TermTypeDA _termDA = new();
-        private readonly TermTypeContainer _instance = new();
-
-        public TermTypeContainer Instance => _instance;
+        private static readonly TermTypeContainer _instance = new();
+        public static TermTypeContainer Instance => _instance;
     }
 }

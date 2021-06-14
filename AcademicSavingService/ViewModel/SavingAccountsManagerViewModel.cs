@@ -1,22 +1,23 @@
 ﻿using System.Collections.ObjectModel;
-using AcademicSavingService.InpcContainers;
+using AcademicSavingService.Containers;
 using AcademicSavingService.Commands;
 using PropertyChanged;
 using System;
 using AcademicSavingService.Controls;
 using System.Windows.Input;
+using AcademicSavingService.INPC;
 
 namespace AcademicSavingService.ViewModel
 {
 	[AddINotifyPropertyChangedInterface]
 	class SavingAccountsManagerViewModel : TabItemViewModel
 	{
-		public ObservableCollection<SavingAccountViewModel> SavingAccounts { get; set; }
-		public ObservableCollection<CustomerViewModel> Customers { get; set; }
+		public ObservableCollection<SavingAccountINPC> SavingAccounts { get; set; }
+		public ObservableCollection<CustomerINPC> Customers { get; set; }
 
 		public int SelectedAccountIndex { get; set; }
-		protected SavingAccountViewModel _selectedAccount;
-		public SavingAccountViewModel SelectedAccount 
+		protected SavingAccountINPC _selectedAccount;
+		public SavingAccountINPC SelectedAccount 
 		{ 
 			get { return _selectedAccount; }
 			set
@@ -64,8 +65,8 @@ namespace AcademicSavingService.ViewModel
 			}
 		}
 
-		protected CustomerViewModel _selectedCustomer;
-		public CustomerViewModel SelectedCustomer 
+		protected CustomerINPC _selectedCustomer;
+		public CustomerINPC SelectedCustomer 
 		{ 
 			get { return _selectedCustomer; }
 			set
@@ -116,7 +117,7 @@ namespace AcademicSavingService.ViewModel
 					SelectedTermIndex = -1;
 					InterestRate = 0;
 
-					var tempContainer = TermTypeViewModel.GetTermWithDate(value);
+					var tempContainer = TermTypeContainer.Instance.GetClosestTermAndInterestToDate(value);
 					foreach (var item in tempContainer)
 					{
 						TermsList.Add(item.Key);
@@ -147,14 +148,14 @@ namespace AcademicSavingService.ViewModel
 
 		public SavingAccountsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
-            SavingAccounts = SavingAccountViewModel.Container;
-			Customers = CustomerViewModel.Container;
+            SavingAccounts = SavingAccountContainer.Instance.Collection;
+			Customers = CustomerContainer.Instance.Collection;
 			CreateDate = DateTime.Now;
 		}
 
 		public void CreateAccount()
 		{
-			SavingAccountViewModel.CreateAccount(new SavingAccountViewModel{
+			SavingAccountContainer.Instance.AddToCollection(new SavingAccountINPC{
 				MaKH = CustomerID,
 				KyHan = TermsList[SelectedTermIndex],
 				SoTienBanDau = InitialBalance,
@@ -176,7 +177,7 @@ namespace AcademicSavingService.ViewModel
 
 		public void UpdateAccount()
 		{
-			SavingAccountViewModel.CallUpdateOneAccount(SelectedAccount.MaSo, DateTime.Now);
+			SavingAccountContainer.Instance.UpdateSavingAccountStateToNgayCanUpdate(SelectedAccount.MaSo, DateTime.Now);
 		}
 
 		public bool CanUpdateAccount()
@@ -189,7 +190,10 @@ namespace AcademicSavingService.ViewModel
 
 		public void UpdateAllAccounts()
 		{
-			SavingAccountViewModel.CallUpdateAllAccounts(DateTime.Now);
+			for (int i = 0; i < SavingAccounts.Count; i++)
+			{
+				SavingAccountContainer.Instance.UpdateSavingAccountStateToNgayCanUpdate(SavingAccounts[i].MaSo, DateTime.Now);
+			}
 		}
 
 		public bool CanUpdateAllAccounts()
@@ -200,7 +204,7 @@ namespace AcademicSavingService.ViewModel
 		public void DeleteAccount()
 		{
 			int index = SelectedAccountIndex;
-			SavingAccountViewModel.DeleteAccount(ID);
+			SavingAccountContainer.Instance.DeleteFromCollectionByDefaultKey(ID);
 			SelectedTermIndex = index;
 		}
 

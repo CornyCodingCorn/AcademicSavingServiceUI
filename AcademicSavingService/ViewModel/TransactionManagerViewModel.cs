@@ -1,4 +1,5 @@
-﻿using AcademicSavingService.InpcContainers;
+﻿using AcademicSavingService.Containers;
+using AcademicSavingService.INPC;
 using PropertyChanged;
 using System.Collections.ObjectModel;
 
@@ -12,18 +13,16 @@ namespace AcademicSavingService.ViewModel
 				
 		}
 
-		public ObservableCollection<CustomerViewModel> Customers { get; set; } = new ObservableCollection<CustomerViewModel>();
-
 		#region Insert fields
 		public int ID { get; set; }
 		public int CustomerID { get; set; }
 		#endregion
 
 		#region Accounts
-		public ObservableCollection<SavingAccountViewModel> SavingAccounts { get; set; }
+		public ObservableCollection<SavingAccountINPC> SavingAccounts { get; set; }
 
-		protected SavingAccountViewModel _selectedAccount;
-		public SavingAccountViewModel SelectedAccount
+		protected SavingAccountINPC _selectedAccount;
+		public SavingAccountINPC SelectedAccount
 		{
 			get
 			{
@@ -38,10 +37,10 @@ namespace AcademicSavingService.ViewModel
 		#endregion
 
 		#region Slips
-		public ObservableCollection<TransactionSlipViewModel> Slips { get; set; }
+		public ObservableCollection<TransactionSlipINPC> Slips { get; set; }
 
-		protected TransactionSlipViewModel _selectedSlip;
-		public TransactionSlipViewModel SelectedSlip
+		protected TransactionSlipINPC _selectedSlip;
+		public TransactionSlipINPC SelectedSlip
 		{
 			get
 			{
@@ -57,7 +56,5 @@ namespace AcademicSavingService.ViewModel
 
 		public int SelectedAccountIndex { get; set; }
 		public int SelectedSlipIndex { get; set; }
-
-
 	}
 }

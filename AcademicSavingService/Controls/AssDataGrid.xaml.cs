@@ -157,7 +157,6 @@ namespace AcademicSavingService.Controls
 
 			task = Task.Run(() =>
 			{
-				int counter = 0;
 				for (int i = 0; i < size; i++)
 				{
 					dataGrid.Dispatcher.Invoke(() =>

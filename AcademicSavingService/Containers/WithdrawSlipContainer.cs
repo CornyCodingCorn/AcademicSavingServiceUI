@@ -9,8 +9,7 @@ namespace AcademicSavingService.Containers
 			_slipDA = new WithdrawSlipDA();
         }
 
-		private readonly WithdrawSlipContainer _instance = new();
-
-		public WithdrawSlipContainer Instance => _instance;
+		private static readonly WithdrawSlipContainer _instance = new();
+		public static WithdrawSlipContainer Instance => _instance;
 	}
 }
