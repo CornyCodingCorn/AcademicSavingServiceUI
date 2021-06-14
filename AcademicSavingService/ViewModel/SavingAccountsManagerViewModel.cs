@@ -189,7 +189,7 @@ namespace AcademicSavingService.ViewModel
 		}
 		protected override bool CanExecuteAdd()
 		{
-			if (CreateDate.Year < 1800 || SelectedTermIndex < 0 || IsReadOnly)
+			if (CreateDate.Year < 1800 || SelectedTermIndex < 0 || IsReadOnly || InitialBalance == 0)
 			{
 				return false;
 			}

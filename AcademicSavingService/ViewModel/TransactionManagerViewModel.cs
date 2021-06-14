@@ -138,7 +138,7 @@ namespace AcademicSavingService.ViewModel
 		#region Can Execute
 		protected override bool CanExecuteAdd()
 		{
-			return IsInsertMode;
+			return IsInsertMode && SelectedAccount.SoDu > 0 && Amount > 0;
 		}
 		protected override bool CanExecuteClear()
 		{
@@ -168,6 +168,12 @@ namespace AcademicSavingService.ViewModel
 			}
 
 			ShowMessage("Warning!", endMessage);
+		}
+
+		protected override void ClearAllField()
+		{
+			Amount = 0;
+			CreateDate = DateTime.Now;
 		}
 	}
 }

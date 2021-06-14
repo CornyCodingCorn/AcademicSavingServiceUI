@@ -49,7 +49,7 @@
 		<Setter Property="FontSize" Value="{StaticResource CRUDFontSize}"/>
 		<Style.Triggers>
 			<DataTrigger Binding="{Binding IsInsertMode}" Value="True">
-				<Setter Property="Foreground" Value="{StaticResource ForegroundYellow}"/>
+				<Setter Property="Foreground" Value="{DynamicResource ForegroundYellow}"/>
 			</DataTrigger>
 		</Style.Triggers>
 	</Style>
