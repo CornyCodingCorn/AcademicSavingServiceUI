@@ -39,6 +39,11 @@ namespace AcademicSavingService.Containers
             return collection;
         }
 
+        public override int GetNextAutoID()
+        {
+            return _slipDA.GetNextAutoID();
+        }
+
         protected TransactionSlipDA _slipDA;
     }
 }

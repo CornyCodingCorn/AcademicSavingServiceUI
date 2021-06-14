@@ -44,6 +44,11 @@ namespace AcademicSavingService.Containers
             return collection;
         }
 
+        public override int GetNextAutoID()
+        {
+            return _termDA.GetNextAutoID();
+        }
+
         private TermTypeContainer()
         {
             Collection = _termDA.GetAll();

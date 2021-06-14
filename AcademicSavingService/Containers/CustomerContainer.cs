@@ -26,6 +26,11 @@ namespace AcademicSavingService.Containers
             return collection;
         }
 
+        public override int GetNextAutoID()
+        {
+            return _customerDA.GetNextAutoID();
+        }
+
         public ObservableCollection<CustomerINPC> GetFromCollectionByHoTen(string HoTen)
         {
             return new ObservableCollection<CustomerINPC>(Collection.Where(item => item.HoTen == HoTen));

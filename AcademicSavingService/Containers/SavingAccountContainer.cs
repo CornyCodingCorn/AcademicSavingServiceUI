@@ -54,6 +54,11 @@ namespace AcademicSavingService.Containers
             return collection;
         }
 
+        public override int GetNextAutoID()
+        {
+            return _accountDA.GetNextAutoID();
+        }
+
         private SavingAccountContainer()
         {
             Collection = _accountDA.GetAll();

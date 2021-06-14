@@ -240,6 +240,7 @@ namespace AcademicSavingService.ViewModel
 		{
 			ClearAllField();
 		}
+
 		protected override bool CanExecuteClear()
 		{
 			return IsInsertMode;
@@ -247,6 +248,7 @@ namespace AcademicSavingService.ViewModel
 
 		protected override void ClearAllField()
 		{
+			ID = SavingAccountContainer.Instance.GetNextAutoID();
 			CreateDate = DateTime.Now;
 			Balance = 0;
 			InitialBalance = 0;

@@ -9,5 +9,6 @@ namespace AcademicSavingService.Containers
         public abstract void AddToCollection(T item);
         public abstract void DeleteFromCollectionByDefaultKey(t field);
         public abstract ObservableCollection<T> GetFromCollectionByDefaultKey(t field);
+        public abstract int GetNextAutoID();
     }
 }

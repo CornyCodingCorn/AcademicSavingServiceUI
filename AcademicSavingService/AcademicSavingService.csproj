@@ -19,4 +19,8 @@
     <PackageReference Include="SqlKata.Execution" Version="2.3.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+
 </Project>
