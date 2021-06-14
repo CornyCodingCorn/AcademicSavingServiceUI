@@ -8,11 +8,11 @@ using System.Windows.Input;
 namespace AcademicSavingService.ViewModel
 {
 	[AddINotifyPropertyChangedInterface]
-	class TransactionManagerViewModel : CRUBPanel
+	abstract class TransactionManagerViewModel : CRUBPanel
 	{
 		public TransactionManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
-				
+			SavingAccounts = SavingAccountContainer.Instance.Collection;
 		}
 
 		#region Insert fields
@@ -21,7 +21,6 @@ namespace AcademicSavingService.ViewModel
 		public DateTime CreateDate { get; set; }
 		public decimal Amount { get; set; }
 		public string Note { get; set; }
-
 
 		public int AccountID { get; set; }
 		public int OwnerID { get; set; }

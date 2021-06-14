@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System;
 using SqlKata.Execution;
 using SqlKata.Compilers;
+using MySql.Data.MySqlClient;
 
 namespace AcademicSavingService.DataAccess
 {
@@ -27,15 +28,26 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue(_MaSoVar, MaSo);
             cmd.Parameters.AddWithValue(_NgayCanUpdateVar, NgayCanUpdate);
+            SavingAccountINPC rValue;
 
-            var rValue = new SavingAccountINPC();
-            BaseDBConnection.OpenConnection();
-            var result = cmd.ExecuteReader();
-            if (result.Read())
+            try
 			{
-                rValue.SoDu = result.GetDecimal("SoDu");
+                rValue = new SavingAccountINPC();
+                BaseDBConnection.OpenConnection();
+                var result = cmd.ExecuteReader();
+                if (result.Read())
+                {
+                    rValue.SoDu = result.GetDecimal("SoDu");
+                }
+            }
+            catch(MySqlException)
+			{
+                throw;
 			}
-            BaseDBConnection.CloseConnection();
+            finally
+            {
+                BaseDBConnection.CloseConnection();
+            }
 
             return rValue;
         }
@@ -50,9 +62,20 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_SoTienBanDauVar, savingAccount.SoTienBanDau);
             cmd.Parameters.AddWithValue(_NgayTaoVar, savingAccount.NgayTao);
 
-            BaseDBConnection.OpenConnection();
-            cmd.ExecuteNonQuery();
-            BaseDBConnection.CloseConnection();
+            try
+            {
+                BaseDBConnection.OpenConnection();
+                cmd.ExecuteNonQuery();
+                BaseDBConnection.CloseConnection();
+            }
+            catch (MySqlException)
+            {
+                throw;
+            }
+            finally
+            {
+                BaseDBConnection.CloseConnection();
+            }
         }
 
         public override ObservableCollection<SavingAccountINPC> GetAll()
