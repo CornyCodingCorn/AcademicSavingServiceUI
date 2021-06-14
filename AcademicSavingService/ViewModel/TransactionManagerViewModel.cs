@@ -1,12 +1,14 @@
 ﻿using AcademicSavingService.Containers;
 using AcademicSavingService.INPC;
 using PropertyChanged;
+using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace AcademicSavingService.ViewModel
 {
 	[AddINotifyPropertyChangedInterface]
-	class TransactionManagerViewModel : TabItemViewModel
+	class TransactionManagerViewModel : CRUBPanel
 	{
 		public TransactionManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
@@ -16,6 +18,15 @@ namespace AcademicSavingService.ViewModel
 		#region Insert fields
 		public int ID { get; set; }
 		public int CustomerID { get; set; }
+		public DateTime CreateDate { get; set; }
+		public decimal Amount { get; set; }
+		public string Note { get; set; }
+
+
+		public int AccountID { get; set; }
+		public int OwnerID { get; set; }
+		public decimal Balance { get; set; }
+		public DateTime? LastUpdate { get; set; }
 		#endregion
 
 		#region Accounts
@@ -32,6 +43,10 @@ namespace AcademicSavingService.ViewModel
 			{
 				_selectedAccount = value;
 
+				AccountID = _selectedAccount.MaSo;
+				OwnerID = _selectedAccount.MaKH;
+				Balance = _selectedAccount.SoDu;
+				LastUpdate = _selectedAccount.LanCapNhatCuoi;
 			}
 		}
 		#endregion
@@ -42,14 +57,25 @@ namespace AcademicSavingService.ViewModel
 		protected TransactionSlipINPC _selectedSlip;
 		public TransactionSlipINPC SelectedSlip
 		{
-			get
-			{
-				return _selectedSlip;
-			}
+			get { return _selectedSlip; }
 			set
 			{
 				_selectedSlip = value;
 
+				ID = _selectedSlip.MaPhieu;
+				CustomerID = _selectedSlip.MaKH;
+				CreateDate = _selectedSlip.NgayTao;
+				Amount = _selectedSlip.SoTien;
+				Note = _selectedSlip.GhiChu;
+
+				for (int i = 0; i < SavingAccounts.Count; i++)
+				{
+					if (SavingAccounts[i].MaSo == _selectedSlip.MaSo)
+					{
+						SelectedAccountIndex = i;
+						break;
+					}
+				}
 			}
 		}
 		#endregion

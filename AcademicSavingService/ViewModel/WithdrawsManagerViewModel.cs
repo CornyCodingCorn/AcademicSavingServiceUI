@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 using AcademicSavingService.Controls;
 namespace AcademicSavingService.ViewModel
 {
-	class WithdrawsManagerViewModel : TabItemViewModel
+	class WithdrawsManagerViewModel : TransactionManagerViewModel
 	{
 		public WithdrawsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
-		{
-		}
+		{}
 	}
 }

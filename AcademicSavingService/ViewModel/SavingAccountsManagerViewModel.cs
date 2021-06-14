@@ -10,7 +10,7 @@ using AcademicSavingService.INPC;
 namespace AcademicSavingService.ViewModel
 {
 	[AddINotifyPropertyChangedInterface]
-	class SavingAccountsManagerViewModel : TabItemViewModel
+	class SavingAccountsManagerViewModel : CRUBPanel
 	{
 		public ObservableCollection<SavingAccountINPC> SavingAccounts { get; set; }
 		public ObservableCollection<CustomerINPC> Customers { get; set; }
@@ -136,15 +136,7 @@ namespace AcademicSavingService.ViewModel
 		public double VerticleSplit { get; set; }
 		public double HorizontalSplit { get; set; }
 
-		protected RelayCommand<SavingAccountsManagerViewModel> _addCommand;
-		protected RelayCommand<SavingAccountsManagerViewModel> _deleteCommand;
-		protected RelayCommand<SavingAccountsManagerViewModel> _updateOne;
-		protected RelayCommand<SavingAccountsManagerViewModel> _updateAll;
-
-		public ICommand CreateAccountCommand => _addCommand ?? (_addCommand = new RelayCommand<SavingAccountsManagerViewModel>(param => CreateAccount(), param => CanCreateAccount()));
-		public ICommand DeleteAccountCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand<SavingAccountsManagerViewModel>(param => DeleteAccount(), param => CanDeleteAccount()));
-		public ICommand UpdateOneCommand => _updateOne ?? (_updateOne = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAccount(), param => CanUpdateAccount()));
-		public ICommand UpdateAllCommand => _updateAll ?? (_updateAll = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAllAccounts(), param => CanUpdateAllAccounts()));
+		#endregion
 
 		public SavingAccountsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
@@ -153,7 +145,15 @@ namespace AcademicSavingService.ViewModel
 			CreateDate = DateTime.Now;
 		}
 
-		public void CreateAccount()
+		#region Command
+
+		protected RelayCommand<SavingAccountsManagerViewModel> _updateOne;
+		protected RelayCommand<SavingAccountsManagerViewModel> _updateAll;
+
+		public ICommand UpdateOneCommand => _updateOne ?? (_updateOne = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAccount(), param => CanUpdateAccount()));
+		public ICommand UpdateAllCommand => _updateAll ?? (_updateAll = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAllAccounts(), param => CanUpdateAllAccounts()));
+
+		protected override void ExecuteAdd()
 		{
 			SavingAccountContainer.Instance.AddToCollection(new SavingAccountINPC{
 				MaKH = CustomerID,
@@ -163,10 +163,9 @@ namespace AcademicSavingService.ViewModel
 				LaiSuat = InterestRate,
 			});
 		}
-
-		public bool CanCreateAccount()
+		protected override bool CanExecuteAdd()
 		{
-			if (CreateDate.Year < 1800 || SelectedTermIndex < 0)
+			if (CreateDate.Year < 1800 || SelectedTermIndex < 0 || IsReadOnly)
 			{
 				return false;
 			}
@@ -174,13 +173,11 @@ namespace AcademicSavingService.ViewModel
 				return true;
 		}
 
-
-		public void UpdateAccount()
+		protected void UpdateAccount()
 		{
 			SavingAccountContainer.Instance.UpdateSavingAccountStateToNgayCanUpdate(SelectedAccount.MaSo, DateTime.Now);
 		}
-
-		public bool CanUpdateAccount()
+		protected bool CanUpdateAccount()
 		{
 			if (SelectedAccount == null)
 				return false;
@@ -188,7 +185,7 @@ namespace AcademicSavingService.ViewModel
 				return true;
 		}
 
-		public void UpdateAllAccounts()
+		protected override void ExecuteInsertMode()
 		{
 			for (int i = 0; i < SavingAccounts.Count; i++)
 			{
@@ -196,24 +193,48 @@ namespace AcademicSavingService.ViewModel
 			}
 		}
 
-		public bool CanUpdateAllAccounts()
+		protected void UpdateAllAccounts()
 		{
-			return true;
+			SavingAccountViewModel.CallUpdateAllAccounts(DateTime.Now);
+		}
+		protected bool CanUpdateAllAccounts()
+		{
+			return IsReadOnly;
 		}
 
-		public void DeleteAccount()
+		protected override void ExecuteDelete()
 		{
 			int index = SelectedAccountIndex;
 			SavingAccountContainer.Instance.DeleteFromCollectionByDefaultKey(ID);
 			SelectedTermIndex = index;
 		}
-
-		public bool CanDeleteAccount()
+		protected override bool CanExecuteDelete()
 		{
 			if (SelectedAccount == null)
 				return false;
 			else 
 				return true;
 		}
-    }
+
+		protected override void ExecuteClear()
+		{
+			ClearAllField();
+		}
+		protected override bool CanExecuteClear()
+		{
+			return IsInsertMode;
+		}
+
+		protected override void ClearAllField()
+		{
+			CreateDate = DateTime.Now;
+			Balance = 0;
+			InitialBalance = 0;
+			CloseDate = null;
+			LastUpdateDate = null;
+			SelectedTermIndex = 1;
+		}
+
+		#endregion
+	}
 }
