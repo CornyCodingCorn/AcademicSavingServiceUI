@@ -1,15 +1,15 @@
-﻿using AcademicSavingService.Model;
+﻿using AcademicSavingService.INPC;
 
 namespace AcademicSavingService.DataAccess
 {
-	class WithdrawSlipDA : TransactionSlipDA
+	public class WithdrawSlipDA : TransactionSlipDA
 	{
 		protected override string _tableName => "PHIEURUT";
 
-		public override TransactionSlip CreateSlip(TransactionSlip slip)
-		{
-			slip.SoTien = -slip.SoTien;
-			return base.CreateSlip(slip);
-		}
-	}
+        public override void Create(TransactionSlipINPC slip)
+        {
+            slip.SoTien = -slip.SoTien;
+            base.Create(slip);
+        }
+    }
 }

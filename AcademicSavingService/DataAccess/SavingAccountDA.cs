@@ -1,5 +1,4 @@
-﻿using AcademicSavingService.InpcContainers;
-using AcademicSavingService.Model;
+﻿using AcademicSavingService.INPC;
 using System.Collections.ObjectModel;
 using System;
 using SqlKata.Execution;
@@ -7,60 +6,22 @@ using SqlKata.Compilers;
 
 namespace AcademicSavingService.DataAccess
 {
-    public class SavingAccountDA : BaseDataAccess
+    public class SavingAccountDA : BaseDataAccess<SavingAccountINPC, int>
     {
-        public ObservableCollection<SavingAccountViewModel> GetAllSavingAccounts()
+        public ObservableCollection<SavingAccountINPC> GetSavingAccountByMaSo(int MaSo)
         {
-            var collection = db.Query(_tableName).Join(_termTypeTableName, _stkTermTypeID, _loaiKyHanTermTypeID).Get<SavingAccountViewModel>();
-            return new ObservableCollection<SavingAccountViewModel>(collection);
+            var collection = db.Query(_tableName).Where(_MaSo, MaSo).Get<SavingAccountINPC>();
+            return new ObservableCollection<SavingAccountINPC>(collection);
         }
 
-        public ObservableCollection<SavingAccountViewModel> GetSavingAccountByMaSo(int MaSo)
+        public ObservableCollection<SavingAccountINPC> GetSavingAccountsByMaKH(int MaKH)
         {
-            var collection = db.Query(_tableName).Where(_MaSo, MaSo).Get<SavingAccountViewModel>();
-            return new ObservableCollection<SavingAccountViewModel>(collection);
+            var collection = db.Query(_tableName).Where(_MaKH, MaKH).Get<SavingAccountINPC>();
+            return new ObservableCollection<SavingAccountINPC>(collection);
         }
 
-        public ObservableCollection<SavingAccountViewModel> GetSavingAccountsByMaKH(int MaKH)
+        public void UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
         {
-            var collection = db.Query(_tableName).Where(_MaKH, MaKH).Get<SavingAccountViewModel>();
-            return new ObservableCollection<SavingAccountViewModel>(collection);
-        }
-
-        public SavingAccount CreateSavingAccount(SavingAccount account)
-        {
-            SavingAccount rValue = null;
-            string q = $"CALL ThemSoTietKiemVaReturn({_MaKHVar}, {_KyHanVar}, {_SoTienBanDauVar}, {_NgayTaoVar})";
-            cmd.CommandText = q;
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue(_MaKHVar, account.MaKH);
-            cmd.Parameters.AddWithValue(_KyHanVar, account.KyHan);
-            cmd.Parameters.AddWithValue(_SoTienBanDauVar, account.SoTienBanDau);
-            cmd.Parameters.AddWithValue(_NgayTaoVar, account.NgayTao);
-
-
-            BaseDBConnection.OpenConnection();
-            var result = cmd.ExecuteReader();
-            if (result.Read())
-            {
-                rValue = new SavingAccount
-                {
-                    MaKH = result.GetInt32(_MaKH),
-                    MaSo = result.GetInt32(_MaSo),
-                    NgayTao = result.GetDateTime(_NgayTao),
-                    SoDu = result.GetDecimal(_SoDu),
-                    SoTienBanDau = result.GetDecimal(_SoTienBanDau),
-                    LanCapNhatCuoi = result.GetDateTime(_LanCapNhatCuoi)
-                };
-            }
-            BaseDBConnection.CloseConnection();
-
-            return rValue;
-        }
-
-        public SavingAccount UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
-        {
-            SavingAccount rValue = null;
             string q = $"CALL UpdateSoTietKiemVaReturn({_MaSoVar}, {_NgayCanUpdateVar})";
             cmd.CommandText = q;
             cmd.Parameters.Clear();
@@ -68,23 +29,32 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_NgayCanUpdateVar, NgayCanUpdate);
 
             BaseDBConnection.OpenConnection();
-            var result = cmd.ExecuteReader();
-            if (result.Read())
-            {
-                rValue = new SavingAccount
-                {
-                    SoDu = result.GetDecimal(_SoDu),
-                    LanCapNhatCuoi = result.GetDateTime(_LanCapNhatCuoi)
-                };
-            }
+            cmd.ExecuteNonQuery();
             BaseDBConnection.CloseConnection();
-
-            return rValue;
         }
 
-        //TODO: Implement UpdateSavingAccountInfo
+        public override void Create(SavingAccountINPC savingAccount)
+        {
+            string q = $"CALL ThemSoTietKiem({_MaKHVar}, {_KyHanVar}, {_SoTienBanDauVar}, {_NgayTaoVar})";
+            cmd.CommandText = q;
+            cmd.Parameters.Clear();
+            cmd.Parameters.AddWithValue(_MaKHVar, savingAccount.MaKH);
+            cmd.Parameters.AddWithValue(_KyHanVar, savingAccount.KyHan);
+            cmd.Parameters.AddWithValue(_SoTienBanDauVar, savingAccount.SoTienBanDau);
+            cmd.Parameters.AddWithValue(_NgayTaoVar, savingAccount.NgayTao);
 
-        public void DeleteSavingAccount(int MaSo)
+            BaseDBConnection.OpenConnection();
+            cmd.ExecuteNonQuery();
+            BaseDBConnection.CloseConnection();
+        }
+
+        public override ObservableCollection<SavingAccountINPC> GetAll()
+        {
+            var collection = db.Query(_tableName).Join(_termTypeTableName, _stkTermTypeID, _loaiKyHanTermTypeID).Get<SavingAccountINPC>();
+            return new ObservableCollection<SavingAccountINPC>(collection);
+        }
+
+        public override void Delete(int MaSo)
         {
             db.Query(_tableName).Where(_MaSo, MaSo).Delete();
         }
@@ -99,10 +69,6 @@ namespace AcademicSavingService.DataAccess
 
         private readonly string _MaSo = "MaSo";
         private readonly string _MaKH = "MaKH";
-        private readonly string _NgayTao = "NgayTao";
-        private readonly string _SoDu = "SoDu";
-        private readonly string _SoTienBanDau = "SoTienBanDau";
-        private readonly string _LanCapNhatCuoi = "LanCapNhatCuoi";
 
         private readonly string _MaSoVar = "@MaSo";
         private readonly string _MaKHVar = "@MaKH";

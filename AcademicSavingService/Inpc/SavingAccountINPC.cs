@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace AcademicSavingService.Model
+namespace AcademicSavingService.INPC
 {
-    public class SavingAccount
+    public class SavingAccountINPC : BaseINPC
     {
         public int MaSo { get; set; }
         public int MaKH { get; set; }
@@ -14,7 +14,7 @@ namespace AcademicSavingService.Model
         public decimal SoDu { get; set; }
         public DateTime? LanCapNhatCuoi { get; set; }
 
-        public SavingAccount(int maSo, int maKH, DateTime ngayTao, DateTime? ngayDong, int kyHan, float laiSuat, 
+        public SavingAccountINPC(int maSo, int maKH, DateTime ngayTao, DateTime? ngayDong, int kyHan, float laiSuat, 
             decimal soTienBanDau, decimal soDu, DateTime? capNhatCuoi)
         {
             MaSo = maSo;
@@ -28,6 +28,6 @@ namespace AcademicSavingService.Model
             LanCapNhatCuoi = capNhatCuoi;
         }
 
-        public SavingAccount() { }
+        public SavingAccountINPC() { }
     }
 }

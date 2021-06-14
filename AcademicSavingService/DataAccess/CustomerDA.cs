@@ -1,54 +1,37 @@
-﻿using AcademicSavingService.Model;
-using AcademicSavingService.InpcContainers;
+﻿using AcademicSavingService.INPC;
 using System.Collections.ObjectModel;
 using SqlKata.Compilers;
 using SqlKata.Execution;
 
 namespace AcademicSavingService.DataAccess
 {
-    public class CustomerDA : BaseDataAccess
+    public class CustomerDA : BaseDataAccess<CustomerINPC, int>
     {
-        public ObservableCollection<CustomerViewModel> GetAllCustomers()
+        public ObservableCollection<CustomerINPC> GetCustomerByMaKH(int MaKH)
         {
-            var collection = db.Query(_tableName).Get<CustomerViewModel>();
-            return new ObservableCollection<CustomerViewModel>(collection);
+            var collection = db.Query(_tableName).Where(_MaKH, MaKH).Get<CustomerINPC>();
+            return new ObservableCollection<CustomerINPC>(collection);
         }
 
-        public ObservableCollection<CustomerViewModel> GetCustomerByMaKH(int MaKH)
+        public ObservableCollection<CustomerINPC> GetCustomersByHoTen(string HoTen)
         {
-            var collection = db.Query(_tableName).Where(_MaKH, MaKH).Get<CustomerViewModel>();
-            return new ObservableCollection<CustomerViewModel>(collection);
+            var collection = db.Query(_tableName).Where(_HoTen, HoTen).Get<CustomerINPC>();
+            return new ObservableCollection<CustomerINPC>(collection);
         }
 
-        public ObservableCollection<CustomerViewModel> GetCustomersByHoTen(string HoTen)
+        public ObservableCollection<CustomerINPC> GetCustomersByCMND(string CMND)
         {
-            var collection = db.Query(_tableName).Where(_HoTen, HoTen).Get<CustomerViewModel>();
-            return new ObservableCollection<CustomerViewModel>(collection);
+            var collection = db.Query(_tableName).Where(_CMND, CMND).Get<CustomerINPC>();
+            return new ObservableCollection<CustomerINPC>(collection);
         }
 
-        public ObservableCollection<CustomerViewModel> GetCustomersByCMND(string CMND)
+        public ObservableCollection<CustomerINPC> GetCustomersBySDT(string SDT)
         {
-            var collection = db.Query(_tableName).Where(_CMND, CMND).Get<CustomerViewModel>();
-            return new ObservableCollection<CustomerViewModel>(collection);
+            var collection = db.Query(_tableName).Where(_SDT, SDT).Get<CustomerINPC>();
+            return new ObservableCollection<CustomerINPC>(collection);
         }
 
-        public ObservableCollection<CustomerViewModel> GetCustomersBySDT(string SDT)
-        {
-            var collection = db.Query(_tableName).Where(_SDT, SDT).Get<CustomerViewModel>();
-            return new ObservableCollection<CustomerViewModel>(collection);
-        }
-
-        public bool CreateCustomer(Customer customer)
-        {
-            try
-            {
-                db.Query(_tableName).Insert(customer);
-                return true;
-            }
-            catch { return false; }
-        }
-
-        public bool UpdateCustomerByMaKH(Customer updatedCustomer)
+        public bool UpdateCustomerByMaKH(CustomerINPC updatedCustomer)
         {
             try
             {
@@ -56,6 +39,22 @@ namespace AcademicSavingService.DataAccess
                 return true;
             }
             catch { return false; }
+        }
+
+        public override void Create(CustomerINPC customer)
+        {
+            db.Query(_tableName).Insert(customer);
+        }
+
+        public override ObservableCollection<CustomerINPC> GetAll()
+        {
+            var collection = db.Query(_tableName).Get<CustomerINPC>();
+            return new ObservableCollection<CustomerINPC>(collection);
+        }
+
+        public override void Delete(int MaKH)
+        {
+            db.Query(_tableName).Where(_MaKH, MaKH).Delete();
         }
 
         public CustomerDA()

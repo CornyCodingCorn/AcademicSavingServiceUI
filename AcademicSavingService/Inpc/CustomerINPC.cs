@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace AcademicSavingService.Model
+namespace AcademicSavingService.INPC
 {
-	public class Customer
+	public class CustomerINPC : BaseINPC
 	{
 		public int MaKH { get; set; }
 		public string HoTen { get; set; }
@@ -11,7 +11,7 @@ namespace AcademicSavingService.Model
 		public string DiaChi { get; set; }
 		public DateTime NgayDangKy { get; set; }
 
-		public Customer(int id, string name, string ctid, string phone, string address, DateTime registerDate)
+		public CustomerINPC(int id, string name, string ctid, string phone, string address, DateTime registerDate)
 		{
 			MaKH = id;
 			HoTen = name;
@@ -21,6 +21,6 @@ namespace AcademicSavingService.Model
 			NgayDangKy = registerDate;
 		}
 
-		public Customer() { }
+		public CustomerINPC() { }
 	}
 }

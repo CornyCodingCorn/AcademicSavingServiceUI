@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace AcademicSavingService.Model
+namespace AcademicSavingService.INPC
 {
-    public class TermType
+    public class TermTypeINPC : BaseINPC
     {
         public int MaKyHan { get; set; }
         public int KyHan { get; set; }
@@ -10,7 +10,7 @@ namespace AcademicSavingService.Model
         public DateTime NgayTao { get; set; }
         public DateTime? NgayNgungSuDung { get; set; }
 
-        public TermType(int maKyHan, int kyHan, float laiSuat, DateTime ngayTao, DateTime? ngayNgungSuDung)
+        public TermTypeINPC(int maKyHan, int kyHan, float laiSuat, DateTime ngayTao, DateTime? ngayNgungSuDung)
         {
             MaKyHan = maKyHan;
             KyHan = kyHan;
@@ -19,6 +19,6 @@ namespace AcademicSavingService.Model
             NgayNgungSuDung = ngayNgungSuDung;
         }
 
-        public TermType() { }
+        public TermTypeINPC() { }
     }
 }

@@ -2,10 +2,10 @@
 using AcademicSavingService.Controls;
 using PropertyChanged;
 
-namespace AcademicSavingService.InpcContainers
+namespace AcademicSavingService.INPC
 {
     [AddINotifyPropertyChangedInterface]
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseINPC : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 

@@ -1,35 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using AcademicSavingService.Model;
-using AcademicSavingService.InpcContainers;
+﻿using System.Collections.ObjectModel;
+using AcademicSavingService.INPC;
 using SqlKata.Execution;
 using SqlKata.Compilers;
 
 namespace AcademicSavingService.DataAccess
 {
-    public abstract class TransactionSlipDA : BaseDataAccess
+    public abstract class TransactionSlipDA : BaseDataAccess<TransactionSlipINPC, int>
     {
-        public ObservableCollection<TransactionSlipViewModel> GetAllSlips()
+        public ObservableCollection<TransactionSlipINPC> GetSlipsByMaPhieu(int MaPhieu)
         {
-            var collection = db.Query(_tableName).Get<TransactionSlipViewModel>();
-            return new ObservableCollection<TransactionSlipViewModel>(collection);
+            var collection = db.Query(_tableName).Where(_MaPhieu, MaPhieu).Get<TransactionSlipINPC>();
+            return new ObservableCollection<TransactionSlipINPC>(collection);
         }
 
-        public ObservableCollection<TransactionSlipViewModel> GetSlipsByMaPhieu(int MaPhieu)
+        public ObservableCollection<TransactionSlipINPC> GetSlipsByMaSo(int MaSo)
         {
-            var collection = db.Query(_tableName).Where(_MaPhieu, MaPhieu).Get<TransactionSlipViewModel>();
-            return new ObservableCollection<TransactionSlipViewModel>(collection);
+            var collection = db.Query(_tableName).Where(_MaSo, MaSo).Get<TransactionSlipINPC>();
+            return new ObservableCollection<TransactionSlipINPC>(collection);
         }
 
-        public ObservableCollection<TransactionSlipViewModel> GetSlipsByMaSo(int MaSo)
+        public override void Create(TransactionSlipINPC slip)
         {
-            var collection = db.Query(_tableName).Where(_MaSo, MaSo).Get<TransactionSlipViewModel>();
-            return new ObservableCollection<TransactionSlipViewModel>(collection);
-        }
-
-        public virtual TransactionSlip CreateSlip(TransactionSlip slip)
-        {
-            TransactionSlip rValue = null;
             string q = $"CALL ThemPhieu({_MaSoVar}, {_SoTienVar}, {_GhiChuVar}, {_NgayTaoVar})";
             cmd.CommandText = q;
             cmd.Parameters.Clear();
@@ -39,48 +30,24 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_NgayTaoVar, slip.NgayTao);
 
             BaseDBConnection.OpenConnection();
-            var result = cmd.ExecuteReader();
-            if (result.Read())
-            {
-                rValue = new TransactionSlip
-                {
-                    NgayTao = result.GetDateTime(_NgayTao),
-                    SoTien = result.GetDecimal(_SoTien),
-                    MaPhieu = result.GetInt32(_MaPhieu)
-                };
-            }
+            cmd.ExecuteNonQuery();
             BaseDBConnection.CloseConnection();
-            return rValue;
         }
 
-        public virtual bool UpdateSlipByMaPhieu(TransactionSlip updatedSlip)
+        public override ObservableCollection<TransactionSlipINPC> GetAll()
         {
-            try
-            {
-                db.Query(_tableName).Where(_MaPhieu, updatedSlip.MaPhieu).Update(updatedSlip);
-                return true;
-            }
-            catch { return false; }
+            var collection = db.Query(_tableName).Get<TransactionSlipINPC>();
+            return new ObservableCollection<TransactionSlipINPC>(collection);
         }
 
-        public virtual bool DeleteSlipByMaPhieu(int MaPhieu)
+        public override void Delete(int MaPhieu)
         {
-            try
-            {
-                db.Query(_tableName).Where(_MaPhieu, MaPhieu).Delete();
-                return true;
-            } 
-            catch { return false; }
+            db.Query(_tableName).Where(_MaPhieu, MaPhieu).Delete();
         }
 
-        public bool DeleteSlipByMaSo(int MaSo)
+        public void DeleteSlipByMaSo(int MaSo)
         {
-            try
-            {
-                db.Query(_tableName).Where(_MaSo, MaSo).Delete();
-                return true;
-            }
-            catch { return false; }
+            db.Query(_tableName).Where(_MaSo, MaSo).Delete();
         }
 
         public TransactionSlipDA()
