@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using AcademicSavingService.DataAccess;
 using AcademicSavingService.Model;
 
@@ -11,14 +10,13 @@ namespace AcademicSavingService.InpcContainers
     {
         public CustomerViewModel() { }
 
-        public CustomerViewModel(int maKH, string hoTen, string cmnd, string sdt, string diaChi, int noiDangKy, DateTime ngayDangKy)
+        public CustomerViewModel(int maKH, string hoTen, string cmnd, string sdt, string diaChi, DateTime ngayDangKy)
         {
             MaKH = maKH;
             HoTen = hoTen;
             CMND = cmnd;
             SDT = sdt;
             DiaChi = diaChi;
-            NoiDangKy = noiDangKy;
             NgayDangKy = ngayDangKy;
         }
 
@@ -36,14 +34,13 @@ namespace AcademicSavingService.InpcContainers
             }
         }
 
-        public Customer Model => new(MaKH, HoTen, CMND, SDT, DiaChi, NoiDangKy, NgayDangKy);
+        public Customer Model => new(MaKH, HoTen, CMND, SDT, DiaChi, NgayDangKy);
 
         public int MaKH { get; set; }
         public string HoTen { get; set; }
         public string CMND { get; set; }
         public string SDT { get; set; }
         public string DiaChi { get; set; }
-        public int NoiDangKy { get; set; }
         public DateTime NgayDangKy { get; set; }
 
         protected static readonly CustomerDA _dataAccess = new CustomerDA();
