@@ -29,9 +29,13 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_GhiChuVar, slip.GhiChu);
             cmd.Parameters.AddWithValue(_NgayTaoVar, slip.NgayTao);
 
-            BaseDBConnection.OpenConnection();
-            cmd.ExecuteNonQuery();
-            BaseDBConnection.CloseConnection();
+            try
+			{
+                BaseDBConnection.OpenConnection();
+                cmd.ExecuteNonQuery();
+            }
+            catch { throw; }
+            finally { BaseDBConnection.CloseConnection(); }
         }
 
         public override ObservableCollection<TransactionSlipINPC> GetAll()

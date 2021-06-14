@@ -10,6 +10,7 @@
 	<std:Double x:Key="CRUDControlPaddingWidth">20</std:Double>
 	<Brush x:Key="ForegroundRed">#AAFF0000</Brush>
 	<Brush x:Key="ForegroundGreen">#FF009977</Brush>
+	<Brush x:Key="ForegroundYellow">#FFFF9955</Brush>
 
 	<Thickness x:Key="DataGridMargin"
 			   Top="0"
@@ -40,6 +41,17 @@
 	<Style x:Key="GreenKeyStyle" TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 		<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
 		<Setter Property="FontWeight" Value="Bold"/>
+	</Style>
+
+	<Style x:Key="InsertButtonStyle" TargetType="Button" BasedOn="{StaticResource MahApps.Styles.Button}">
+		<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
+		<Setter Property="FontWeight" Value="Bold"/>
+		<Setter Property="FontSize" Value="{StaticResource CRUDFontSize}"/>
+		<Style.Triggers>
+			<DataTrigger Binding="{Binding IsInsertMode}" Value="True">
+				<Setter Property="Foreground" Value="{StaticResource ForegroundYellow}"/>
+			</DataTrigger>
+		</Style.Triggers>
 	</Style>
 
 	<Style TargetType="{x:Type TextBox}" x:Key="SearchBoxStyle" BasedOn="{StaticResource MahApps.Styles.TextBox.Search}">
