@@ -134,7 +134,7 @@ DELIMITER $$
 CREATE TRIGGER SoTietKiemDelete BEFORE DELETE ON SOTIETKIEM FOR EACH ROW
 BEGIN
     CALL CapNhatBaoCaoNgayXoaSoTietKiem(OLD.SoTienBanDau, OLD.NgayTao, OLD.MaKyHan);
-    CALL CapNhatBaoCaoThangXoaSoTietKiem(OLD.NgayDongSo, OLD.NgayDongSo, OLD.NgayDongSo);
+    CALL CapNhatBaoCaoThangXoaSoTietKiem(OLD.NgayTao, OLD.MaKyHan, OLD.NgayDongSo);
 END;
 $$
 DELIMITER ;
