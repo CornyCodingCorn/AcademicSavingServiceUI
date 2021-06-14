@@ -47,10 +47,10 @@
 							  SelectedItem="{Binding SelectedSlip,  Mode=TwoWay}"
 							  SelectedIndex="{Binding SelectedSlipIndex}">
 				<ctrl:AssDataGrid.Columns>
-					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
-					<DataGridTextColumn Width="100" Header="Account ID" Binding="{Binding MaKH}"/>
+					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaPhieu}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
+					<DataGridTextColumn Width="100" Header="Account ID" Binding="{Binding MaSo}"/>
 					<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='dd/MM/yyyy'}" TextBlock.TextAlignment="Center"/>
-					<DataGridTextColumn Width="120" Header="Amount" Binding="{Binding SoDu}">
+					<DataGridTextColumn Width="120" Header="Amount" Binding="{Binding SoTien}">
 						<DataGridTextColumn.CellStyle>
 							<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 								<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
@@ -58,7 +58,7 @@
 							</Style>
 						</DataGridTextColumn.CellStyle>
 					</DataGridTextColumn>
-					<DataGridTextColumn Width="*" Header="Note" Binding="{Binding LanCapNhatCuoi, StringFormat='dd/MM/yyyy'}"/>
+					<DataGridTextColumn Width="*" Header="Note" Binding="{Binding GhiChu}"/>
 				</ctrl:AssDataGrid.Columns>
 			</ctrl:AssDataGrid>
 
@@ -178,7 +178,7 @@
 						</Style>
 					</DataGridTextColumn.CellStyle>
 				</DataGridTextColumn>
-				<DataGridTextColumn Header="Update Date" Width="*" Binding="{Binding LanCapNhatCuoi}"/>
+                <DataGridTextColumn Header="Update Date" Width="*" Binding="{Binding LanCapNhatCuoi, StringFormat='dd/MM/yyyy'}"/>
 			</ctrl:AssDataGrid.Columns>
 		</ctrl:AssDataGrid>
 	</Grid>

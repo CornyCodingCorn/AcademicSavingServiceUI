@@ -7,6 +7,7 @@ namespace AcademicSavingService.Containers
         private DepositSlipContainer()
         {
             _slipDA = new DepositSlipDA();
+            Collection = _slipDA.GetAll();
         }
 
         private static readonly DepositSlipContainer _instance = new();
