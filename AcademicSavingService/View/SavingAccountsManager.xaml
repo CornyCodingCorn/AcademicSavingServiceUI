@@ -75,11 +75,11 @@
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="20*" MinWidth="50" MaxWidth="120"/>
 						<ColumnDefinition Width="80*"/>
+						<ColumnDefinition Width="20*" MinWidth="50" MaxWidth="120"/>
 					</Grid.ColumnDefinitions>
 
 					<Grid Grid.Column="0">
 						<Grid.RowDefinitions>
-							<RowDefinition Height="*"/>
 							<RowDefinition Height="*"/>
 							<RowDefinition Height="*"/>
 							<RowDefinition Height="*"/>
@@ -93,13 +93,34 @@
 								<Setter Property="FontWeight" Value="Bold"/>
 							</Style>
 						</Grid.Resources>
-						<Button Grid.Row="0" Margin="0, 2, 0, 2" Command="{Binding CreateAccountCommand}" Content="ADD"/>
-						<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding DeleteAccountCommand}" Content="REMOVE"/>
-						<Button Grid.Row="2" Margin="0, 2, 0, 2" Command="{Binding UpdateOneCommand}" Content="UPDATE"/>
-						<Button Grid.Row="3" Margin="0, 2, 0, 2" Command="{Binding UpdateAllCommand}" Content="UPDATE ALL"/>
+						
+						<Button Grid.Row="0" Margin="0, 2, 0, 2" Command="{Binding DeleteCommand}" Content="REMOVE"/>
+						<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding UpdateOneCommand}" Content="UPDATE"/>
+						<Button Grid.Row="2" Margin="0, 2, 0, 2" Command="{Binding UpdateAllCommand}" Content="UPDATE ALL"/>
 					</Grid>
 
-					<Grid Grid.Column="1">
+					<Grid Grid.Column="3">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+						</Grid.RowDefinitions>
+						<Grid.Resources>
+							<Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
+								<Setter Property="Margin" Value="0, 3, 0, 3"/>
+								<Setter Property="FontSize" Value="16"/>
+								<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
+								<Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
+								<Setter Property="FontWeight" Value="Bold"/>
+							</Style>
+						</Grid.Resources>
+
+						<Button Grid.Row="0" Margin="0, 2, 0, 2" Command="{Binding StartInsertCommand}" Content="INSERT MODE"/>
+						<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding CreateCommand}" Content="ADD"/>
+						<Button Grid.Row="2" Margin="0, 2, 0, 2" Command="{Binding ClearCommand}" Content="CLEAR"/>
+					</Grid>
+
+					<Grid Grid.Column="1" HorizontalAlignment="Center">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="60*" MaxWidth="950" MinWidth="400"/>
@@ -118,7 +139,7 @@
 								<RowDefinition Height="*"/>
 								<RowDefinition Height="*"/>
 							</Grid.RowDefinitions>
-							
+
 							<TextBlock Text="ID"			Grid.Column="0" Grid.Row="0"/>
 							<TextBlock Text="Owner ID"		Grid.Column="0" Grid.Row="1"/>
 							<TextBlock Text="Close date"	Grid.Column="0" Grid.Row="2"/>
@@ -132,9 +153,9 @@
 							<TextBox	Grid.Column="1" Grid.Row="1" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Owner ID" Text="{Binding CustomerID}"/>
 							<TextBox	Grid.Column="1" Grid.Row="2" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Close date" Text="{Binding CloseDate, StringFormat='dd/MM/yyyy'}"/>
 							<TextBox	Grid.Column="1" Grid.Row="3" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Update date" Text="{Binding LastUpdateDate, StringFormat='dd/MM/yyyy'}"/>
-							<DatePicker Grid.Column="3" Grid.Row="0" Width="180" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged}"/>
+							<DatePicker Grid.Column="3" Grid.Row="0" Width="180" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" IsEnabled="{Binding IsInsertMode}" SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged}"/>
 							<StackPanel Grid.Column="3" Grid.Row="1" Orientation="Horizontal">
-								<ComboBox Width="90" Grid.Column="0" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Term" ItemsSource="{Binding TermsList}" SelectedIndex="{Binding SelectedTermIndex}">
+								<ComboBox Width="90" Grid.Column="0" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Term" IsEnabled="{Binding IsInsertMode}" ItemsSource="{Binding TermsList}" SelectedIndex="{Binding SelectedTermIndex}">
 									<ComboBox.Resources>
 										<Style TargetType="{x:Type TextBlock}">
 											<Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Text}"/>
@@ -143,12 +164,12 @@
 										</Style>
 									</ComboBox.Resources>
 								</ComboBox>
-								<TextBox Width="90" Grid.Column="2" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate" Text="{Binding InterestRate, StringFormat='{}{0}%'}"/>
+								<TextBox Width="70" Grid.Column="2" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate" Text="{Binding InterestRate, StringFormat='{}{0}%'}"/>
 							</StackPanel>
-							<ctrl:DigitTextBox	Grid.Column="3" Grid.Row="2" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding Balance, FallbackValue=0}"/>
-							<ctrl:DigitTextBox	Grid.Column="3" Grid.Row="3" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Initial Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding InitialBalance, FallbackValue=0}"/>
+							<ctrl:DigitTextBox	Grid.Column="3" Grid.Row="3" Width="180" IsReadOnly="{Binding IsReadOnly}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Initial Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding InitialBalance, FallbackValue=0}"/>
+							<ctrl:DigitTextBox	Grid.Column="3" Grid.Row="2" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding Balance, FallbackValue=0}"/>
 						</Grid>
-					</Grid>						 
+					</Grid>
 				</Grid>
 			</Border>
 		</Grid>
