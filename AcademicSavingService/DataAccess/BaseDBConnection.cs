@@ -14,7 +14,6 @@ namespace AcademicSavingService.DataAccess
 
         #endregion
 
-
         #region Public prop
 
         public static MySqlConnection Connection => _connection;
