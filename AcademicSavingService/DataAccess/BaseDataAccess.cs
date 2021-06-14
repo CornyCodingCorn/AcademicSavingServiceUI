@@ -44,6 +44,10 @@ namespace AcademicSavingService.DataAccess
         public abstract void Create(T inpcObject);
         public abstract ObservableCollection<T> GetAll();
         public abstract void Delete(t key);
+        public virtual void Update(T key)
+		{
+            throw new System.NotImplementedException();
+        }
 
         private const string _databaseName = "academicsavingservice";
     }

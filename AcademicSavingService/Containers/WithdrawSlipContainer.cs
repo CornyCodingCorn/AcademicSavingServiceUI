@@ -1,4 +1,5 @@
 ﻿using AcademicSavingService.DataAccess;
+using AcademicSavingService.INPC;
 
 namespace AcademicSavingService.Containers
 {
@@ -8,6 +9,14 @@ namespace AcademicSavingService.Containers
         {
 			_slipDA = new WithdrawSlipDA();
 			Collection = _slipDA.GetAll();
+		}
+
+		public override void AddToCollection(TransactionSlipINPC item)
+		{
+			item.SoTien = -item.SoTien;
+			_slipDA.Create(item);
+			item.SoTien = -item.SoTien;
+			Collection.Add(item);
 		}
 
 		private static readonly WithdrawSlipContainer _instance = new();

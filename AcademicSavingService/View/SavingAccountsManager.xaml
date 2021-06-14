@@ -43,7 +43,8 @@
 							  EnableFullTextSearch="True" 
 							  DataGridName="SAVING ACCOUNTS"
 							  SelectedItem="{Binding SelectedAccount,  Mode=TwoWay}"
-							  SelectedIndex="{Binding SelectedAccountIndex}">
+							  SelectedIndex="{Binding SelectedAccountIndex, Mode=TwoWay}"
+							  IsEnabled="{Binding IsReadOnly}">
 				<ctrl:AssDataGrid.Columns>
 					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 					<DataGridTextColumn Width="100" Header="Owner ID" Binding="{Binding MaKH}"/>

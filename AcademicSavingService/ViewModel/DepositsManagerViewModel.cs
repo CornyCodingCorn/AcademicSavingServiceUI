@@ -6,7 +6,8 @@ namespace AcademicSavingService.ViewModel
 	{
 		public DepositsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
-			Slips = DepositSlipContainer.Instance.Collection;
+			_containerInstance = DepositSlipContainer.Instance;
+			Slips = _containerInstance.Collection;
 		}
 	}
 }

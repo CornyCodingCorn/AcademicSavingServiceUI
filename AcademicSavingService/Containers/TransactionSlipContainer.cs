@@ -19,13 +19,15 @@ namespace AcademicSavingService.Containers
             Collection.Remove(Collection.SingleOrDefault(item => item.MaSo == MaSo));
         }
 
-        public override void AddToCollection(TransactionSlipINPC slip)
-        {
-            _slipDA.Create(slip);
-            Collection.Add(slip);
-        }
+		public override void UpdateOnCollection(TransactionSlipINPC item)
+		{
+			_slipDA.Update(item);
+            for (int i = 0; i < Collection.Count; i++)
+                if (Collection[i].MaPhieu == item.MaPhieu)
+                    Collection[i].GhiChu = item.GhiChu;
+		}
 
-        public override void DeleteFromCollectionByDefaultKey(int MaPhieu)
+		public override void DeleteFromCollectionByDefaultKey(int MaPhieu)
         {
             _slipDA.Delete(MaPhieu);
             Collection.Remove(Collection.SingleOrDefault(item => item.MaPhieu == MaPhieu));

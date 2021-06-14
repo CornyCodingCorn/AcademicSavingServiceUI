@@ -45,7 +45,14 @@ namespace AcademicSavingService.DataAccess
             db.Query(_tableName).Where(_MaPhieu, MaPhieu).Delete();
         }
 
-        public void DeleteSlipByMaSo(int MaSo)
+		public override void Update(TransactionSlipINPC key)
+		{
+			db.Query(_tableName).Where(_MaPhieu, key.MaPhieu).Update(new {
+                GhiChu = key.GhiChu
+            });
+		}
+
+		public void DeleteSlipByMaSo(int MaSo)
         {
             db.Query(_tableName).Where(_MaSo, MaSo).Delete();
         }
@@ -62,6 +69,7 @@ namespace AcademicSavingService.DataAccess
         protected readonly string _MaSo = "MaSo";
         protected readonly string _SoTien = "SoTien";
         protected readonly string _NgayTao = "NgayTao";
+        protected readonly string _GhiChu = "GhiChu";
 
         protected readonly string _MaSoVar = "@MaSo";
         protected readonly string _SoTienVar = "@SoTien";

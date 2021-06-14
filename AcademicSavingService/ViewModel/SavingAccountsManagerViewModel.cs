@@ -7,6 +7,7 @@ using AcademicSavingService.Controls;
 using System.Windows.Input;
 using AcademicSavingService.INPC;
 using MySql.Data.MySqlClient;
+using AcademicSavingService.DataAccess;
 
 namespace AcademicSavingService.ViewModel
 {
@@ -24,6 +25,9 @@ namespace AcademicSavingService.ViewModel
 			set
 			{
 				_selectedAccount = value;
+				if (IsInsertMode)
+					return;
+
 				if (_selectedAccount != null)
                 {
 					ID = _selectedAccount.MaSo;
@@ -134,9 +138,6 @@ namespace AcademicSavingService.ViewModel
 		public decimal InitialBalance { get; set; }
 		public int CustomerID { get; set; }
 
-		public double VerticleSplit { get; set; }
-		public double HorizontalSplit { get; set; }
-
 		public SavingAccountsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
             SavingAccounts = SavingAccountContainer.Instance.Collection;
@@ -151,6 +152,22 @@ namespace AcademicSavingService.ViewModel
 
 		public ICommand UpdateOneCommand => _updateOne ?? (_updateOne = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAccount(), param => CanUpdateAccount()));
 		public ICommand UpdateAllCommand => _updateAll ?? (_updateAll = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAllAccounts(), param => CanUpdateAllAccounts()));
+
+		protected override void ExecuteInsertMode()
+		{
+			base.ExecuteInsertMode();
+			if (IsInsertMode)
+			{
+				CreateDate = DateTime.Now;
+				_indexBeforeInsertMode = SelectedAccountIndex;
+				SelectedAccount = null;
+				ID = SavingAccountContainer.Instance.GetNextAutoID();
+			}
+			else
+			{
+				SelectedAccountIndex = _indexBeforeInsertMode;
+			}
+		}
 
 		protected override void ExecuteAdd()
 		{

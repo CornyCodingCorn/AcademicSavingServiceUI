@@ -69,7 +69,9 @@ DROP TRIGGER IF EXISTS BeforeUpdatePhieuRut;
 DELIMITER $$
 CREATE TRIGGER BeforeUpdatePhieuRut BEFORE UPDATE ON PHIEURUT FOR EACH ROW
 BEGIN
-	CALL ThrowException('PH005');
+	IF (NEW.MaPhieu != OLD.MaPhieu OR NEW.SoTien != OLD.SoTien OR NEW.NgayTao != OLD.NgayTao OR NEW.MaSo != OLD.MaSo) THEN
+		CALL ThrowException('PH005');
+	END IF;
 END;
 $$
 DELIMITER ;

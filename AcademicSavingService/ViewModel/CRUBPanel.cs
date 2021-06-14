@@ -1,4 +1,5 @@
 ﻿using AcademicSavingService.Commands;
+using AcademicSavingService.Containers;
 using AcademicSavingService.Controls;
 using MySql.Data.MySqlClient;
 using System.Windows.Input;
@@ -13,8 +14,13 @@ namespace AcademicSavingService.ViewModel
 			get { return !IsInsertMode; }
 		}
 
+		public double VerticleSplit { get; set; }
+		public double HorizontalSplit { get; set; }
+
 		public const int UserDefinedErrorNumber = 1644;
 		public const int CantUpdateOrDeleteCauseOfConstraintErrorNumber = 1451;
+
+		protected int _indexBeforeInsertMode = 0;
 
 		public CRUBPanel(MenuItemViewModel menuItem) : base(menuItem)
 		{}
@@ -40,7 +46,7 @@ namespace AcademicSavingService.ViewModel
 		{}
 		protected virtual bool CanExecuteAdd()
 		{
-			return true;
+			return IsInsertMode;
 		}
 
 		protected virtual void ExecuteInsertMode()
@@ -57,10 +63,12 @@ namespace AcademicSavingService.ViewModel
 		}
 
 		protected virtual void ExecuteClear()
-		{}
+		{
+			ClearAllField();
+		}
 		protected virtual bool CanExecuteClear()
 		{
-			return true;
+			return IsInsertMode;
 		}
 
 		protected virtual void ClearAllField()
