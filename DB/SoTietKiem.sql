@@ -1,47 +1,5 @@
 /*=================================================================================PROCEDURE=============================================================================*/
 
-DROP PROCEDURE IF EXISTS UpdateSoTietKiem;
-DELIMITER $$
-CREATE PROCEDURE UpdateSoTietKiem(IN MaSo INT, IN NgayCanUpdate DATE)
-BEGIN
-    SELECT LanCapNhatCuoi, NgayTao, MaKyHan, SoDu, MaKyHan, NgayDongSo INTO @LanCapNhatCuoi, @NgayTao, @MaKyHan, @SoDu, @MaKyHan, @NgayDongSo FROM SOTIETKIEM STK WHERE STK.MaSo = MaSo;
-	IF (@NgayDongSo IS NULL) THEN
-		IF (@LanCapNhatCuoi > NgayCanUpdate OR NgayCanUpdate > NOW()) THEN
-			CALL ThrowException('TK004');
-		ELSE
-			SET @KyHan = (SELECT KyHan FROM LOAIKYHAN WHERE MaKyHan = @MaKyHan);
-			SET @NgayDaoHan = TIMESTAMPADD(MONTH, @KyHan, @NgayTao);
-			IF (@LanCapNhatCuoi < @NgayDaoHan) THEN
-				SET @NgayUpdateToi = IF(NgayCanUpdate < @NgayDaoHan, NgayCanUpdate, @NgayDaoHan);
-				SET @LaiSuat = (SELECT LaiSuat FROM LOAIKYHAN WHERE @MaKyHan = MaKyHan);
-				SET @SoDu = @SoDu * (1 + @LaiSuat / 100 / 365 * TIMESTAMPDIFF(DAY, @LanCapNhatCuoi, @NgayUpdateToi));
-				SET @LanCapNhatCuoi = @NgayUpdateToi;
-			END IF;
-			SET @SoDu = @SoDu * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(@LanCapNhatCuoi, NgayCanUpdate));
-		END IF;
-		CALL BatDauCapNhatSoTietKiem();
-		UPDATE SOTIETKIEM STK
-		SET STK.SoDU = @SoDu, STK.LanCapNhatCuoi = NgayCanUpdate
-		WHERE STK.MaSo = MaSo;
-		CALL KetThucCapNhatSoTietKiem();
-	END IF;
-END;
-$$
-DELIMITER ;
-
-DROP PROCEDURE IF EXISTS UpdateSoTietKiemVaReturn;
-DELIMITER $$
-CREATE PROCEDURE UpdateSoTietKiemVaReturn(IN MaSo INT, IN NgayCanUpdate DATE)
-BEGIN
-	CALL UpdateSoTietKiem(MaSo, NgayCanUpdate);
-    SET @MaSo = MaSo;
-    PREPARE Stmt FROM 'SELECT * FROM SOTIETKIEM WHERE MaSo = ?';
-    EXECUTE Stmt USING @MaSo;
-    DEALLOCATE PREPARE Stmt;
-END;
-$$
-DELIMITER ;
-
 DROP PROCEDURE IF EXISTS ThemSoTietKiem;
 DELIMITER $$
 CREATE PROCEDURE ThemSoTietKiem(IN MaKH INT, IN KyHan TINYINT, IN SoTienBanDau DECIMAL(15, 2), IN NgayTao DATE)
@@ -81,30 +39,105 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS ForceDeleteSoTietKiem;
 DELIMITER $$
-CREATE PROCEDURE ForceDeleteSoTietKiem(IN MaSo INT)
+CREATE PROCEDURE ForceDeleteSoTietKiem(IN MaSoDelete INT)
 BEGIN
 	CALL BatDauCapNhatSoTietKiem();
-    UPDATE SOTIETKIEM STK SET STK.LanCapNhatCuoi = '0/0/0' WHERE STK.MaSo = MaSo;
+    UPDATE SOTIETKIEM STK SET STK.LanCapNhatCuoi = '0/0/0' WHERE STK.MaSo = MaSoDelete;
     CALL KetThucCapNhatSoTietKiem();
     
     CALL StartForceDelete();
-    DELETE FROM PHIEUGUI PG WHERE PG.MaSo = MaSo;
-    DELETE FROM PHIEURUT PR WHERE PR.MaSo = MaSo;
-    DELETE FROM SOTIETKIEM STK WHERE STK.MaSo = MaSo;
+    DELETE FROM PHIEUGUI PG WHERE PG.MaSo = MaSoDelete;
+    DELETE FROM PHIEURUT PR WHERE PR.MaSo = MaSoDelete;
+    DELETE FROM SOTIETKIEM STK WHERE STK.MaSo = MaSoDelete;
     CALL EndForceDelete();
 END;
 $$
 DELIMITER ;
 
 /*==================================================================================FUNCTIONS=============================================================================*/
+
+DROP PROCEDURE IF EXISTS LaySoTienVoiNgay;
+DELIMITER $$
+CREATE PROCEDURE LaySoTienVoiNgay (IN NgayTao DATE, IN LanCapNhatCuoi DATE, IN NgayDongSo DATE, IN MaKyHan INT, IN SoDu DECIMAL(15, 2), IN SoDuLanCapNhatCuoi DECIMAL(15, 2), IN NgayCanUpdate DATE, OUT SoDuDung DECIMAL(15, 2), OUT NgayUpdate DATE)
+BEGIN
+	DECLARE _counter INT;
+	DECLARE _ngayDaoHan DATE;
+	DECLARE _kyHan INT;
+  	SET _counter = 0;
+
+	IF (NgayCanUpdate > CURRENT_DATE()) THEN
+		CALL ThrowException('TK004');
+	END IF;
+
+
+	IF (NgayDongSo IS NULL) THEN
+		IF (LanCapNhatCuoi >= NgayCanUpdate) THEN
+			SET SoDuDung = SoDuLanCapNhatCuoi;
+	        SET NgayUpdate = LanCapNhatCuoi;
+		ELSEIF (NgayCanUpdate >= CURRENT_DATE() AND LanCapNhatCuoi IS NOT NULL) THEN
+			SET SoDuDung = SoDU;
+	        SET NgayUpdate = CURRENT_DATE();
+		ELSE
+		    SET LanCapNhatCuoi = IF (LanCapNhatCuoi IS NULL, NgayTao, LanCapNhatCuoi);
+			SELECT KyHan INTO _kyHan FROM LOAIKYHAN LKH WHERE LKH.MaKyHan = MaKyHan;
+			SET _ngayDaoHan = TIMESTAMPADD(MONTH, _kyHan, NgayTao);
+	        SET SoDuDung = SoDuLanCapNhatCuoi;
+
+	  		IF (NgayCanUpdate >= _ngayDaoHan) THEN
+				IF (LanCapNhatCuoi < _ngayDaoHan) THEN
+					SET @NgayUpdateToi = IF(NgayCanUpdate < _ngayDaoHan, NgayCanUpdate, _ngayDaoHan);
+					SET @LaiSuat = (SELECT LaiSuat FROM LOAIKYHAN LKH WHERE MaKyHan = LKH.MaKyHan);
+					SET SoDuDung = SoDuDung * (1 + (@LaiSuat / (100 * 365)) * TIMESTAMPDIFF(DAY, LanCapNhatCuoi, @NgayUpdateToi));
+					SET LanCapNhatCuoi = @NgayUpdateToi;
+				END IF;
+
+				SET SoDuDung = SoDuDung * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(LanCapNhatCuoi, NgayCanUpdate));
+								CALL MarkLine(2, SoDuDung);
+	    		SELECT COUNT(*) INTO @Size FROM PHIEUGUI WHERE NgayTao <= NgayCanUpdate AND NgayTao > @LanCapNhatCuoi;
+
+	   			WHILE (_counter < @Size) DO
+					SELECT SoTien, NgayTao INTO @SoTien, @NgayTao FROM PHIEUGUI WHERE  NgayTao <= NgayCanUpdate AND NgayTao > LanCapNhatCuoi ORDER BY MaPhieu LIMIT _counter, 1;
+					SET SoDuDung = SoDuDung + (@SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(@NgayTao, NgayCanUpdate)));
+					SET _counter = 0;
+	    		END WHILE;
+
+	    		SET @LanCapNhatCuoi = NgayCanUpdate;
+	  		END IF;
+			SET NgayUpdate = @LanUpdateCuoi;
+		END IF;
+	ELSE
+		SET SoDuDung = 0;
+		SET NgayUpdate = @NgayDongSo;
+	END IF;
+END;
+$$
+DELIMITER ;
+
 /*===================================================================================TRIGGERS==============================================================================*/
 
 DROP TRIGGER IF EXISTS SoTietKiemBeforeUpdate;
 DELIMITER $$
 CREATE TRIGGER SoTietKiemBeforeUpdate BEFORE UPDATE ON SOTIETKIEM FOR EACH ROW
 BEGIN
-	IF (CoTheCapNhatSoTietKiem() = FALSE) THEN
-		CALL ThrowException('TK003');
+	IF (NOT CoTheCapNhatSoTietKiem()) THEN
+	    IF (NEW.MaSo != OLD.MaSo OR
+	        NEW.SoDu != OLD.SoDu OR
+	        NEW.SoDuLanCapNhatCuoi != OLD.SoDuLanCapNhatCuoi OR
+	        NEW.LanCapNhatCuoi != OLD.LanCapNhatCuoi OR
+	        NEW.NgayDongSo != OLD.NgayDongSo OR
+	        NEW.MaKyHan != OLD.MaKyHan) THEN
+		    CALL ThrowException('TK003');
+        END IF;
+    END IF;
+
+	IF (NEW.SoTienBanDau != OLD.SoTienBanDau OR NEW.NgayTao != OLD.NgayDongSo) THEN
+	    IF (EXISTS(SELECT * FROM PHIEURUT PR WHERE PR.MaSo = NEW.MaSo)) THEN
+            CALL ThrowException('TK005');
+        END IF;
+        IF (NEW.SoTienBanDau < LaySoTienMoTaiKhoanNhoNhat(NEW.NgayTao)) THEN CALL ThrowException('TK001'); END IF;
+	    IF (EXISTS(SELECT * FROM PHIEUGUI PG WHERE PG.MaSo = NEW.MaSo AND PG.NgayTao < NEW.NgayTao)) THEN
+            CALL ThrowException('TK006');
+        END IF;
     END IF;
 END;
 $$
@@ -114,17 +147,27 @@ DROP TRIGGER IF EXISTS SoTietKiemInsert;
 DELIMITER $$
 CREATE TRIGGER SoTietKiemInsert BEFORE INSERT ON SOTIETKIEM FOR EACH ROW
 BEGIN
+    DECLARE SoDuDung DECIMAL(15, 2);
+    DECLARE NgayDung DATE;
+
 	IF (NEW.NgayTao = '0/0/0') THEN SET NEW.NgayTao = NOW(); END IF;
 	IF (NEW.SoTienBanDau < LaySoTienMoTaiKhoanNhoNhat(NEW.NgayTao)) THEN CALL ThrowException('TK001'); END IF;
     IF (KiemTraKyHan(NEW.MaKyHan, NEW.NgayTao) = FALSE) THEN
 		CALL ThrowException('TK002');
 	END IF; 
 	SET NEW.SoDu = NEW.SoTienBanDau;
+    SET NEW.SoDuLanCapNhatCuoi = NEW.SoTienBanDau;
+
+	CALL LaySoTienVoiNgay(NEW.NgayTao, NEW.LanCapNhatCuoi,
+	    NEW.NgayDongSo, NEW.MaKyHan, NEW.SoDu,
+	    NEW.SoDuLanCapNhatCuoi, CURRENT_DATE(), SoDuDung, NgayDung);
+
+	SET NEW.SoDU = SoDuDung;
     SET NEW.LanCapNhatCuoi = NEW.NgayTao;
     SET NEW.NgayDongSo = NULL;
-    
+
     CALL CapNhatBaoCaoNgayTaoSoTietKiem(NEW.SoTienBanDau, NEW.NgayTao, NEW.MaKyHan);
-    CALL CapNhatBaoCaoThangTaoSoTietKiem(NEW.NgayTao, NEW.MaKyHan);
+    CALL CapNhatBaoCaoThangTaoSoTietKiem(NEW.NgayTao, NEW.MaKyHan, NEW.NgayDongSo);
 END;
 $$
 DELIMITER ;

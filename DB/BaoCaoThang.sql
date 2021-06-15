@@ -28,7 +28,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS CapNhatBaoCaoThangTaoSoTietKiem;
 DELIMITER $$
-CREATE PROCEDURE CapNhatBaoCaoThangTaoSoTietKiem(IN NgayTao DATE, IN MaKyHan INT)
+CREATE PROCEDURE CapNhatBaoCaoThangTaoSoTietKiem(IN NgayTao DATE, IN MaKyHan INT, IN NgayDongSo DATE)
 BEGIN
 	SELECT KyHan INTO @KyHan FROM LOAIKYHAN LKH WHERE LKH.MaKyHan = MaKyHan LIMIT 1;
 	CALL BatDauCapNhatBaoCaoThang();
@@ -36,6 +36,12 @@ BEGIN
     UPDATE BAOCAOTHANG
     SET SoMo = SoMo + 1
     WHERE Thang = MONTH(NgayTao) AND Nam = YEAR(NgayTao) AND KyHan = @KyHan;
+    
+	IF (NgayDongSo IS NOT NULL) THEN
+		UPDATE BAOCAOTHANG
+		SET SoDong = SoDong + 1
+		WHERE Thang = MONTH(NgayDongSo) AND Nam = YEAR(NgayDongSo) AND KyHan = @KyHan;
+	END IF;
     
 	CALL KetThucCapNhatBaoCaoThang();
 END;

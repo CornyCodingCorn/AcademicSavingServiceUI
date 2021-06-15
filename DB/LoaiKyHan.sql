@@ -32,9 +32,9 @@ DROP PROCEDURE IF EXISTS LayKyHanVaLaiSuat;
 DELIMITER $$
 CREATE PROCEDURE LayKyHanVaLaiSuat(IN NgayKiemTra DATE)
 BEGIN
-	PREPARE QueryStr FROM 'SELECT LKH.KyHan, LaiSuat FROM LOAIKYHAN LKH JOIN (SELECT MAX(MaKyHan) AS MaKyHan FROM LOAIKYHAN LKH2 WHERE NgayTao <= ? GROUP BY KyHan) KQ ON LKH.MaKyHan = KQ.MaKyHan;';
+	PREPARE QueryStr FROM 'SELECT LKH.KyHan, LaiSuat FROM LOAIKYHAN LKH JOIN (SELECT MAX(MaKyHan) AS MaKyHan FROM LOAIKYHAN LKH2 WHERE NgayTao <= ? AND NgayNgungSuDung > ? GROUP BY KyHan) KQ ON LKH.MaKyHan = KQ.MaKyHan;';
 	SET @NgayKiemTra = NgayKiemTra;
-	EXECUTE QueryStr USING @NgayKiemTra;
+	EXECUTE QueryStr USING @NgayKiemTra, @NgayKiemTra;
     DEALLOCATE PREPARE QueryStr;
 END;
 $$
@@ -84,30 +84,32 @@ DELIMITER $$
 CREATE FUNCTION LayLaiSuatKhongKyHanTrongKhoangThoiGian(NgayBatDau DATE, NgayKetThuc DATE) RETURNS FLOAT DETERMINISTIC
 BEGIN
 	DECLARE Counter INT;
-    DECLARE LaiSuatHienTai FLOAT;
-    DECLARE TongLaiSuat FLOAT;
-    DECLARE NgayHienTai DATE;
+    DECLARE _laiSuatHienTai FLOAT;
+    DECLARE _tongLaiSuat FLOAT;
+    DECLARE _ngayHienTai DATE;
+    DECLARE _ngayTuongLai DATE;
+    DECLARE _laiSuatTrongTuongLai FLOAT;
 
 	IF (NgayBatDau >= NgayKetThuc) THEN RETURN 0; END IF;
-    SET LaiSuatHienTai = (SELECT LaiSuat FROM LOAIKYHAN WHERE NgayTao <= NgayBatDau AND KyHan = 0 ORDER BY NgayTao DESC LIMIT 1);
+    SET _laiSuatHienTai = (SELECT LaiSuat FROM LOAIKYHAN WHERE NgayTao <= NgayBatDau AND KyHan = 0 ORDER BY NgayTao DESC LIMIT 1);
     SELECT COUNT(*) INTO @Size FROM LOAIKYHAN WHERE NgayTao > NgayBatDau AND KyHan = 0 AND NgayTao <= NgayKetThuc;
     
-    IF (LaiSuatHienTai IS NULL) THEN
-		SET LaiSuatHienTai = 0;
+    IF (_laiSuatHienTai IS NULL) THEN
+		SET _laiSuatHienTai = 0;
     END IF;
     
-    SET TongLaiSuat = 0;
-    SET NgayHienTai = NgayBatDau;
+    SET _tongLaiSuat = 0;
+    SET _ngayHienTai = NgayBatDau;
     SET Counter = 0;
     WHILE (Counter < @Size) DO
-		SELECT LaiSuat, NgayTao INTO @LaiSuatTrongTuongLai, @NgayTuongLai FROM LOAIKYHAN WHERE  NgayTao > NgayBatDau AND KyHan = 0 AND NgayTao <= NgayKetThuc LIMIT Counter, 1;
-        SET TongLaiSuat = TongLaiSuat + (LaiSuatHienTai / 365 / 100 * TIMESTAMPDIFF(DAY, NgayHienTai, @NgayTuongLai));
-        SET LaiSuatHienTai = @LaiSuatTrongTuongLai;
-        SET NgayHienTai = @NgayTuongLai;
+		SELECT LaiSuat, NgayTao INTO _laiSuatTrongTuongLai, _ngayTuongLai FROM LOAIKYHAN WHERE  NgayTao > NgayBatDau AND KyHan = 0 AND NgayTao <= NgayKetThuc LIMIT Counter, 1;
+        SET _tongLaiSuat = _tongLaiSuat + ((_laiSuatHienTai / (365 * 100)) * TIMESTAMPDIFF(DAY, _ngayHienTai, _ngayTuongLai));
+        SET _laiSuatHienTai = _laiSuatTrongTuongLai;
+        SET _ngayHienTai = _ngayTuongLai;
         SET Counter = Counter + 1;
     END WHILE;
-    SET TongLaiSuat = TongLaiSuat + (LaiSuatHienTai / 365 / 100 * TIMESTAMPDIFF(DAY, NgayHienTai, NgayKetThuc));
-    RETURN TongLaiSuat;
+    SET _tongLaiSuat = _tongLaiSuat + ((_laiSuatHienTai / (365 * 100)) * TIMESTAMPDIFF(DAY, _ngayHienTai, NgayKetThuc));
+    RETURN _tongLaiSuat;
 END;
 $$
 DELIMITER ;

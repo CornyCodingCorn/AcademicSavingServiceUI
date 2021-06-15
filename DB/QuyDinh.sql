@@ -5,7 +5,11 @@ DELIMITER $$
 CREATE FUNCTION LaySoTienNapNhoNhat(NgayKiemTra DATE) RETURNS BIGINT
 DETERMINISTIC 
 BEGIN
-	RETURN (SELECT SoTienNapNhoNhat FROM QuyDinh WHERE NgayTao <= NgayKiemTra ORDER BY NgayTao DESC LIMIT 1);
+	SELECT SoTienNapNhoNhat INTO @SoTien FROM QuyDinh WHERE NgayTao <= NgayKiemTra ORDER BY NgayTao DESC LIMIT 1;
+	IF (@SoTien IS NULL) THEN
+		CALL ThrowException('QD004');
+    END IF;
+	RETURN @SoTien;
 END;
 $$
 DELIMITER ;
@@ -15,7 +19,11 @@ DELIMITER $$
 CREATE FUNCTION LaySoTienMoTaiKhoanNhoNhat(NgayKiemTra DATE) RETURNS BIGINT
 DETERMINISTIC 
 BEGIN
-	RETURN (SELECT SoTienNapNhoNhat FROM QuyDinh WHERE NgayTao <= NgayKiemTra ORDER BY NgayTao DESC LIMIT 1);
+	SELECT SoTienNapNhoNhat INTO @SoTien FROM QuyDinh WHERE NgayTao <= NgayKiemTra ORDER BY NgayTao DESC LIMIT 1;
+    IF (@SoTien IS NULL) THEN
+		CALL ThrowException('QD004');
+    END IF;
+	RETURN @SoTien;
 END$$
 DELIMITER ;
 
@@ -24,7 +32,11 @@ DELIMITER $$
 CREATE FUNCTION LaySoNgayKhongKyHanNhoNhat(NgayKiemTra DATE) RETURNS BIGINT
 DETERMINISTIC 
 BEGIN
-	RETURN (SELECT SoNgayToiThieu FROM QuyDinh WHERE NgayTao <= NgayKiemTra ORDER BY NgayTao DESC LIMIT 1);
+	SELECT SoNgayToiThieu INTO @SoTien FROM QuyDinh WHERE NgayTao <= NgayKiemTra ORDER BY NgayTao DESC LIMIT 1;
+	IF (@SoTien IS NULL) THEN
+		CALL ThrowException('QD004');
+    END IF;
+	RETURN @SoTien;
 END$$
 DELIMITER ;
 
