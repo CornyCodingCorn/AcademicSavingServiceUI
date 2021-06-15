@@ -16,17 +16,13 @@ namespace AcademicSavingService.Controls
 			get { return (bool)GetValue(AcceptDecimalProperty); }
 			set { 
 				SetValue(AcceptDecimalProperty, value);
-				if (value)
-					regex = new Regex("[^0-9]+.");
-				else
-					regex = new Regex("[^0-9]+");
 			}
 		}
 
 		Regex regex;
 		public DigitTextBox()
 		{
-			regex = new Regex("[^0-9]+");
+			regex = new Regex("[^0-9.]");
 			PreviewTextInput += NumberValidationTextBox;
 			TextChanged += (sender, e) =>
 			{
@@ -38,7 +34,13 @@ namespace AcademicSavingService.Controls
 
 		private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
 		{
-			e.Handled = regex.IsMatch(e.Text);
+			if (regex.IsMatch(e.Text))
+				e.Handled = true;
+			else if (e.Text.Contains('.'))
+			{
+				if (Text.Contains('.'))
+					e.Handled = true;
+			}
 		}
 	}
 }
