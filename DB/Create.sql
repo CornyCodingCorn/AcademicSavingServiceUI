@@ -123,3 +123,5 @@ CREATE TABLE ERRORTABLE (
     
     PRIMARY KEY(MaLoi)
 ) CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+SET PERSIST information_schema_stats_expiry = 0;

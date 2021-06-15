@@ -175,11 +175,13 @@ namespace AcademicSavingService.ViewModel
 			{
 				SavingAccountContainer.Instance.AddToCollection(new SavingAccountINPC
 				{
+					MaSo = ID,
 					MaKH = CustomerID,
 					KyHan = TermsList[SelectedTermIndex],
 					SoTienBanDau = InitialBalance,
 					NgayTao = CreateDate,
 					LaiSuat = InterestRate,
+					SoDu = InitialBalance,
 				});
 				ID = SavingAccountContainer.Instance.GetNextAutoID();
 			}
