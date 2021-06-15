@@ -111,6 +111,7 @@ namespace AcademicSavingService.ViewModel
 			try
 			{
 				_containerInstance.AddToCollection(new TransactionSlipINPC(ID, CreateDate, Amount, Note, AccountID));
+				ID = _containerInstance.GetNextAutoID();
 			}
 			catch(MySqlException e)
 			{ ShowErrorMessage(e); }
