@@ -181,6 +181,7 @@ namespace AcademicSavingService.ViewModel
 					NgayTao = CreateDate,
 					LaiSuat = InterestRate,
 				});
+				ID = SavingAccountContainer.Instance.GetNextAutoID();
 			}
 			catch (MySqlException e)
 			{
