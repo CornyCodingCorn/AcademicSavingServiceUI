@@ -21,7 +21,7 @@ namespace AcademicSavingService.ViewModel
 		}
 
 		protected RelayCommand<TransactionManagerViewModel> _withdrawAllCommand;
-		public ICommand WithDrawAllCommand => _withdrawAllCommand ?? (_withdrawAllCommand = new RelayCommand<TransactionManagerViewModel>(param => ExecuteUpdate(), param => CanExecuteUpdate()));
+		public ICommand WithdrawAllCommand => _withdrawAllCommand ?? (_withdrawAllCommand = new RelayCommand<TransactionManagerViewModel>(param => ExecuteUpdate(), param => CanExecuteUpdate()));
 
 
 		protected void ExecuteWithdrawAll()
