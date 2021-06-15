@@ -29,9 +29,9 @@
 		</Border.Style>
 		<Grid Margin="{StaticResource PaddingWidth}">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="20*" MinWidth="50" MaxWidth="120"/>
+				<ColumnDefinition Width="40*" MinWidth="50" MaxWidth="190"/>
 				<ColumnDefinition Width="80*"/>
-				<ColumnDefinition Width="20*" MinWidth="50" MaxWidth="120"/>
+				<ColumnDefinition Width="40*" MinWidth="50" MaxWidth="190"/>
 			</Grid.ColumnDefinitions>
 			
 			<ContentControl Grid.Column="0" x:Name="leftChild"/>
@@ -55,9 +55,9 @@
 				</Grid.Resources>
 
 				<Button Grid.Row="0" Margin="0, 2, 0, 2" Command="{Binding StartInsertCommand}" 
-						Content="INSERT MODE" Style="{DynamicResource InsertButtonStyle}"
+						Content="ADD NEW" Style="{DynamicResource InsertButtonStyle}"
 						ToolTip="Enter insert mode"/>
-				<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding CreateCommand}" Content="ADD" ToolTip="Add a new row into the table"/>
+				<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding CreateCommand}" Content="SAVE" ToolTip="Add a new row into the table"/>
 				<Button Grid.Row="2" Margin="0, 2, 0, 2" Command="{Binding ClearCommand}" Content="CLEAR" ToolTip="Clear all the field text boxes"/>
 			</Grid>
 		</Grid>

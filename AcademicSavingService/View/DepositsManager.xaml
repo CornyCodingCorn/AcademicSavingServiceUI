@@ -81,7 +81,7 @@
 						</Grid.Resources>
 
 						<Button Grid.Row="0" Margin="0, 2, 0, 2" Command="{Binding DeleteCommand}" Content="REMOVE" ToolTip="Remove the selected slip"/>
-						<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding UpdateCommand}" Content="UPDATE" ToolTip="Update the selected slip"/>
+						<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding UpdateCommand}" Content="UPDATE NOTE" ToolTip="Update the selected slip"/>
 					</Grid>
 				</ctrl:AssCRUDPanel.Left>
 				<ctrl:AssCRUDPanel.Middle>
