@@ -36,7 +36,7 @@ namespace AcademicSavingService.ViewModel
 
 		protected bool CanExecuteWithdrawAll()
 		{
-			return IsReadOnly && SelectedAccount.SoDu > 0;
+			return IsReadOnly && SelectedAccount != null && SelectedAccount.SoDu > 0;
 		}
 
 		protected override bool CanExecuteAdd()

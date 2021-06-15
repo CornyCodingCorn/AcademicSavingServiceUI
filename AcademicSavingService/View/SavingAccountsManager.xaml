@@ -87,9 +87,9 @@
 							</Style>
 						</Grid.Resources>
 
-						<Button Grid.Row="0" Margin="0, 2, 0, 2" Command="{Binding DeleteCommand}" Content="REMOVE"/>
-						<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding UpdateOneCommand}" Content="UPDATE"/>
-						<Button Grid.Row="2" Margin="0, 2, 0, 2" Command="{Binding UpdateAllCommand}" Content="UPDATE ALL"/>
+						<Button Grid.Row="0" Margin="0, 2, 0, 2" Command="{Binding DeleteCommand}" Content="DELETE"/>
+						<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding UpdateOneCommand}" Content="UPDATE BALANCE"/>
+						<Button Grid.Row="2" Margin="0, 2, 0, 2" Command="{Binding UpdateAllCommand}" Content="UPDATE ALL BALANCE"/>
 					</Grid>
 				</ctrl:AssCRUDPanel.Left>
 				<ctrl:AssCRUDPanel.Middle>

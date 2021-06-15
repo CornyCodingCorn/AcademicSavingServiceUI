@@ -13,7 +13,6 @@ namespace AcademicSavingService.Containers
 
 		public override void AddToCollection(TransactionSlipINPC item)
 		{
-			item.SoTien = -item.SoTien;
 			_slipDA.Create(item);
 			item.SoTien = -item.SoTien;
 			Collection.Add(item);
