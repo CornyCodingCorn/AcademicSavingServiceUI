@@ -28,7 +28,14 @@ namespace AcademicSavingService.ViewModel
 		{
 			try
 			{
-
+				var slip = new INPC.TransactionSlipINPC()
+				{
+					MaPhieu = ID,
+					MaSo = OwnerID,
+					NgayTao = CreateDate,
+					GhiChu = Note,
+				};
+				((WithdrawSlipContainer)_containerInstance).AddWithdrawAllSlipToCollection(slip);
 			}
 			catch(MySqlException e)
 			{ ShowErrorMessage(e); }
