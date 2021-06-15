@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using MySql.Data.MySqlClient;
 using AcademicSavingService.INPC;
 using AcademicSavingService.Containers;
-using MySql.Data.MySqlClient;
+using AcademicSavingService.Commands;
 
 namespace AcademicSavingService.ViewModel
 {
@@ -39,12 +40,15 @@ namespace AcademicSavingService.ViewModel
         public DateTime? NgayNgungSuDungField { get; set; }
 
         public int SelectedIndex { get; set; }
+        public ICommand DisableTermCommand => _disableTermCommand ?? (_disableTermCommand = new RelayCommand<TermTypeINPC>(param => DisableTerm(), param => canDisableTerm()));
 
         private TermTypeINPC _selectedTerm;
+        private RelayCommand<TermTypeINPC> _disableTermCommand;
 
         public TermsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
         {
             Terms = TermTypeContainer.Instance.Collection;
+            SelectedTerm = null;
         }
 
         protected override void ClearAllField()
@@ -53,6 +57,21 @@ namespace AcademicSavingService.ViewModel
             LaiSuatField = 0;
             NgayTaoField = DateTime.Now;
             NgayNgungSuDungField = null;
+        }
+
+        private void DisableTerm()
+        {
+            try
+            {
+                TermTypeContainer.Instance.DisableTerm(new TermTypeINPC() { MaKyHan = MaKyHanField, KyHan = KyHanField },
+                    NgayNgungSuDungField.GetValueOrDefault());
+            }
+            catch (MySqlException e) { ShowErrorMessage(e); }
+        }
+
+        private bool canDisableTerm()
+        {
+            return SelectedTerm != null;
         }
 
         protected override void ExecuteAdd()

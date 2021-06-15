@@ -14,14 +14,19 @@ namespace AcademicSavingService.Containers
             return _termDA.GetClosestTermAndInterestToDate(NgayKiemTra);
         }
 
-        public bool StopUsingKyHan(TermTypeINPC term, DateTime stopDate)
+        public bool DisableTerm(TermTypeINPC term, DateTime stopDate)
         {
-            if (_termDA.SetKyHanUnused(term, stopDate))
+            if (_termDA.SetTermUnused(term, stopDate))
             {
                 Collection.Remove(Collection.SingleOrDefault(item => item.MaKyHan == term.MaKyHan));
                 return true;
             }
             return false;
+        }
+
+        public bool CheckIfTermIsReferenced(int MaKyHan)
+        {
+            return _termDA.CheckIfTermIsReferencedByMaKyHan(MaKyHan);
         }
 
         public override void AddToCollection(TermTypeINPC term)

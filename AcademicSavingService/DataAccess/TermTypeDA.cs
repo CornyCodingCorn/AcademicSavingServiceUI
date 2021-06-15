@@ -35,7 +35,7 @@ namespace AcademicSavingService.DataAccess
             finally { BaseDBConnection.CloseConnection(); }
         }
 
-        public bool SetKyHanUnused(TermTypeINPC term, DateTime stopDate)
+        public bool SetTermUnused(TermTypeINPC term, DateTime stopDate)
         {
             string q = $"CALL NgungSuDungKyHan({_KyHanVar}, {_NgayNgungSuDungMoiVar})";
             cmd.CommandText = q;
@@ -52,6 +52,11 @@ namespace AcademicSavingService.DataAccess
             }
             catch { return false; }
             finally { BaseDBConnection.CloseConnection(); }
+        }
+
+        public bool CheckIfTermIsReferencedByMaKyHan(int MaKyHan)
+        {
+            return db.Query(_soTietKiemTableName).Where(_MaKyHan, MaKyHan).Exists();
         }
 
         public override void Create(TermTypeINPC term)
@@ -103,5 +108,6 @@ namespace AcademicSavingService.DataAccess
         private readonly string _NgayNgungSuDungMoiVar = "@NgayNgungSuDungMoi";
 
         protected override string _tableName => "LoaiKyHan";
+        private readonly string _soTietKiemTableName = "SoTietKiem";
     }
 }
