@@ -22,15 +22,18 @@
 			<RowDefinition Height="30*" MaxHeight="220" MinHeight="200"/>
 		</Grid.RowDefinitions>
 
-		<ctrl:AssDataGrid Margin="0,0,0,20" EnableFullTextSearch="True" x:Name="asd" ItemsSource="{Binding Tests}" DataGridName="CUSTOMERS">
+		<ctrl:AssDataGrid Margin="0,0,0,20" EnableFullTextSearch="True" 
+                          x:Name="asd" ItemsSource="{Binding Customers}" 
+                          DataGridName="CUSTOMERS"
+                          SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
+                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
 			<ctrl:AssDataGrid.Columns>
-				<DataGridTextColumn Header="ID"/>
-				<DataGridTextColumn Header="FULL NAME"/>
-				<DataGridTextColumn Header="IDENTITY NUMBER"/>
-				<DataGridTextColumn Header="PHONE NUMBER"/>
-				<DataGridTextColumn Header="REGISTER BRANCH"/>
-				<DataGridTextColumn Header="REGISTER DATE"/>
-				<DataGridTextColumn Header="ADDRESS" Width="*"/>
+				<DataGridTextColumn Header="ID" Binding="{Binding MaKH}"/>
+				<DataGridTextColumn Header="FULL NAME" Binding="{Binding HoTen}"/>
+				<DataGridTextColumn Header="IDENTITY NUMBER" Binding="{Binding CMND}"/>
+				<DataGridTextColumn Header="PHONE NUMBER" Binding="{Binding SDT}"/>
+				<DataGridTextColumn Header="REGISTER DATE" Binding="{Binding NgayDangKy, StringFormat='dd/MM/yyyy'}"/>
+				<DataGridTextColumn Header="ADDRESS" Width="*" Binding="{Binding DiaChi}"/>
 			</ctrl:AssDataGrid.Columns>
 		</ctrl:AssDataGrid>
 
@@ -66,14 +69,14 @@
 
 				<Grid Grid.Column="1">
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="*" MaxWidth="100"/>
 						<ColumnDefinition Width="60*" MaxWidth="650" MinWidth="400"/>
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
 					<Grid Grid.Column="1">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="110"/>
-							<ColumnDefinition Width="40*"/>
+							<ColumnDefinition Width="60*"/>
 							<ColumnDefinition Width="110"/>
 							<ColumnDefinition Width="60*"/>
 						</Grid.ColumnDefinitions>
@@ -84,23 +87,22 @@
 							<RowDefinition Height="*"/>
 						</Grid.RowDefinitions>
 
-						<TextBlock Text="ID"			Grid.Column="0" Grid.Row="0"/>
-						<TextBlock Text="Owner ID"		Grid.Column="0" Grid.Row="1"/>
-						<TextBlock Text="Close date"	Grid.Column="0" Grid.Row="2"/>
-						<TextBlock Text="Update date"	Grid.Column="0" Grid.Row="3"/>
-						<TextBlock Text="Create date"	Grid.Column="2" Grid.Row="0"/>
-						<TextBlock Text="Balance"		Grid.Column="2" Grid.Row="1"/>
-						<TextBlock Text="Period"		Grid.Column="2" Grid.Row="2"/>
-						<TextBlock Text="Interest rate" Grid.Column="2" Grid.Row="3"/>
+						<TextBlock Text="ID"				Grid.Column="0" Grid.Row="0"/>
+						<TextBlock Text="Full name"			Grid.Column="0" Grid.Row="1"/>
+						<TextBlock Text="Identity number"	Grid.Column="0" Grid.Row="2"/>
+						<TextBlock Text="Phone"				Grid.Column="0" Grid.Row="3"/>
+						<TextBlock Text="Register date"		Grid.Column="2" Grid.Row="0"/>
+						<TextBlock Text="Address"			Grid.Column="2" Grid.Row="1"/>
 
-						<TextBox	Grid.Column="1" Grid.Row="0" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID number"/>
-						<TextBox	Grid.Column="1" Grid.Row="1" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Owner ID"/>
-						<TextBox	Grid.Column="1" Grid.Row="2" Width="120" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Close date"/>
-						<TextBox	Grid.Column="1" Grid.Row="3" Width="120" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Update date"/>
-						<DatePicker Grid.Column="3" Grid.Row="0" Width="120" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"/>
-						<TextBox	Grid.Column="3" Grid.Row="1" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Balance" mah:TextBoxHelper.ClearTextButton="True"/>
-						<ComboBox	Grid.Column="3" Grid.Row="2" Width="80"  HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Period"/>
-						<TextBox	Grid.Column="3" Grid.Row="3" Width="80"  IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate"/>
+						<TextBox	Grid.Column="1" Grid.Row="0" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding MaKHField}"/>
+						<TextBox	Grid.Column="1" Grid.Row="1" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Full name" Text="{Binding HoTenField}"/>
+						<TextBox	Grid.Column="1" Grid.Row="2" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Identity number" Text="{Binding CMNDField}"/>
+						<TextBox	Grid.Column="1" Grid.Row="3" Width="120" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Phone" Text="{Binding SDTField}"/>
+						<TextBox	Grid.Column="3" Grid.Row="0" Width="120" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Register date" Text="{Binding NgayDangKyField, StringFormat='dd/MM/yyyy'}"/>
+						<TextBox	Grid.Column="3" Grid.Row="1" Grid.RowSpan="3" Width="auto" Height="auto" mah:TextBoxHelper.Watermark="Address" Text="{Binding DiaChiField}"
+                                    TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" 
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                    AllowDrop="True" AcceptsReturn="True"/>
 					</Grid>
 				</Grid>
 			</Grid>

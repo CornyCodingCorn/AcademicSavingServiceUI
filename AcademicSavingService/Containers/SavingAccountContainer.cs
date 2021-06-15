@@ -21,6 +21,7 @@ namespace AcademicSavingService.Containers
 				{
                     Collection[i].LanCapNhatCuoi = NgayCanUpdate;
                     Collection[i].SoDu = result.SoDu;
+                    break;
 				}
         }
 

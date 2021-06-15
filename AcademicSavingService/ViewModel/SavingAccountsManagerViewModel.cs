@@ -58,11 +58,7 @@ namespace AcademicSavingService.ViewModel
 				else
                 {
                     ID = 0;
-                    CreateDate = DateTime.Now;
-                    CloseDate = null;
-                    LastUpdateDate = null;
-                    Balance = 0;
-                    InitialBalance = 0;
+					ClearAllField();
 
 					SelectedTermIndex = -1;
 					SelectedCustomer = null;
@@ -268,13 +264,11 @@ namespace AcademicSavingService.ViewModel
 
 		protected override void ClearAllField()
 		{
-			ID = SavingAccountContainer.Instance.GetNextAutoID();
 			CreateDate = DateTime.Now;
 			Balance = 0;
 			InitialBalance = 0;
 			CloseDate = null;
 			LastUpdateDate = null;
-			SelectedTermIndex = 1;
 		}
 
 		protected override void ShowErrorMessage(MySqlException exception)

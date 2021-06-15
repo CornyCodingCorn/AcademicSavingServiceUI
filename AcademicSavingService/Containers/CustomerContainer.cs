@@ -19,6 +19,23 @@ namespace AcademicSavingService.Containers
             Collection.Remove(Collection.SingleOrDefault(item => item.MaKH == MaKH));
         }
 
+        public override void UpdateOnCollection(CustomerINPC updatedCustomer)
+        {
+            _customerDA.UpdateCustomerByMaKH(updatedCustomer);
+            foreach (var item in Collection)
+            {
+                if (item.MaKH == updatedCustomer.MaKH)
+                {
+                    item.HoTen = updatedCustomer.HoTen;
+                    item.CMND = updatedCustomer.CMND;
+                    item.SDT = updatedCustomer.SDT;
+                    item.DiaChi = updatedCustomer.DiaChi;
+                    item.NgayDangKy = updatedCustomer.NgayDangKy;
+                }
+                break;
+            }
+        }
+
         public override ObservableCollection<CustomerINPC> GetFromCollectionByDefaultKey(int MaKH)
         {
             ObservableCollection<CustomerINPC> collection = new();
@@ -44,22 +61,6 @@ namespace AcademicSavingService.Containers
         public ObservableCollection<CustomerINPC> GetFromCollectionBySDT(string SDT)
         {
             return new ObservableCollection<CustomerINPC>(Collection.Where(item => item.SDT == SDT));
-        }
-
-        public void UpdateItemInCollection(CustomerINPC updatedCustomer)
-        {
-            _customerDA.UpdateCustomerByMaKH(updatedCustomer);
-            foreach (var item in Collection)
-            {
-                if (item.MaKH == updatedCustomer.MaKH)
-                {
-                    item.HoTen = updatedCustomer.HoTen;
-                    item.CMND = updatedCustomer.CMND;
-                    item.SDT = updatedCustomer.SDT;
-                    item.DiaChi = updatedCustomer.DiaChi;
-                    item.NgayDangKy = updatedCustomer.NgayDangKy;
-                }
-            }
         }
 
         private CustomerContainer()

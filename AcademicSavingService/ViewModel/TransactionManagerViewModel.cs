@@ -98,7 +98,6 @@ namespace AcademicSavingService.ViewModel
 			{
 				_indexBeforeInsertMode = SelectedSlipIndex;
 				SelectedSlip = null;
-				CreateDate = DateTime.Now;
 				ID = _containerInstance.GetNextAutoID();
 			}
 			else
