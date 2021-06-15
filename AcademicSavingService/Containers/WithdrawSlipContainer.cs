@@ -1,5 +1,6 @@
 ﻿using AcademicSavingService.DataAccess;
 using AcademicSavingService.INPC;
+using System;
 
 namespace AcademicSavingService.Containers
 {
@@ -11,12 +12,18 @@ namespace AcademicSavingService.Containers
 			Collection = _slipDA.GetAll();
 		}
 
-		public override void AddToCollection(TransactionSlipINPC item)
+		public override void AddToCollection(TransactionSlipINPC slip)
 		{
-			_slipDA.Create(item);
-			item.SoTien = -item.SoTien;
-			Collection.Add(item);
+      _slipDA.Create(slip);
+			slip.SoTien = -slip.SoTien;
+			Collection.Add(slip);
 		}
+
+		public void AddWithdrawAllSlipToCollection(TransactionSlipINPC slip)
+        {
+			((WithdrawSlipDA)_slipDA).WithdrawAllFromAccountByMaSo(slip.MaSo, slip.GhiChu, slip.NgayTao);
+			Collection.Add(slip);
+        }
 
 		private static readonly WithdrawSlipContainer _instance = new();
 		public static WithdrawSlipContainer Instance => _instance;
