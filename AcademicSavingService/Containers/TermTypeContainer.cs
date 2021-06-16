@@ -14,11 +14,23 @@ namespace AcademicSavingService.Containers
             return _termDA.GetClosestTermAndInterestToDate(NgayKiemTra);
         }
 
+        public ObservableCollection<TermTypeINPC> GetCurrentlyActiveTerms()
+        {
+            return new ObservableCollection<TermTypeINPC>(Collection.Where(item => item.NgayNgungSuDung == null));
+        }
+
         public bool DisableTerm(TermTypeINPC term, DateTime stopDate)
         {
             if (_termDA.SetTermUnused(term, stopDate))
             {
-                Collection.Remove(Collection.SingleOrDefault(item => item.MaKyHan == term.MaKyHan));
+                foreach (var item in Collection)
+                {
+                    if (item.MaKyHan == term.MaKyHan)
+                    {
+                        item.NgayNgungSuDung = stopDate;
+                        break;
+                    }
+                }
                 return true;
             }
             return false;
@@ -44,7 +56,8 @@ namespace AcademicSavingService.Containers
         public override ObservableCollection<TermTypeINPC> GetFromCollectionByDefaultKey(int MaKyHan)
         {
             ObservableCollection<TermTypeINPC> collection = new();
-            collection.Add(Collection.SingleOrDefault(item => item.MaKyHan == MaKyHan));
+            var term = Collection.SingleOrDefault(item => item.MaKyHan == MaKyHan);
+            if (term != null) collection.Add(term);
 
             return collection;
         }

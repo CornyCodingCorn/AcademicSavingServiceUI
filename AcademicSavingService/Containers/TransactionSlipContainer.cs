@@ -36,7 +36,8 @@ namespace AcademicSavingService.Containers
         public override ObservableCollection<TransactionSlipINPC> GetFromCollectionByDefaultKey(int MaPhieu)
         {
             ObservableCollection<TransactionSlipINPC> collection = new();
-            collection.Add(Collection.SingleOrDefault(item => item.MaPhieu == MaPhieu));
+            var slip = Collection.SingleOrDefault(item => item.MaPhieu == MaPhieu);
+            if (slip != null) collection.Add(slip);
 
             return collection;
         }

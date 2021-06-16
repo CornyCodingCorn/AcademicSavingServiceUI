@@ -16,21 +16,21 @@ namespace AcademicSavingService.ViewModel
 			set
             {
 				_selectedCustomer = value;
-				if (_selectedCustomer != null)
-                {
+				if (_selectedCustomer != null && !IsInsertMode)
+				{
 					MaKHField = _selectedCustomer.MaKH;
 					HoTenField = _selectedCustomer.HoTen;
 					CMNDField = _selectedCustomer.CMND;
 					SDTField = _selectedCustomer.SDT;
 					DiaChiField = _selectedCustomer.DiaChi;
 					NgayDangKyField = _selectedCustomer.NgayDangKy;
-                }
-				else
-                {
+				}
+				else if (_selectedCustomer == null)
+				{
 					MaKHField = 0;
-					ClearAllField();
-                }
-            }
+					ClearAllFields();
+				}
+			}
         }
 
 		public int MaKHField { get; set; }
@@ -39,8 +39,6 @@ namespace AcademicSavingService.ViewModel
 		public string SDTField { get; set; }
 		public string DiaChiField { get; set; }
 		public DateTime NgayDangKyField { get; set; }
-
-		public int SelectedIndex { get; set; }
 
 		private CustomerINPC _selectedCustomer;
 
@@ -64,13 +62,22 @@ namespace AcademicSavingService.ViewModel
 
 			try
 			{
-				if (CustomerContainer.Instance.GetFromCollectionByDefaultKey(MaKHField).Count == 0)
+				if (IsInsertMode)
+                {
 					CustomerContainer.Instance.AddToCollection(customer);
+					ClearAllFields();
+					MaKHField = CustomerContainer.Instance.GetNextAutoID();
+				}
 				else
 					CustomerContainer.Instance.UpdateOnCollection(customer);
 			}
 			catch (MySqlException e) { ShowErrorMessage(e); }
 		}
+
+        protected override bool CanExecuteAdd()
+        {
+			return IsInsertMode || SelectedCustomer != null;
+        }
 
         protected override void ExecuteDelete()
         {
@@ -83,10 +90,10 @@ namespace AcademicSavingService.ViewModel
 
         protected override bool CanExecuteDelete()
         {
-			return _selectedCustomer != null;
+			return !IsInsertMode && _selectedCustomer != null;
         }
 
-        protected override void ClearAllField()
+        protected override void ClearAllFields()
         {
 			HoTenField = null;
 			CMNDField = null;
@@ -100,13 +107,19 @@ namespace AcademicSavingService.ViewModel
             base.ExecuteInsertMode();
 			if (IsInsertMode)
             {
-				MaKHField = CustomerContainer.Instance.GetNextAutoID();
 				_indexBeforeInsertMode = SelectedIndex;
 				SelectedCustomer = null;
+				MaKHField = CustomerContainer.Instance.GetNextAutoID();
 			}
 			else
             {
-				SelectedIndex = _indexBeforeInsertMode;
+				if (SelectedIndex != -1)
+				{
+					var indexHolder = SelectedIndex;
+					SelectedIndex = -1;
+					SelectedIndex = indexHolder;
+				}
+				else SelectedIndex = _indexBeforeInsertMode;
             }
         }
 

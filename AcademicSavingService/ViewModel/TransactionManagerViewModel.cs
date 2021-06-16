@@ -45,11 +45,20 @@ namespace AcademicSavingService.ViewModel
 			set
 			{
 				_selectedAccount = value;
-
-				AccountID = _selectedAccount.MaSo;
-				OwnerID = _selectedAccount.MaKH;
-				Balance = _selectedAccount.SoDu;
-				LastUpdate = _selectedAccount.LanCapNhatCuoi;
+				if (_selectedAccount == null)
+                {
+					AccountID = 0;
+					OwnerID = 0;
+					Balance = 0;
+					LastUpdate = null;
+				}
+				else
+                {
+					AccountID = _selectedAccount.MaSo;
+					OwnerID = _selectedAccount.MaKH;
+					Balance = _selectedAccount.SoDu;
+					LastUpdate = _selectedAccount.LanCapNhatCuoi;
+				}
 			}
 		}
 		#endregion
@@ -65,19 +74,27 @@ namespace AcademicSavingService.ViewModel
 			{
 				_selectedSlip = value;
 				if (_selectedSlip is null)
-					return;
+                {
+					ID = 0;
+					CreateDate = DateTime.Now;
+					Amount = 0;
+					Note = null;
+					SelectedAccount = null;
+				}
+				else if (!IsInsertMode)
+                {
+					ID = _selectedSlip.MaPhieu;
+					CreateDate = _selectedSlip.NgayTao;
+					Amount = _selectedSlip.SoTien;
+					Note = _selectedSlip.GhiChu;
 
-				ID = _selectedSlip.MaPhieu;
-				CreateDate = _selectedSlip.NgayTao;
-				Amount = _selectedSlip.SoTien;
-				Note = _selectedSlip.GhiChu;
-
-				for (int i = 0; i < SavingAccounts.Count; i++)
-				{
-					if (SavingAccounts[i].MaSo == _selectedSlip.MaSo)
+					for (int i = 0; i < SavingAccounts.Count; i++)
 					{
-						SelectedAccount = SavingAccounts[i];
-						break;
+						if (SavingAccounts[i].MaSo == _selectedSlip.MaSo)
+						{
+							SelectedAccount = SavingAccounts[i];
+							break;
+						}
 					}
 				}
 			}
@@ -85,7 +102,6 @@ namespace AcademicSavingService.ViewModel
 		#endregion
 
 		public int SelectedAccountIndex { get; set; }
-		public int SelectedSlipIndex { get; set; }
 
 		#region Execution
 		protected RelayCommand<TransactionManagerViewModel> _updateCommand;
@@ -96,15 +112,23 @@ namespace AcademicSavingService.ViewModel
 			base.ExecuteInsertMode();
 			if (IsInsertMode)
 			{
-				_indexBeforeInsertMode = SelectedSlipIndex;
+				_indexBeforeInsertMode = SelectedIndex;
 				SelectedSlip = null;
+				ClearAllFields();
 				ID = _containerInstance.GetNextAutoID();
 			}
 			else
 			{
-				SelectedSlipIndex = _indexBeforeInsertMode;
+				if (SelectedIndex != -1)
+				{
+					var indexHolder = SelectedIndex;
+					SelectedIndex = -1;
+					SelectedIndex = indexHolder;
+				}
+				else SelectedIndex = _indexBeforeInsertMode;
 			}
 		}
+
 		protected override void ExecuteAdd()
 		{
 			try
@@ -115,6 +139,7 @@ namespace AcademicSavingService.ViewModel
 			catch(MySqlException e)
 			{ ShowErrorMessage(e); }
 		}
+
 		protected virtual void ExecuteUpdate()
 		{
 			try
@@ -124,6 +149,7 @@ namespace AcademicSavingService.ViewModel
 			catch(MySqlException e)
 			{ ShowErrorMessage(e); }
 		}
+
 		protected override void ExecuteDelete()
 		{
 			try
@@ -138,7 +164,7 @@ namespace AcademicSavingService.ViewModel
 		#region Can Execute
 		protected override bool CanExecuteAdd()
 		{
-			return IsInsertMode && SelectedAccount.SoDu > 0 && Amount > 0;
+			return IsInsertMode && SelectedAccount != null && SelectedAccount.SoDu > 0 && Amount > 0;
 		}
 		protected override bool CanExecuteClear()
 		{
@@ -170,7 +196,7 @@ namespace AcademicSavingService.ViewModel
 			ShowMessage("Warning!", endMessage);
 		}
 
-		protected override void ClearAllField()
+		protected override void ClearAllFields()
 		{
 			Amount = 0;
 			CreateDate = DateTime.Now;

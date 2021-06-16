@@ -17,10 +17,10 @@ namespace AcademicSavingService.ViewModel
 		public double VerticleSplit { get; set; }
 		public double HorizontalSplit { get; set; }
 
+		public int SelectedIndex { get; set; }
+
 		public const int UserDefinedErrorNumber = 1644;
 		public const int CantUpdateOrDeleteCauseOfConstraintErrorNumber = 1451;
-
-		protected int _indexBeforeInsertMode = 0;
 
 		public CRUBPanel(MenuItemViewModel menuItem) : base(menuItem)
 		{}
@@ -30,8 +30,10 @@ namespace AcademicSavingService.ViewModel
 		protected RelayCommand<SavingAccountsManagerViewModel> _addCommand;
 		protected RelayCommand<SavingAccountsManagerViewModel> _deleteCommand;
 
+		protected int _indexBeforeInsertMode = -1;
+
 		public ICommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand<SavingAccountsManagerViewModel>(param => ExecuteDelete(), param => CanExecuteDelete()));
-		public ICommand ClearCommand => _clearCommand ?? (_clearCommand = new RelayCommand<SavingAccountsManagerViewModel>(param => ClearAllField(), param => CanExecuteClear()));
+		public ICommand ClearCommand => _clearCommand ?? (_clearCommand = new RelayCommand<SavingAccountsManagerViewModel>(param => ClearAllFields(), param => CanExecuteClear()));
 		public ICommand StartInsertCommand => _startInsertCommand ?? (_startInsertCommand = new RelayCommand<SavingAccountsManagerViewModel>(param => ExecuteInsertMode(), param => CanExecuteInsertMode()));
 		public ICommand CreateCommand => _addCommand ?? (_addCommand = new RelayCommand<SavingAccountsManagerViewModel>(param => ExecuteAdd(), param => CanExecuteAdd()));
 
@@ -53,7 +55,7 @@ namespace AcademicSavingService.ViewModel
 		{
 			if (!IsInsertMode)
 			{
-				ClearAllField();
+				ClearAllFields();
 			}
 			IsInsertMode = !IsInsertMode;
 		}
@@ -64,14 +66,14 @@ namespace AcademicSavingService.ViewModel
 
 		protected virtual void ExecuteClear()
 		{
-			ClearAllField();
+			ClearAllFields();
 		}
 		protected virtual bool CanExecuteClear()
 		{
 			return IsInsertMode;
 		}
 
-		protected virtual void ClearAllField()
+		protected virtual void ClearAllFields()
 		{}
 
 		protected virtual void ShowErrorMessage(MySqlException exception)

@@ -25,7 +25,7 @@ namespace AcademicSavingService.Containers
 				}
         }
 
-        public void UpdateALLSavingAccountStateToNgayCanUpdate(DateTime NgayCanUpdate)
+        public void UpdateAllSavingAccountStateToNgayCanUpdate(DateTime NgayCanUpdate)
         {
             foreach (var row in Collection)
 			{
@@ -50,7 +50,8 @@ namespace AcademicSavingService.Containers
         public override ObservableCollection<SavingAccountINPC> GetFromCollectionByDefaultKey(int MaSo)
         {
             ObservableCollection<SavingAccountINPC> collection = new();
-            collection.Add(Collection.Single(item => item.MaSo == MaSo));
+            var account = Collection.SingleOrDefault(item => item.MaSo == MaSo);
+            if (account != null) collection.Add(account);
 
             return collection;
         }
