@@ -275,9 +275,17 @@ CALL ThemSoTietKiem(15, 6,  1000000, '2020/12/15');
 CALL ThemSoTietKiem(16, 3,  1000000, '2016/12/15');
 CALL ThemSoTietKiem(17, 1,  1000000, '2020/01/15');
 
+DELETE FROM SOTIETKIEM
+WHERE MASO = 1;
+
 SELECT * FROM SOTIETKIEM;
 
 /*========== Phiếu ==========*/
+
+DELETE FROM PHIEUGUI
+WHERE MAPHIEU = 3;
+DELETE FROM PHIEURUT
+WHERE MAPHIEU = 1;
 
 -- (IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 -- (IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
@@ -286,11 +294,13 @@ CALL ThemPhieu(1, 100000, 'Some things', '2016/03/01');
 CALL ThemPhieu(1, 100000, 'Some things', '2016/05/07');
 CALL ThemPhieu(1, 500000, 'Some things', '2016/06/01');
 CALL ThemPhieu(1, -100000, 'Some things', '2016/06/15');
+CALL ThemPhieu(1, -100000, 'Some things', '2016/06/15');
 CALL RutHetTien(1, 'The end game', '2016/10/01');
 
 CALL RutHetTien(2, 'The end game', '2018/01/01');
 
-CALL ThemPhieu(3, -100000, 'Some things', '2016/05/07');
+CALL ThemPhieu(3, 100000, 'Some things', '2016/05/17');
+CALL ThemPhieu(3, 100000, 'Some things', '2016/05/18');
 CALL RutHetTien(3, 'The end game', '2016/10/01');
 
 CALL ThemPhieu(4, 100000, 'Some things', '2017/04/20');
