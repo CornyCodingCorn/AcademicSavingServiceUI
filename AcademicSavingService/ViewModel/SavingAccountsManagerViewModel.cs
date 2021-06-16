@@ -17,7 +17,6 @@ namespace AcademicSavingService.ViewModel
 		public ObservableCollection<SavingAccountINPC> SavingAccounts { get; set; }
 		public ObservableCollection<CustomerINPC> Customers { get; set; }
 
-		public int SelectedAccountIndex { get; set; }
 		protected SavingAccountINPC _selectedAccount;
 		public SavingAccountINPC SelectedAccount 
 		{ 
@@ -58,7 +57,7 @@ namespace AcademicSavingService.ViewModel
 				else
                 {
                     ID = 0;
-					ClearAllField();
+					ClearAllFields();
 
 					SelectedTermIndex = -1;
 					SelectedCustomer = null;
@@ -154,14 +153,19 @@ namespace AcademicSavingService.ViewModel
 			base.ExecuteInsertMode();
 			if (IsInsertMode)
 			{
-				CreateDate = DateTime.Now;
-				_indexBeforeInsertMode = SelectedAccountIndex;
+				_indexBeforeInsertMode = SelectedIndex;
 				SelectedAccount = null;
 				ID = SavingAccountContainer.Instance.GetNextAutoID();
 			}
 			else
 			{
-				SelectedAccountIndex = _indexBeforeInsertMode;
+				if (SelectedIndex != -1)
+				{
+					var indexHolder = SelectedIndex;
+					SelectedIndex = -1;
+					SelectedIndex = indexHolder;
+				}
+				else SelectedIndex = _indexBeforeInsertMode;
 			}
 		}
 
@@ -169,7 +173,7 @@ namespace AcademicSavingService.ViewModel
 		{
 			try
 			{
-				SavingAccountContainer.Instance.AddToCollection(new SavingAccountINPC
+				SavingAccountINPC account = new()
 				{
 					MaSo = ID,
 					MaKH = CustomerID,
@@ -178,7 +182,9 @@ namespace AcademicSavingService.ViewModel
 					NgayTao = CreateDate,
 					LaiSuat = InterestRate,
 					SoDu = InitialBalance,
-				});
+				};
+				SavingAccountContainer.Instance.AddToCollection(account);
+				ClearAllFields();
 				ID = SavingAccountContainer.Instance.GetNextAutoID();
 			}
 			catch (MySqlException e)
@@ -219,7 +225,7 @@ namespace AcademicSavingService.ViewModel
 		{
 			try
 			{
-				SavingAccountContainer.Instance.UpdateALLSavingAccountStateToNgayCanUpdate(DateTime.Now);
+				SavingAccountContainer.Instance.UpdateAllSavingAccountStateToNgayCanUpdate(DateTime.Now);
 			}
 			catch(MySqlException e)
 			{
@@ -235,7 +241,7 @@ namespace AcademicSavingService.ViewModel
 		{
 			try
 			{
-				int index = SelectedAccountIndex;
+				int index = SelectedIndex;
 				SavingAccountContainer.Instance.DeleteFromCollectionByDefaultKey(ID);
 				SelectedTermIndex = index;
 			}
@@ -254,7 +260,7 @@ namespace AcademicSavingService.ViewModel
 
 		protected override void ExecuteClear()
 		{
-			ClearAllField();
+			ClearAllFields();
 		}
 
 		protected override bool CanExecuteClear()
@@ -262,7 +268,7 @@ namespace AcademicSavingService.ViewModel
 			return IsInsertMode;
 		}
 
-		protected override void ClearAllField()
+		protected override void ClearAllFields()
 		{
 			CreateDate = DateTime.Now;
 			Balance = 0;

@@ -31,15 +31,17 @@ namespace AcademicSavingService.Containers
                     item.SDT = updatedCustomer.SDT;
                     item.DiaChi = updatedCustomer.DiaChi;
                     item.NgayDangKy = updatedCustomer.NgayDangKy;
+                    break;
                 }
-                break;
             }
         }
 
         public override ObservableCollection<CustomerINPC> GetFromCollectionByDefaultKey(int MaKH)
         {
             ObservableCollection<CustomerINPC> collection = new();
-            collection.Add(Collection.SingleOrDefault(item => item.MaKH == MaKH));
+            var customer = Collection.SingleOrDefault(item => item.MaKH == MaKH);
+            if (customer != null) collection.Add(customer);
+
             return collection;
         }
 

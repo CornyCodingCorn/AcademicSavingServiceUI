@@ -38,14 +38,14 @@
 			<GridSplitter Background="{DynamicResource MahApps.Brushes.Accent4}" VerticalAlignment="Bottom" Height="4" Margin="0, 0, -8, -2"/>
 			
 			<!-- Customer Data grid-->
-			<ctrl:AssDataGrid Margin="0, 0, 0, 10" 
+            <ctrl:AssDataGrid Margin="0, 0, 0, 10" 
 							  ItemsSource="{Binding SavingAccounts}" 
 							  EnableFullTextSearch="True" 
 							  DataGridName="SAVING ACCOUNTS"
 							  SelectedItem="{Binding SelectedAccount,  Mode=TwoWay}"
-							  SelectedIndex="{Binding SelectedAccountIndex, Mode=TwoWay}"
-							  IsEnabled="{Binding IsReadOnly}">
-				<ctrl:AssDataGrid.Columns>
+							  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+
+                <ctrl:AssDataGrid.Columns>
 					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 					<DataGridTextColumn Width="100" Header="Owner ID" Binding="{Binding MaKH}"/>
 					<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='dd/MM/yyyy'}" TextBlock.TextAlignment="Center"/>

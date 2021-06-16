@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Linq;
 using MySql.Data.MySqlClient;
 using AcademicSavingService.INPC;
 using AcademicSavingService.Containers;
@@ -10,14 +11,15 @@ namespace AcademicSavingService.ViewModel
 {
 	class TermsManagerViewModel : CRUBPanel
 	{
-		public ObservableCollection<TermTypeINPC> Terms { get; set; }
+		public ObservableCollection<TermTypeINPC> ActiveTerms { get; set; }
+		public ObservableCollection<TermTypeINPC> PastTerms { get; set; }
         public TermTypeINPC SelectedTerm
         {
             get => _selectedTerm;
             set
             {
                 _selectedTerm = value;
-                if (_selectedTerm != null)
+                if (_selectedTerm != null && !IsInsertMode)
                 {
                     MaKyHanField = _selectedTerm.MaKyHan;
                     KyHanField = _selectedTerm.KyHan;
@@ -25,10 +27,10 @@ namespace AcademicSavingService.ViewModel
                     NgayTaoField = _selectedTerm.NgayTao;
                     NgayNgungSuDungField = _selectedTerm.NgayNgungSuDung;
                 }
-                else
+                else if (_selectedTerm == null)
                 {
                     MaKyHanField = 0;
-                    ClearAllField();
+                    ClearAllFields();
                 }
             }
         }
@@ -39,19 +41,27 @@ namespace AcademicSavingService.ViewModel
         public DateTime NgayTaoField { get; set; }
         public DateTime? NgayNgungSuDungField { get; set; }
 
-        public int SelectedIndex { get; set; }
-        public ICommand DisableTermCommand => _disableTermCommand ?? (_disableTermCommand = new RelayCommand<TermTypeINPC>(param => DisableTerm(), param => canDisableTerm()));
+        public ICommand DisableTermCommand => _disableTermCommand ?? (_disableTermCommand = new RelayCommand<TermTypeINPC>(param => ExecuteDisableTerm(), param => CanDisableTerm()));
 
         private TermTypeINPC _selectedTerm;
         private RelayCommand<TermTypeINPC> _disableTermCommand;
 
         public TermsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
         {
-            Terms = TermTypeContainer.Instance.Collection;
+            UpdateCollections();
             SelectedTerm = null;
         }
 
-        protected override void ClearAllField()
+        // Updates the active terms and past terms collections to latest from TermTypeContainer collection
+        private void UpdateCollections()
+        {
+            ActiveTerms = TermTypeContainer.Instance.GetCurrentlyActiveTerms();
+            PastTerms = new ObservableCollection<TermTypeINPC>(TermTypeContainer.Instance.Collection.Except(ActiveTerms));
+        }
+
+        #region Execute overrides
+
+        protected override void ClearAllFields()
         {
             KyHanField = 0;
             LaiSuatField = 0;
@@ -59,19 +69,21 @@ namespace AcademicSavingService.ViewModel
             NgayNgungSuDungField = null;
         }
 
-        private void DisableTerm()
+        private void ExecuteDisableTerm()
         {
             try
             {
+                if (KyHanField == 0)
+                {
+                    ShowMessage("Warning!", "You cannot disable non-period term");
+                    return;
+                }
+
                 TermTypeContainer.Instance.DisableTerm(new TermTypeINPC() { MaKyHan = MaKyHanField, KyHan = KyHanField },
-                    NgayNgungSuDungField.GetValueOrDefault());
+                    NgayNgungSuDungField ?? DateTime.Now);
+                UpdateCollections();
             }
             catch (MySqlException e) { ShowErrorMessage(e); }
-        }
-
-        private bool canDisableTerm()
-        {
-            return SelectedTerm != null;
         }
 
         protected override void ExecuteAdd()
@@ -84,17 +96,23 @@ namespace AcademicSavingService.ViewModel
                 NgayTao = NgayTaoField,
                 NgayNgungSuDung = NgayNgungSuDungField,
             };
+
             try
             {
-                TermTypeContainer.Instance.AddToCollection(term);
-            } 
-            catch (MySqlException e) { ShowErrorMessage(e); }
-        }
+                var currentTerm = ActiveTerms.SingleOrDefault(item => item.KyHan == KyHanField);
+                if (currentTerm != null)
+                {
+                    //TODO: PROMPT USER FOR CONFIRMATION 
+                    //
 
-        protected override bool CanExecuteAdd()
-        {
-            return KyHanField > 0 && LaiSuatField > 0 && NgayTaoField.Date == DateTime.Now.Date
-                && (NgayNgungSuDungField == null || NgayNgungSuDungField >= NgayTaoField);
+                    TermTypeContainer.Instance.DisableTerm(currentTerm, NgayNgungSuDungField ?? DateTime.Now);
+                }
+                TermTypeContainer.Instance.AddToCollection(term);
+                UpdateCollections();
+                ClearAllFields();
+                MaKyHanField = TermTypeContainer.Instance.GetNextAutoID();
+            }
+            catch (MySqlException e) { ShowErrorMessage(e); }
         }
 
         protected override void ExecuteDelete()
@@ -104,11 +122,6 @@ namespace AcademicSavingService.ViewModel
                 TermTypeContainer.Instance.DeleteFromCollectionByDefaultKey(MaKyHanField);
             }
             catch (MySqlException e) { ShowErrorMessage(e); }
-        }
-
-        protected override bool CanExecuteDelete()
-        {
-            return SelectedTerm != null;
         }
 
         protected override void ExecuteInsertMode()
@@ -122,9 +135,38 @@ namespace AcademicSavingService.ViewModel
             }
             else
             {
-                SelectedIndex = _indexBeforeInsertMode;
+                if (SelectedIndex != -1)
+                {
+                    var indexHolder = SelectedIndex;
+                    SelectedIndex = -1;
+                    SelectedIndex = indexHolder;
+                }
+                else SelectedIndex = _indexBeforeInsertMode;
             }
         }
+
+        #endregion
+
+
+        #region Can execute overrides
+
+        private bool CanDisableTerm()
+        {
+            return !IsInsertMode && SelectedTerm != null;
+        }
+
+        protected override bool CanExecuteAdd()
+        {
+            return KyHanField >= 0 && LaiSuatField > 0 && NgayTaoField.Date == DateTime.Now.Date
+                && (NgayNgungSuDungField == null || NgayNgungSuDungField >= NgayTaoField);
+        }
+
+        protected override bool CanExecuteDelete()
+        {
+            return SelectedTerm != null;
+        }
+
+        #endregion
 
         protected override void ShowErrorMessage(MySqlException exception)
         {

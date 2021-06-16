@@ -45,8 +45,7 @@
 							  EnableFullTextSearch="True" 
 							  DataGridName="DEPOSIT SLIPS"
 							  SelectedItem="{Binding SelectedSlip,  Mode=TwoWay}"
-							  SelectedIndex="{Binding SelectedSlipIndex, Mode=TwoWay}"
-							  IsEnabled="{Binding IsReadOnly}">
+							  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
 				<ctrl:AssDataGrid.Columns>
 					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaPhieu}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 					<DataGridTextColumn Width="100" Header="Account ID" Binding="{Binding MaSo}"/>
