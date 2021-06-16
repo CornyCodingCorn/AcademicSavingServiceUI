@@ -59,9 +59,8 @@ DROP PROCEDURE IF EXISTS LaySoTienVoiNgay;
 DELIMITER $$
 CREATE PROCEDURE LaySoTienVoiNgay (IN NgayTao DATE, IN LanCapNhatCuoi DATE, IN NgayDongSo DATE, IN MaKyHan INT, IN SoDu DECIMAL(15, 2), IN SoDuLanCapNhatCuoi DECIMAL(15, 2), IN NgayCanUpdate DATE, OUT SoDuDung DECIMAL(15, 2), OUT NgayUpdate DATE)
 BEGIN
-	DECLARE _counter INT;
+	DECLARE _counter, _kyHan, _size INT;
 	DECLARE _ngayDaoHan DATE;
-	DECLARE _kyHan INT;
   	SET _counter = 0;
 
 	IF (NgayCanUpdate > CURRENT_DATE()) THEN
@@ -72,9 +71,6 @@ BEGIN
 		IF (LanCapNhatCuoi >= NgayCanUpdate) THEN
 			SET SoDuDung = SoDuLanCapNhatCuoi;
 	        SET NgayUpdate = LanCapNhatCuoi;
-		ELSEIF (NgayCanUpdate >= CURRENT_DATE() AND LanCapNhatCuoi IS NOT NULL) THEN
-			SET SoDuDung = SoDU;
-	        SET NgayUpdate = CURRENT_DATE();
 		ELSE
 		    SET LanCapNhatCuoi = IF (LanCapNhatCuoi IS NULL, NgayTao, LanCapNhatCuoi);
 			SELECT KyHan INTO _kyHan FROM LOAIKYHAN LKH WHERE LKH.MaKyHan = MaKyHan;
@@ -90,12 +86,14 @@ BEGIN
 				END IF;
 
 				SET SoDuDung = SoDuDung * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(LanCapNhatCuoi, NgayCanUpdate));
-	    		SELECT COUNT(*) INTO @Size FROM PHIEUGUI PG WHERE PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi;
+	    		SELECT COUNT(*) INTO _size FROM PHIEUGUI PG WHERE PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi;
+				Call MarkLine(0, CONCAT('Size ', _size));
 
-	   			WHILE (_counter < @Size) DO
+	   			WHILE (_counter < _size) DO
 					SELECT PG.SoTien, PG.NgayTao INTO @SoTien, @NgayTao FROM PHIEUGUI PG WHERE  PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi ORDER BY MaPhieu LIMIT _counter, 1;
 					SET SoDuDung = SoDuDung + (@SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(@NgayTao, NgayCanUpdate)));
 					SET _counter = _counter + 1;
+					CALL MarkLine(_counter, CONCAT('Size', _size,'Loop ', SoDuDung, 'LaiSuat ', LayLaiSuatKhongKyHanTrongKhoangThoiGian(@NgayTao, NgayCanUpdate)));
 	    		END WHILE;
 
 	    		SET LanCapNhatCuoi = NgayCanUpdate;
@@ -174,6 +172,7 @@ BEGIN
 	        CALL LaySoTienVoiNgay(NEW.NgayTao, NEW.LanCapNhatCuoi,
 	            NEW.NgayDongSo, NEW.MaKyHan, NEW.SoDu,
 	            NEW.SoDuLanCapNhatCuoi, CURRENT_DATE(), SoDuDung, NgayDung);
+        	CALL MarkLine(2, SoDuDung);
             SET NEW.SoDu = SoDuDung;
         END IF;
     END IF;

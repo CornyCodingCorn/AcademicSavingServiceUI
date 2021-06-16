@@ -281,11 +281,6 @@ SELECT * FROM SOTIETKIEM;
 -- (IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 -- (IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 
-CALL LaySoTienVoiNgayQuery(1, '2016/06/15', @SoDu, @Ngay);
-SELECT @SoDu;
-
-SELECT COUNT(*) FROM PHIEUGUI WHERE NgayTao <= '2016/06/15' AND NgayTao > '2016/01/15';
-
 CALL ThemPhieu(1, 100000, 'Some things', '2016/03/01');
 CALL ThemPhieu(1, 100000, 'Some things', '2016/05/07');
 CALL ThemPhieu(1, 500000, 'Some things', '2016/06/01');

@@ -36,5 +36,3 @@ BEGIN
 END;
 $$
 DELIMITER ;
-
-SELECT * FROM loaikyhan;
