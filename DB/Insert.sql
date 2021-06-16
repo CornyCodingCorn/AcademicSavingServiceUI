@@ -307,6 +307,8 @@ CALL RutHetTien(4, 'The end game', '2017/05/30');
 
 CALL RutHetTien(5, 'The end game', '2017/10/15');
 
+CALL ThemPhieu(6, 100000, 'Some things', '2016/06/15');
+CALL ThemPhieu(6, -100000, 'Some things', '2016/07/15');
 CALL ThemPhieu(6, -100000, 'Some things', '2016/07/15');
 CALL RutHetTien(6, 'The end game', '2017/01/01');
 

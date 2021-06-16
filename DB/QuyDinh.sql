@@ -19,7 +19,7 @@ DELIMITER $$
 CREATE FUNCTION LaySoTienMoTaiKhoanNhoNhat(NgayKiemTra DATE) RETURNS BIGINT
 DETERMINISTIC 
 BEGIN
-	SELECT SoTienNapNhoNhat INTO @SoTien FROM QuyDinh WHERE NgayTao <= NgayKiemTra ORDER BY NgayTao DESC LIMIT 1;
+	SELECT SoTienMoTaiKhoanNhoNhat INTO @SoTien FROM QuyDinh WHERE NgayTao <= NgayKiemTra ORDER BY NgayTao DESC LIMIT 1;
     IF (@SoTien IS NULL) THEN
 		CALL ThrowException('QD004');
     END IF;
