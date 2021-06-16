@@ -4,7 +4,7 @@ tự trong cùng ngày, không quan trọng phiếu gửi. - không thể rút c
 Có thể xóa phiếu gửi một cách tự do nhưng không được xóa các phiếu trước phiếu rút gần nhất trong cùng sổ - ok
 
 Có thể update phiếu gửi các field(SoTien, NgayTao) tồn tại sau hoặc cùng ngày của lần rút gần nhất
-Không được insert/update phiếu gửi trước ngày tạo sổ. - insert ok - không thể update
+Không được insert/update phiếu gửi trước ngày tạo sổ. - ok
 
 
 Số dư sổ là số dư tính tới ngày hiện tại ngoài đời. - ok
@@ -12,9 +12,9 @@ Số dư sổ là số dư tính tới ngày hiện tại ngoài đời. - ok
 Có thể xóa sổ nếu không có phiếu nào chỉ tới nó. - ok
 
 Có thể update sổ tiết kiệm các field (Sô tiền ban đầu, ngày tạo, chủ sở hữu), chỉ được thay đổi số tiền ban
-đầu và ngày tạo chi chưa rút bao giờ, và nếu thay đổi ngày tạo thì chỉ được thay đổi nó đến bằng phiếu gửi gần nhất.
+đầu và ngày tạo chi chưa rút bao giờ, và nếu thay đổi ngày tạo thì chỉ được thay đổi nó đến bằng phiếu gửi gần nhất. - ok
 
-Không được insert/update vào ngày chưa có quy định tồn tại.
+Không được insert/update vào ngày chưa có quy định tồn tại. - ok
 
 
 Khi update/insert/delete sổ tiết kiệm và phiếu thì sẽ cập nhât lại báo cáo đã được tổng hợp trước và có liên quan <= Quan trọng. - error
