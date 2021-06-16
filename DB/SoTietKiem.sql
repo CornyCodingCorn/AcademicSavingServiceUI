@@ -41,10 +41,6 @@ DROP PROCEDURE IF EXISTS ForceDeleteSoTietKiem;
 DELIMITER $$
 CREATE PROCEDURE ForceDeleteSoTietKiem(IN MaSoDelete INT)
 BEGIN
-	CALL BatDauCapNhatSoTietKiem();
-    UPDATE SOTIETKIEM STK SET STK.LanCapNhatCuoi = '0/0/0' WHERE STK.MaSo = MaSoDelete;
-    CALL KetThucCapNhatSoTietKiem();
-    
     CALL StartForceDelete();
     DELETE FROM PHIEUGUI PG WHERE PG.MaSo = MaSoDelete;
     DELETE FROM PHIEURUT PR WHERE PR.MaSo = MaSoDelete;
@@ -66,7 +62,6 @@ BEGIN
 	IF (NgayCanUpdate > CURRENT_DATE()) THEN
 		CALL ThrowException('TK004');
 	END IF;
-
 	IF (NgayDongSo IS NULL) THEN
 		IF (LanCapNhatCuoi >= NgayCanUpdate) THEN
 			SET SoDuDung = SoDuLanCapNhatCuoi;
@@ -87,13 +82,11 @@ BEGIN
 
 				SET SoDuDung = SoDuDung * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(LanCapNhatCuoi, NgayCanUpdate));
 	    		SELECT COUNT(*) INTO _size FROM PHIEUGUI PG WHERE PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi;
-				Call MarkLine(0, CONCAT('Size ', _size));
 
 	   			WHILE (_counter < _size) DO
 					SELECT PG.SoTien, PG.NgayTao INTO @SoTien, @NgayTao FROM PHIEUGUI PG WHERE  PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi ORDER BY MaPhieu LIMIT _counter, 1;
 					SET SoDuDung = SoDuDung + (@SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(@NgayTao, NgayCanUpdate)));
 					SET _counter = _counter + 1;
-					CALL MarkLine(_counter, CONCAT('Size', _size,'Loop ', SoDuDung, 'LaiSuat ', LayLaiSuatKhongKyHanTrongKhoangThoiGian(@NgayTao, NgayCanUpdate)));
 	    		END WHILE;
 
 	    		SET LanCapNhatCuoi = NgayCanUpdate;
@@ -172,7 +165,6 @@ BEGIN
 	        CALL LaySoTienVoiNgay(NEW.NgayTao, NEW.LanCapNhatCuoi,
 	            NEW.NgayDongSo, NEW.MaKyHan, NEW.SoDu,
 	            NEW.SoDuLanCapNhatCuoi, CURRENT_DATE(), SoDuDung, NgayDung);
-        	CALL MarkLine(2, SoDuDung);
             SET NEW.SoDu = SoDuDung;
         END IF;
     END IF;

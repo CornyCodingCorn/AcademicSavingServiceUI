@@ -4,56 +4,46 @@ DROP PROCEDURE IF EXISTS TongHopBaoCaoNgay;
 DELIMITER $$
 CREATE PROCEDURE TongHopBaoCaoNgay(IN NgayBaoCao DATE, IN KyHanBaoCao INT)
 BEGIN
-	DECLARE TongThu DECIMAL(15,2);
-    DECLARE TongChi DECIMAL(15,2);
-    DECLARE Counter INT;
+	DECLARE TongThu, TongChi, TongTienGui, TongTienBanDau, SoTienPhieu, MaSoPhieu, SoTienBanDauSo DECIMAL(15,2);
+    DECLARE Counter, SizeRut, KyHanSo INT;
+	DECLARE LaiSuatSo FLOAT;
+	DECLARE NgayTaoSo DATE;
 
 	IF (NOT EXISTS(SELECT * FROM BAOCAONGAY WHERE Ngay = NgayBaoCao AND KyHan = KyHanBaoCao)) THEN
-		DROP TEMPORARY TABLE IF EXISTS PHIEU;
-		CREATE TEMPORARY TABLE PHIEU (
-			MaPhieu INT NOT NULL AUTO_INCREMENT,
-			NgayTao DATE NOT NULL DEFAULT '0/0/0',
-			SoTien DECIMAL(15, 2) NOT NULL,
-			GhiChu TEXT,
-			MaSo INT NOT NULL,
-			
-			PRIMARY KEY(MaPhieu)
-		) CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-		
-		INSERT INTO PHIEU(NgayTao, SoTien, GhiChu, MaSo) SELECT NgayTao, SoTien, GhiChu, MaSo FROM PHIEUGUI;
-		INSERT INTO PHIEU(NgayTao, SoTien, GhiChu, MaSo) SELECT NgayTao, (-SoTien) AS SoTien, GhiChu, MaSo FROM PHIEURUT;
-    
     	CALL BatDauCapNhatBaoCaoNgay();
-		SELECT SUM(STK.SoTienBanDau) INTO @TongTienBanDau FROM SOTIETKIEM STK WHERE STK.NgayTao = NgayBaoCao AND (SELECT LKH.KyHan FROM LOAIKYHAN LKH WHERE LKH.MaKyHan = STK.MaKyHan) = KyHanBaoCao;
-        SET TongThu = IF (@TongTienBanDau IS NULL, 0, @TongTienBanDau);
-        
-		SELECT COUNT(*) INTO @SizeRut FROM PHIEU PH WHERE PH.NgayTao = NgayBaoCao AND PH.SoTien < 0;
+		SELECT SUM(STK.SoTienBanDau) INTO TongTienBanDau FROM SOTIETKIEM STK WHERE STK.NgayTao = NgayBaoCao AND (SELECT LKH.KyHan FROM LOAIKYHAN LKH WHERE LKH.MaKyHan = STK.MaKyHan) = KyHanBaoCao;
+        SET TongThu = IF (TongTienBanDau IS NULL, 0, TongTienBanDau);
+
+		SELECT COUNT(*) INTO SizeRut FROM PHIEURUT PH WHERE PH.NgayTao = NgayBaoCao;
         SET TongChi = 0;
         SET Counter = 0;
         IF (KyHanBaoCao = 0) THEN
-			SELECT SUM(SoTien) INTO @TienGui FROM PHIEU PH WHERE PH.NgayTao = NgayBaoCao AND PH.SoTien >= 0;
-            SET TongThu = TongThu + IF (@TienGui IS NULL, 0, @TienGui);
-			WHILE (Counter < @SizeRut) DO
-				SELECT SoTien, MaSo INTO @SoTien, @MaSo FROM PHIEU PH WHERE PH.NgayTao = NgayBaoCao AND PH.SoTien < 0 LIMIT Counter, 1;
-				SELECT LKH.KyHan, LKH.LaiSuat, STK.NgayTao, STK.SoTienBanDau INTO @KyHan, @LaiSuat, @NgayTao, @SoTienBanDau FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKyHan = LKH.MaKyHan WHERE STK.MaSo = @MaSo;
-				SET TongChi = TongChi + (- @SoTien - @SoTienBanDau * (1 + TIMESTAMPDIFF(DAY, @NgayTao, TIMESTAMPADD(MONTH, @KyHan, @NgayTao)) * @LaiSuat / 100 / 365));
+			SELECT SUM(SoTien) INTO TongTienGui FROm PHIEUGUI PH WHERE PH.NgayTao = NgayBaoCao;
+            SET TongThu = TongThu + IF (TongTienGui IS NULL, 0, TongTienGui);
+			WHILE (Counter < SizeRut) DO
+				SELECT SoTien, MaSo INTO SoTienPhieu, MaSoPhieu FROM PHIEURUT PH WHERE PH.NgayTao = NgayBaoCao LIMIT Counter, 1;
+				SELECT LKH.KyHan, LKH.LaiSuat, STK.NgayTao, STK.SoTienBanDau INTO KyHanSo, LaiSuatSo, NgayTaoSo, SoTienBanDauSo FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKyHan = LKH.MaKyHan WHERE STK.MaSo = MaSoPhieu;
+				IF (KyHanSo = 0) THEN
+                    SET TongChi = TongChi + SoTienPhieu;
+				ELSE
+                    SET TongChi = TongChi + (SoTienPhieu - SoTienBanDauSo * (1 + TIMESTAMPDIFF(DAY, NgayTaoSo, TIMESTAMPADD(MONTH, KyHanSo, NgayTaoSo)) * ((LaiSuatSo / 100) / 365)));
+                END IF;
                 SET Counter = Counter + 1;
 			END WHILE;
 		ELSE
-			WHILE (Counter < @SizeRut) DO
-				SELECT SoTien, MaSo INTO @SoTien, @MaSo FROM PHIEU PH WHERE PH.NgayTao = NgayBaoCao AND PH.SoTien < 0 LIMIT Counter, 1;
-				SELECT LKH.KyHan, LKH.LaiSuat, STK.NgayTao, STK.SoTienBanDau INTO @KyHan, @LaiSuat, @NgayTao, @SoTienBanDau FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKyHan = LKH.MaKyHan WHERE STK.MaSo = @MaSo AND LKH.KyHan = KyHanBaoCao;
-				SET TongChi = TongChi + @SoTienBanDau * (1 + TIMESTAMPDIFF(DAY, @NgayTao, TIMESTAMPADD(MONTH, @KyHan, @NgayTao)) * @LaiSuat / 100 / 365);
+			WHILE (Counter < SizeRut) DO
+				SELECT SoTien, MaSo INTO SoTienPhieu, MaSoPhieu FROM PHIEURUT PH WHERE PH.NgayTao = NgayBaoCao LIMIT Counter, 1;
+				SELECT LKH.KyHan, LKH.LaiSuat, STK.NgayTao, STK.SoTienBanDau INTO KyHanSo, LaiSuatSo, NgayTaoSo, SoTienBanDauSo FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKyHan = LKH.MaKyHan WHERE STK.MaSo = MaSoPhieu AND LKH.KyHan = KyHanBaoCao;
+				SET TongChi = TongChi + SoTienBanDauSo * (1 + TIMESTAMPDIFF(DAY, NgayTaoSo, TIMESTAMPADD(MONTH, KyHanSo, NgayTaoSo)) * ((LaiSuatSo / 100) / 365));
                 SET Counter = Counter + 1;
 			END WHILE;
         END IF;
         
         SET TongChi = IF (TongChi IS NULL, 0, TongChi);
         SET TongThu = IF (TongThu IS NULL, 0, TongThu);
-        
+
         INSERT INTO BAOCAONGAY(Ngay, KyHan, TongThu, TongChi, ChenhLech) VALUES (NgayBaoCao, KyHanBaoCao, TongThu, TongChi, TongThu - TongChi);
         CALL KetThucCapNhatBaoCaoNgay();
-        DROP TEMPORARY TABLE PHIEU;
     END IF;
 END; 
 $$
