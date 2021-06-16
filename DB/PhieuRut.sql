@@ -10,6 +10,10 @@ BEGIN
     DECLARE SoDu, SoDuLanCapNhatCuoiSo, SoDuDung DECIMAL(15, 2);
     DECLARE MaKyHanSo , SIZE, KyHanSo INT;
 
+    IF (EXISTS(SELECT * FROM PHIEURUT WHERE MaPhieu > NEW.MaPhieu)) THEN
+        CALL ThrowException('FU001');
+    END IF;
+
 	IF (NEW.NgayTao = '0/0/0') THEN SET NEW.NgayTao = NOW(); END IF;
     SELECT STK.NgayTao, STK.LanCapNhatCuoi, STK.NgayDongSo, STK.MaKyHan, STK.SoDu, STK.SoDuLanCapNhatCuoi, COUNT(*)
     INTO NgayTaoSo, LanCapNhatCuoi, NgayDongSo, MaKyHanSo, SoDu, SoDuLanCapNhatCuoiSo, SIZE

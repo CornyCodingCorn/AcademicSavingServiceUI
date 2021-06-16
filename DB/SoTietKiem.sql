@@ -135,6 +135,10 @@ BEGIN
     DECLARE SoDuDung DECIMAL(15, 2);
     DECLARE NgayDung DATE;
 
+    IF (EXISTS(SELECT * FROM SOTIETKIEM WHERE MaSo > NEW.MaSo)) THEN
+        CALL ThrowException('FU001');
+    END IF;
+
 	IF (NOT CoTheCapNhatSoTietKiem()) THEN
 	    IF (NEW.MaSo != OLD.MaSo OR
 	        NEW.SoDu != OLD.SoDu OR
@@ -147,6 +151,9 @@ BEGIN
     END IF;
 
 	IF (NEW.SoTienBanDau != OLD.SoTienBanDau OR NEW.NgayTao != OLD.NgayTao) THEN
+        IF (KiemTraKyHan(NEW.MaKyHan, NEW.NgayTao) = FALSE) THEN
+	    	CALL ThrowException('TK002');
+	    END IF;
         IF (NOT EXISTS(SELECT * FROM QUYDINH WHERE quydinh.NgayTao < NEW.NgayTao)) THEN
             CALL ThrowException('TK007');
         END IF;

@@ -6,6 +6,10 @@ DROP TRIGGER IF EXISTS BeforeInsertPhieuGui;
 DELIMITER $$
 CREATE TRIGGER BeforeInsertPhieuGui BEFORE INSERT ON PHIEUGUI FOR EACH ROW
 BEGIN
+    IF (EXISTS(SELECT * FROM PHIEUGUI WHERE MaPhieu > NEW.MaPhieu)) THEN
+        CALL ThrowException('FU001');
+    END IF;
+
 	IF (NEW.NgayTao = '0/0/0') THEN SET NEW.NgayTao = NOW(); END IF;
     SELECT NgayTao, MaKyHan, SoDu, NgayDongSo, LanCapNhatCuoi, COUNT(*) INTO @NgayTao, @MaKyHan, @SoDu, @NgayDongSo, @LanCapNhatCuoi, @Size FROM SOTIETKIEM WHERE MaSo = NEW.MaSo;
     
