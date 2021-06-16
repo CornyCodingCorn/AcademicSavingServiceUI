@@ -146,7 +146,10 @@ BEGIN
         END IF;
     END IF;
 
-	IF (NEW.SoTienBanDau != OLD.SoTienBanDau OR NEW.NgayTao != OLD.NgayDongSo) THEN
+	IF (NEW.SoTienBanDau != OLD.SoTienBanDau OR NEW.NgayTao != OLD.NgayTao) THEN
+        IF (NOT EXISTS(SELECT * FROM QUYDINH WHERE quydinh.NgayTao < NEW.NgayTao)) THEN
+            CALL ThrowException('TK007');
+        END IF;
 	    IF (EXISTS(SELECT * FROM PHIEURUT PR WHERE PR.MaSo = NEW.MaSo)) THEN
             CALL ThrowException('TK005');
         END IF;
@@ -180,6 +183,10 @@ BEGIN
     DECLARE NgayDung DATE;
 
 	IF (NEW.NgayTao = '0/0/0') THEN SET NEW.NgayTao = NOW(); END IF;
+
+    IF (NOT EXISTS(SELECT * FROM QUYDINH WHERE quydinh.NgayTao < NEW.NgayTao)) THEN
+        CALL ThrowException('TK007');
+    END IF;
 	IF (NEW.SoTienBanDau < LaySoTienMoTaiKhoanNhoNhat(NEW.NgayTao)) THEN CALL ThrowException('TK001'); END IF;
     IF (KiemTraKyHan(NEW.MaKyHan, NEW.NgayTao) = FALSE) THEN
 		CALL ThrowException('TK002');
@@ -211,4 +218,27 @@ END;
 $$
 DELIMITER ;
 
-/*===================================================================================QUERRIES==============================================================================*/
+/*===================================================================================SCHEDULER==============================================================================*/
+
+DROP EVENT IF EXISTS UpdateBalance;
+DELIMITER $$
+CREATE EVENT UpdateBalance ON SCHEDULE EVERY 1 DAY STARTS CONCAT(TIMESTAMPADD(DAY, 1, CURRENT_DATE()), ' ' ,'00:20:00') ON COMPLETION PRESERVE ENABLE DO
+BEGIN
+    DECLARE _size, _counter, _maSo INT;
+    DECLARE _soDuDung DECIMAL(15, 2);
+
+    SELECT COUNT(*) INTO _size FROM SOTIETKIEM WHERE NgayDongSo IS NULL;
+    SET _counter = 0;
+    WHILE(_counter < _size) DO
+        SELECT MaSo INTO _maSo FROM SOTIETKIEM WHERE NgayDongSo IS NULL ORDER BY MaSo LIMIT _counter, 1;
+        CALL LaySoTienVoiNgayQuery(_maSo, CURRENT_DATE(), _soDuDung, @Dummy);
+
+        UPDATE SOTIETKIEM
+        SET SoDu = _soDuDung
+        WHERE MaSo = _maSo;
+
+        SET _counter = _counter + 1;
+    END WHILE;
+END;
+$$
+DELIMITER ;
