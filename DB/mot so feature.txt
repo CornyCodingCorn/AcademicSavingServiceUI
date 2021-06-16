@@ -1,5 +1,5 @@
 Phiểu rút chỉ được xóa nếu không có phiếu RÚT nào tồn tại ở ngày sau nó, vẫn có thể xóa phiếu rút không cần theo thứ
-tự trong cùng ngày, không quan trọng phiếu gửi. - không thể rút cùng ngày
+tự trong cùng ngày, không quan trọng phiếu gửi. - ok
 
 Có thể xóa phiếu gửi một cách tự do nhưng không được xóa các phiếu trước phiếu rút gần nhất trong cùng sổ - ok
 
