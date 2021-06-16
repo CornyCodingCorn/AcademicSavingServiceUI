@@ -116,16 +116,38 @@ DELIMITER ;
 
 /*===================================================================================TRIGGERS==============================================================================*/
 
+DROP TRIGGER IF EXISTS LoaiKyHanAfterInsert;
+DELIMITER $$
+CREATE TRIGGER LoaiKyHanAfterInsert AFTER INSERT ON LOAIKYHAN FOR EACH ROW
+BEGIN
+    IF (EXISTS(SELECT * FROM LOAIKYHAN WHERE MaKyHan > NEW.MaKyHan)) THEN
+        CALL ThrowException('FU005');
+    END IF;
+END;
+$$
+DELIMITER ;
+
 DROP TRIGGER IF EXISTS LoaiKyHanBeforeInsert;
 DELIMITER $$
 CREATE TRIGGER LoaiKyHanBeforeInsert BEFORE INSERT ON LOAIKYHAN FOR EACH ROW
 BEGIN
-	IF (NEW.KyHan = 0 AND NEW.NgayNgungSuDung IS NOT NULL) THEN
-     CALL ThrowException('KY001');
+    DECLARE  _throwException BOOL;
+    DECLARE  _ngayNgungSuDung DATE;
+    SET _throwException = FALSE;
+
+	IF (NEW.KyHan = 0) THEN
+	    IF (NEW.NgayNgungSuDung IS NOT NULL) THEN
+            CALL ThrowException('KY001');
+        ELSE
+            SELECT NgayNgungSuDung INTO _ngayNgungSuDung FROM LOAIKYHAN WHERE KyHan = 0 AND NgayTao <= NEW.NgayTao ORDER BY MaKyHan DESC LIMIT 1;
+            IF (_ngayNgungSuDung IS NOT NULL AND _ngayNgungSuDung != NEW.NgayTao) THEN
+                CALL ThrowException('KY001');
+            END IF;
+	    END IF;
     END IF;
-	SET @Result = EXISTS (SELECT * FROM LOAIKYHAN WHERE KyHan = NEW.KyHan AND NgayTao > NEW.NgayTao);
-    SET @Result = @Result OR EXISTS (SELECT * FROM LOAIKYHAN WHERE KyHan = NEW.KyHan AND (NgayNgungSuDung IS NULL OR NgayNgungSuDung > NEW.NgayTao));
-	IF (@Result) THEN
+	SET _throwException = EXISTS (SELECT * FROM LOAIKYHAN WHERE KyHan = NEW.KyHan AND NgayTao > NEW.NgayTao);
+    SET _throwException = _throwException OR EXISTS (SELECT * FROM LOAIKYHAN WHERE KyHan = NEW.KyHan AND (NgayNgungSuDung IS NULL OR NgayNgungSuDung > NEW.NgayTao));
+	IF (_throwException) THEN
 		CALL ThrowException('KY002');
     END IF;
 END;
@@ -136,8 +158,14 @@ DROP TRIGGER IF EXISTS LoaiKyHanBeforeUpdate;
 DELIMITER $$
 CREATE TRIGGER LoaiKyHanBeforeUpdate BEFORE UPDATE ON LOAIKYHAN FOR EACH ROW
 BEGIN
-	IF (CoTheCapNhatLoaiKyHan() = FALSE) THEN
+	IF (NOT CoTheCapNhatLoaiKyHan() AND (NEW.MaKyHan != OLD.MaKyHan OR NEW.NgayTao != OLD.NgayTao OR NEW.KyHan != OLD.KyHan)) THEN
 		CALL ThrowException('KY004');
+    END IF;
+    IF (NEW.LaiSuat != OLD.LaiSuat AND EXISTS(SELECT * FROM SOTIETKIEM STK WHERE STK.MaKyHan = NEW.MaKyHan)) THEN
+        CALL ThrowException('KY005');
+    END IF;
+	IF (NEW.NgayNgungSuDung != OLD.NgayNgungSuDung AND EXISTS(SELECT * FROM SOTIETKIEM STK WHERE STK.MaKyHan = NEW.MaKyHan AND STK.NgayTao >= OLD.NgayNgungSuDung)) THEN
+        CALL ThrowException('KY006');
     END IF;
 END;
 $$
@@ -147,9 +175,13 @@ DROP TRIGGER IF EXISTS LoaiKyHanBeforeDelete;
 DELIMITER $$
 CREATE TRIGGER LoaiKyHanBeforeDelete BEFORE DELETE ON LOAIKYHAN FOR EACH ROW
 BEGIN
-	SET @Result = EXISTS (SELECT * FROM SOTIETKIEM WHERE NgayTao >= OLD.NgayTao);
-    IF (@Result) THEN
-    	CALL ThrowException('KY003');
+    DECLARE _errorCode TEXT;
+    SET _errorCode = '';
+
+    IF (OLD.KyHan = 0) THEN
+        IF (EXISTS (SELECT * FROM SOTIETKIEM WHERE NgayTao >= OLD.NgayTao)) THEN
+    	    CALL ThrowException('KY003');
+        END IF;
     END IF;
 END;
 $$

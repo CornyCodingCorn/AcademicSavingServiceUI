@@ -68,11 +68,20 @@ INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('KY001', 'Thêm kỳ hạn không 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('KY002', 'Phải ngưng sử dụng loại kỳ hạn cùng kỳ hạn trước rồi mới được thêm vào');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('KY003', 'Không thể xóa vì có tài khoản tiết kiệm được tạo sau kỳ hạn này');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('KY004', 'Không cập nhât loại kỳ hạn');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('KY005', 'Không thể cập nhật loại kỳ hạn khi có sổ sử dụng');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('KY006', 'Không thể ngưng sử dụng loại kỳ hạn trước khi một sổ sử dụng nó được tạo');
 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('UQ001', 'Không được cập nhật Ủy quyền');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('UQ002', 'Uy quyền cho khách hàng này đã tồn tại và chưa ngưng hoạt động');
 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('BC001', 'Không cập nhât báo cáo');
+
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU001', 'Không được insert primary key nhỏ hơn primary key lớn nhất');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU002', 'Không được insert primary key nhỏ hơn primary key lớn nhất phiếu gửi');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU003', 'Không được insert primary key nhỏ hơn primary key lớn nhất phiếu rút');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU004', 'Không được insert primary key nhỏ hơn primary key lớn nhất quy định');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU005', 'Không được insert primary key nhỏ hơn primary key lớn nhất loại kỳ hạn');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU006', 'Không được insert primary key nhỏ hơn primary key lớn nhất sổ tiết kiệm');
 
 SELECT * FROM ErrorTable;
 

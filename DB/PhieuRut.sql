@@ -2,6 +2,17 @@
 /*==================================================================================FUNCTIONS=============================================================================*/
 /*===================================================================================TRIGGERS==============================================================================*/
 
+DROP TRIGGER IF EXISTS  AfterInsertPhieuRut;
+DELIMITER $$
+CREATE TRIGGER AfterInsertPhieuRut AFTER INSERT ON PHIEURUT FOR EACH ROW
+BEGIN
+    IF (EXISTS(SELECT * FROM PHIEURUT WHERE MaPhieu > NEW.MaPhieu)) THEN
+        CALL ThrowException('FU003');
+    END IF;
+END;
+$$
+DELIMITER ;
+
 DROP TRIGGER IF EXISTS BeforeInsertPhieuRut;
 DELIMITER $$
 CREATE TRIGGER BeforeInsertPhieuRut BEFORE INSERT ON PHIEURUT FOR EACH ROW

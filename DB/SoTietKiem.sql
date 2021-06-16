@@ -147,6 +147,9 @@ BEGIN
     END IF;
 
 	IF (NEW.SoTienBanDau != OLD.SoTienBanDau OR NEW.NgayTao != OLD.NgayTao) THEN
+        IF (KiemTraKyHan(NEW.MaKyHan, NEW.NgayTao) = FALSE) THEN
+	    	CALL ThrowException('TK002');
+	    END IF;
         IF (NOT EXISTS(SELECT * FROM QUYDINH WHERE quydinh.NgayTao < NEW.NgayTao)) THEN
             CALL ThrowException('TK007');
         END IF;
@@ -170,6 +173,17 @@ BEGIN
 	            NEW.SoDuLanCapNhatCuoi, CURRENT_DATE(), SoDuDung, NgayDung);
             SET NEW.SoDu = SoDuDung;
         END IF;
+    END IF;
+END;
+$$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS SoTietKiemAfterInsert;
+DELIMITER $$
+CREATE TRIGGER SoTietKiemAfterInsert AFTER INSERT ON SOTIETKIEM FOR EACH ROW
+BEGIN
+    IF (EXISTS(SELECT * FROM SOTIETKIEM WHERE MaSo > NEW.MaSo)) THEN
+        CALL ThrowException('FU006');
     END IF;
 END;
 $$
