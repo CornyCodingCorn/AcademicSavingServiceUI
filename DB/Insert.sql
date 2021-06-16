@@ -38,7 +38,7 @@ INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK006', 'Có phiếu tồn tại 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG000', 'Gửi tiền thành công');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG001', 'Số tiền gửi nhỏ hơn số tiền cho phép');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG002', 'Thêm phiếu gửi không thành công');
-INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG003', 'Không thể gửi thêm tiền trước kỳ hạn');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG003', 'Không thể gửi thêm tiền trước kỳ hạn hoặc trước ngày tối thiểu quy định');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG004', 'Không thể gửi thêm tiền trước ngày rút gần nhất');
 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR000', 'Rút tiền thành công');
@@ -289,7 +289,6 @@ CALL RutHetTien(1, 'The end game', '2016/10/01');
 
 CALL RutHetTien(2, 'The end game', '2018/01/01');
 
-CALL ThemPhieu(3, 100000, 'Some things', '2016/04/20');
 CALL ThemPhieu(3, -100000, 'Some things', '2016/05/07');
 CALL RutHetTien(3, 'The end game', '2016/10/01');
 
@@ -298,7 +297,6 @@ CALL RutHetTien(4, 'The end game', '2017/05/30');
 
 CALL RutHetTien(5, 'The end game', '2017/10/15');
 
-CALL ThemPhieu(6, 400000, 'Some things', '2016/05/15');
 CALL ThemPhieu(6, -100000, 'Some things', '2016/07/15');
 CALL RutHetTien(6, 'The end game', '2017/01/01');
 
@@ -334,7 +332,9 @@ SELECT * FROM PHIEURUT;
 
 /*========== Báo cáo ngày ==========*/
 
-CALL TongHopBaoCaoNgay('2016/04/20', 0);
+CALL TongHopBaoCaoNgay('2016/06/15', 0);
+CALL TongHopBaoCaoNgay('2016/10/01', 0);
+CALL TongHopBaoCaoNgay('2016/01/15', 0);
 CALL TongHopBaoCaoNgay('2017/10/15', 1);
 CALL TongHopBaoCaoNgay('2017/12/15', 3);
 CALL TongHopBaoCaoNgay('2020/04/15', 6);
@@ -350,6 +350,8 @@ CALL TongHopBaoCaoThang('2018/06/07', 0);
 CALL TongHopBaoCaoThang('2018/06/07', 1);
 CALL TongHopBaoCaoThang('2017/09/07', 3);
 CALL TongHopBaoCaoThang('2018/03/07', 6);
+CALL TongHopBaoCaoThang('2017/01/07', 6);
+CALL TongHopBaoCaoThang('2016/01/07', 6);
 CALL TongHopBaoCaoThang('2019/06/07', 9);
 CALL TongHopBaoCaoThang('2020/03/07', 12);
 
