@@ -135,10 +135,6 @@ BEGIN
     DECLARE SoDuDung DECIMAL(15, 2);
     DECLARE NgayDung DATE;
 
-    IF (EXISTS(SELECT * FROM SOTIETKIEM WHERE MaSo > NEW.MaSo)) THEN
-        CALL ThrowException('FU001');
-    END IF;
-
 	IF (NOT CoTheCapNhatSoTietKiem()) THEN
 	    IF (NEW.MaSo != OLD.MaSo OR
 	        NEW.SoDu != OLD.SoDu OR
@@ -177,6 +173,17 @@ BEGIN
 	            NEW.SoDuLanCapNhatCuoi, CURRENT_DATE(), SoDuDung, NgayDung);
             SET NEW.SoDu = SoDuDung;
         END IF;
+    END IF;
+END;
+$$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS SoTietKiemAfterInsert;
+DELIMITER $$
+CREATE TRIGGER SoTietKiemAfterInsert AFTER INSERT ON SOTIETKIEM FOR EACH ROW
+BEGIN
+    IF (EXISTS(SELECT * FROM SOTIETKIEM WHERE MaSo > NEW.MaSo)) THEN
+        CALL ThrowException('FU006');
     END IF;
 END;
 $$

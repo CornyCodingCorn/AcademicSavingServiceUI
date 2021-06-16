@@ -77,6 +77,11 @@ INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('UQ002', 'Uy quyền cho khách h�
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('BC001', 'Không cập nhât báo cáo');
 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU001', 'Không được insert primary key nhỏ hơn primary key lớn nhất');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU002', 'Không được insert primary key nhỏ hơn primary key lớn nhất phiếu gửi');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU003', 'Không được insert primary key nhỏ hơn primary key lớn nhất phiếu rút');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU004', 'Không được insert primary key nhỏ hơn primary key lớn nhất quy định');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU005', 'Không được insert primary key nhỏ hơn primary key lớn nhất loại kỳ hạn');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU006', 'Không được insert primary key nhỏ hơn primary key lớn nhất sổ tiết kiệm');
 
 SELECT * FROM ErrorTable;
 

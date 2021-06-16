@@ -116,25 +116,31 @@ DELIMITER ;
 
 /*===================================================================================TRIGGERS==============================================================================*/
 
+DROP TRIGGER IF EXISTS LoaiKyHanAfterInsert;
+DELIMITER $$
+CREATE TRIGGER LoaiKyHanAfterInsert AFTER INSERT ON LOAIKYHAN FOR EACH ROW
+BEGIN
+    IF (EXISTS(SELECT * FROM LOAIKYHAN WHERE MaKyHan > NEW.MaKyHan)) THEN
+        CALL ThrowException('FU005');
+    END IF;
+END;
+$$
+DELIMITER ;
+
 DROP TRIGGER IF EXISTS LoaiKyHanBeforeInsert;
 DELIMITER $$
 CREATE TRIGGER LoaiKyHanBeforeInsert BEFORE INSERT ON LOAIKYHAN FOR EACH ROW
 BEGIN
     DECLARE  _throwException BOOL;
     DECLARE  _ngayNgungSuDung DATE;
-    DECLARE  _size INT;
     SET _throwException = FALSE;
-
-    IF (EXISTS(SELECT * FROM LOAIKYHAN WHERE MaKyHan > NEW.MaKyHan)) THEN
-        CALL ThrowException('FU001');
-    END IF;
 
 	IF (NEW.KyHan = 0) THEN
 	    IF (NEW.NgayNgungSuDung IS NOT NULL) THEN
             CALL ThrowException('KY001');
         ELSE
-            SELECT NgayNgungSuDung, COUNT(*) INTO _ngayNgungSuDung, _size FROM LOAIKYHAN WHERE KyHan = 0 AND NgayTao <= NEW.NgayTao ORDER BY MaKyHan DESC LIMIT 1;
-            IF (_size > 0 AND _ngayNgungSuDung != NEW.NgayTao) THEN
+            SELECT NgayNgungSuDung INTO _ngayNgungSuDung FROM LOAIKYHAN WHERE KyHan = 0 AND NgayTao <= NEW.NgayTao ORDER BY MaKyHan DESC LIMIT 1;
+            IF (_ngayNgungSuDung IS NOT NULL AND _ngayNgungSuDung != NEW.NgayTao) THEN
                 CALL ThrowException('KY001');
             END IF;
 	    END IF;
