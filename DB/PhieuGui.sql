@@ -91,7 +91,7 @@ BEGIN
 
 		CALL BatDauCapNhatSoTietKiem();
 		UPDATE SOTIETKIEM 
-		SET SoDu = SoDu - OLD.SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(OLD.NgayTao, NOW())) + NEW.SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(NEW.NgayTao, NOW()))
+		SET SoDu = SoDu - OLD.SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(OLD.NgayTao, CURRENT_DATE())) + NEW.SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(NEW.NgayTao, CURRENT_DATE()))
 		WHERE MaSo = OLD.MaSo;
 		CALL KetThucCapNhatSoTietKiem();
         

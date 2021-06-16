@@ -83,7 +83,7 @@ DROP FUNCTION IF EXISTS LayLaiSuatKhongKyHanTrongKhoangThoiGian;
 DELIMITER $$
 CREATE FUNCTION LayLaiSuatKhongKyHanTrongKhoangThoiGian(NgayBatDau DATE, NgayKetThuc DATE) RETURNS FLOAT DETERMINISTIC
 BEGIN
-	DECLARE Counter INT;
+	DECLARE Counter, _size INT;
     DECLARE _laiSuatHienTai FLOAT;
     DECLARE _tongLaiSuat FLOAT;
     DECLARE _ngayHienTai DATE;
@@ -92,7 +92,7 @@ BEGIN
 
 	IF (NgayBatDau >= NgayKetThuc) THEN RETURN 0; END IF;
     SET _laiSuatHienTai = (SELECT LaiSuat FROM LOAIKYHAN WHERE NgayTao <= NgayBatDau AND KyHan = 0 ORDER BY NgayTao DESC LIMIT 1);
-    SELECT COUNT(*) INTO @Size FROM LOAIKYHAN WHERE NgayTao > NgayBatDau AND KyHan = 0 AND NgayTao <= NgayKetThuc;
+    SELECT COUNT(*) INTO _size FROM LOAIKYHAN WHERE NgayTao > NgayBatDau AND KyHan = 0 AND NgayTao <= NgayKetThuc;
     
     IF (_laiSuatHienTai IS NULL) THEN
 		SET _laiSuatHienTai = 0;
@@ -101,15 +101,15 @@ BEGIN
     SET _tongLaiSuat = 0;
     SET _ngayHienTai = NgayBatDau;
     SET Counter = 0;
-    WHILE (Counter < @Size) DO
+    WHILE (Counter < _size) DO
 		SELECT LaiSuat, NgayTao INTO _laiSuatTrongTuongLai, _ngayTuongLai FROM LOAIKYHAN WHERE  NgayTao > NgayBatDau AND KyHan = 0 AND NgayTao <= NgayKetThuc LIMIT Counter, 1;
-        SET _tongLaiSuat = _tongLaiSuat + ((_laiSuatHienTai / (365 * 100)) * TIMESTAMPDIFF(DAY, _ngayHienTai, _ngayTuongLai));
+        SET _tongLaiSuat = _tongLaiSuat + (_laiSuatHienTai * TIMESTAMPDIFF(DAY, _ngayHienTai, _ngayTuongLai));
         SET _laiSuatHienTai = _laiSuatTrongTuongLai;
         SET _ngayHienTai = _ngayTuongLai;
         SET Counter = Counter + 1;
     END WHILE;
-    SET _tongLaiSuat = _tongLaiSuat + ((_laiSuatHienTai / (365 * 100)) * TIMESTAMPDIFF(DAY, _ngayHienTai, NgayKetThuc));
-    RETURN _tongLaiSuat;
+    SET _tongLaiSuat = _tongLaiSuat + (_laiSuatHienTai * TIMESTAMPDIFF(DAY, _ngayHienTai, NgayKetThuc));
+    RETURN (_tongLaiSuat / 36500);
 END;
 $$
 DELIMITER ;

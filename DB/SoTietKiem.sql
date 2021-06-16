@@ -146,6 +146,7 @@ BEGIN
         END IF;
     END IF;
 
+    CALL MarkLine(1, CONCAT(NEW.SoTienBanDau, ' ', @Temp));
 	IF (NEW.SoTienBanDau != OLD.SoTienBanDau OR NEW.NgayTao != OLD.NgayTao) THEN
         IF (KiemTraKyHan(NEW.MaKyHan, NEW.NgayTao) = FALSE) THEN
 	    	CALL ThrowException('TK002');
@@ -156,7 +157,9 @@ BEGIN
 	    IF (EXISTS(SELECT * FROM PHIEURUT PR WHERE PR.MaSo = NEW.MaSo)) THEN
             CALL ThrowException('TK005');
         END IF;
-        IF (NEW.SoTienBanDau < LaySoTienMoTaiKhoanNhoNhat(NEW.NgayTao)) THEN CALL ThrowException('TK001'); END IF;
+        IF (NEW.SoTienBanDau < LaySoTienMoTaiKhoanNhoNhat(NEW.NgayTao)) THEN
+            CALL ThrowException('TK001');
+        END IF;
 	    IF (EXISTS(SELECT * FROM PHIEUGUI PG WHERE PG.MaSo = NEW.MaSo AND PG.NgayTao < NEW.NgayTao)) THEN
             CALL ThrowException('TK006');
         END IF;

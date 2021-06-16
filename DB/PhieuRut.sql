@@ -27,34 +27,32 @@ BEGIN
     FROM SOTIETKIEM STK
     WHERE STK.MaSo = NEW.MaSo;
 
-    IF (NEW.NgayTao != LanCapNhatCuoi) THEN
-        IF (SIZE = 0 OR SIZE IS NULL) THEN
-            CALL ThrowException('PH001');
-        END IF;
-        IF (NEW.NgayTao < NgayTaoSo) THEN
-            CALL ThrowException('PH003');
-        END IF;
-        IF (New.NgayTao < LanCapNhatCuoi) THEN
-            CALL ThrowException('PR005');
-        END IF;
+    IF (SIZE = 0 OR SIZE IS NULL) THEN
+        CALL ThrowException('PH001');
+    END IF;
+    IF (NEW.NgayTao < NgayTaoSo) THEN
+        CALL ThrowException('PH003');
+    END IF;
+    IF (New.NgayTao < LanCapNhatCuoi) THEN
+        CALL ThrowException('PR005');
+    END IF;
 
-        CALL LaySoTienVoiNgay(NgayTaoSo, LanCapNhatCuoi, NgayDongSo, MaKyHanSo, SoDu, SoDuLanCapNhatCuoiSo, NEW.NgayTao, SoDuDung, NgayUpdate);
-	    SELECT KyHan INTO KyHanSo FROM LOAIKYHAN LKH WHERE LKH.MaKyHan = MaKyHanSo;
-        IF (KyHanSo = 0) THEN
-	    	IF (NEW.NgayTao < TIMESTAMPADD(DAY, LaySoNgayKhongKyHanNhoNhat(NgayTaoSo), NgayTaoSo)) THEN
-	    		CALL ThrowException('PR001');
-            END IF;
-	    	IF (NEW.SoTien > SoDuDung) THEN
-	    		CALL ThrowException('PR003');
-	    	END IF;
-        ELSE
-	    	IF (NEW.NgayTao < TIMESTAMPADD(MONTH, KyHanSo, NgayTaoSo)) THEN
-	    		CALL ThrowException('PR001');
-            END IF;
-            IF (NEW.SoTien != SoDuDung) THEN
-	    		CALL ThrowException('PR002');
-	    	END IF;
+    CALL LaySoTienVoiNgay(NgayTaoSo, LanCapNhatCuoi, NgayDongSo, MaKyHanSo, SoDu, SoDuLanCapNhatCuoiSo, NEW.NgayTao, SoDuDung, NgayUpdate);
+	SELECT KyHan INTO KyHanSo FROM LOAIKYHAN LKH WHERE LKH.MaKyHan = MaKyHanSo;
+    IF (KyHanSo = 0) THEN
+		IF (NEW.NgayTao < TIMESTAMPADD(DAY, LaySoNgayKhongKyHanNhoNhat(NgayTaoSo), NgayTaoSo)) THEN
+			CALL ThrowException('PR001');
         END IF;
+		IF (NEW.SoTien > SoDuDung) THEN
+			CALL ThrowException('PR003');
+		END IF;
+    ELSE
+		IF (NEW.NgayTao < TIMESTAMPADD(MONTH, KyHanSo, NgayTaoSo)) THEN
+			CALL ThrowException('PR001');
+        END IF;
+        IF (NEW.SoTien != SoDuDung) THEN
+			CALL ThrowException('PR002');
+		END IF;
     END IF;
 
     SET NEW.LanCapNhatCuoiTruoc = LanCapNhatCuoi;
