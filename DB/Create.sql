@@ -47,11 +47,13 @@ CREATE TABLE SOTIETKIEM (
     MaKyHan INT NOT NULL,
     SoTienBanDau DECIMAL(15, 2) NOT NULL,
     SoDu DECIMAL(15, 2) NOT NULL DEFAULT 0,
+    SoDuLanCapNhatCuoi DECIMAL(15, 2) NOT NULL DEFAULT 0,
 	LanCapNhatCuoi DATE,
     
     FOREIGN KEY(MaKH) REFERENCES KHACHHANG(MaKH),
     FOREIGN KEY(MaKyHan) REFERENCES LOAIKYHAN(MaKyHan),
     CHECK (SoDu >= 0),
+    CHECK (SoDuLanCapNhatCuoi >= 0),
     PRIMARY KEY(MaSo)
 )  CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -61,8 +63,10 @@ CREATE TABLE PHIEURUT (
     SoTien DECIMAL(15, 2) NOT NULL,
     GhiChu TEXT,
     MaSo INT NOT NULL,
+    SoDuTruoc DECIMAL(15, 2),
+    LanCapNhatCuoiTruoc DATE,
     
-    CHECK (SoTien >= 0),
+    CHECK (SoTien > 0),
     FOREIGN KEY(MaSo) REFERENCES SOTIETKIEM(MaSo),
     PRIMARY KEY(MaPhieu)
 ) CHARACTER SET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
