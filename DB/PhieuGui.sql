@@ -68,7 +68,8 @@ DROP TRIGGER IF EXISTS BeforeUpdatePhieuGui;
 DELIMITER $$
 CREATE TRIGGER BeforeUpdatePhieuGui BEFORE UPDATE ON PHIEUGUI FOR EACH ROW
 BEGIN
-    DECLARE NgayTaoSo, KyHanSo DATE;
+    DECLARE NgayTaoSo DATE;
+    DECLARE KyHanSo INT;
 
 	IF (NEW.MaPhieu != OLD.MaPhieu OR NEW.MaSo != OLD.MaSo) THEN
 		CALL ThrowException('PH005');
@@ -80,7 +81,7 @@ BEGIN
 		IF (NEW.SoTien < LaySoTienNapNhoNhat(NEW.NgayTao)) THEN
 			CALL ThrowException('PG001');
 		END IF;
-        SELECT NgayTao, KyHan INTO NgayTaoSo, KyHanSo FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKyHan = LKH.MaKyHan WHERE STK.MaSo = NEW.MaSo;
+        SELECT STK.NgayTao, KyHan INTO NgayTaoSo, KyHanSo FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKyHan = LKH.MaKyHan WHERE STK.MaSo = NEW.MaSo;
 		IF (NgayTaoSo > NEW.NgayTao) THEN
             CALL ThrowException('PH003');
         END IF;
