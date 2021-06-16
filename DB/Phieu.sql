@@ -39,9 +39,11 @@ DROP PROCEDURE IF EXISTS RutHetTien;
 DELIMITER $$
 CREATE PROCEDURE RutHetTien(IN MaSo INT, IN GhiChu TEXT, IN NgayTao DATE)
 BEGIN
-	CALL UpdateSoTietKiem(MaSo, NgayTao);
-    SELECT SoDu INTO @SoDu FROM SOTIETKIEM STK WHERE STK.MaSo = MaSo;
-    CALL ThemPhieu(MaSo, -@SoDu, GhiChu, NgayTao);
+    DECLARE SoDuDung DECIMAL(15, 2);
+    DECLARE NgayDung DATE;
+
+    CALL LaySoTienVoiNgayQuery(MaSo, NgayTao, SoDuDung, NgayDung);
+    CALL ThemPhieu(MaSo, -SoDuDung, GhiChu, NgayTao);
 END;
 $$
 DELIMITER ;

@@ -9,9 +9,9 @@ TRUNCATE TABLE ErrorTable;
 DELETE FROM QUYDINH;
 DELETE FROM LoaiKyHan;
 DELETE FROM KHACHHANG;
-DELETE FROM SOTIETKIEM;
 DELETE FROM PHIEUGUI;
 DELETE FROM PHIEURUT;
+DELETE FROM SOTIETKIEM;
 DELETE FROM BAOCAONGAY;
 DELETE FROM BAOCAOTHANG;
 
@@ -39,13 +39,16 @@ INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG000', 'Gửi tiền thành côn
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG001', 'Số tiền gửi nhỏ hơn số tiền cho phép');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG002', 'Thêm phiếu gửi không thành công');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG003', 'Không thể gửi thêm tiền trước kỳ hạn');
-INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG004', 'Không thể gửi thêm tiền trước lần rút gần nhất');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG004', 'Không thể gửi thêm tiền trước ngày rút gần nhất');
 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR000', 'Rút tiền thành công');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR001', 'Không thể rút tiền trước kỳ hạn hoặc không thể rút tiền trước thời gian tối thiểu cho không kỳ hạn');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR002', 'Rút tiền loại có kỳ hạn phải rút hết');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR003', 'Tài khoản không đủ tiền để rút');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR004', 'Thêm phiếu rút tiền không thành công');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR005', 'Không thể rút tiền trước ngày rút gần nhất');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR006', 'Không thể rút tiền do có phiếu gửi tồn tại sau khi sổ đã đóng');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PR007', 'Không thể update do có phiếu rút tồn tại sau phiếu này');
 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PH001', 'Tài khoản đã đóng hoặc không tồn tại');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PH002', 'Phải xóa theo thứ tự trong cùng ngày');
@@ -243,8 +246,6 @@ SELECT * FROM KHACHHANG;
 
 /*==========Sổ tiết kiệm==========*/
 
-SELECT * FROM SOTIETKIEM;
-
 CALL ThemSoTietKiem(1, 0,  1000000, '2016/01/15');
 CALL ThemSoTietKiem(1, 12,  1000000, '2017/01/01');
 
@@ -279,6 +280,11 @@ SELECT * FROM SOTIETKIEM;
 
 -- (IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 -- (IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
+
+CALL LaySoTienVoiNgayQuery(1, '2016/06/15', @SoDu, @Ngay);
+SELECT @SoDu;
+
+SELECT COUNT(*) FROM PHIEUGUI WHERE NgayTao <= '2016/06/15' AND NgayTao > '2016/01/15';
 
 CALL ThemPhieu(1, 100000, 'Some things', '2016/03/01');
 CALL ThemPhieu(1, 100000, 'Some things', '2016/05/07');

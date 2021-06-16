@@ -7,7 +7,7 @@ DELIMITER $$
 CREATE TRIGGER BeforeInsertPhieuGui BEFORE INSERT ON PHIEUGUI FOR EACH ROW
 BEGIN
 	IF (NEW.NgayTao = '0/0/0') THEN SET NEW.NgayTao = NOW(); END IF;
-    SELECT NgayTao, MaKyHan, SoDu, NgayDongSo, LanUpdateCuoi, COUNT(*) INTO @NgayTao, @MaKyHan, @SoDu, @NgayDongSo, @LanUpdateCuoi, @Size FROM SOTIETKIEM WHERE MaSo = NEW.MaSo;
+    SELECT NgayTao, MaKyHan, SoDu, NgayDongSo, LanCapNhatCuoi, COUNT(*) INTO @NgayTao, @MaKyHan, @SoDu, @NgayDongSo, @LanCapNhatCuoi, @Size FROM SOTIETKIEM WHERE MaSo = NEW.MaSo;
     
     IF (@Size = 0 OR @NgayDongSo IS NOT NULL) THEN CALL ThrowException('PH001'); END IF;
     IF (NEW.NgayTao < @NgayTao) THEN CALL ThrowException('PH003'); END IF;
@@ -60,14 +60,14 @@ BEGIN
 	IF (NEW.MaPhieu != OLD.MaPhieu OR NEW.MaSo != OLD.MaSo) THEN
 		CALL ThrowException('PH005');
 	END IF;
-    
-    IF (NEW.SoTien != OLD.SoTien AND (SELECT LanCapNhatCuoi FROM SOTIETKIEM WHERE MaSo = NEW.MaSo) > NEW.NgayTao) THEN
+
+    IF ((NEW.SoTien != OLD.SoTien OR NEW.NgayTao != OLD.NgayTao) AND (SELECT LanCapNhatCuoi FROM SOTIETKIEM WHERE MaSo = NEW.MaSo) > NEW.NgayTao) THEN
 		CALL ThrowException('PH005');
 	ELSE
 		IF (NEW.SoTien < LaySoTienNapNhoNhat(NEW.NgayTao)) THEN
 			CALL ThrowException('PG001');
 		END IF;
-        
+
 		CALL BatDauCapNhatSoTietKiem();
 		UPDATE SOTIETKIEM 
 		SET SoDu = SoDu - OLD.SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(OLD.NgayTao, NOW())) + NEW.SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(NEW.NgayTao, NOW()))
@@ -75,7 +75,7 @@ BEGIN
 		CALL KetThucCapNhatSoTietKiem();
         
         CALL CapNhatBaoCaoNgayXoaPhieu(OLD.SoTien, OLD.MaSo, OLD.NgayTao);
-		CALL CapNhatBaoCaoNgayTaoPhieu(NEW.SoTien, NEW.MaSo, NEW.NgayTao);       
+		CALL CapNhatBaoCaoNgayTaoPhieu(NEW.SoTien, NEW.MaSo, NEW.NgayTao);
     END IF;
 END;
 $$

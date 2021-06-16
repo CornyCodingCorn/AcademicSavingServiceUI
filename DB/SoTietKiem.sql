@@ -54,8 +54,7 @@ END;
 $$
 DELIMITER ;
 
-/*==================================================================================FUNCTIONS=============================================================================*/
-
+/*USED TO GET THE BALANCE WITHOUT UPDATE*/
 DROP PROCEDURE IF EXISTS LaySoTienVoiNgay;
 DELIMITER $$
 CREATE PROCEDURE LaySoTienVoiNgay (IN NgayTao DATE, IN LanCapNhatCuoi DATE, IN NgayDongSo DATE, IN MaKyHan INT, IN SoDu DECIMAL(15, 2), IN SoDuLanCapNhatCuoi DECIMAL(15, 2), IN NgayCanUpdate DATE, OUT SoDuDung DECIMAL(15, 2), OUT NgayUpdate DATE)
@@ -68,7 +67,6 @@ BEGIN
 	IF (NgayCanUpdate > CURRENT_DATE()) THEN
 		CALL ThrowException('TK004');
 	END IF;
-
 
 	IF (NgayDongSo IS NULL) THEN
 		IF (LanCapNhatCuoi >= NgayCanUpdate) THEN
@@ -92,33 +90,60 @@ BEGIN
 				END IF;
 
 				SET SoDuDung = SoDuDung * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(LanCapNhatCuoi, NgayCanUpdate));
-								CALL MarkLine(2, SoDuDung);
-	    		SELECT COUNT(*) INTO @Size FROM PHIEUGUI WHERE NgayTao <= NgayCanUpdate AND NgayTao > @LanCapNhatCuoi;
+	    		SELECT COUNT(*) INTO @Size FROM PHIEUGUI PG WHERE PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi;
 
 	   			WHILE (_counter < @Size) DO
-					SELECT SoTien, NgayTao INTO @SoTien, @NgayTao FROM PHIEUGUI WHERE  NgayTao <= NgayCanUpdate AND NgayTao > LanCapNhatCuoi ORDER BY MaPhieu LIMIT _counter, 1;
+					SELECT PG.SoTien, PG.NgayTao INTO @SoTien, @NgayTao FROM PHIEUGUI PG WHERE  PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi ORDER BY MaPhieu LIMIT _counter, 1;
 					SET SoDuDung = SoDuDung + (@SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(@NgayTao, NgayCanUpdate)));
-					SET _counter = 0;
+					SET _counter = _counter + 1;
 	    		END WHILE;
 
-	    		SET @LanCapNhatCuoi = NgayCanUpdate;
+	    		SET LanCapNhatCuoi = NgayCanUpdate;
 	  		END IF;
-			SET NgayUpdate = @LanUpdateCuoi;
+			SET NgayUpdate = LanCapNhatCuoi;
 		END IF;
 	ELSE
 		SET SoDuDung = 0;
-		SET NgayUpdate = @NgayDongSo;
+		SET NgayUpdate = NgayDongSo;
 	END IF;
 END;
 $$
 DELIMITER ;
 
+/*QUERY AND GET THE BALANCE (CAN'T BE USE IN TRIGGERS OF STK)*/
+DROP PROCEDURE IF EXISTS LaySoTienVoiNgayQuery;
+DELIMITER $$
+CREATE PROCEDURE LaySoTienVoiNgayQuery(IN MaSo INT, IN NgayCanUpdate DATE, OUT SoDuDung DECIMAL(15, 2), OUT NgayUpdate DATE)
+BEGIN
+    DECLARE NgayTao, LanCapNhatCuoi, NgayDongSo DATE;
+    DECLARE SoDu, SoDuLanCapNhatCuoi DECIMAL(15, 2);
+    DECLARE MaKyHan INT;
+
+    SELECT STK.NgayTao, STK.LanCapNhatCuoi, STK.NgayDongSo, STK.MaKyHan, STK.SoDu, STK.SoDuLanCapNhatCuoi
+    INTO NgayTao, LanCapNhatCuoi, NgayDongSo, MaKyHan, SoDu, SoDuLanCapNhatCuoi
+    FROM SOTIETKIEM STK
+    WHERE STK.MaSo = MaSo;
+
+    IF (NgayTao IS NULL) THEN
+        SET SoDuDung = NULL;
+        SET NgayUpdate = NULL;
+    ELSE
+        CALL LaySoTienVoiNgay(NgayTao, LanCapNhatCuoi, NgayDongSo, MaKyHan, SoDu, SoDuLanCapNhatCuoi, NgayCanUpdate, SoDuDung, NgayUpdate);
+    END IF;
+END;
+$$
+DELIMITER ;
+
+/*==================================================================================FUNCTIONS=============================================================================*/
 /*===================================================================================TRIGGERS==============================================================================*/
 
 DROP TRIGGER IF EXISTS SoTietKiemBeforeUpdate;
 DELIMITER $$
 CREATE TRIGGER SoTietKiemBeforeUpdate BEFORE UPDATE ON SOTIETKIEM FOR EACH ROW
 BEGIN
+    DECLARE SoDuDung DECIMAL(15, 2);
+    DECLARE NgayDung DATE;
+
 	IF (NOT CoTheCapNhatSoTietKiem()) THEN
 	    IF (NEW.MaSo != OLD.MaSo OR
 	        NEW.SoDu != OLD.SoDu OR
@@ -137,6 +162,19 @@ BEGIN
         IF (NEW.SoTienBanDau < LaySoTienMoTaiKhoanNhoNhat(NEW.NgayTao)) THEN CALL ThrowException('TK001'); END IF;
 	    IF (EXISTS(SELECT * FROM PHIEUGUI PG WHERE PG.MaSo = NEW.MaSo AND PG.NgayTao < NEW.NgayTao)) THEN
             CALL ThrowException('TK006');
+        END IF;
+    END IF;
+
+	IF (NEW.SoDuLanCapNhatCuoi != OLD.SoDuLanCapNhatCuoi) THEN
+        IF (NEW.SoDuLanCapNhatCuoi = 0) THEN
+            SET NEW.SoDU = 0;
+            SET NEW.NgayDongSo = NEW.LanCapNhatCuoi;
+        ELSE
+            SET NEW.NgayDongSo = NULL;
+	        CALL LaySoTienVoiNgay(NEW.NgayTao, NEW.LanCapNhatCuoi,
+	            NEW.NgayDongSo, NEW.MaKyHan, NEW.SoDu,
+	            NEW.SoDuLanCapNhatCuoi, CURRENT_DATE(), SoDuDung, NgayDung);
+            SET NEW.SoDu = SoDuDung;
         END IF;
     END IF;
 END;
