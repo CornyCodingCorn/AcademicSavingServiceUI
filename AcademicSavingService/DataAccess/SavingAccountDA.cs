@@ -58,6 +58,16 @@ namespace AcademicSavingService.DataAccess
             db.Query(_tableName).Where(_MaSo, MaSo).Delete();
         }
 
+        public override void Update(SavingAccountINPC key)
+        {
+            db.Query(_tableName).Where(_MaSo, key.MaSo).Update(new
+            {
+                MaKH = key.MaKH,
+                SoTienBanDau = key.SoTienBanDau,
+                NgayTao = key.NgayTao
+            });
+        }
+
         public SavingAccountDA()
         {
             MySqlCompiler compiler = new();

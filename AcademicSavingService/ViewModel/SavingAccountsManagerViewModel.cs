@@ -75,6 +75,7 @@ namespace AcademicSavingService.ViewModel
 				if (_selectedCustomer != null)
 				{
 					CustomerID = _selectedCustomer.MaKH;
+					CustomerName = _selectedCustomer.HoTen;
 				}
 				else CustomerID = 0;
 			}
@@ -132,6 +133,7 @@ namespace AcademicSavingService.ViewModel
 		public decimal Balance { get; set; }
 		public decimal InitialBalance { get; set; }
 		public int CustomerID { get; set; }
+		public string CustomerName { get; set; }
 
 		public SavingAccountsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
@@ -163,7 +165,7 @@ namespace AcademicSavingService.ViewModel
 			}
 		}
 
-		protected override void ExecuteAdd()
+		protected async override void ExecuteAdd()
 		{
 			try
 			{
@@ -177,9 +179,17 @@ namespace AcademicSavingService.ViewModel
 					LaiSuat = InterestRate,
 					SoDu = InitialBalance,
 				};
-				SavingAccountContainer.Instance.AddToCollection(account);
-				ClearAllFields();
-				ID = SavingAccountContainer.Instance.GetNextAutoID();
+				if (IsInsertMode)
+				{
+					SavingAccountContainer.Instance.AddToCollection(account);
+					ID = SavingAccountContainer.Instance.GetNextAutoID();
+				}
+				else
+				{
+					if (!await AssApp.ShowConfirmDialogMessage("Confirmation", "Are you sure you want to proceed?"))
+						return;
+					SavingAccountContainer.Instance.UpdateOnCollection(account);
+				}
 			}
 			catch (MySqlException e)
 			{
@@ -196,13 +206,19 @@ namespace AcademicSavingService.ViewModel
 				return true;
 		}
 
-		protected override void ExecuteDelete()
+		protected async override void ExecuteDelete()
 		{
 			try
 			{
+				if (!await AssApp.ShowConfirmDialogMessage("Confirmation", "Are you sure you want to proceed?"))
+					return;
+
 				int index = SelectedIndex;
 				SavingAccountContainer.Instance.DeleteFromCollectionByDefaultKey(ID);
-				SelectedTermIndex = index;
+				if (index == SavingAccountContainer.Instance.Collection.Count)
+					SelectedIndex = index - 1;
+				else
+					SelectedTermIndex = index;
 			}
 			catch(MySqlException e)
 			{

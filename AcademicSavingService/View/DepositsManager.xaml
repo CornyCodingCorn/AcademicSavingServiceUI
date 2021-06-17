@@ -62,7 +62,7 @@
 				</ctrl:AssDataGrid.Columns>
 			</ctrl:AssDataGrid>
 
-			<ctrl:AssCRUDPanel Grid.Row="1" MinLeftMargin="0" LeftMargin="0" RightMargin="60*">
+			<ctrl:AssCRUDPanel Grid.Row="1" MinLeftMargin="0" LeftMargin="0" RightMargin="15*" MaxRightMargin="160">
 				<ctrl:AssCRUDPanel.Middle>
 					<Grid>
 						<Grid.ColumnDefinitions>
@@ -81,15 +81,15 @@
 								<RowDefinition Height="*"/>
 							</Grid.RowDefinitions>
 
-							<TextBlock Text="ID"			Grid.Column="0" Grid.Row="0"/>
-							<TextBlock Text="Account ID"	Grid.Column="0" Grid.Row="1"/>
-							<TextBlock Text="Create date"	Grid.Column="0" Grid.Row="2"/>
-							<TextBlock Text="Amount"		Grid.Column="0" Grid.Row="3"/>
+							<TextBlock Text="Create date"	Grid.Column="0" Grid.Row="0"/>
+							<TextBlock Text="Amount"		Grid.Column="0" Grid.Row="1"/>
+							<TextBlock Text="Account ID"	Grid.Column="0" Grid.Row="2"/>
+							<TextBlock Text="ID"			Grid.Column="0" Grid.Row="3"/>
 
-							<TextBox			Grid.Column="1" Grid.Row="0" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID number" Text="{Binding ID}"/>
-							<TextBox			Grid.Column="1" Grid.Row="1" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Account ID" Text="{Binding AccountID}"/>
-							<DatePicker			Grid.Column="1" Grid.Row="2" Width="180" IsEnabled="{Binding IsInsertMode}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"  SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged}"/>
-							<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="3" Width="180" IsReadOnly="{Binding IsReadOnly}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" Text="{Binding Amount,  UpdateSourceTrigger=PropertyChanged}"/>
+							<DatePicker			Grid.Column="1" Grid.Row="0" Width="180" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"  SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged}"/>
+							<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="1" Width="180" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" Text="{Binding Amount,  UpdateSourceTrigger=PropertyChanged}"/>
+							<TextBox			Grid.Column="1" Grid.Row="2" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Account ID" Text="{Binding AccountID}"/>
+							<TextBox			Grid.Column="1" Grid.Row="3" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding ID}"/>
 						</Grid>
 
 						<Grid Grid.Column="1" Margin="0, 0, 30, 4">

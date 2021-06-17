@@ -30,6 +30,18 @@ namespace AcademicSavingService.Containers
             return false;
         }
 
+        public override void UpdateOnCollection(SavingAccountINPC item)
+        {
+            _accountDA.Update(item);
+            for (int i = 0; i < Collection.Count; i++)
+                if (Collection[i].MaSo == item.MaSo)
+                {
+                    Collection[i].MaKH = item.MaKH;
+                    Collection[i].NgayTao = item.NgayTao;
+                    Collection[i].SoTienBanDau = item.SoTienBanDau;
+                }
+        }
+
         public override void AddToCollection(SavingAccountINPC savingAccount)
         {
             _accountDA.Create(savingAccount);
