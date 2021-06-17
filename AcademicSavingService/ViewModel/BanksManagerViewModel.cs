@@ -17,7 +17,13 @@ namespace AcademicSavingService.ViewModel
 					Header = "Terms",
 					Width = _tabsWidth,
 					Margin = _tabsMargin
-				}
+				},
+				new RuleManagerViewModel(this)
+                {
+					Header = "Rules",
+					Width = _tabsWidth,
+					Margin = _tabsMargin,
+                }
 			};
 		}
 	}

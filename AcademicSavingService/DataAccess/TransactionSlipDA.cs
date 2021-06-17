@@ -67,8 +67,6 @@ namespace AcademicSavingService.DataAccess
             db = new QueryFactory(BaseDBConnection.Connection, compiler);
         }
 
-        protected readonly QueryFactory db;
-
         protected readonly string _MaPhieu = "MaPhieu";
         protected readonly string _MaSo = "MaSo";
         protected readonly string _SoTien = "SoTien";
