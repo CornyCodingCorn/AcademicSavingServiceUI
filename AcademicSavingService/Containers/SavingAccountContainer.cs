@@ -13,26 +13,21 @@ namespace AcademicSavingService.Containers
             return _accountDA.GetSavingAccountsByMaKH(MaKH);
         }
 
-        public void UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
+        public bool UpdateSavingAccount(int MaSo)
         {
-            var result = _accountDA.UpdateSavingAccountStateToNgayCanUpdate(MaSo, NgayCanUpdate);
-            for (int i = 0; i < Collection.Count; i++)
-                if (Collection[i].MaSo == MaSo)
-				{
-                    Collection[i].LanCapNhatCuoi = NgayCanUpdate;
-                    Collection[i].SoDu = result.SoDu;
-                    break;
-				}
-        }
+            var result = _accountDA.GetSavingAccountByMaSo(MaSo);
+            if (result.Count == 0)
+                return false;
 
-        public void UpdateAllSavingAccountStateToNgayCanUpdate(DateTime NgayCanUpdate)
-        {
-            foreach (var row in Collection)
+            for (int i = 0; i < Collection.Count; i++)
 			{
-                var result = _accountDA.UpdateSavingAccountStateToNgayCanUpdate(row.MaSo, NgayCanUpdate);
-                row.LanCapNhatCuoi = NgayCanUpdate;
-                row.SoDu = result.SoDu;
+                if (Collection[i].MaSo == MaSo)
+                {
+                    Collection[i] = result[0];
+                    return true;
+                }
             }
+            return false;
         }
 
         public override void AddToCollection(SavingAccountINPC savingAccount)

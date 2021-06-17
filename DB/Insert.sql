@@ -373,6 +373,7 @@ SELECT * FROM BAOCAONGAY;
 /*========== Báo cáo tháng ==========*/
 
 CALL TongHopBaoCaoThang('2016/01/15', 0);
+CALL TongHopBaoCaoThang('2016/07/15', 0);
 CALL TongHopBaoCaoThang('2018/06/07', 1);
 CALL TongHopBaoCaoThang('2017/01/07', 12);
 CALL TongHopBaoCaoThang('2017/01/07', 0);

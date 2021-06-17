@@ -14,6 +14,7 @@
 		<Grid.Resources>
 			<ResourceDictionary>
 				<conv:DoubleGridLengthConverter x:Key="GridLengthConv"/>
+				<conv:BoolAndConverter x:Key="BoolANDConverter"/>
 				<ResourceDictionary.MergedDictionaries>
 					<ResourceDictionary Source="../Resources/CRUDStyle.xaml"/>
 				</ResourceDictionary.MergedDictionaries>
@@ -22,7 +23,7 @@
 
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="65*"/>
-			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="600" MinWidth="350"/>
+			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="550" MinWidth="350"/>
 		</Grid.ColumnDefinitions>
 
 		<!-- HORIZONTAL GRID SPLITTER !!! -->
@@ -57,7 +58,7 @@
 							</Style>
 						</DataGridTextColumn.CellStyle>
 					</DataGridTextColumn>
-					<DataGridTextColumn Width="*" Header="Note" Binding="{Binding GhiChu}"/>
+					<DataGridTextColumn Width="*" Header="Note" Binding="{Binding GhiChu}" CellStyle="{StaticResource LeftAllignedTextCell}"/>
 				</ctrl:AssDataGrid.Columns>
 			</ctrl:AssDataGrid>
 
@@ -89,8 +90,21 @@
 							<TextBox			Grid.Column="1" Grid.Row="1" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Account ID" Text="{Binding AccountID}"/>
 							<DatePicker			Grid.Column="1" Grid.Row="2" Width="180" IsEnabled="{Binding IsInsertMode}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"  SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged}"/>
 							<StackPanel	Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
-								<ctrl:DigitTextBox Width="145" IsReadOnly="{Binding IsReadOnly}"  HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}"/>
-								<CheckBox Margin="10, 0, 0, 0"/>
+								<ctrl:DigitTextBox Width="145" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}">
+									<ctrl:DigitTextBox.Style>
+										<Style TargetType="{x:Type ctrl:DigitTextBox}" BasedOn="{StaticResource CrudTextBox}">
+											<Setter Property="IsReadOnly">
+												<Setter.Value>
+													<MultiBinding Converter="{StaticResource BoolANDConverter}">
+														<Binding Path="IsInsertMode"/>
+														<Binding Path="WithDrawAll"/>
+													</MultiBinding>
+												</Setter.Value>
+											</Setter>
+										</Style>
+									</ctrl:DigitTextBox.Style>
+								</ctrl:DigitTextBox>
+								<CheckBox Margin="10, 0, 0, 0" IsChecked="{Binding WithDrawAll}" IsEnabled="{Binding IsInsertMode}"/>
 							</StackPanel>
 						</Grid>
 
@@ -125,7 +139,7 @@
 			<ctrl:AssDataGrid.Columns>
 				<DataGridTextColumn Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 				<DataGridTextColumn Header="Owner ID" Binding="{Binding MaKH}"/>
-				<DataGridTextColumn Header="Balance" Binding="{Binding SoDu}">
+				<DataGridTextColumn Header="Balance" Binding="{Binding SoDu}" Width="*">
 					<DataGridTextColumn.CellStyle>
 						<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 							<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
@@ -133,7 +147,6 @@
 						</Style>
 					</DataGridTextColumn.CellStyle>
 				</DataGridTextColumn>
-				<DataGridTextColumn Header="Update Date" Width="*" Binding="{Binding LanCapNhatCuoi, StringFormat='dd/MM/yyyy'}"/>
 			</ctrl:AssDataGrid.Columns>
 		</ctrl:AssDataGrid>
 	</Grid>

@@ -134,6 +134,7 @@ namespace AcademicSavingService.ViewModel
 			try
 			{
 				_containerInstance.AddToCollection(new TransactionSlipINPC(ID, CreateDate, Amount, Note, AccountID));
+				SavingAccountContainer.Instance.UpdateSavingAccount(AccountID);
 				ID = _containerInstance.GetNextAutoID();
 			}
 			catch(MySqlException e)
@@ -145,6 +146,7 @@ namespace AcademicSavingService.ViewModel
 			try
 			{
 				_containerInstance.UpdateOnCollection(new TransactionSlipINPC(ID, CreateDate, Amount, Note, AccountID));
+				SavingAccountContainer.Instance.UpdateSavingAccount(AccountID);
 			}
 			catch(MySqlException e)
 			{ ShowErrorMessage(e); }
@@ -154,7 +156,11 @@ namespace AcademicSavingService.ViewModel
 		{
 			try
 			{
+				var accountID = AccountID;
+				var index = SelectedIndex;
 				_containerInstance.DeleteFromCollectionByDefaultKey(ID);
+				SavingAccountContainer.Instance.UpdateSavingAccount(accountID);
+				SelectedIndex = index;
 			}
 			catch(MySqlException e)
 			{ ShowErrorMessage(e); }
