@@ -52,6 +52,8 @@ namespace AcademicSavingService.DataAccess
 		public override void Update(TransactionSlipINPC key)
 		{
 			db.Query(_tableName).Where(_MaPhieu, key.MaPhieu).Update(new {
+                NgayTao = key.NgayTao,
+                SoTien = key.SoTien,
                 GhiChu = key.GhiChu
             });
 		}

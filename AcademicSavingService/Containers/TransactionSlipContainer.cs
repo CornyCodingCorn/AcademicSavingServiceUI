@@ -24,7 +24,11 @@ namespace AcademicSavingService.Containers
 			_slipDA.Update(item);
             for (int i = 0; i < Collection.Count; i++)
                 if (Collection[i].MaPhieu == item.MaPhieu)
+				{
                     Collection[i].GhiChu = item.GhiChu;
+                    Collection[i].NgayTao = item.NgayTao;
+                    Collection[i].SoTien = item.SoTien;
+                }
 		}
 
 		public override void DeleteFromCollectionByDefaultKey(int MaPhieu)

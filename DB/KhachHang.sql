@@ -24,4 +24,17 @@ END;
 $$
 DELIMITER ;
 
+DROP TRIGGER IF EXISTS KhachHangBeforeUpdate;
+DELIMITER $$
+CREATE TRIGGER KhachHangBeforeUpdate BEFORE UPDATE ON KHACHHANG FOR EACH ROW
+BEGIN
+    IF (NEW.NgayDangKy != OLD.NgayDangKy) THEN
+        IF (EXISTS(SELECT * FROM SOTIETKIEM WHERE NgayTao < NEW.NgayDangKy)) THEN
+            CALL ThrowException('KH001');
+        END IF;
+    END IF;
+END;
+$$
+DELIMITER ;
+
 /*===================================================================================QUERRIES==============================================================================*/

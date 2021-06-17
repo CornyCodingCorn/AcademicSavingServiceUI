@@ -1,12 +1,6 @@
-﻿using ControlzEx.Theming;
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 
 namespace AcademicSavingService.Controls
 {
@@ -15,11 +9,14 @@ namespace AcademicSavingService.Controls
 		public static readonly DependencyProperty IsActivatedProperty = 
 			DependencyProperty.Register("IsActivated", typeof(bool), typeof(AssWindow));
 
-		Theme theme;
-
 		public AssWindow()
 		{
-			theme = ThemeManager.Current.DetectTheme();
+			AssApp.RegisterWindow(this);
+		}
+
+		~AssWindow()
+		{
+			AssApp.RemoveWindow(this);
 		}
 
 		public bool IsActivated
@@ -32,14 +29,12 @@ namespace AcademicSavingService.Controls
 		{
 			base.OnActivated(e);
 			IsActivated = IsActive;
-			ThemeManager.Current.ChangeTheme(this, theme);
 		}
 
 		protected override void OnDeactivated(EventArgs e)
 		{
 			base.OnDeactivated(e);
 			IsActivated = IsActive;
-			ThemeManager.Current.ChangeTheme(this, "Light.Steel");
 		}
 	}
 }

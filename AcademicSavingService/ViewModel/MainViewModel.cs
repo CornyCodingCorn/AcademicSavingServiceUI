@@ -17,12 +17,23 @@ namespace AcademicSavingService.ViewModel
 		public ObservableCollection<MenuItemViewModel> MenuOptionItems { get; set; }
         public SolidColorBrush TitleBarBackGround { get; set; }
 
+        public static MainViewModel Instance { get; protected set; }
+        public bool AskBeforeUpdate { get; set; }
+        public bool AskBeforeDelete { get; set; }
+
         public MainViewModel()
         {
-            this.CreateMenuItems();
+            Instance = this;
+            Load();
+            CreateMenuItems();
         }
 
-        public void CreateMenuItems()
+        protected void Load()
+		{
+
+		}
+
+        protected void CreateMenuItems()
         {
             TitleBarBackGround = (SolidColorBrush)(Application.Current.FindResource("MahApps.Brushes.AccentBase"));
 

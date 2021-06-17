@@ -22,9 +22,9 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_GhiChuVar, GhiChu);
             cmd.Parameters.AddWithValue(_NgayTaoVar, NgayTao);
 
-            BaseDBConnection.OpenConnection();
             try
             {
+                BaseDBConnection.OpenConnection();
                 cmd.ExecuteNonQuery();
             }
             catch { throw; }

@@ -75,6 +75,7 @@ namespace AcademicSavingService.ViewModel
 				if (_selectedCustomer != null)
 				{
 					CustomerID = _selectedCustomer.MaKH;
+					CustomerName = _selectedCustomer.HoTen;
 				}
 				else CustomerID = 0;
 			}
@@ -132,6 +133,7 @@ namespace AcademicSavingService.ViewModel
 		public decimal Balance { get; set; }
 		public decimal InitialBalance { get; set; }
 		public int CustomerID { get; set; }
+		public string CustomerName { get; set; }
 
 		public SavingAccountsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
@@ -141,12 +143,6 @@ namespace AcademicSavingService.ViewModel
 		}
 
 		#region Command
-
-		protected RelayCommand<SavingAccountsManagerViewModel> _updateOne;
-		protected RelayCommand<SavingAccountsManagerViewModel> _updateAll;
-
-		public ICommand UpdateOneCommand => _updateOne ?? (_updateOne = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAccount(), param => CanUpdateAccount()));
-		public ICommand UpdateAllCommand => _updateAll ?? (_updateAll = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAllAccounts(), param => CanUpdateAllAccounts()));
 
 		protected override void ExecuteInsertMode()
 		{
@@ -169,7 +165,7 @@ namespace AcademicSavingService.ViewModel
 			}
 		}
 
-		protected override void ExecuteAdd()
+		protected async override void ExecuteAdd()
 		{
 			try
 			{
@@ -183,9 +179,17 @@ namespace AcademicSavingService.ViewModel
 					LaiSuat = InterestRate,
 					SoDu = InitialBalance,
 				};
-				SavingAccountContainer.Instance.AddToCollection(account);
-				ClearAllFields();
-				ID = SavingAccountContainer.Instance.GetNextAutoID();
+				if (IsInsertMode)
+				{
+					SavingAccountContainer.Instance.AddToCollection(account);
+					ID = SavingAccountContainer.Instance.GetNextAutoID();
+				}
+				else
+				{
+					if (!await AssApp.ShowConfirmDialogMessage("Confirmation", "Are you sure you want to proceed?"))
+						return;
+					SavingAccountContainer.Instance.UpdateOnCollection(account);
+				}
 			}
 			catch (MySqlException e)
 			{
@@ -194,7 +198,7 @@ namespace AcademicSavingService.ViewModel
 		}
 		protected override bool CanExecuteAdd()
 		{
-			if (CreateDate.Year < 1800 || SelectedTermIndex < 0 || IsReadOnly || InitialBalance == 0)
+			if (CreateDate.Year < 1800 || SelectedTermIndex < 0 || InitialBalance == 0)
 			{
 				return false;
 			}
@@ -202,48 +206,19 @@ namespace AcademicSavingService.ViewModel
 				return true;
 		}
 
-		protected void UpdateAccount()
+		protected async override void ExecuteDelete()
 		{
 			try
 			{
-				SavingAccountContainer.Instance.UpdateSavingAccountStateToNgayCanUpdate(SelectedAccount.MaSo, DateTime.Now);
-			}
-			catch (MySqlException e)
-			{
-				ShowErrorMessage(e);
-			}
-		}
-		protected bool CanUpdateAccount()
-		{
-			if (SelectedAccount == null)
-				return false;
-			else
-				return true;
-		}
+				if (!await AssApp.ShowConfirmDialogMessage("Confirmation", "Are you sure you want to proceed?"))
+					return;
 
-		protected void UpdateAllAccounts()
-		{
-			try
-			{
-				SavingAccountContainer.Instance.UpdateAllSavingAccountStateToNgayCanUpdate(DateTime.Now);
-			}
-			catch(MySqlException e)
-			{
-				ShowErrorMessage(e);
-			}
-		}
-		protected bool CanUpdateAllAccounts()
-		{
-			return IsReadOnly;
-		}
-
-		protected override void ExecuteDelete()
-		{
-			try
-			{
 				int index = SelectedIndex;
 				SavingAccountContainer.Instance.DeleteFromCollectionByDefaultKey(ID);
-				SelectedTermIndex = index;
+				if (index == SavingAccountContainer.Instance.Collection.Count)
+					SelectedIndex = index - 1;
+				else
+					SelectedTermIndex = index;
 			}
 			catch(MySqlException e)
 			{
@@ -252,7 +227,7 @@ namespace AcademicSavingService.ViewModel
 		}
 		protected override bool CanExecuteDelete()
 		{
-			if (SelectedAccount == null)
+			if (SelectedAccount == null || IsInsertMode)
 				return false;
 			else 
 				return true;

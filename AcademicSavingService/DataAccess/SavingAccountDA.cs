@@ -21,37 +21,6 @@ namespace AcademicSavingService.DataAccess
             return new ObservableCollection<SavingAccountINPC>(collection);
         }
 
-        public SavingAccountINPC UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
-        {
-            string q = $"CALL UpdateSoTietKiemVaReturn({_MaSoVar}, {_NgayCanUpdateVar})";
-            cmd.CommandText = q;
-            cmd.Parameters.Clear();
-            cmd.Parameters.AddWithValue(_MaSoVar, MaSo);
-            cmd.Parameters.AddWithValue(_NgayCanUpdateVar, NgayCanUpdate);
-            SavingAccountINPC rValue;
-
-            try
-			{
-                rValue = new SavingAccountINPC();
-                BaseDBConnection.OpenConnection();
-                var result = cmd.ExecuteReader();
-                if (result.Read())
-                {
-                    rValue.SoDu = result.GetDecimal("SoDu");
-                }
-            }
-            catch(MySqlException)
-			{
-                throw;
-			}
-            finally
-            {
-                BaseDBConnection.CloseConnection();
-            }
-
-            return rValue;
-        }
-
         public override void Create(SavingAccountINPC savingAccount)
         {
             string q = $"CALL ThemSoTietKiem({_MaKHVar}, {_KyHanVar}, {_SoTienBanDauVar}, {_NgayTaoVar})";
@@ -87,6 +56,16 @@ namespace AcademicSavingService.DataAccess
         public override void Delete(int MaSo)
         {
             db.Query(_tableName).Where(_MaSo, MaSo).Delete();
+        }
+
+        public override void Update(SavingAccountINPC key)
+        {
+            db.Query(_tableName).Where(_MaSo, key.MaSo).Update(new
+            {
+                MaKH = key.MaKH,
+                SoTienBanDau = key.SoTienBanDau,
+                NgayTao = key.NgayTao
+            });
         }
 
         public SavingAccountDA()

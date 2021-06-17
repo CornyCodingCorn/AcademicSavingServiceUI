@@ -6,6 +6,9 @@ using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using MahApps.Metro.Controls.Dialogs;
+using System.Threading.Tasks;
+using AcademicSavingService.Controls;
 
 namespace AcademicSavingService.ViewModel
 {
@@ -129,12 +132,26 @@ namespace AcademicSavingService.ViewModel
 			}
 		}
 
-		protected override void ExecuteAdd()
+		protected async override void ExecuteAdd()
 		{
 			try
 			{
-				_containerInstance.AddToCollection(new TransactionSlipINPC(ID, CreateDate, Amount, Note, AccountID));
-				ID = _containerInstance.GetNextAutoID();
+				var slip = new TransactionSlipINPC(ID, CreateDate, Amount, Note, AccountID);
+				if (IsInsertMode)
+				{
+					_containerInstance.AddToCollection(slip);
+					ID = _containerInstance.GetNextAutoID();
+					SavingAccountContainer.Instance.UpdateSavingAccount(AccountID);
+				}
+				else
+				{
+					if (!await AssApp.ShowConfirmDialogMessage("Confirmation", "Are you sure you want to proceed?"))
+						return;
+					var accountIndex = SelectedAccountIndex;
+					_containerInstance.UpdateOnCollection(slip);
+					SavingAccountContainer.Instance.UpdateSavingAccount(AccountID);
+					SelectedAccountIndex = accountIndex;
+				}
 			}
 			catch(MySqlException e)
 			{ ShowErrorMessage(e); }
@@ -145,16 +162,27 @@ namespace AcademicSavingService.ViewModel
 			try
 			{
 				_containerInstance.UpdateOnCollection(new TransactionSlipINPC(ID, CreateDate, Amount, Note, AccountID));
+				SavingAccountContainer.Instance.UpdateSavingAccount(AccountID);
 			}
 			catch(MySqlException e)
 			{ ShowErrorMessage(e); }
 		}
 
-		protected override void ExecuteDelete()
+		protected async override void ExecuteDelete()
 		{
 			try
 			{
+				if (!await AssApp.ShowConfirmDialogMessage("Confirmation", "Are you sure you want to proceed?"))
+					return;
+
+				var accountID = AccountID;
+				var index = SelectedIndex;
 				_containerInstance.DeleteFromCollectionByDefaultKey(ID);
+				SavingAccountContainer.Instance.UpdateSavingAccount(accountID);
+				if (_containerInstance.Collection.Count == index)
+					SelectedIndex = index - 1;
+				else
+					SelectedIndex = index;
 			}
 			catch(MySqlException e)
 			{ ShowErrorMessage(e); }
@@ -164,7 +192,7 @@ namespace AcademicSavingService.ViewModel
 		#region Can Execute
 		protected override bool CanExecuteAdd()
 		{
-			return IsInsertMode && SelectedAccount != null && SelectedAccount.SoDu > 0 && Amount > 0;
+			return SelectedAccount != null && Amount > 0;
 		}
 		protected override bool CanExecuteClear()
 		{

@@ -13,26 +13,41 @@ namespace AcademicSavingService.Containers
             return _accountDA.GetSavingAccountsByMaKH(MaKH);
         }
 
-        public void UpdateSavingAccountStateToNgayCanUpdate(int MaSo, DateTime NgayCanUpdate)
+        public bool UpdateSavingAccount(int MaSo)
         {
-            var result = _accountDA.UpdateSavingAccountStateToNgayCanUpdate(MaSo, NgayCanUpdate);
+            var result = _accountDA.GetSavingAccountByMaSo(MaSo);
+            if (result.Count == 0)
+                return false;
+
             for (int i = 0; i < Collection.Count; i++)
+			{
                 if (Collection[i].MaSo == MaSo)
-				{
-                    Collection[i].LanCapNhatCuoi = NgayCanUpdate;
-                    Collection[i].SoDu = result.SoDu;
-                    break;
-				}
+                {
+                    Collection[i].MaKH = result[0].MaKH;
+                    Collection[i].MaSo = result[0].MaSo;
+                    Collection[i].KyHan = result[0].KyHan;
+                    Collection[i].LaiSuat = result[0].LaiSuat;
+                    Collection[i].LanCapNhatCuoi = result[0].LanCapNhatCuoi;
+                    Collection[i].SoDu = result[0].SoDu;
+                    Collection[i].SoTienBanDau = result[0].SoTienBanDau;
+                    Collection[i].NgayTao = result[0].NgayTao;
+                    Collection[i].NgayDongSo = result[0].NgayDongSo;
+                    return true;
+                }
+            }
+            return false;
         }
 
-        public void UpdateAllSavingAccountStateToNgayCanUpdate(DateTime NgayCanUpdate)
+        public override void UpdateOnCollection(SavingAccountINPC item)
         {
-            foreach (var row in Collection)
-			{
-                var result = _accountDA.UpdateSavingAccountStateToNgayCanUpdate(row.MaSo, NgayCanUpdate);
-                row.LanCapNhatCuoi = NgayCanUpdate;
-                row.SoDu = result.SoDu;
-            }
+            _accountDA.Update(item);
+            for (int i = 0; i < Collection.Count; i++)
+                if (Collection[i].MaSo == item.MaSo)
+                {
+                    Collection[i].MaKH = item.MaKH;
+                    Collection[i].NgayTao = item.NgayTao;
+                    Collection[i].SoTienBanDau = item.SoTienBanDau;
+                }
         }
 
         public override void AddToCollection(SavingAccountINPC savingAccount)
