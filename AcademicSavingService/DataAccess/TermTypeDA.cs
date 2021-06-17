@@ -95,8 +95,6 @@ namespace AcademicSavingService.DataAccess
             db = new QueryFactory(BaseDBConnection.Connection, compiler);
         }
 
-        private readonly QueryFactory db;
-
         private readonly string _MaKyHan = "MaKyHan";
         private readonly string _KyHan = "KyHan";
         private readonly string _LaiSuat = "LaiSuat";

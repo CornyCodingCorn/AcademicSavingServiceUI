@@ -20,7 +20,7 @@
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding VerticleSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="750" MinWidth="700"/>
+            <ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="750" MinWidth="700"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
