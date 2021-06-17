@@ -291,28 +291,7 @@ CALL ThemSoTietKiem(1, 0,  1000000, '2016/01/15');
 
 SELECT * FROM SOTIETKIEM;
 
-DELETE FROM SOTIETKIEM
-WHERE MASO = 24;
-
-UPDATE SOTIETKIEM
-SET SOTIENBANDAU = 100000000, NGAYTAO = '2016/02/01', MAKH = 2
-WHERE MASO = 24;
-
 /*========== Phiếu ==========*/
-
-DELETE FROM PHIEUGUI
-WHERE MAPHIEU = 6;
-
-DELETE FROM PHIEURUT
-WHERE MAPHIEU = 17;
-
-UPDATE PHIEUGUI
-SET SOTIEN = 20000000, NGAYTAO = '2016/06/15'
-WHERE MAPHIEU = 6;
-
-UPDATE PHIEURUT
-SET SOTIEN = 1000000, NGAYTAO = '2016/06/15'
-WHERE MAPHIEU = 18;
 
 -- (IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 -- (IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
@@ -321,8 +300,7 @@ CALL ThemPhieu(1, 10000000, 'Some things', '2016/03/01');
 CALL ThemPhieu(1, 100000, 'Some things', '2016/05/07');
 CALL ThemPhieu(1, 500000, 'Some things', '2016/06/15');
 CALL ThemPhieu(1, -100000, 'Some things', '2016/07/15');
-CALL ThemPhieu(1, -100000, 'Some things', '2016/06/15');
-CALL RutHetTien(1, 'The end game', '2016/06/15');
+CALL RutHetTien(1, 'The end game', '2016/07/15');
 
 CALL RutHetTien(2, 'The end game', '2018/01/01');
 
@@ -370,12 +348,20 @@ CALL RutHetTien(22, 'The end game', '2020/04/15');
 SELECT * FROM PHIEUGUI;
 SELECT * FROM PHIEURUT;
 
+DELETE FROM PHIEURUT WHERE MaPhieu = 25;
+DELETE FROM PHIEURUT WHERE MaPhieu = 8;
+DELETE FROM PHIEURUT WHERE MaPhieu = 7;
+
+CALL LaySoTienVoiNgayQuery(6, '2021/06/17', @SoDuDung, @Ngay);
+SELECT CONCAT(@SoDuDung, ' ', @Ngay);
+
 /*========== Báo cáo ngày ==========*/
 
 CALL TongHopBaoCaoNgay('2016/06/15', 0);
 CALL TongHopBaoCaoNgay('2016/10/01', 0);
 CALL TongHopBaoCaoNgay('2016/01/15', 0);
 CALL TongHopBaoCaoNgay('2017/10/15', 1);
+CALL TongHopBaoCaoNgay('2017/01/01', 0);
 CALL TongHopBaoCaoNgay('2017/12/15', 3);
 CALL TongHopBaoCaoNgay('2020/04/15', 6);
 CALL TongHopBaoCaoNgay('2019/02/15', 9);
@@ -389,6 +375,7 @@ SELECT * FROM BAOCAONGAY;
 CALL TongHopBaoCaoThang('2016/01/15', 0);
 CALL TongHopBaoCaoThang('2018/06/07', 1);
 CALL TongHopBaoCaoThang('2017/01/07', 12);
+CALL TongHopBaoCaoThang('2017/01/07', 0);
 CALL TongHopBaoCaoThang('2018/03/07', 6);
 CALL TongHopBaoCaoThang('2017/01/07', 6);
 CALL TongHopBaoCaoThang('2016/01/07', 6);

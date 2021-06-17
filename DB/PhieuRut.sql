@@ -22,8 +22,8 @@ BEGIN
     DECLARE MaKyHanSo , SIZE, KyHanSo INT;
 
 	IF (NEW.NgayTao = '0/0/0') THEN SET NEW.NgayTao = NOW(); END IF;
-    SELECT STK.NgayTao, STK.LanCapNhatCuoi, STK.NgayDongSo, STK.MaKyHan, STK.SoDu, STK.SoDuLanCapNhatCuoi, COUNT(*)
-    INTO NgayTaoSo, LanCapNhatCuoi, NgayDongSo, MaKyHanSo, SoDu, SoDuLanCapNhatCuoiSo, SIZE
+    SELECT STK.NgayTao, STK.LanCapNhatCuoi, STK.NgayDongSo, STK.MaKyHan, STK.SoDuLanCapNhatCuoi, COUNT(*)
+    INTO NgayTaoSo, LanCapNhatCuoi, NgayDongSo, MaKyHanSo, SoDuLanCapNhatCuoiSo, SIZE
     FROM SOTIETKIEM STK
     WHERE STK.MaSo = NEW.MaSo;
 
@@ -37,7 +37,7 @@ BEGIN
         CALL ThrowException('PR005');
     END IF;
 
-    CALL LaySoTienVoiNgay(NgayTaoSo, LanCapNhatCuoi, NgayDongSo, MaKyHanSo, SoDu, SoDuLanCapNhatCuoiSo, NEW.NgayTao, SoDuDung, NgayUpdate);
+    CALL LaySoTienVoiNgay(NgayTaoSo, LanCapNhatCuoi, NgayDongSo, MaKyHanSo, NEW.MaSo, SoDuLanCapNhatCuoiSo, NEW.NgayTao, SoDuDung, NgayUpdate);
 	SELECT KyHan INTO KyHanSo FROM LOAIKYHAN LKH WHERE LKH.MaKyHan = MaKyHanSo;
     IF (KyHanSo = 0) THEN
 		IF (NEW.NgayTao < TIMESTAMPADD(DAY, LaySoNgayKhongKyHanNhoNhat(NgayTaoSo), NgayTaoSo)) THEN

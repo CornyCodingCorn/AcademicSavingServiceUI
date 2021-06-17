@@ -53,7 +53,7 @@ DELIMITER ;
 /*USED TO GET THE BALANCE WITHOUT UPDATE*/
 DROP PROCEDURE IF EXISTS LaySoTienVoiNgay;
 DELIMITER $$
-CREATE PROCEDURE LaySoTienVoiNgay (IN NgayTao DATE, IN LanCapNhatCuoi DATE, IN NgayDongSo DATE, IN MaKyHan INT, IN SoDu DECIMAL(15, 2), IN SoDuLanCapNhatCuoi DECIMAL(15, 2), IN NgayCanUpdate DATE, OUT SoDuDung DECIMAL(15, 2), OUT NgayUpdate DATE)
+CREATE PROCEDURE LaySoTienVoiNgay (IN NgayTao DATE, IN LanCapNhatCuoi DATE, IN NgayDongSo DATE, IN MaKyHan INT, IN MaSo INT, IN SoDuLanCapNhatCuoi DECIMAL(15, 2), IN NgayCanUpdate DATE, OUT SoDuDung DECIMAL(15, 2), OUT NgayUpdate DATE)
 BEGIN
 	DECLARE _counter, _kyHan, _size INT;
 	DECLARE _ngayDaoHan DATE;
@@ -71,7 +71,6 @@ BEGIN
 			SELECT KyHan INTO _kyHan FROM LOAIKYHAN LKH WHERE LKH.MaKyHan = MaKyHan;
 			SET _ngayDaoHan = TIMESTAMPADD(MONTH, _kyHan, NgayTao);
 	        SET SoDuDung = SoDuLanCapNhatCuoi;
-
 	  		IF (NgayCanUpdate >= _ngayDaoHan) THEN
 				IF (LanCapNhatCuoi < _ngayDaoHan) THEN
 					SET @NgayUpdateToi = IF(NgayCanUpdate < _ngayDaoHan, NgayCanUpdate, _ngayDaoHan);
@@ -81,10 +80,9 @@ BEGIN
 				END IF;
 
 				SET SoDuDung = SoDuDung * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(LanCapNhatCuoi, NgayCanUpdate));
-	    		SELECT COUNT(*) INTO _size FROM PHIEUGUI PG WHERE PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi;
-
+	    		SELECT COUNT(*) INTO _size FROM PHIEUGUI PG WHERE PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi AND PG.MaSo = MaSo;
 	   			WHILE (_counter < _size) DO
-					SELECT PG.SoTien, PG.NgayTao INTO @SoTien, @NgayTao FROM PHIEUGUI PG WHERE  PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi ORDER BY MaPhieu LIMIT _counter, 1;
+					SELECT PG.SoTien, PG.NgayTao INTO @SoTien, @NgayTao FROM PHIEUGUI PG WHERE  PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi AND PG.MaSo = MaSo ORDER BY MaPhieu LIMIT _counter, 1;
 					SET SoDuDung = SoDuDung + (@SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(@NgayTao, NgayCanUpdate)));
 					SET _counter = _counter + 1;
 	    		END WHILE;
@@ -119,7 +117,7 @@ BEGIN
         SET SoDuDung = NULL;
         SET NgayUpdate = NULL;
     ELSE
-        CALL LaySoTienVoiNgay(NgayTao, LanCapNhatCuoi, NgayDongSo, MaKyHan, SoDu, SoDuLanCapNhatCuoi, NgayCanUpdate, SoDuDung, NgayUpdate);
+        CALL LaySoTienVoiNgay(NgayTao, LanCapNhatCuoi, NgayDongSo, MaKyHan, MaSo, SoDuLanCapNhatCuoi, NgayCanUpdate, SoDuDung, NgayUpdate);
     END IF;
 END;
 $$
@@ -146,7 +144,6 @@ BEGIN
         END IF;
     END IF;
 
-    CALL MarkLine(1, CONCAT(NEW.SoTienBanDau, ' ', @Temp));
 	IF (NEW.SoTienBanDau != OLD.SoTienBanDau OR NEW.NgayTao != OLD.NgayTao) THEN
         IF (KiemTraKyHan(NEW.MaKyHan, NEW.NgayTao) = FALSE) THEN
 	    	CALL ThrowException('TK002');
@@ -172,10 +169,20 @@ BEGIN
         ELSE
             SET NEW.NgayDongSo = NULL;
 	        CALL LaySoTienVoiNgay(NEW.NgayTao, NEW.LanCapNhatCuoi,
-	            NEW.NgayDongSo, NEW.MaKyHan, NEW.SoDu,
+	            NEW.NgayDongSo, NEW.MaKyHan, NEW.MaSo,
 	            NEW.SoDuLanCapNhatCuoi, CURRENT_DATE(), SoDuDung, NgayDung);
             SET NEW.SoDu = SoDuDung;
         END IF;
+    END IF;
+
+    IF (NEW.SoDuLanCapNhatCuoi != OLD.SoDuLanCapNhatCuoi OR
+        NEW.NgayTao != OLD.NgayTao OR
+        NEW.SoTienBanDau != OLD.SoTienBanDau) THEN
+        CALL CapNhatBaoCaoNgayXoaSoTietKiem(OLD.SoTienBanDau, OLD.NgayTao, OLD.MaKyHan);
+        CALL CapNhatBaoCaoThangXoaSoTietKiem(OLD.NgayTao, OLD.MaKyHan, OLD.NgayDongSo);
+
+        CALL CapNhatBaoCaoNgayTaoSoTietKiem(NEW.SoTienBanDau, NEW.NgayTao, NEW.MaKyHan);
+        CALL CapNhatBaoCaoThangTaoSoTietKiem(NEW.NgayTao, NEW.MaKyHan, NEW.NgayDongSo);
     END IF;
 END;
 $$
@@ -212,7 +219,7 @@ BEGIN
     SET NEW.SoDuLanCapNhatCuoi = NEW.SoTienBanDau;
 
 	CALL LaySoTienVoiNgay(NEW.NgayTao, NEW.LanCapNhatCuoi,
-	    NEW.NgayDongSo, NEW.MaKyHan, NEW.SoDu,
+	    NEW.NgayDongSo, NEW.MaKyHan, NEW.MaSo,
 	    NEW.SoDuLanCapNhatCuoi, CURRENT_DATE(), SoDuDung, NgayDung);
 
 	SET NEW.SoDU = SoDuDung;

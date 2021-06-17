@@ -71,13 +71,24 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS CapNhatBaoCaoNgayTaoPhieu;
 DELIMITER $$
 CREATE PROCEDURE CapNhatBaoCaoNgayTaoPhieu(IN SoTien DECIMAL(15, 2), IN MaSo INT, IN NgayTao DATE)
-BEGIN 
+BEGIN
+    DECLARE KyHanSo INT;
+    DECLARE NgayTaoSo DATE;
+    DECLARE LaiSuatSo FLOAT;
+    DECLARE SoTienBanDau, SoTienCoKyHan DECIMAL(15, 2);
+
 	IF (EXISTS (SELECT * FROM BAOCAONGAY WHERE Ngay = NgayTao)) THEN
     	CALL BatDauCapNhatBaoCaoNgay();
-		SELECT LKH.KyHan, LKH.LaiSuat, STK.NgayTao, STK.SoTienBanDau INTO @KyHan, @LaiSuat, @NgayTao, @SoTienBanDau FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKyHan = LKH.MaKyHan WHERE STK.MaSo = MaSo;
+		SELECT LKH.KyHan, LKH.LaiSuat, STK.NgayTao, STK.SoTienBanDau INTO KyHanSo, LaiSuatSo, NgayTaoSo, SoTienBanDau FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKyHan = LKH.MaKyHan WHERE STK.MaSo = MaSo;
 		IF (SoTien < 0) THEN
-			UPDATE BAOCAONGAY SET TongChi = TongChi + (- SoTien - @SoTienBanDau * (1 + TIMESTAMPDIFF(DAY, @NgayTao, TIMESTAMPADD(MONTH, @KyHan, @NgayTao)) * @LaiSuat / 100 / 365)) WHERE Ngay = NgayTao AND KyHan = 0;
-			UPDATE BAOCAONGAY SET TongChi = TongChi + (@SoTienBanDau * (1 + TIMESTAMPDIFF(DAY, @NgayTao, TIMESTAMPADD(MONTH, @KyHan, @NgayTao)) * @LaiSuat / 100 / 365))  WHERE Ngay = NgayTao AND KyHan = @KyHan;
+		    SET SoTien = -SoTien;
+		    IF (KyHanSo != 0) THEN
+                SET SoTienCoKyHan = SoTienBanDau * (1 + TIMESTAMPDIFF(DAY, NgayTaoSo, TIMESTAMPADD(MONTH, KyHanSo, NgayTaoSo)) * LaiSuatSo / 36500);
+		        UPDATE BAOCAONGAY SET TongChi = TongChi + SoTienCoKyHan  WHERE Ngay = NgayTao AND KyHan = KyHanSo;
+		        UPDATE BAOCAONGAY SET TongChi = TongChi + (SoTien - SoTienCoKyHan) WHERE Ngay = NgayTao AND KyHan = 0;
+		    ELSE
+		        UPDATE BAOCAONGAY SET TongChi = TongChi + SoTien WHERE Ngay = NgayTao AND KyHan = 0;
+		    END IF;
 		ELSE
 			UPDATE BAOCAONGAY SET TongThu = TongThu + SoTien WHERE Ngay = NgayTao AND KyHan = 0;
 		END IF;
@@ -91,12 +102,23 @@ DROP PROCEDURE IF EXISTS CapNhatBaoCaoNgayXoaPhieu;
 DELIMITER $$
 CREATE PROCEDURE CapNhatBaoCaoNgayXoaPhieu(IN SoTien DECIMAL(15, 2), IN MaSo INT, IN NgayTao DATE)
 BEGIN 
+    DECLARE KyHanSo INT;
+    DECLARE NgayTaoSo DATE;
+    DECLARE LaiSuatSo FLOAT;
+    DECLARE SoTienBanDau, SoTienCoKyHan DECIMAL(15, 2);
+
 	IF (EXISTS (SELECT * FROM BAOCAONGAY WHERE Ngay = NgayTao)) THEN
     	CALL BatDauCapNhatBaoCaoNgay();
-		SELECT LKH.KyHan, LKH.LaiSuat, STK.NgayTao, STK.SoTienBanDau INTO @KyHan, @LaiSuat, @NgayTao, @SoTienBanDau FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKyHan = LKH.MaKyHan WHERE STK.MaSo = MaSo;
+		SELECT LKH.KyHan, LKH.LaiSuat, STK.NgayTao, STK.SoTienBanDau INTO KyHanSo, LaiSuatSo, NgayTaoSo, SoTienBanDau FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKyHan = LKH.MaKyHan WHERE STK.MaSo = MaSo;
 		IF (SoTien < 0) THEN
-			UPDATE BAOCAONGAY SET TongChi = TongChi - (- SoTien - @SoTienBanDau * (1 + TIMESTAMPDIFF(DAY, @NgayTao, TIMESTAMPADD(MONTH, @KyHan, @NgayTao)) * @LaiSuat / 100 / 365)) WHERE Ngay = NgayTao AND KyHan = 0;
-			UPDATE BAOCAONGAY SET TongChi = TongChi - (@SoTienBanDau * (1 + TIMESTAMPDIFF(DAY, @NgayTao, TIMESTAMPADD(MONTH, @KyHan, @NgayTao)) * @LaiSuat / 100 / 365))  WHERE Ngay = NgayTao AND KyHan = @KyHan;
+		    SET SoTien = -SoTien;
+		    IF (KyHanSo != 0) THEN
+                SET SoTienCoKyHan = SoTienBanDau * (1 + TIMESTAMPDIFF(DAY, NgayTaoSo, TIMESTAMPADD(MONTH, KyHanSo, NgayTaoSo)) * LaiSuatSo / 36500);
+		        UPDATE BAOCAONGAY SET TongChi = TongChi - SoTienCoKyHan  WHERE Ngay = NgayTao AND KyHan = KyHanSo;
+		        UPDATE BAOCAONGAY SET TongChi = TongChi - (SoTien - SoTienCoKyHan) WHERE Ngay = NgayTao AND KyHan = 0;
+		    ELSE
+		        UPDATE BAOCAONGAY SET TongChi = TongChi - SoTien WHERE Ngay = NgayTao AND KyHan = 0;
+		    END IF;
 		ELSE
 			UPDATE BAOCAONGAY SET TongThu = TongThu - SoTien WHERE Ngay = NgayTao AND KyHan = 0;
 		END IF;
