@@ -255,58 +255,81 @@ VALUES('Huỳnh Hải Phong', '0433233328', '146 Hoàng Diệu 2, Phường Linh
 SELECT * FROM KHACHHANG;
 
 /*==========Sổ tiết kiệm==========*/
+-- ThemSoTietKiem(IN MaKH INT, IN KyHan TINYINT, IN SoTienBanDau DECIMAL(15, 2), IN NgayTao DATE)
+-- 2016
+CALL ThemSoTietKiem(1, 12, 1000000, '2016/01/02');
+CALL ThemSoTietKiem(1, 0, 1000000, '2016/02/15');
+CALL ThemSoTietKiem(1, 1, 2000000, '2016/07/12');
 
-CALL ThemSoTietKiem(1, 0,  1000000, '2016/01/15');
-CALL ThemSoTietKiem(1, 12,  1000000, '2017/01/01');
+CALL ThemSoTietKiem(2, 3, 1000000, '2016/04/07');
+CALL ThemSoTietKiem(2, 6, 2000000, '2016/06/05');
 
-CALL ThemSoTietKiem(2, 0,  1000000, '2016/04/15');
-CALL ThemSoTietKiem(3, 6,  1000000, '2016/09/15');
-CALL ThemSoTietKiem(4, 6,  1000000, '2017/04/15');
+CALL ThemSoTietKiem(3, 6, 1000000, '2016/09/15');
 
-CALL ThemSoTietKiem(5, 0,  1000000, '2016/05/15');
-CALL ThemSoTietKiem(5, 6,  1000000, '2018/09/15');
+CALL ThemSoTietKiem(5, 3, 1000000, '2016/03/23');
 
-CALL ThemSoTietKiem(6, 12,  1000000, '2019/11/15');
-CALL ThemSoTietKiem(7, 3,  1000000, '2016/08/15');
-CALL ThemSoTietKiem(8, 6,  1000000, '2020/04/15');
-CALL ThemSoTietKiem(9, 3,  1000000, '2016/03/15');
-CALL ThemSoTietKiem(10, 1,  1000000, '2017/01/15');
-CALL ThemSoTietKiem(11, 1,  1000000, '2017/01/15');
+CALL ThemSoTietKiem(7, 3, 1000000, '2016/08/15');
+CALL ThemSoTietKiem(7, 1, 1000000, '2016/09/05');
 
-CALL ThemSoTietKiem(12, 0,  1000000, '2018/02/15');
-CALL ThemSoTietKiem(12, 1,  1000000, '2016/01/15');
-CALL ThemSoTietKiem(12, 3,  1000000, '2017/08/15');
-CALL ThemSoTietKiem(12, 9,  1000000, '2018/05/15');
+CALL ThemSoTietKiem(9, 3, 1000000, '2016/03/15');
 
-CALL ThemSoTietKiem(13, 3,  1000000, '2018/08/15');
-CALL ThemSoTietKiem(14, 12,  1000000, '2019/11/15');
-CALL ThemSoTietKiem(15, 6,  1000000, '2020/12/15');
-CALL ThemSoTietKiem(16, 3,  1000000, '2016/12/15');
-CALL ThemSoTietKiem(17, 1,  1000000, '2020/01/15');
+CALL ThemSoTietKiem(12, 1, 1000000, '2016/01/15');
 
-CALL ThemSoTietKiem(1, 0, 1000000, '2016/07/12');
+CALL ThemSoTietKiem(16, 3, 1000000, '2016/12/15');
+
+
+-- 2017
+CALL ThemSoTietKiem(1, 12, 1000000, '2017/01/01');
+CALL ThemSoTietKiem(10, 1, 1000000, '2017/01/15');
+CALL ThemSoTietKiem(11, 1, 1000000, '2017/01/15');
+CALL ThemSoTietKiem(4, 6, 1000000, '2017/04/15');
+CALL ThemSoTietKiem(12, 3, 1000000, '2017/08/15');
+
+-- 2018
+CALL ThemSoTietKiem(5, 6, 1000000, '2018/09/15');
+CALL ThemSoTietKiem(12, 0, 1000000, '2018/02/15');
+CALL ThemSoTietKiem(12, 9, 1000000, '2018/05/15');
+CALL ThemSoTietKiem(13, 3, 1000000, '2018/08/15');
+
+-- 2019
+CALL ThemSoTietKiem(6, 12, 1000000, '2019/11/15');
+CALL ThemSoTietKiem(14, 12, 1000000, '2019/11/15');
+
+-- 2020
+CALL ThemSoTietKiem(8, 6, 1000000, '2020/04/15');
+CALL ThemSoTietKiem(15, 6, 1000000, '2020/12/15');
+CALL ThemSoTietKiem(17, 1, 1000000, '2020/01/15');
+
+-- 2021
+CALL ThemSoTietKiem(1, 12, 1000000, '2021/01/01');
+CALL ThemSoTietKiem(17, 1, 1000000, '2021/01/15');
+
 
 SELECT * FROM SOTIETKIEM;
 
-UPDATE SOTIETKIEM
-SET NGAYTAO = '2016/08/12'
-WHERE MASO = 23;
-
 /*========== Phiếu ==========*/
 
--- (IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
--- (IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
-DELETE FROM PHIEUGUI
-WHERE MAPHIEU = 3;
+-- ThemPhieu(IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
+-- RutHetTien(IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 
+-- 2016
 CALL ThemPhieu(1, 10000000, 'Some things', '2016/03/01');
 CALL ThemPhieu(1, 100000, 'Some things', '2016/05/07');
 CALL ThemPhieu(1, 500000, 'Some things', '2016/06/15');
 CALL ThemPhieu(1, -100000, 'Some things', '2016/06/15');
 CALL RutHetTien(1, 'The end game', '2016/07/15');
 
+-- 2017
 CALL RutHetTien(2, 'The end game', '2018/01/01');
 
+
+-- 2018
+
+-- 2019
+
+-- 2020
+
+-- 2021
 CALL ThemPhieu(3, 100000, 'Some things', '2016/05/17');
 CALL ThemPhieu(3, 100000, 'Some things', '2016/05/18');
 CALL RutHetTien(3, 'The end game', '2016/07/01');
