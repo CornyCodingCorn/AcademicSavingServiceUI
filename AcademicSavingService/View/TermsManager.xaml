@@ -115,7 +115,7 @@
 
                                 <ctrl:DigitTextBox  Grid.Column="1" Grid.Row="0" Width="150"  HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Term length" AcceptDecimal="True" Text="{Binding KyHanField}"/>
                                 <ctrl:DigitTextBox	Grid.Column="1" Grid.Row="1" Width="150"  HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Interest rate" AcceptDecimal="True" Text="{Binding LaiSuatField}"/>
-                                <DatePicker	        Grid.Column="1" Grid.Row="2" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding NgayTaoField}"/>
+                                <DatePicker	        Grid.Column="1" Grid.Row="2" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding NgayTaoField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 <DatePicker     	Grid.Column="1" Grid.Row="3" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Disable date" Text="{Binding NgayNgungSuDungField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </Grid>
                         </StackPanel>
