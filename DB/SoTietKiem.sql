@@ -56,7 +56,9 @@ DELIMITER $$
 CREATE PROCEDURE LaySoTienVoiNgay (IN NgayTao DATE, IN LanCapNhatCuoi DATE, IN NgayDongSo DATE, IN MaKyHan INT, IN MaSo INT, IN SoDuLanCapNhatCuoi DECIMAL(15, 2), IN NgayCanUpdate DATE, OUT SoDuDung DECIMAL(15, 2), OUT NgayUpdate DATE)
 BEGIN
 	DECLARE _counter, _kyHan, _size INT;
-	DECLARE _ngayDaoHan DATE;
+	DECLARE _ngayDaoHan, _nextUpdateDate, _createDate DATE;
+	DECLARE _interest FLOAT;
+	DECLARE _money DECIMAL(15, 2);
   	SET _counter = 0;
 
 	IF (NgayCanUpdate > CURRENT_DATE()) THEN
@@ -73,17 +75,17 @@ BEGIN
 	        SET SoDuDung = SoDuLanCapNhatCuoi;
 	  		IF (NgayCanUpdate >= _ngayDaoHan) THEN
 				IF (LanCapNhatCuoi < _ngayDaoHan) THEN
-					SET @NgayUpdateToi = IF(NgayCanUpdate < _ngayDaoHan, NgayCanUpdate, _ngayDaoHan);
-					SET @LaiSuat = (SELECT LaiSuat FROM LOAIKYHAN LKH WHERE MaKyHan = LKH.MaKyHan);
-					SET SoDuDung = SoDuDung * (1 + (@LaiSuat / (100 * 365)) * TIMESTAMPDIFF(DAY, LanCapNhatCuoi, @NgayUpdateToi));
-					SET LanCapNhatCuoi = @NgayUpdateToi;
+					SET _nextUpdateDate = IF(NgayCanUpdate < _ngayDaoHan, NgayCanUpdate, _ngayDaoHan);
+					SET _interest = (SELECT LaiSuat FROM LOAIKYHAN LKH WHERE MaKyHan = LKH.MaKyHan);
+					SET SoDuDung = SoDuDung * (1 + (_interest / (100 * 365)) * TIMESTAMPDIFF(DAY, LanCapNhatCuoi, _nextUpdateDate));
+					SET LanCapNhatCuoi = _nextUpdateDate;
 				END IF;
 
 				SET SoDuDung = SoDuDung * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(LanCapNhatCuoi, NgayCanUpdate));
 	    		SELECT COUNT(*) INTO _size FROM PHIEUGUI PG WHERE PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi AND PG.MaSo = MaSo;
 	   			WHILE (_counter < _size) DO
-					SELECT PG.SoTien, PG.NgayTao INTO @SoTien, @NgayTao FROM PHIEUGUI PG WHERE  PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi AND PG.MaSo = MaSo ORDER BY MaPhieu LIMIT _counter, 1;
-					SET SoDuDung = SoDuDung + (@SoTien * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(@NgayTao, NgayCanUpdate)));
+					SELECT PG.SoTien, PG.NgayTao INTO _money, _createDate FROM PHIEUGUI PG WHERE  PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi AND PG.MaSo = MaSo ORDER BY MaPhieu LIMIT _counter, 1;
+					SET SoDuDung = SoDuDung + (_money * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(_createDate, NgayCanUpdate)));
 					SET _counter = _counter + 1;
 	    		END WHILE;
 

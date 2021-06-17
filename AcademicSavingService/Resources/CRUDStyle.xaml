@@ -33,6 +33,23 @@
 			   Left="0"
 			   Right="{StaticResource ScrollBarWidth}"/>
 
+	<Style TargetType="{x:Type DatePickerTextBox}" BasedOn="{StaticResource MahApps.Styles.DatePickerTextBox}">
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<TextBox x:Name="PART_TextBox"
+							 Margin="-1"
+							 VerticalAlignment="Center"
+							 Text="{Binding Path=SelectedDate, StringFormat='dd/MM/yyyy', 
+							 RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" 
+							 Style="{StaticResource MahApps.Styles.TextBox}"
+							 FontSize="{StaticResource CRUDFontSize}"
+							 mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Accent2}"/>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
 	<Style x:Key="PrimaryKeyStyle" TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 		<Setter Property="TextBlock.TextAlignment" Value="Center"/>
 		<Setter Property="Foreground" Value="{StaticResource ForegroundRed}"/>
