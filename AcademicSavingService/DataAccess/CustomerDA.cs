@@ -31,14 +31,9 @@ namespace AcademicSavingService.DataAccess
             return new ObservableCollection<CustomerINPC>(collection);
         }
 
-        public bool UpdateCustomerByMaKH(CustomerINPC updatedCustomer)
+        public void UpdateCustomerByMaKH(CustomerINPC updatedCustomer)
         {
-            try
-            {
-                db.Query(_tableName).Where(_MaKH, updatedCustomer.MaKH).Update(updatedCustomer);
-                return true;
-            }
-            catch { return false; }
+            db.Query(_tableName).Where(_MaKH, updatedCustomer.MaKH).Update(updatedCustomer);
         }
 
         public override void Create(CustomerINPC customer)
