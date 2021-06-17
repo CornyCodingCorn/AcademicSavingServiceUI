@@ -62,14 +62,29 @@
 				</ctrl:AssDataGrid.Columns>
 			</ctrl:AssDataGrid>
 
-			<ctrl:AssCRUDPanel Grid.Row="1" MinLeftMargin="0" LeftMargin="0" RightMargin="15*" MaxRightMargin="160">
+			<ctrl:AssCRUDPanel Grid.Row="1" MinLeftMargin="0" LeftMargin="10*" MaxLeftMargin="120" RightMargin="15*" MaxRightMargin="160">
+				<ctrl:AssCRUDPanel.Left>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="ID"			Grid.Column="0" Grid.Row="3"/>
+							<TextBox			Grid.Column="1" Grid.Row="3" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding ID}"/>
+						</StackPanel>
+					</Grid>
+				</ctrl:AssCRUDPanel.Left>
 				<ctrl:AssCRUDPanel.Middle>
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="50*" MaxWidth="400" MinWidth="200"/>
 							<ColumnDefinition Width="70*"/>
 						</Grid.ColumnDefinitions>
-						<Grid Grid.Column="0">
+						<Grid Grid.Column="0" Margin="20, 0, 0, 0">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="50*" MaxWidth="130"/>
 								<ColumnDefinition Width="80*"/>
@@ -84,21 +99,20 @@
 							<TextBlock Text="Create date"	Grid.Column="0" Grid.Row="0"/>
 							<TextBlock Text="Amount"		Grid.Column="0" Grid.Row="1"/>
 							<TextBlock Text="Account ID"	Grid.Column="0" Grid.Row="2"/>
-							<TextBlock Text="ID"			Grid.Column="0" Grid.Row="3"/>
 
 							<DatePicker			Grid.Column="1" Grid.Row="0" Width="140" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"  SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
 							<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="1" Width="140" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" Text="{Binding Amount,  UpdateSourceTrigger=PropertyChanged}"/>
 							<TextBox			Grid.Column="1" Grid.Row="2" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Account ID" Text="{Binding AccountID}"/>
-							<TextBox			Grid.Column="1" Grid.Row="3" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding ID}"/>
 						</Grid>
 
-						<Grid Grid.Column="1" Margin="0, 0, 30, 4">
+						<Grid Grid.Column="1" Margin="0, 0, 40, 0">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="30"/>
 								<RowDefinition Height="3*"/>
 							</Grid.RowDefinitions>
 							<TextBlock Grid.Row="0" Text="Note"/>
 							<TextBox Grid.Row="1" 
+									 Grid.RowSpan="3"
 									 VerticalAlignment="Stretch" 
 									 HorizontalAlignment="Stretch" 
 									 Width="Auto" Height="Auto" 

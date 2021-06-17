@@ -22,7 +22,7 @@
 
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="65*"/>
-			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="550" MinWidth="350"/>
+			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="650" MinWidth="350"/>
 		</Grid.ColumnDefinitions>
 
 		<!-- HORIZONTAL GRID SPLITTER !!! -->
@@ -83,21 +83,31 @@
 					</DataGridTextColumn>
 				</ctrl:AssDataGrid.Columns>
 			</ctrl:AssDataGrid>
-
-			<ctrl:AssCRUDPanel Grid.Row="1" MinLeftMargin="0" LeftMargin="0" RightMargin="15*" MaxRightMargin="160">
+			<!-- ASS CRUD PANEL -->
+			<ctrl:AssCRUDPanel Grid.Row="1" MinLeftMargin="0" LeftMargin="10*" MaxLeftMargin="120" RightMargin="15*" MaxRightMargin="160">
+				<ctrl:AssCRUDPanel.Left>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+						</Grid.RowDefinitions>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="ID"			Grid.Column="0" Grid.Row="3"/>
+							<TextBox	Grid.Column="1" Grid.Row="3" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding ID}"/>
+						</StackPanel>	
+					</Grid>
+				</ctrl:AssCRUDPanel.Left>
 				<ctrl:AssCRUDPanel.Middle>
 					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*"/>
-							<ColumnDefinition Width="60*" MaxWidth="950" MinWidth="400"/>
-							<ColumnDefinition Width="*"/>
-						</Grid.ColumnDefinitions>
-						<Grid Grid.Column="1">
+						<Grid Grid.Column="0">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*"/>
 								<ColumnDefinition Width="*"/>
 							</Grid.ColumnDefinitions>
-							<Grid HorizontalAlignment="Center">
+							<!--First block-->
+							<Grid HorizontalAlignment="Left" Margin="20, 0, 0, 0">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="30*" MaxWidth="130"/>
 									<ColumnDefinition Width="70*"/>
@@ -110,20 +120,17 @@
 								</Grid.RowDefinitions>
 
 								<TextBlock Text="Owner"			Grid.Column="0" Grid.Row="0"/>
-								<TextBlock Text="Close date"	Grid.Column="0" Grid.Row="1"/>
-								<TextBlock Text="Balance"		Grid.Column="0" Grid.Row="2"/>
-								<TextBlock Text="ID"			Grid.Column="0" Grid.Row="3"/>
+								<TextBlock Text="Owner ID"		Grid.Column="0" Grid.Row="1"/>
+								<TextBlock Text="Close date"	Grid.Column="0" Grid.Row="2"/>
+								<TextBlock Text="Balance"		Grid.Column="0" Grid.Row="3"/>
 
-								<StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-									<TextBox Width="240" IsReadOnly="True" mah:TextBoxHelper.Watermark="Owner" Text="{Binding CustomerName}"/>
-									<TextBox Width="60" mah:TextBoxHelper.Watermark="ID" Text="{Binding CustomerID}" IsReadOnly="True"/>
-								</StackPanel>
-								<TextBox	Grid.Column="1" Grid.Row="1" Width="140" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Close date" Text="{Binding CloseDate, StringFormat='dd/MM/yyyy'}"/>
-								<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="2" Width="140" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Balance" Text="{Binding Balance, FallbackValue=0}"/>
-								<TextBox	Grid.Column="1" Grid.Row="3" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding ID}"/>
+								<TextBox Grid.Column="1" Grid.Row="0" Width="240" IsReadOnly="True" mah:TextBoxHelper.Watermark="Owner" Text="{Binding CustomerName}"/>
+								<TextBox Grid.Column="1" Grid.Row="1" Width="70" mah:TextBoxHelper.Watermark="ID" Text="{Binding CustomerID}" IsReadOnly="True"/>
+								<TextBox	Grid.Column="1" Grid.Row="2" Width="140" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Close date" Text="{Binding CloseDate, StringFormat='dd/MM/yyyy'}"/>
+								<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="3" Width="140" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Balance" Text="{Binding Balance, FallbackValue=0}"/>
 							</Grid>
-
-							<Grid Grid.Column="1" HorizontalAlignment="Center">
+							<!--Second block-->
+							<Grid Grid.Column="1" HorizontalAlignment="Left">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="30*" MaxWidth="130"/>
 									<ColumnDefinition Width="70*"/>
@@ -135,26 +142,26 @@
 									<RowDefinition Height="*"/>
 								</Grid.RowDefinitions>
 
-								<TextBlock Text="Term"				Grid.Column="0" Grid.Row="0"/>
-								<TextBlock Text="Create date"		Grid.Column="0" Grid.Row="1"/>
-								<TextBlock Text="Initial Balance"	Grid.Column="0" Grid.Row="2"/>
+								<TextBlock Text="Create date"		Grid.Column="0" Grid.Row="0"/>
+								<TextBlock Text="Initial Balance"	Grid.Column="0" Grid.Row="1"/>
+								<TextBlock Text="Term"				Grid.Column="0" Grid.Row="2"/>
+								<TextBlock Text="Interest rate"		Grid.Column="0" Grid.Row="3"/>
 
+								<DatePicker Grid.Column="1" Grid.Row="0" Width="140" IsEnabled="{Binding IsInsertMode}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
+								<TextBox Grid.Column="1" Grid.Row="0" Width="140" IsReadOnly="True" Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVis}}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
+								<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="1" Width="140" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Initial Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding InitialBalance, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}"/>
 
-								<StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-									<ComboBox Width="70" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Term" IsEnabled="{Binding IsInsertMode}" ItemsSource="{Binding TermsList}" SelectedIndex="{Binding SelectedTermIndex}">
-										<ComboBox.Resources>
-											<Style TargetType="{x:Type TextBlock}">
-												<Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Text}"/>
-												<Setter Property="FontWeight" Value="Light"/>
-												<Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
-											</Style>
-										</ComboBox.Resources>
-									</ComboBox>
-									<TextBox Width="50" Grid.Column="1" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate" Text="{Binding InterestRate, StringFormat='{}{0}%'}"/>
-								</StackPanel>
-								<DatePicker Grid.Column="1" Grid.Row="1" Width="140" IsEnabled="{Binding IsInsertMode}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
-								<TextBox Grid.Column="1" Grid.Row="1" Width="140" IsReadOnly="True" Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVis}}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
-								<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="2" Width="140" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Initial Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding InitialBalance, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}"/>
+								<ComboBox Grid.Column="1" Grid.Row="2" Width="70" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Term" IsEnabled="{Binding IsInsertMode}" ItemsSource="{Binding TermsList}" SelectedIndex="{Binding SelectedTermIndex}">
+									<ComboBox.Resources>
+										<Style TargetType="{x:Type TextBlock}">
+											<Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Text}"/>
+											<Setter Property="FontWeight" Value="Light"/>
+											<Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
+										</Style>
+									</ComboBox.Resources>
+								</ComboBox>
+								<TextBox Grid.Column="1" Grid.Row="3" Width="70" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate" Text="{Binding InterestRate, StringFormat='{}{0}%'}"/>
+							
 							</Grid>
 						</Grid>
 					</Grid>
