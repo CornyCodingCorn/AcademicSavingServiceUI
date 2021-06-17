@@ -33,9 +33,35 @@
 			   Left="0"
 			   Right="{StaticResource ScrollBarWidth}"/>
 
+	<Style TargetType="{x:Type DatePickerTextBox}" BasedOn="{StaticResource MahApps.Styles.DatePickerTextBox}">
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<TextBox x:Name="PART_TextBox"
+							 Margin="-1"
+							 VerticalAlignment="Center"
+							 Text="{Binding Path=SelectedDate, StringFormat='dd/MM/yyyy', 
+							 RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" 
+							 Style="{StaticResource MahApps.Styles.TextBox}"
+							 FontSize="{StaticResource CRUDFontSize}"
+							 mah:ControlsHelper.MouseOverBorderBrush="{DynamicResource MahApps.Brushes.Accent2}"/>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
 	<Style x:Key="PrimaryKeyStyle" TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
+		<Setter Property="TextBlock.TextAlignment" Value="Center"/>
 		<Setter Property="Foreground" Value="{StaticResource ForegroundRed}"/>
 		<Setter Property="FontWeight" Value="Bold"/>
+	</Style>
+
+	<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
+		<Setter Property="TextBlock.TextAlignment" Value="Center"/>
+	</Style>
+
+	<Style x:Key="LeftAllignedTextCell" TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
+		<Setter Property="TextBlock.TextAlignment" Value="Left"/>
 	</Style>
 
 	<Style x:Key="GreenKeyStyle" TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
@@ -76,7 +102,7 @@
 		<Setter Property="Margin" Value="{StaticResource CRUDControlPadding}"/>
 	</Style>
 
-	<Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MahApps.Styles.TextBox}">
+	<Style x:Key="CrudTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource MahApps.Styles.TextBox}">
 		<Setter Property="Height" Value="32"/>
 		<Setter Property="Margin" Value="{StaticResource CRUDControlPadding}"/>
 		<Setter Property="mah:TextBoxHelper.WatermarkAlignment" Value="Right"/>
@@ -87,6 +113,10 @@
 		<Setter Property="mah:ControlsHelper.FocusBorderThickness" Value="5"/>
 		<Setter Property="HorizontalAlignment" Value="Left"/>
 		<Setter Property="FontSize" Value="{StaticResource CRUDFontSize}"/>
+	</Style>
+
+	<Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource CrudTextBox}">
+
 	</Style>
 
 	<Style TargetType="{x:Type ctrl:DigitTextBox}" BasedOn="{StaticResource MahApps.Styles.TextBox}">
@@ -114,7 +144,7 @@
 		<Setter Property="FontSize" Value="{StaticResource CRUDFontSize}"/>
 		<Setter Property="IsReadOnly" Value="True"/>
 	</Style>
-	
+
 	<Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource MahApps.Styles.DatePicker}">
 		<Setter Property="Height" Value="32"/>
 		<Setter Property="Margin" Value="{StaticResource CRUDControlPadding}"/>

@@ -45,6 +45,7 @@ namespace AcademicSavingService.ViewModel
 
         private TermTypeINPC _selectedTerm;
         private RelayCommand<TermTypeINPC> _disableTermCommand;
+        private int _indexBeforeSave = -1;
 
         public TermsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
         {
@@ -57,6 +58,13 @@ namespace AcademicSavingService.ViewModel
         {
             ActiveTerms = TermTypeContainer.Instance.GetCurrentlyActiveTerms();
             PastTerms = new ObservableCollection<TermTypeINPC>(TermTypeContainer.Instance.Collection.Except(ActiveTerms));
+        }
+
+        private void PrepareForInsert()
+        {
+            _indexBeforeInsertMode = SelectedIndex;
+            SelectedTerm = null;
+            MaKyHanField = TermTypeContainer.Instance.GetNextAutoID();
         }
 
         #region Execute overrides
@@ -88,14 +96,27 @@ namespace AcademicSavingService.ViewModel
 
         protected override void ExecuteAdd()
         {
+            if (SelectedTerm != null
+                && MaKyHanField == SelectedTerm.MaKyHan 
+                && KyHanField == SelectedTerm.KyHan 
+                && LaiSuatField == SelectedTerm.LaiSuat 
+                && NgayTaoField == SelectedTerm.NgayTao
+                && NgayNgungSuDungField == SelectedTerm.NgayNgungSuDung)
+            {
+                ShowMessage("Warning!", "You should make changes to term's values before trying to update it");
+                return;
+            }
+
             TermTypeINPC term = new()
             {
-                MaKyHan = MaKyHanField,
+                MaKyHan = TermTypeContainer.Instance.GetNextAutoID(),
                 KyHan = KyHanField,
                 LaiSuat = LaiSuatField,
                 NgayTao = NgayTaoField,
                 NgayNgungSuDung = NgayNgungSuDungField,
             };
+
+            if (!IsInsertMode) _indexBeforeSave = SelectedIndex;
 
             try
             {
@@ -105,12 +126,20 @@ namespace AcademicSavingService.ViewModel
                     //TODO: PROMPT USER FOR CONFIRMATION 
                     //
 
-                    TermTypeContainer.Instance.DisableTerm(currentTerm, NgayNgungSuDungField ?? DateTime.Now);
+                    TermTypeContainer.Instance.DisableTerm(currentTerm, term.NgayTao);
                 }
                 TermTypeContainer.Instance.AddToCollection(term);
                 UpdateCollections();
-                ClearAllFields();
-                MaKyHanField = TermTypeContainer.Instance.GetNextAutoID();
+
+                if (IsInsertMode)
+                {
+                    ClearAllFields();
+                    MaKyHanField = TermTypeContainer.Instance.GetNextAutoID();
+                }
+                else
+                {
+                    SelectedIndex = _indexBeforeSave;
+                }
             }
             catch (MySqlException e) { ShowErrorMessage(e); }
         }
@@ -129,9 +158,7 @@ namespace AcademicSavingService.ViewModel
             base.ExecuteInsertMode();
             if (IsInsertMode)
             {
-                _indexBeforeInsertMode = SelectedIndex;
-                SelectedTerm = null;
-                MaKyHanField = TermTypeContainer.Instance.GetNextAutoID();
+                PrepareForInsert();
             }
             else
             {
@@ -157,8 +184,7 @@ namespace AcademicSavingService.ViewModel
 
         protected override bool CanExecuteAdd()
         {
-            return KyHanField >= 0 && LaiSuatField > 0 && NgayTaoField.Date == DateTime.Now.Date
-                && (NgayNgungSuDungField == null || NgayNgungSuDungField >= NgayTaoField);
+            return KyHanField >= 0 && LaiSuatField > 0 && (NgayNgungSuDungField == null || NgayNgungSuDungField >= NgayTaoField);
         }
 
         protected override bool CanExecuteDelete()

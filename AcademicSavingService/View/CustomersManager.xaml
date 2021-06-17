@@ -32,37 +32,17 @@
                           SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                           SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
 			<ctrl:AssDataGrid.Columns>
-				<DataGridTextColumn Header="ID" Binding="{Binding MaKH}"/>
-				<DataGridTextColumn Header="FULL NAME" Binding="{Binding HoTen}"/>
+				<DataGridTextColumn Header="ID" Binding="{Binding MaKH}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
+				<DataGridTextColumn Header="FULL NAME" Binding="{Binding HoTen}" CellStyle="{StaticResource LeftAllignedTextCell}"/>
 				<DataGridTextColumn Header="IDENTITY NUMBER" Binding="{Binding CMND}"/>
 				<DataGridTextColumn Header="PHONE NUMBER" Binding="{Binding SDT}"/>
 				<DataGridTextColumn Header="REGISTER DATE" Binding="{Binding NgayDangKy, StringFormat='dd/MM/yyyy'}"/>
-				<DataGridTextColumn Header="ADDRESS" Width="*" Binding="{Binding DiaChi}"/>
+				<DataGridTextColumn Header="ADDRESS" Width="*" Binding="{Binding DiaChi}" CellStyle="{StaticResource LeftAllignedTextCell}"/>
 			</ctrl:AssDataGrid.Columns>
 		</ctrl:AssDataGrid>
 
-        <ctrl:AssCRUDPanel Grid.Row="1">
-            <ctrl:AssCRUDPanel.Left>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.Resources>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
-                            <Setter Property="Margin" Value="0, 3, 0, 3"/>
-                            <Setter Property="FontSize" Value="16"/>
-                            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
-                            <Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
-                            <Setter Property="FontWeight" Value="Bold"/>
-                        </Style>
-                    </Grid.Resources>
-                    <Button Grid.Row="1" Margin="0, 2, 0, 2" Content="REMOVE" Command="{Binding DeleteCommand}"/>
-                </Grid>
-            </ctrl:AssCRUDPanel.Left>
-
-            <ctrl:AssCRUDPanel.Middle>
+		<ctrl:AssCRUDPanel Grid.Row="1" MinLeftMargin="0" LeftMargin="0" RightMargin="60*">
+			<ctrl:AssCRUDPanel.Middle>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*"/>
@@ -88,18 +68,17 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="ID"				Grid.Column="0" Grid.Row="0"/>
-                            <TextBlock Text="Full name"			Grid.Column="0" Grid.Row="1"/>
-                            <TextBlock Text="Identity number"	Grid.Column="0" Grid.Row="2"/>
-                            <TextBlock Text="Phone"				Grid.Column="0" Grid.Row="3"/>
+                            <TextBlock Text="Full name"			Grid.Column="0" Grid.Row="0"/>
+                            <TextBlock Text="Identity number"	Grid.Column="0" Grid.Row="1"/>
+                            <TextBlock Text="Phone"				Grid.Column="0" Grid.Row="2"/>
+							<TextBlock Text="ID"				Grid.Column="0" Grid.Row="3"/>
 
 
-                            <TextBox	Grid.Column="1" Grid.Row="0" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding MaKHField}"/>
-                            <TextBox	Grid.Column="1" Grid.Row="1" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Full name" Text="{Binding HoTenField}"/>
-                            <ctrl:DigitTextBox Grid.Column="1" Grid.Row="2" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Identity number" Text="{Binding CMNDField}"
-                                           AcceptDecimal="False"/>
-                            <TextBox	Grid.Column="1" Grid.Row="3" Width="120" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Phone" Text="{Binding SDTField}"/>
-                        </Grid>
+                            <TextBox	Grid.Column="1" Grid.Row="0" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Full name" Text="{Binding HoTenField}"/>
+                            <ctrl:DigitTextBox Grid.Column="1" Grid.Row="1" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Identity number" Text="{Binding CMNDField}" AcceptDecimal="False"/>
+                            <TextBox	Grid.Column="1" Grid.Row="2" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Phone" Text="{Binding SDTField}"/>
+							<TextBox	Grid.Column="1" Grid.Row="3" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding MaKHField}"/>
+						</Grid>
 
                         <Grid Grid.Column="1" Margin="40, 0, 0, 0">
                             <Grid.ColumnDefinitions>
@@ -115,8 +94,8 @@
 
                             <TextBlock Text="Register date"		Grid.Column="0" Grid.Row="0"/>
                             <TextBlock Text="Address"			Grid.Column="0" Grid.Row="1"/>
-                            <DatePicker	Grid.Column="1" Grid.Row="0" Width="120" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Register date" SelectedDate="{Binding NgayDangKyField, UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBox	Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Height="auto" mah:TextBoxHelper.Watermark="Address" Text="{Binding DiaChiField}"
+                            <DatePicker	Grid.Column="1" Grid.Row="0" Width="140" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Register date" SelectedDate="{Binding NgayDangKyField, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox	Grid.Column="1" Grid.Row="1" Height="auto" Grid.RowSpan="2" mah:TextBoxHelper.Watermark="Address" Text="{Binding DiaChiField}"
                                     TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" 
                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                     AllowDrop="True" AcceptsReturn="True"/>

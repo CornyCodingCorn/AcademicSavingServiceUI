@@ -22,6 +22,8 @@ namespace AcademicSavingService.Containers
 		public void AddWithdrawAllSlipToCollection(TransactionSlipINPC slip)
         {
 			((WithdrawSlipDA)_slipDA).WithdrawAllFromAccountByMaSo(slip.MaSo, slip.GhiChu, slip.NgayTao);
+			var result = _slipDA.GetSlipsByMaPhieu(slip.MaPhieu);
+			slip.SoTien = result[0].SoTien;
 			Collection.Add(slip);
         }
 
