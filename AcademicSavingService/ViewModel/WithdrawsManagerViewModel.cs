@@ -1,28 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PropertyChanged;
 using System.Windows.Input;
 using AcademicSavingService.Commands;
 using AcademicSavingService.Containers;
-using AcademicSavingService.Controls;
 using MySql.Data.MySqlClient;
 
 namespace AcademicSavingService.ViewModel
 {
+	[AddINotifyPropertyChangedInterface]
 	class WithdrawsManagerViewModel : TransactionManagerViewModel
 	{
+		public bool WithDrawAll { get; set; } = false;
+
 		public WithdrawsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
 			_containerInstance = WithdrawSlipContainer.Instance;
 			Slips = _containerInstance.Collection;
 		}
 
-		protected RelayCommand<TransactionManagerViewModel> _withdrawAllCommand;
-		public ICommand WithdrawAllCommand => _withdrawAllCommand ?? (_withdrawAllCommand = new RelayCommand<TransactionManagerViewModel>(param => ExecuteUpdate(), param => CanExecuteUpdate()));
+		protected override void ExecuteAdd()
+		{
+			if (WithDrawAll)
+			{
+				ExecuteWithdrawAll();
+			}
+			else
+				base.ExecuteAdd();
+		}
 
+		protected override bool CanExecuteAdd()
+		{
+			return base.CanExecuteAdd() || (WithDrawAll && IsInsertMode && SelectedAccount != null);
+		}
 
 		protected void ExecuteWithdrawAll()
 		{
@@ -31,24 +39,15 @@ namespace AcademicSavingService.ViewModel
 				var slip = new INPC.TransactionSlipINPC()
 				{
 					MaPhieu = ID,
-					MaSo = OwnerID,
+					MaSo = AccountID,
 					NgayTao = CreateDate,
 					GhiChu = Note,
 				};
 				((WithdrawSlipContainer)_containerInstance).AddWithdrawAllSlipToCollection(slip);
+				SavingAccountContainer.Instance.UpdateSavingAccount(slip.MaSo);
 			}
 			catch(MySqlException e)
 			{ ShowErrorMessage(e); }
-		}
-
-		protected bool CanExecuteWithdrawAll()
-		{
-			return IsReadOnly && SelectedAccount != null && SelectedAccount.SoDu > 0;
-		}
-
-		protected override bool CanExecuteAdd()
-		{
-			return base.CanExecuteAdd() && SelectedAccount.SoDu >= Amount;
 		}
 	}
 }

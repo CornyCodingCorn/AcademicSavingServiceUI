@@ -21,7 +21,7 @@
 
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="65*"/>
-			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="550" MinWidth="250"/>
+			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="550" MinWidth="350"/>
 		</Grid.ColumnDefinitions>
 
 		<!-- HORIZONTAL GRID SPLITTER !!! -->
@@ -52,7 +52,15 @@
 					<DataGridTextColumn Width="120" Header="Close date" Binding="{Binding NgayDongSo, StringFormat='dd/MM/yyyy'}"/>
 					<DataGridTextColumn Width="120" Header="Last update" Binding="{Binding LanCapNhatCuoi, StringFormat='dd/MM/yyyy'}"/>
 					<DataGridTextColumn Width="80" Header="Period" Binding="{Binding KyHan}"/>
-					<DataGridTextColumn Width="140" Header="Interest Rate" Binding="{Binding LaiSuat, StringFormat='{}{0}%'}" CellStyle="{StaticResource GreenKeyStyle}"/>
+					<DataGridTextColumn Width="140" Header="Interest Rate" Binding="{Binding LaiSuat, StringFormat='{}{0}%'}">
+						<DataGridTextColumn.CellStyle>
+							<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
+								<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
+								<Setter Property="TextBlock.TextAlignment" Value="Center"/>
+								<Setter Property="FontWeight" Value="Bold"/>
+							</Style>
+						</DataGridTextColumn.CellStyle>
+					</DataGridTextColumn>
 					<DataGridTextColumn Width="*" Header="Balance" Binding="{Binding SoDu}">
 						<DataGridTextColumn.CellStyle>
 							<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
@@ -153,7 +161,7 @@
 			<ctrl:AssDataGrid.Columns>
 				<DataGridTextColumn Header="ID" Binding="{Binding MaKH}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 				<DataGridTextColumn Header="Identity Num" Binding="{Binding CMND}"/>
-				<DataGridTextColumn Header="Full Name" Width="*" Binding="{Binding HoTen}"/>
+				<DataGridTextColumn Header="Full Name" Width="*" Binding="{Binding HoTen}" CellStyle="{StaticResource LeftAllignedTextCell}"/>
 			</ctrl:AssDataGrid.Columns>
 		</ctrl:AssDataGrid>
 	</Grid>

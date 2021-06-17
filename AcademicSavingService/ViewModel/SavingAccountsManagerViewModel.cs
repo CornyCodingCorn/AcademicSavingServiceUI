@@ -142,12 +142,6 @@ namespace AcademicSavingService.ViewModel
 
 		#region Command
 
-		protected RelayCommand<SavingAccountsManagerViewModel> _updateOne;
-		protected RelayCommand<SavingAccountsManagerViewModel> _updateAll;
-
-		public ICommand UpdateOneCommand => _updateOne ?? (_updateOne = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAccount(), param => CanUpdateAccount()));
-		public ICommand UpdateAllCommand => _updateAll ?? (_updateAll = new RelayCommand<SavingAccountsManagerViewModel>(param => UpdateAllAccounts(), param => CanUpdateAllAccounts()));
-
 		protected override void ExecuteInsertMode()
 		{
 			base.ExecuteInsertMode();
@@ -200,41 +194,6 @@ namespace AcademicSavingService.ViewModel
 			}
 			else
 				return true;
-		}
-
-		protected void UpdateAccount()
-		{
-			try
-			{
-				SavingAccountContainer.Instance.UpdateSavingAccountStateToNgayCanUpdate(SelectedAccount.MaSo, DateTime.Now);
-			}
-			catch (MySqlException e)
-			{
-				ShowErrorMessage(e);
-			}
-		}
-		protected bool CanUpdateAccount()
-		{
-			if (SelectedAccount == null)
-				return false;
-			else
-				return true;
-		}
-
-		protected void UpdateAllAccounts()
-		{
-			try
-			{
-				SavingAccountContainer.Instance.UpdateAllSavingAccountStateToNgayCanUpdate(DateTime.Now);
-			}
-			catch(MySqlException e)
-			{
-				ShowErrorMessage(e);
-			}
-		}
-		protected bool CanUpdateAllAccounts()
-		{
-			return IsReadOnly;
 		}
 
 		protected override void ExecuteDelete()
