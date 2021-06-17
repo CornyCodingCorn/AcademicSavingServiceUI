@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="AcademicSavingService.View.RulesManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AcademicSavingService.View"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+			 xmlns:conv="clr-namespace:AcademicSavingService.Converters"
+             xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1200">
+    <Grid Margin="10">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <conv:DoubleGridLengthConverter x:Key="GridLengthConv"/>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../Resources/CRUDStyle.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="400" MaxWidth="500"/>
+            <ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MinWidth="500"/>
+        </Grid.ColumnDefinitions>
+
+        <GridSplitter Grid.Column="1" Background="{DynamicResource MahApps.Brushes.Accent4}" HorizontalAlignment="Left" Width="4" Margin="-2, 0, 0, 0"/>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" MaxHeight="350"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" BorderThickness="2" HorizontalAlignment="Stretch" 
+                BorderBrush="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="5"
+                Margin="0, 0, 10, 0" >
+                <Grid Background="{DynamicResource MahApps.Brushes.AccentBase}">
+                    <Grid Margin="{StaticResource PaddingWidth}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="*" MaxHeight="200"/>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="CURRENT RULES" Grid.Row="0" Margin="0, 5, 0, 0" Foreground="{DynamicResource MahApps.Brushes.SystemControlBackgroundAltHigh}" 
+                                   FontSize="18" FontWeight="Bold"/>
+                        <Grid Grid.Row="2" Margin="0, 10, 0, 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" MaxHeight="100"/>
+                                <RowDefinition Height="*" MaxHeight="100"/>
+                                <RowDefinition Height="*" MaxHeight="100"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="Mininum deposit amount" Grid.Row="0" Grid.Column="0" Margin="0"/>
+                            <TextBlock Text="Mininum initial balance" Grid.Row="1" Grid.Column="0" Margin="0"/>
+                            <TextBlock Text="Minimum days to withdraw" Grid.Row="2" Grid.Column="0" Margin="0"/>
+
+                            <ctrl:DigitTextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding SoTienNapToiThieuText}"/>
+                            <ctrl:DigitTextBox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding SoTienMoTaiKhoanToiThieuText}"/>
+                            <ctrl:DigitTextBox Grid.Row="2" Grid.Column="1" AcceptDecimal="False" Width="75" Text="{Binding SoNgayToiThieuText}"/>
+                        </Grid>
+
+                        <StackPanel Grid.Row="4" Orientation="Horizontal">
+                            <TextBlock Text="Last updated: " Margin="0" FontWeight="Medium"/>
+                            <TextBlock Text="{Binding NgayCapNhat, StringFormat='dd/MM/yyyy'}" Margin="0" FontWeight="Medium"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0, 30, 0, 0">
+                <Button Width="200" Height="50" Content="UPDATE" FontSize="18" FontWeight="Bold" Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
+                        Command="{Binding UpdateCommand}"/>
+            </StackPanel>
+        </Grid>
+
+        <ctrl:AssDataGrid Grid.Column="1"
+                          Margin="10, 0, 0, 0" 
+					      ItemsSource="{Binding History}" 
+						  EnableFullTextSearch="True" 
+						  DataGridName="RULE CHANGE HISTORY">
+            <ctrl:AssDataGrid.Columns>
+                <DataGridTextColumn Header="Min. deposit amount" Width="*" Binding="{Binding SoTienNapNhoNhat}" CellStyle="{StaticResource GreenKeyStyle}"/>
+                <DataGridTextColumn Header="Min. initial balance" Width="*" Binding="{Binding SoTienMoTaiKhoanNhoNhat}" CellStyle="{StaticResource GreenKeyStyle}"/>
+                <DataGridTextColumn Header="Min. day to withdraw" Width="*" Binding="{Binding SoNgayToiThieu}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Change date" Width="130" Binding="{Binding NgayTao, StringFormat='dd/MM/yyyy'}"/>
+            </ctrl:AssDataGrid.Columns>
+        </ctrl:AssDataGrid>
+    </Grid>
+</UserControl>

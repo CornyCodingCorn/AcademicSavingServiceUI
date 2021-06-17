@@ -63,8 +63,6 @@ namespace AcademicSavingService.DataAccess
             db = new QueryFactory(BaseDBConnection.Connection, compiler);
         }
 
-        private readonly QueryFactory db;
-
         private readonly string _MaKH = "MaKH";
         private readonly string _HoTen = "HoTen";
         private readonly string _CMND = "CMND";

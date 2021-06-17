@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
+using SqlKata.Execution;
 
 namespace AcademicSavingService.DataAccess
 {
@@ -44,10 +45,12 @@ namespace AcademicSavingService.DataAccess
         public abstract void Create(T inpcObject);
         public abstract ObservableCollection<T> GetAll();
         public abstract void Delete(t key);
-        public virtual void Update(T key)
+        public virtual void Update(T inpcObject)
 		{
             throw new System.NotImplementedException();
         }
+
+        protected QueryFactory db;
 
         private const string _databaseName = "academicsavingservice";
     }
