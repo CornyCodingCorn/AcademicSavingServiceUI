@@ -10,6 +10,15 @@ namespace AcademicSavingService.ViewModel
 	{
 		public ReportsManagerViewModel(MainViewModel mainViewModel) : base(mainViewModel)
 		{
+			TabItems = new System.Collections.ObjectModel.ObservableCollection<TabItemViewModel>()
+			{
+				new DailyReportsManagerViewModel(this)
+				{
+					Header = "Daily reports",
+					Width = _tabsWidth,
+					Margin = _tabsMargin
+				},
+			};
 		}
 	}
 }

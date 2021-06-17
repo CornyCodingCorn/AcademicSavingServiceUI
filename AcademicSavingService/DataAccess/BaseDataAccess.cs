@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
 using SqlKata.Execution;
+using SqlKata.Compilers;
 
 namespace AcademicSavingService.DataAccess
 {
@@ -16,6 +17,7 @@ namespace AcademicSavingService.DataAccess
             {
                 Connection = BaseDBConnection.Connection
             };
+            db = new QueryFactory(BaseDBConnection.Connection, new MySqlCompiler());
         }
 
         public int GetNextAutoID()
