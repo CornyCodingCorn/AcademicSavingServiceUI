@@ -41,28 +41,8 @@
 			</ctrl:AssDataGrid.Columns>
 		</ctrl:AssDataGrid>
 
-        <ctrl:AssCRUDPanel Grid.Row="1">
-            <ctrl:AssCRUDPanel.Left>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.Resources>
-                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
-                            <Setter Property="Margin" Value="0, 3, 0, 3"/>
-                            <Setter Property="FontSize" Value="16"/>
-                            <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
-                            <Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
-                            <Setter Property="FontWeight" Value="Bold"/>
-                        </Style>
-                    </Grid.Resources>
-                    <Button Grid.Row="1" Margin="0, 2, 0, 2" Content="REMOVE" Command="{Binding DeleteCommand}"/>
-                </Grid>
-            </ctrl:AssCRUDPanel.Left>
-
-            <ctrl:AssCRUDPanel.Middle>
+		<ctrl:AssCRUDPanel Grid.Row="1" MinLeftMargin="0" LeftMargin="0" RightMargin="60*">
+			<ctrl:AssCRUDPanel.Middle>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1.5*"/>

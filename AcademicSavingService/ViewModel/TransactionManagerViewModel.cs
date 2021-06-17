@@ -6,6 +6,8 @@ using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using MahApps.Metro.Controls.Dialogs;
+using System.Threading.Tasks;
 
 namespace AcademicSavingService.ViewModel
 {
@@ -152,10 +154,16 @@ namespace AcademicSavingService.ViewModel
 			{ ShowErrorMessage(e); }
 		}
 
-		protected override void ExecuteDelete()
+		protected async override void ExecuteDelete()
 		{
 			try
 			{
+				IDialogCoordinator dialogCoordinator = DialogCoordinator.Instance;
+				Task restul = dialogCoordinator.ShowMessageAsync(this, "Test", "Sure delet?", MessageDialogStyle.AffirmativeAndNegative);
+				await restul;
+				if (!restul.IsCompleted)
+					return;
+
 				var accountID = AccountID;
 				var index = SelectedIndex;
 				_containerInstance.DeleteFromCollectionByDefaultKey(ID);

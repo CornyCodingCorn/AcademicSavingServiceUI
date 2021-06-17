@@ -36,9 +36,9 @@ namespace AcademicSavingService.Controls
 		{
 			if (regex.IsMatch(e.Text))
 				e.Handled = true;
-			else if (e.Text.Contains('.'))
+			else if (Text.Contains('.'))
 			{
-				if (Text.Contains('.'))
+				if (e.Text.Contains('.'))
 					e.Handled = true;
 			}
 		}
