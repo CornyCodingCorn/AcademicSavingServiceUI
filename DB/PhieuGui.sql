@@ -26,16 +26,27 @@ DROP TRIGGER IF EXISTS BeforeInsertPhieuGui;
 DELIMITER $$
 CREATE TRIGGER BeforeInsertPhieuGui BEFORE INSERT ON PHIEUGUI FOR EACH ROW
 BEGIN
+    DECLARE NgayTao, NgayDongSo, LanCapNhatCuoi DATE;
+    DECLARE KyHan, Size INT;
+
 	IF (NEW.NgayTao = '0/0/0') THEN SET NEW.NgayTao = NOW(); END IF;
-    SELECT NgayTao, MaKyHan, SoDu, NgayDongSo, LanCapNhatCuoi, COUNT(*) INTO @NgayTao, @MaKyHan, @SoDu, @NgayDongSo, @LanCapNhatCuoi, @Size FROM SOTIETKIEM WHERE MaSo = NEW.MaSo;
+    SELECT STK.NgayTao, LKH.KyHan, STK.NgayDongSo, STK.LanCapNhatCuoi, COUNT(*) INTO NgayTao, KyHan, NgayDongSo, LanCapNhatCuoi, Size
+    FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKH = LKH.MaKyHan
+    WHERE MaSo = NEW.MaSo;
     
-    IF (@Size = 0 OR @NgayDongSo IS NOT NULL) THEN CALL ThrowException('PH001'); END IF;
-    IF (NEW.NgayTao < @NgayTao) THEN CALL ThrowException('PH003'); END IF;
-    IF (NEW.NgayTao < @LanCapNhatCuoi) THEN CALL ThrowException('PG004'); END IF;
-    
-    IF (NEW.NgayTao < TIMESTAMPADD(MONTH, @KyHan, @NgayTao)) THEN
-		CALL ThrowException('PG003');
-	END IF;
+    IF (Size = 0 OR NgayDongSo IS NOT NULL) THEN CALL ThrowException('PH001'); END IF;
+    IF (NEW.NgayTao < NgayTao) THEN CALL ThrowException('PH003'); END IF;
+    IF (NEW.NgayTao < LanCapNhatCuoi) THEN CALL ThrowException('PG004'); END IF;
+
+    IF (KyHan = 0) THEN
+        IF (NEW.NgayTao < TIMESTAMPADD(DAY, LaySoNgayKhongKyHanNhoNhat(NgayTao), NgayTao)) THEN
+			CALL ThrowException('PG005');
+        END IF;
+    ELSE
+        IF (NEW.NgayTao < TIMESTAMPADD(MONTH, KyHan, NgayTao)) THEN
+            CALL ThrowException('PG003');
+        END IF;
+    END IF;
     
     IF (NEW.SoTien < LaySoTienNapNhoNhat(NEW.NgayTao)) THEN
 		CALL ThrowException('PG001');
@@ -48,10 +59,13 @@ DROP TRIGGER IF EXISTS BeforeDeletePhieuGui;
 DELIMITER $$
 CREATE TRIGGER BeforeDeletePhieuGui BEFORE DELETE ON PHIEUGUI FOR EACH ROW
 BEGIN
+    DECLARE _isThrowException BOOL;
+    DECLARE _lastUpdate DATE;
+
 	IF (NOT CanForceDelete()) THEN
-		SELECT LanCapNhatCuoi INTO @LanCapNhatCuoi FROM SOTIETKIEM WHERE MaSo = OLD.MaSo;
-		SET @ThrowException = @LanCapNhatCuoi > OLD.NgayTao;
-		IF (@ThrowException = TRUE) THEN
+		SELECT LanCapNhatCuoi INTO _lastUpdate FROM SOTIETKIEM WHERE MaSo = OLD.MaSo;
+		SET _isThrowException = _lastUpdate > OLD.NgayTao;
+		IF (_isThrowException) THEN
 			CALL ThrowException('PH002');
 		END IF;
 		CALL CapNhatBaoCaoNgayXoaPhieu(OLD.SoTien, OLD.MaSo, OLD.NgayTao);
