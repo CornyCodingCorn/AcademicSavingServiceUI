@@ -89,7 +89,7 @@
 							<TextBox			Grid.Column="1" Grid.Row="0" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID number" Text="{Binding ID}"/>
 							<TextBox			Grid.Column="1" Grid.Row="1" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Account ID" Text="{Binding AccountID}"/>
 							<DatePicker			Grid.Column="1" Grid.Row="2" Width="180" IsEnabled="{Binding IsInsertMode}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"  SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged}"/>
-							<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="3" Width="180" IsReadOnly="{Binding IsReadOnly}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" Text="{Binding Amount}"/>
+							<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="3" Width="180" IsReadOnly="{Binding IsReadOnly}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" Text="{Binding Amount,  UpdateSourceTrigger=PropertyChanged}"/>
 						</Grid>
 
 						<Grid Grid.Column="1" Margin="0, 0, 30, 4">

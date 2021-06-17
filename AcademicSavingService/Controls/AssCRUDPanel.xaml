@@ -59,9 +59,15 @@
 				<Button Grid.Row="0" Margin="0, 2, 0, 2" Command="{Binding StartInsertCommand}" 
 						Content="ADD NEW" Style="{DynamicResource InsertButtonStyle}"
 						ToolTip="Enter insert mode"/>
-				<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding CreateCommand}" Content="SAVE" ToolTip="Add a new row into the table"/>
-				<Button Grid.Row="2" Margin="0, 2, 0, 2" Command="{Binding ClearCommand}" Content="CLEAR" ToolTip="Clear all the field text boxes"/>
-				<Button Grid.Row="3" Margin="0, 2, 0, 2" Command="{Binding DeleteCommand}" Content="DELETE" ToolTip="Delete selected row"/>
+				<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding CreateCommand}" 
+						Content="SAVE" Style="{DynamicResource InsertButtonStyle}"
+						ToolTip="Add a new row into the table"/>
+				<Button Grid.Row="2" Margin="0, 2, 0, 2" Command="{Binding ClearCommand}" 
+						Content="CLEAR" Style="{DynamicResource InsertButtonStyle}"
+						ToolTip="Clear all the field text boxes"/>
+				<Button Grid.Row="3" Margin="0, 2, 0, 2" Command="{Binding DeleteCommand}" 
+						Content="DELETE" 
+						ToolTip="Delete selected row"/>
 			</Grid>
 		</Grid>
 	</Border>
