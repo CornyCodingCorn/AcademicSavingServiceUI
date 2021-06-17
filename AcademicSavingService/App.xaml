@@ -5,7 +5,7 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
 			 xmlns:viewModel="clr-namespace:AcademicSavingService.ViewModel"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
+	<Application.Resources>
 		<ResourceDictionary>
 			<DataTemplate x:Key="TabItemTemplate" DataType="{x:Type viewModel:TabItemViewModel}">
 				<TextBlock Text="{Binding Header}" 
