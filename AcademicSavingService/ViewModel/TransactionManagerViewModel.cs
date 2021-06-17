@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 using System.Threading.Tasks;
+using AcademicSavingService.Controls;
 
 namespace AcademicSavingService.ViewModel
 {
@@ -158,10 +159,7 @@ namespace AcademicSavingService.ViewModel
 		{
 			try
 			{
-				IDialogCoordinator dialogCoordinator = DialogCoordinator.Instance;
-				Task restul = dialogCoordinator.ShowMessageAsync(this, "Test", "Sure delet?", MessageDialogStyle.AffirmativeAndNegative);
-				await restul;
-				if (!restul.IsCompleted)
+				if (!await AssApp.ShowConfirmDialogMessage("Delete?", "YouDumb?"))
 					return;
 
 				var accountID = AccountID;
