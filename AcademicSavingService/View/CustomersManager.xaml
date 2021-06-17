@@ -68,18 +68,17 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="ID"				Grid.Column="0" Grid.Row="0"/>
-                            <TextBlock Text="Full name"			Grid.Column="0" Grid.Row="1"/>
-                            <TextBlock Text="Identity number"	Grid.Column="0" Grid.Row="2"/>
-                            <TextBlock Text="Phone"				Grid.Column="0" Grid.Row="3"/>
+                            <TextBlock Text="Full name"			Grid.Column="0" Grid.Row="0"/>
+                            <TextBlock Text="Identity number"	Grid.Column="0" Grid.Row="1"/>
+                            <TextBlock Text="Phone"				Grid.Column="0" Grid.Row="2"/>
+							<TextBlock Text="ID"				Grid.Column="0" Grid.Row="3"/>
 
 
-                            <TextBox	Grid.Column="1" Grid.Row="0" Width="100" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding MaKHField}"/>
-                            <TextBox	Grid.Column="1" Grid.Row="1" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Full name" Text="{Binding HoTenField}"/>
-                            <ctrl:DigitTextBox Grid.Column="1" Grid.Row="2" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Identity number" Text="{Binding CMNDField}"
-                                           AcceptDecimal="False"/>
-                            <TextBox	Grid.Column="1" Grid.Row="3" Width="120" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Phone" Text="{Binding SDTField}"/>
-                        </Grid>
+                            <TextBox	Grid.Column="1" Grid.Row="0" Width="240" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Full name" Text="{Binding HoTenField}"/>
+                            <ctrl:DigitTextBox Grid.Column="1" Grid.Row="1" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Identity number" Text="{Binding CMNDField}" AcceptDecimal="False"/>
+                            <TextBox	Grid.Column="1" Grid.Row="2" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Phone" Text="{Binding SDTField}"/>
+							<TextBox	Grid.Column="1" Grid.Row="3" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding MaKHField}"/>
+						</Grid>
 
                         <Grid Grid.Column="1" Margin="40, 0, 0, 0">
                             <Grid.ColumnDefinitions>
@@ -96,7 +95,7 @@
                             <TextBlock Text="Register date"		Grid.Column="0" Grid.Row="0"/>
                             <TextBlock Text="Address"			Grid.Column="0" Grid.Row="1"/>
                             <DatePicker	Grid.Column="1" Grid.Row="0" Width="120" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Register date" SelectedDate="{Binding NgayDangKyField, UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBox	Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Height="auto" mah:TextBoxHelper.Watermark="Address" Text="{Binding DiaChiField}"
+                            <TextBox	Grid.Column="1" Grid.Row="1" Height="auto" Grid.RowSpan="2" mah:TextBoxHelper.Watermark="Address" Text="{Binding DiaChiField}"
                                     TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" 
                                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                     AllowDrop="True" AcceptsReturn="True"/>

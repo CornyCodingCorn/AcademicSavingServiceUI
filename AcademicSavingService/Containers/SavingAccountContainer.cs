@@ -23,7 +23,15 @@ namespace AcademicSavingService.Containers
 			{
                 if (Collection[i].MaSo == MaSo)
                 {
-                    Collection[i] = result[0];
+                    Collection[i].MaKH = result[0].MaKH;
+                    Collection[i].MaSo = result[0].MaSo;
+                    Collection[i].KyHan = result[0].KyHan;
+                    Collection[i].LaiSuat = result[0].LaiSuat;
+                    Collection[i].LanCapNhatCuoi = result[0].LanCapNhatCuoi;
+                    Collection[i].SoDu = result[0].SoDu;
+                    Collection[i].SoTienBanDau = result[0].SoTienBanDau;
+                    Collection[i].NgayTao = result[0].NgayTao;
+                    Collection[i].NgayDongSo = result[0].NgayDongSo;
                     return true;
                 }
             }

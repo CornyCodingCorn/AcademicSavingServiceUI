@@ -13,6 +13,7 @@
 		<Grid.Resources>
 			<ResourceDictionary>
 				<conv:DoubleGridLengthConverter x:Key="GridLengthConv"/>
+				<conv:BoolVisabilityConverter x:Key="BoolToVis"/>
 				<ResourceDictionary.MergedDictionaries>
 					<ResourceDictionary Source="../Resources/CRUDStyle.xaml"/>
 				</ResourceDictionary.MergedDictionaries>
@@ -38,14 +39,13 @@
 			<GridSplitter Background="{DynamicResource MahApps.Brushes.Accent4}" VerticalAlignment="Bottom" Height="4" Margin="0, 0, -8, -2"/>
 			
 			<!-- Customer Data grid-->
-            <ctrl:AssDataGrid Margin="0, 0, 0, 10" 
+			<ctrl:AssDataGrid Margin="0, 0, 0, 10" 
 							  ItemsSource="{Binding SavingAccounts}" 
 							  EnableFullTextSearch="True" 
 							  DataGridName="SAVING ACCOUNTS"
 							  SelectedItem="{Binding SelectedAccount,  Mode=TwoWay}"
 							  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
-
-                <ctrl:AssDataGrid.Columns>
+				<ctrl:AssDataGrid.Columns>
 					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 					<DataGridTextColumn Width="100" Header="Owner ID" Binding="{Binding MaKH}"/>
 					<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='dd/MM/yyyy'}" TextBlock.TextAlignment="Center"/>
@@ -60,7 +60,7 @@
 							</Style>
 						</DataGridTextColumn.CellStyle>
 					</DataGridTextColumn>
-					<DataGridTextColumn Header="Initial Balance" Binding="{Binding SoTienBanDau}">
+					<DataGridTextColumn Header="Initial Balance" Binding="{Binding SoTienBanDau, StringFormat=N2}">
 						<DataGridTextColumn.CellStyle>
 							<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 								<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
@@ -68,7 +68,7 @@
 							</Style>
 						</DataGridTextColumn.CellStyle>
 					</DataGridTextColumn>
-					<DataGridTextColumn Width="*" Header="Balance" Binding="{Binding SoDu}">
+					<DataGridTextColumn Width="*" Header="Balance" Binding="{Binding SoDu, StringFormat=N2}">
 						<DataGridTextColumn.CellStyle>
 							<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 								<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
@@ -139,7 +139,7 @@
 								<TextBlock Text="Create date"		Grid.Column="0" Grid.Row="1"/>
 								<TextBlock Text="Initial Balance"	Grid.Column="0" Grid.Row="2"/>
 
-								
+
 								<StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
 									<ComboBox Width="90" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Term" IsEnabled="{Binding IsInsertMode}" ItemsSource="{Binding TermsList}" SelectedIndex="{Binding SelectedTermIndex}">
 										<ComboBox.Resources>
@@ -152,7 +152,8 @@
 									</ComboBox>
 									<TextBox Width="70" Grid.Column="1" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Rate" Text="{Binding InterestRate, StringFormat='{}{0}%'}"/>
 								</StackPanel>
-								<DatePicker Grid.Column="1" Grid.Row="1" Width="180" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged}"/>
+								<DatePicker Grid.Column="1" Grid.Row="1" Width="180" IsEnabled="{Binding IsInsertMode}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged}"/>
+								<TextBox Grid.Column="1" Grid.Row="1" Width="180" IsReadOnly="True" Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVis}}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
 								<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="2" Width="180" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Initial Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding InitialBalance, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}"/>
 							</Grid>
 						</Grid>

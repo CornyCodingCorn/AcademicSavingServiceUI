@@ -139,12 +139,13 @@ BEGIN
 	        NEW.SoDuLanCapNhatCuoi != OLD.SoDuLanCapNhatCuoi OR
 	        NEW.LanCapNhatCuoi != OLD.LanCapNhatCuoi OR
 	        NEW.NgayDongSo != OLD.NgayDongSo OR
+	        NEW.NgayTao != OLD.NgayTao OR
 	        NEW.MaKyHan != OLD.MaKyHan) THEN
 		    CALL ThrowException('TK003');
         END IF;
     END IF;
 
-	IF (NEW.SoTienBanDau != OLD.SoTienBanDau OR NEW.NgayTao != OLD.NgayTao) THEN
+	IF (NEW.SoTienBanDau != OLD.SoTienBanDau) THEN
         IF (KiemTraKyHan(NEW.MaKyHan, NEW.NgayTao) = FALSE) THEN
 	    	CALL ThrowException('TK002');
 	    END IF;

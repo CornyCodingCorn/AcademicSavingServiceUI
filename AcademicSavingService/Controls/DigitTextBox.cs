@@ -10,19 +10,19 @@ namespace AcademicSavingService.Controls
 	public class DigitTextBox : TextBox
 	{
 		public readonly static DependencyProperty AcceptDecimalProperty = 
-			DependencyProperty.Register("AcceptDecimal", typeof(bool), typeof(DigitTextBox));
+			DependencyProperty.Register("AcceptDecimal", typeof(bool), typeof(DigitTextBox), new PropertyMetadata(true));
 		public bool AcceptDecimal
 		{
 			get { return (bool)GetValue(AcceptDecimalProperty); }
-			set { 
-				SetValue(AcceptDecimalProperty, value);
-			}
+			set { SetValue(AcceptDecimalProperty, value); }
 		}
 
-		Regex regex;
+		Regex regexDecimal;
+		Regex regexInt;
 		public DigitTextBox()
 		{
-			regex = new Regex("[^0-9.]");
+			regexDecimal = new Regex("[^0-9.]");
+			regexInt = new Regex("[^0-9]");
 			PreviewTextInput += NumberValidationTextBox;
 			TextChanged += (sender, e) =>
 			{
@@ -34,12 +34,19 @@ namespace AcademicSavingService.Controls
 
 		private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
 		{
-			if (regex.IsMatch(e.Text))
-				e.Handled = true;
-			else if (Text.Contains('.'))
+			if (AcceptDecimal)
 			{
-				if (e.Text.Contains('.'))
+				if (regexDecimal.IsMatch(e.Text))
 					e.Handled = true;
+				else if (Text.Contains('.'))
+				{
+					if (e.Text.Contains('.'))
+						e.Handled = true;
+				}
+			}
+			else
+			{
+				e.Handled = regexInt.IsMatch(e.Text);
 			}
 		}
 	}

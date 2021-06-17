@@ -50,7 +50,7 @@
 					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaPhieu}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 					<DataGridTextColumn Width="100" Header="Account ID" Binding="{Binding MaSo}"/>
 					<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='dd/MM/yyyy'}" TextBlock.TextAlignment="Center"/>
-					<DataGridTextColumn Width="120" Header="Amount" Binding="{Binding SoTien}">
+					<DataGridTextColumn Width="120" Header="Amount" Binding="{Binding SoTien, StringFormat=N2}">
 						<DataGridTextColumn.CellStyle>
 							<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 								<Setter Property="Foreground" Value="{StaticResource ForegroundRed}"/>
@@ -88,7 +88,7 @@
 
 							<DatePicker	Grid.Column="1" Grid.Row="0" Width="180" IsEnabled="{Binding IsInsertMode}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"  SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged}"/>
 							<StackPanel	Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-								<ctrl:DigitTextBox Width="145" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}">
+								<ctrl:DigitTextBox Width="145" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}">
 									<ctrl:DigitTextBox.Style>
 										<Style TargetType="{x:Type ctrl:DigitTextBox}" BasedOn="{StaticResource CrudTextBox}">
 											<Setter Property="IsReadOnly">
@@ -104,8 +104,8 @@
 								</ctrl:DigitTextBox>
 								<CheckBox Margin="10, 0, 0, 0" IsChecked="{Binding WithDrawAll}" IsEnabled="{Binding IsInsertMode}"/>
 							</StackPanel>
-							<TextBox			Grid.Column="1" Grid.Row="2" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID number" Text="{Binding ID}"/>
-							<TextBox			Grid.Column="1" Grid.Row="3" Width="180" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Account ID" Text="{Binding AccountID}"/>
+							<TextBox			Grid.Column="1" Grid.Row="2" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="A ID" Text="{Binding AccountID}"/>
+							<TextBox			Grid.Column="1" Grid.Row="3" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding ID}"/>
 						</Grid>
 
 						<Grid Grid.Column="1" Margin="0, 0, 30, 4">
@@ -138,8 +138,9 @@
 						  SelectedItem="{Binding SelectedAccount, Mode=TwoWay}">
 			<ctrl:AssDataGrid.Columns>
 				<DataGridTextColumn Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
-				<DataGridTextColumn Header="Owner ID" Binding="{Binding MaKH}"/>
-				<DataGridTextColumn Header="Balance" Binding="{Binding SoDu}" Width="*">
+				<DataGridTextColumn Header="Term" Binding="{Binding KyHan}"/>
+				<DataGridTextColumn Header="Create date" Binding="{Binding NgayTao, StringFormat='dd/MM/yyyy'}"/>
+				<DataGridTextColumn Header="Balance" Binding="{Binding SoDu,StringFormat=N2}" Width="*">
 					<DataGridTextColumn.CellStyle>
 						<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 							<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
