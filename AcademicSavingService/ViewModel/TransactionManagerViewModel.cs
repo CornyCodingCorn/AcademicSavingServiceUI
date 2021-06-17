@@ -147,8 +147,10 @@ namespace AcademicSavingService.ViewModel
 				{
 					if (!await AssApp.ShowConfirmDialogMessage("Confirmation", "Are you sure you want to proceed?"))
 						return;
+					var accountIndex = SelectedAccountIndex;
 					_containerInstance.UpdateOnCollection(slip);
 					SavingAccountContainer.Instance.UpdateSavingAccount(AccountID);
+					SelectedAccountIndex = accountIndex;
 				}
 			}
 			catch(MySqlException e)

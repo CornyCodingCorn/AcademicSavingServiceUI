@@ -198,7 +198,7 @@ namespace AcademicSavingService.ViewModel
 		}
 		protected override bool CanExecuteAdd()
 		{
-			if (CreateDate.Year < 1800 || SelectedTermIndex < 0 || IsReadOnly || InitialBalance == 0)
+			if (CreateDate.Year < 1800 || SelectedTermIndex < 0 || InitialBalance == 0)
 			{
 				return false;
 			}
@@ -227,7 +227,7 @@ namespace AcademicSavingService.ViewModel
 		}
 		protected override bool CanExecuteDelete()
 		{
-			if (SelectedAccount == null)
+			if (SelectedAccount == null || IsInsertMode)
 				return false;
 			else 
 				return true;
