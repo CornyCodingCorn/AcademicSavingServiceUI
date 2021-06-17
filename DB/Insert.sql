@@ -27,6 +27,8 @@ ALTER TABLE QUYDINH AUTO_INCREMENT = 1;
 
 /*========== Error Table ==========*/
 
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('KH001', 'Khách hàng phải đăng ký trước khi tạo sổ');
+
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK000', 'Thao tác với sổ tiêt kiệm thành công');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK001', 'Số tiền tạo tài khoản ít hơn số tiền tối thiểu trong quy định');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK002', 'Loại kỳ hạn này không tồn tại hoặc không còn được sử dụng');
@@ -35,6 +37,7 @@ INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK004', 'Gọi update tới ngày
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK005', 'Chi được update khi không có phiếu rút chỉ tới sổ này');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK006', 'Có phiếu tồn tại sau trước ngày được chọn');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK007', 'Không có quy định tồn tại trước ngày tạo');
+INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK008', 'Chỉ được tạo sổ sau khi khách hàng đã đăng ký');
 
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG000', 'Gửi tiền thành công');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('PG001', 'Số tiền gửi nhỏ hơn số tiền cho phép');

@@ -145,13 +145,16 @@ BEGIN
         END IF;
     END IF;
 
+    IF (NEW.MaKH != OLD.MaKH) THEN
+        IF (NEW.NgayTao < (SELECT NgayDangKy FROM KHACHHANG WHERE MaKH = NEW.MaKH)) THEN
+            CALL ThrowException('TK008');
+        END IF;
+    END IF;
+
 	IF (NEW.SoTienBanDau != OLD.SoTienBanDau) THEN
         IF (KiemTraKyHan(NEW.MaKyHan, NEW.NgayTao) = FALSE) THEN
 	    	CALL ThrowException('TK002');
 	    END IF;
-        IF (NOT EXISTS(SELECT * FROM QUYDINH WHERE quydinh.NgayTao < NEW.NgayTao)) THEN
-            CALL ThrowException('TK007');
-        END IF;
 	    IF (EXISTS(SELECT * FROM PHIEURUT PR WHERE PR.MaSo = NEW.MaSo)) THEN
             CALL ThrowException('TK005');
         END IF;
@@ -208,7 +211,9 @@ BEGIN
     DECLARE NgayDung DATE;
 
 	IF (NEW.NgayTao = '0/0/0') THEN SET NEW.NgayTao = NOW(); END IF;
-
+    IF (NEW.NgayTao < (SELECT NgayDangKy FROM KHACHHANG WHERE MaKH = NEW.MaKH)) THEN
+        CALL ThrowException('TK008');
+    END IF;
     IF (NOT EXISTS(SELECT * FROM QUYDINH WHERE quydinh.NgayTao < NEW.NgayTao)) THEN
         CALL ThrowException('TK007');
     END IF;
