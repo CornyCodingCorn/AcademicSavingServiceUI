@@ -14,6 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\PapaFranku.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Fody" Version="6.5.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,6 +28,10 @@
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="SqlKata" Version="2.3.4" />
     <PackageReference Include="SqlKata.Execution" Version="2.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\PapaFranku.png" />
   </ItemGroup>
 
 </Project>
