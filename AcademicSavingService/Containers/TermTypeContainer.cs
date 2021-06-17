@@ -72,7 +72,7 @@ namespace AcademicSavingService.Containers
             Collection = _termDA.GetAll();
         }
 
-        private TermTypeDA _termDA = new();
+        private readonly TermTypeDA _termDA = new();
         private static readonly TermTypeContainer _instance = new();
         public static TermTypeContainer Instance => _instance;
     }

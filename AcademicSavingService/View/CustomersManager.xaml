@@ -27,7 +27,7 @@
         <GridSplitter Background="{DynamicResource MahApps.Brushes.Accent4}" VerticalAlignment="Bottom" Height="4" Margin="0, 0, -8, -2"/>
 
         <ctrl:AssDataGrid Margin="0,0,0,20" EnableFullTextSearch="True" 
-                          x:Name="asd" ItemsSource="{Binding Customers}" 
+                          x:Name="fuck" ItemsSource="{Binding Customers}" 
                           DataGridName="CUSTOMERS"
                           SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                           SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">

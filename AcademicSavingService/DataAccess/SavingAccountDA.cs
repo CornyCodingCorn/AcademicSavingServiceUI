@@ -68,23 +68,13 @@ namespace AcademicSavingService.DataAccess
             });
         }
 
-        public SavingAccountDA()
-        {
-            MySqlCompiler compiler = new();
-            db = new QueryFactory(BaseDBConnection.Connection, compiler);
-        }
-
-        private readonly QueryFactory db;
-
         private readonly string _MaSo = "MaSo";
         private readonly string _MaKH = "MaKH";
 
-        private readonly string _MaSoVar = "@MaSo";
         private readonly string _MaKHVar = "@MaKH";
         private readonly string _KyHanVar = "@KyHan";
         private readonly string _SoTienBanDauVar = "@SoTienBanDau";
         private readonly string _NgayTaoVar = "@NgayTao";
-        private readonly string _NgayCanUpdateVar = "@NgayCanUpdate";
 
         private readonly string _termTypeTableName = "LoaiKyHan";
         private readonly string _stkTermTypeID = "SoTietKiem.MaKyHan";
