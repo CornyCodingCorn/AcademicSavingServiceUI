@@ -60,7 +60,7 @@
 							</Style>
 						</DataGridTextColumn.CellStyle>
 					</DataGridTextColumn>
-					<DataGridTextColumn Header="Initial Balance" Binding="{Binding SoTienBanDau}">
+					<DataGridTextColumn Header="Initial Balance" Binding="{Binding SoTienBanDau, StringFormat=N2}">
 						<DataGridTextColumn.CellStyle>
 							<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 								<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
@@ -68,7 +68,7 @@
 							</Style>
 						</DataGridTextColumn.CellStyle>
 					</DataGridTextColumn>
-					<DataGridTextColumn Width="*" Header="Balance" Binding="{Binding SoDu}">
+					<DataGridTextColumn Width="*" Header="Balance" Binding="{Binding SoDu, StringFormat=N2}">
 						<DataGridTextColumn.CellStyle>
 							<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 								<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>

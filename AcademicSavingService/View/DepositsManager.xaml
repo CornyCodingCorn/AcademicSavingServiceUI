@@ -122,8 +122,9 @@
 						  SelectedItem="{Binding SelectedAccount, Mode=TwoWay}">
 			<ctrl:AssDataGrid.Columns>
 				<DataGridTextColumn Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
-				<DataGridTextColumn Header="Owner ID" Binding="{Binding MaKH}"/>
-				<DataGridTextColumn Header="Balance" Binding="{Binding SoDu}" Width="*">
+				<DataGridTextColumn Header="Term" Binding="{Binding KyHan}"/>
+				<DataGridTextColumn Header="Create date" Binding="{Binding NgayTao, StringFormat='dd/MM/yyyy'}"/>
+				<DataGridTextColumn Header="Balance" Binding="{Binding SoDu, StringFormat=N2}" Width="*">
 					<DataGridTextColumn.CellStyle>
 						<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
 							<Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
