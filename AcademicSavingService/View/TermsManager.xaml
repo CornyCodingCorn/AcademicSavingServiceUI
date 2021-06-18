@@ -61,7 +61,6 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="2*"/>
                         </Grid.RowDefinitions>
                         <Grid.Resources>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
@@ -73,17 +72,42 @@
                             </Style>
                         </Grid.Resources>
 
+                        
+
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="40"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock  Text="ID" Grid.Row="0" Grid.Column="0" Margin="0"/>
-                            <TextBox    Grid.Column="1" Grid.Row="0" Width="150" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding MaKyHanField}"/>
-                        </Grid>
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                        <Button Grid.Row="2" Margin="0, 2, 0, 2" Command="{Binding DisableTermCommand}" Content="DISABLE" ToolTip="Disable the selected term and move it to past terms table"/>
+                                <TextBlock  Text="ID" Grid.Row="0" Margin="0"/>
+                                <TextBlock  Text="Term"   Grid.Row="1" Margin="0"/>
+                            </Grid>
+
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBox    Grid.Column="1" Grid.Row="0" Width="75" 
+                                            IsReadOnly="True" 
+                                            HorizontalAlignment="Left" 
+                                            mah:TextBoxHelper.Watermark="ID" 
+                                            Text="{Binding MaKyHanField}"/>
+                                <ctrl:DigitTextBox  Grid.Column="1" Grid.Row="1" Width="50"  
+                                                    HorizontalAlignment="Left" 
+                                                    mah:TextBoxHelper.Watermark="Term length" 
+                                                    AcceptDecimal="True" 
+                                                    Text="{Binding KyHanField}"/>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </ctrl:AssCRUDPanel.Left>
 
@@ -108,15 +132,14 @@
                                 </Grid.RowDefinitions>
 
 
-                                <TextBlock Text="Term length"   Grid.Row="0" Grid.Column="0"/>
-                                <TextBlock Text="Interest rate" Grid.Row="1" Grid.Column="0"/>
-                                <TextBlock Text="Create date"   Grid.Row="2" Grid.Column="0"/>
-                                <TextBlock Text="Disable date"  Grid.Row="3" Grid.Column="0"/>
+                                
+                                <TextBlock Text="Interest rate" Grid.Row="0" Grid.Column="0"/>
+                                <TextBlock Text="Create date"   Grid.Row="1" Grid.Column="0"/>
+                                <TextBlock Text="Disable date"  Grid.Row="2" Grid.Column="0"/>
 
-                                <ctrl:DigitTextBox  Grid.Column="1" Grid.Row="0" Width="150"  HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Term length" AcceptDecimal="True" Text="{Binding KyHanField}"/>
-                                <ctrl:DigitTextBox	Grid.Column="1" Grid.Row="1" Width="150"  HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Interest rate" AcceptDecimal="True" Text="{Binding LaiSuatField}"/>
-                                <DatePicker	        Grid.Column="1" Grid.Row="2" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding NgayTaoField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                <DatePicker     	Grid.Column="1" Grid.Row="3" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Disable date" Text="{Binding NgayNgungSuDungField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <ctrl:DigitTextBox	Grid.Column="1" Grid.Row="0" Width="150"  HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Interest rate" AcceptDecimal="True" Text="{Binding LaiSuatField}"/>
+                                <DatePicker	        Grid.Column="1" Grid.Row="1" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding NgayTaoField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <DatePicker     	Grid.Column="1" Grid.Row="2" Width="150" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Disable date" Text="{Binding NgayNgungSuDungField, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </Grid>
                         </StackPanel>
                     </Grid>

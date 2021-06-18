@@ -91,7 +91,9 @@ namespace AcademicSavingService.ViewModel
                     SelectedIndex = -1;
                     SelectedIndex = indexHolder;
                 }
-                else SelectedIndex = Reports.Count - 1;
+                else SelectedIndex = 0;
+
+                if (Reports.Count == 0) ResetReadOnlyFields();
             }
         }
 
@@ -112,9 +114,23 @@ namespace AcademicSavingService.ViewModel
             catch (MySqlException e) { ShowErrorMessage(e); }
         }
 
+        protected override void ExecuteDelete()
+        {
+            try
+            {
+                MonthlyReportContainer.Instance.DeleteByCompositeKey(SelectedDate.Month, SelectedDate.Year, Terms[SelectedTermIndex]);
+            }
+            catch (MySqlException e) { ShowErrorMessage(e); }
+        }
+
         protected override bool CanExecuteAdd()
         {
             return IsInsertMode && SelectedTermIndex != -1 && SelectedTermIndex < Terms.Count;
+        }
+
+        protected override bool CanExecuteDelete()
+        {
+            return !IsInsertMode && SelectedReport != null && SelectedTermIndex != -1 && SelectedTermIndex < Terms.Count;
         }
     }
 }

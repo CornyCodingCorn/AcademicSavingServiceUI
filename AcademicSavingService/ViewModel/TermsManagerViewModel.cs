@@ -168,7 +168,15 @@ namespace AcademicSavingService.ViewModel
                     SelectedIndex = -1;
                     SelectedIndex = indexHolder;
                 }
-                else SelectedIndex = _indexBeforeInsertMode;
+                else
+                {
+                    if (_indexBeforeInsertMode != -1) SelectedIndex = _indexBeforeInsertMode;
+                    else
+                    {
+                        ClearAllFields();
+                        SelectedIndex = 0;
+                    }
+                }
             }
         }
 

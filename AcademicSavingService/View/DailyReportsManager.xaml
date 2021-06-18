@@ -8,7 +8,7 @@
 			 xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
              xmlns:conv="clr-namespace:AcademicSavingService.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1000">
+             d:DesignHeight="700" d:DesignWidth="1000">
     <Grid Margin="10">
         <Grid.Resources>
             <ResourceDictionary>
@@ -36,16 +36,11 @@
             <ctrl:AssDataGrid.Columns>
                 <DataGridTextColumn Header="Date"       Binding="{Binding Ngay, StringFormat='dd/MM/yyyy'}" Width="120"/>
                 <DataGridTextColumn Header="Term"       Binding="{Binding KyHan}" Width="75"/>
-                <DataGridTextColumn Header="Income"     Binding="{Binding TongThu}" Width="*" MaxWidth="220">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
-                            <Setter Property="FontWeight" Value="Bold"/>
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
+                <DataGridTextColumn Header="Income"     Binding="{Binding TongThu}" Width="*" MaxWidth="220" CellStyle="{StaticResource GreenKeyStyle}"/>
                 <DataGridTextColumn Header="Outcome"    Binding="{Binding TongChi}" Width="*" MaxWidth="220">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
+                            <Setter Property="Foreground" Value="{StaticResource ForegroundRed}"/>
                             <Setter Property="FontWeight" Value="Bold"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -73,7 +68,7 @@
 
         <Grid Grid.Column="0" Margin="0, 0, 10, 0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="60*" MaxHeight="500"/>
+                <RowDefinition Height="60*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -91,8 +86,8 @@
                 <Grid Margin="{StaticResource PaddingWidth}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" MaxHeight="50"/>
-                        <RowDefinition Height="4*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="SELECTED REPORT" Grid.Row="0"
@@ -100,55 +95,63 @@
                            FontSize="18" FontWeight="Bold"
                            Margin="0, -7, 0, 0"/>
 
-                    <Grid HorizontalAlignment="Center" Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*"/>
+                            <RowDefinition Height="8*"/>
+                            <RowDefinition Height="0.5*"/>
+                        </Grid.RowDefinitions>
 
-                        <Grid Grid.Column="0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+                        <Grid HorizontalAlignment="Center" Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="Date"          Grid.Row="0" Margin="0"/>
-                            <TextBlock Text="Term"          Grid.Row="1" Margin="0"/>
-                            <TextBlock Text="Income"        Grid.Row="2" Margin="0"/>
-                            <TextBlock Text="Outcome"       Grid.Row="3" Margin="0"/>
-                            <TextBlock Text="Difference"    Grid.Row="4" Margin="0"/>
-                        </Grid>
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                        <Grid Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+                                <TextBlock Text="Date"          Grid.Row="0" Margin="0"/>
+                                <TextBlock Text="Term"          Grid.Row="1" Margin="0"/>
+                                <TextBlock Text="Income"        Grid.Row="2" Margin="0"/>
+                                <TextBlock Text="Outcome"       Grid.Row="3" Margin="0"/>
+                                <TextBlock Text="Difference"    Grid.Row="4" Margin="0"/>
+                            </Grid>
 
-                            <DatePicker        Width="150" Grid.Row="0" Grid.Column="1" SelectedDate="{Binding Ngay}"/>
-                            <ComboBox          Width="75" Grid.Row="1" Grid.Column="1"  IsEnabled="{Binding IsInsertMode}" ItemsSource="{Binding Terms}" SelectedIndex="{Binding SelectedTermIndex}" mah:TextBoxHelper.Watermark="Term">
-                                <ComboBox.Resources>
-                                    <Style TargetType="{x:Type TextBlock}">
-                                        <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Text}"/>
-                                        <Setter Property="FontWeight" Value="Light"/>
-                                        <Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
-                                    </Style>
-                                </ComboBox.Resources>
-                            </ComboBox>
-                            <ctrl:DigitTextBox Width="200" Grid.Row="2" Grid.Column="1" IsReadOnly="True" Text="{Binding TongThu}"/>
-                            <ctrl:DigitTextBox Width="200" Grid.Row="3" Grid.Column="1" IsReadOnly="True" Text="{Binding TongChi}"/>
-                            <ctrl:DigitTextBox Width="200" Grid.Row="4" Grid.Column="1" IsReadOnly="True" Text="{Binding ChenhLech, StringFormat={}{0:0.00; #.00}}"/>
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <DatePicker        Width="150" Grid.Row="0" Grid.Column="1" SelectedDate="{Binding Ngay}"/>
+                                <ComboBox          Width="75" Grid.Row="1" Grid.Column="1"  IsEnabled="{Binding IsInsertMode}" ItemsSource="{Binding Terms}" SelectedIndex="{Binding SelectedTermIndex}" mah:TextBoxHelper.Watermark="Term">
+                                    <ComboBox.Resources>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Text}"/>
+                                            <Setter Property="FontWeight" Value="Light"/>
+                                            <Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
+                                        </Style>
+                                    </ComboBox.Resources>
+                                </ComboBox>
+                                <ctrl:DigitTextBox Width="200" Grid.Row="2" Grid.Column="1" IsReadOnly="True" Text="{Binding TongThu}"/>
+                                <ctrl:DigitTextBox Width="200" Grid.Row="3" Grid.Column="1" IsReadOnly="True" Text="{Binding TongChi}"/>
+                                <ctrl:DigitTextBox Width="200" Grid.Row="4" Grid.Column="1" IsReadOnly="True" Text="{Binding ChenhLech, StringFormat={}{0:0.00; #.00}}"/>
+                            </Grid>
                         </Grid>
                     </Grid>
 
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <StackPanel.Resources>
+                    <Grid Grid.Row="2">
+                        <Grid.Resources>
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
                                 <Setter Property="Margin" Value="0, 3, 0, 3"/>
                                 <Setter Property="FontSize" Value="16"/>
@@ -156,15 +159,31 @@
                                 <Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
                                 <Setter Property="FontWeight" Value="Bold"/>
                             </Style>
-                        </StackPanel.Resources>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                        <Button Width="130" Height="50" Margin="0, 10, 10, 0" Command="{Binding StartInsertCommand}"
+                        <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="0, 10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Button Grid.Column="0" Width="130" Height="50" Margin="0, 0, 10, 0" Command="{Binding StartInsertCommand}"
                                 Content="ADD NEW" Style="{DynamicResource InsertButtonStyle}"
                                 ToolTip="Enter insert mode"/>
-                        <Button Width="130" Height="50" Margin="5, 10, 0, 0" Command="{Binding CreateCommand}" 
+                            <Button Grid.Column="1" Width="130" Height="50" Margin="5, 0, 0, 0" Command="{Binding CreateCommand}" 
 						        Content="COMPOSE" Style="{DynamicResource InsertButtonStyle}"
 						        ToolTip="Automatically compose a new report for the selected day"/>
-                    </StackPanel>
+                        </Grid>
+
+                        <Button Grid.Row="2" Width="130" Height="50"
+                                Content="DELETE" Command="{Binding DeleteCommand}"
+                                ToolTip="Delete selected report"/>
+                    </Grid>
                 </Grid>
             </Border>
         </Grid>

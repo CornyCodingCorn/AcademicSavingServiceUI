@@ -8,7 +8,7 @@
 			 xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
              xmlns:conv="clr-namespace:AcademicSavingService.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800">
     <Grid Margin="10">
         <Grid.Resources>
             <ResourceDictionary>
@@ -37,16 +37,11 @@
                 <DataGridTextColumn Header="Month"       Binding="{Binding Thang}" Width="100"/>
                 <DataGridTextColumn Header="Year"       Binding="{Binding Nam}" Width="100"/>
                 <DataGridTextColumn Header="Term"       Binding="{Binding KyHan}" Width="75"/>
-                <DataGridTextColumn Header="Opened accounts"     Binding="{Binding SoMo}" Width="*" MaxWidth="180">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
-                            <Setter Property="FontWeight" Value="Bold"/>
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
+                <DataGridTextColumn Header="Opened accounts"     Binding="{Binding SoMo}" Width="*" MaxWidth="180" CellStyle="{StaticResource GreenKeyStyle}"/>
                 <DataGridTextColumn Header="Closed accounts"    Binding="{Binding SoDong}" Width="*" MaxWidth="180">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
+                            <Setter Property="Foreground" Value="{StaticResource ForegroundRed}"/>
                             <Setter Property="FontWeight" Value="Bold"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -73,8 +68,17 @@
         </ctrl:AssDataGrid>
 
         <Grid Grid.Column="0" Margin="0, 0, 10, 0">
+            <Grid.Resources>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
+                    <Setter Property="Margin" Value="0, 3, 0, 3"/>
+                    <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+            </Grid.Resources>
             <Grid.RowDefinitions>
-                <RowDefinition Height="60*" MaxHeight="500"/>
+                <RowDefinition Height="60*"/>
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" BorderThickness="2" HorizontalAlignment="Stretch" CornerRadius="5">
@@ -92,7 +96,6 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" MaxHeight="50"/>
                         <RowDefinition Height="4*"/>
-                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="SELECTED REPORT" Grid.Row="0"
@@ -102,27 +105,28 @@
 
                     <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="0, 10, 0, 0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="0.5*" MaxHeight="25"/>
                             <RowDefinition Height="2*"/>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition Height="3*"/>
                         </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0">
+                        <Grid Grid.Row="0" Margin="0, 0, 0, 10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="160"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
                                 <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="2*" MaxHeight="75"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock  Text="Month" Grid.Row="0" Grid.Column="0" Margin="0, 0, 10, 0"/>
-                            <TextBlock  Text="Term" Grid.Row="0" Grid.Column="1" Margin="0"/>
+                            <TextBlock  Text="Month" Grid.Row="1" Grid.Column="0" Margin="0"/>
+                            <TextBlock  Text="Term" Grid.Row="1" Grid.Column="1" Margin="0"/>
                             
-                            <DatePicker Width="120" Grid.Row="1" Grid.Column="0" Margin="0"
+                            <DatePicker Width="120" Grid.Row="2" Grid.Column="0" Margin="0, 5, 0, 0"
                                         SelectedDate="{Binding SelectedDate, StringFormat='MM/yyyy'}"/>
-                            <ComboBox   Width="75" Grid.Row="1" Grid.Column="1" Margin="0"
+                            <ComboBox   Width="75" Grid.Row="2" Grid.Column="1" Margin="0, 5, 0, 0"
                                         IsEnabled="{Binding IsInsertMode}" 
                                         ItemsSource="{Binding Terms}" 
                                         SelectedIndex="{Binding SelectedTermIndex}"
@@ -137,57 +141,71 @@
                             </ComboBox>
                         </Grid>
 
-                        <Grid Grid.Row="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="140"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="60*" MaxHeight="200"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                            <Grid Grid.Column="0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                                
-                                <TextBlock Text="Opened accounts"   Grid.Row="0" Margin="0"/>
-                                <TextBlock Text="Closed accounts"   Grid.Row="1" Margin="0"/>
-                                <TextBlock Text="Difference"        Grid.Row="2" Margin="0"/>
-                            </Grid>
+                                <Grid Grid.Column="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
 
-                            <Grid Grid.Column="1">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
 
-                                <ctrl:DigitTextBox Width="120" Grid.Row="0" Grid.Column="1" IsReadOnly="True" Text="{Binding SoMo}"/>
-                                <ctrl:DigitTextBox Width="120" Grid.Row="1" Grid.Column="1" IsReadOnly="True" Text="{Binding SoDong}"/>
-                                <ctrl:DigitTextBox Width="120" Grid.Row="2" Grid.Column="1" IsReadOnly="True" Text="{Binding ChenhLech, StringFormat={}{0:0; #}}"/>
+                                    <TextBlock Text="Opened accounts"   Grid.Row="0" Margin="0"/>
+                                    <TextBlock Text="Closed accounts"   Grid.Row="1" Margin="0"/>
+                                    <TextBlock Text="Difference"        Grid.Row="2" Margin="0"/>
+                                </Grid>
+
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <ctrl:DigitTextBox Width="120" Grid.Row="0" Grid.Column="1" IsReadOnly="True" Text="{Binding SoMo}"/>
+                                    <ctrl:DigitTextBox Width="120" Grid.Row="1" Grid.Column="1" IsReadOnly="True" Text="{Binding SoDong}"/>
+                                    <ctrl:DigitTextBox Width="120" Grid.Row="2" Grid.Column="1" IsReadOnly="True" Text="{Binding ChenhLech, StringFormat={}{0:0; #}}"/>
+                                </Grid>
                             </Grid>
                         </Grid>
-                    </Grid>
 
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <StackPanel.Resources>
-                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
-                                <Setter Property="Margin" Value="0, 3, 0, 3"/>
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
-                                <Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
-                                <Setter Property="FontWeight" Value="Bold"/>
-                            </Style>
-                        </StackPanel.Resources>
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                        <Button Width="130" Height="50" Margin="0, 10, 10, 0" Command="{Binding StartInsertCommand}"
+                            <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="0, 0, 0, 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Button Grid.Column="0" Width="130" Height="50" Margin="0, 10, 10, 0" Command="{Binding StartInsertCommand}"
                                 Content="ADD NEW" Style="{DynamicResource InsertButtonStyle}"
                                 ToolTip="Enter insert mode"/>
-                        <Button Width="130" Height="50" Margin="5, 10, 0, 0" Command="{Binding CreateCommand}" 
+                                <Button Grid.Column="1" Width="130" Height="50" Margin="5, 10, 0, 0" Command="{Binding CreateCommand}" 
 						        Content="COMPOSE" Style="{DynamicResource InsertButtonStyle}"
 						        ToolTip="Automatically compose a new report for the specified month-year"/>
-                    </StackPanel>
+                            </Grid>
+
+                            <Button Grid.Row="2" Width="130" Height="50" Margin="0" Command="{Binding DeleteCommand}"
+                                    Content="DELETE"/>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Border>
         </Grid>
