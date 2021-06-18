@@ -37,8 +37,8 @@
 			<Grid Margin="0, 0, 0, 16" x:Name="Content">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="7*"/>
-					<RowDefinition Height="1*" MaxHeight="50" MinHeight="30"/>
-					<RowDefinition Height="1*" MaxHeight="50" MinHeight="30"/>
+					<RowDefinition Height="50"/>
+					<RowDefinition Height="50"/>
 				</Grid.RowDefinitions>
 
 				<Border x:Name="HeightConstraint" Margin="20, 54, 20, 20"/>

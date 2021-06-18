@@ -18,7 +18,7 @@ namespace AcademicSavingService.View
 	/// <summary>
 	/// Interaction logic for Home.xaml
 	/// </summary>
-	public partial class Home : UserControl
+	public partial class Home : Animation.UserControlSweptAnimation
 	{
 		public Home()
 		{

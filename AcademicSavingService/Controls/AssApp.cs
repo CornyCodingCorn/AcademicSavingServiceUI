@@ -65,14 +65,10 @@ namespace AcademicSavingService.Controls
 
 		static private void ProgramDeactivated()
 		{
-			foreach (var window in _windows)
-				ThemeManager.Current.ChangeTheme(window, "Light.Steel");
 			Deactivated?.Invoke();
 		}
 		static private void ProgramActivated()
 		{
-			foreach (var window in _windows)
-				ThemeManager.Current.ChangeTheme(window, ActiveTheme);
 			Activated?.Invoke();
 		}
 
@@ -80,10 +76,19 @@ namespace AcademicSavingService.Controls
 		static public event GenericEvent Deactivated;
 		static public event GenericEvent Activated;
 
+		static public void ChangeTheme(string theme)
+		{
+			ActiveTheme = ThemeManager.Current.GetTheme("Light." + theme);
+			foreach (var window in _windows)
+				ThemeManager.Current.ChangeTheme(window, ActiveTheme);
+		}
+
 		static public void RegisterWindow(AssWindow window)
 		{
 			if (_windows.Count == 0)
 				ActiveTheme = ThemeManager.Current.DetectTheme();
+			else
+				ThemeManager.Current.ChangeTheme(window, ActiveTheme);
 			_windows.Add(window);
 			window.Activated += WindowActivated;
 			window.Deactivated += WindowDeactivated;

@@ -15,10 +15,10 @@
 				 MinHeight="600"
 				 MinWidth="1000"
 				 FontSize="16"
-				 GlowBrush="{StaticResource MahApps.Brushes.Accent}"
+				 GlowBrush="{DynamicResource MahApps.Brushes.AccentBase}"
 				 Background="{StaticResource MahApps.HamburgerMenu.Pane.Background}"
 				 NonActiveWindowTitleBrush="#FF5E6C7A"
-				 WindowTitleBrush="{Binding TitleBarBackGround}"
+				 WindowTitleBrush="{DynamicResource MahApps.Brushes.AccentBase}"
 				 x:Name="mainWindow">
 	<Window.DataContext>
 		<viewModel:MainViewModel/>
@@ -53,26 +53,6 @@
 					</DataTrigger>
 				</DataTemplate.Triggers>
 			</DataTemplate>
-
-			<!--  these are the templates for the view models  -->
-			<DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
-				<view:Home DataContext="{Binding}" />
-			</DataTemplate>
-			<DataTemplate DataType="{x:Type viewModel:BanksManagerViewModel}">
-				<view:BanksManager DataContext="{Binding}" />
-			</DataTemplate>
-			<DataTemplate DataType="{x:Type viewModel:ServicesManagerViewModel}">
-				<view:ServicesManager DataContext="{Binding}"/>
-			</DataTemplate>
-			<DataTemplate DataType="{x:Type viewModel:ReportsManagerViewModel}">
-				<view:ReportsManager DataContext="{Binding}" />
-			</DataTemplate>
-			<DataTemplate DataType="{x:Type viewModel:SettingsViewModel}">
-				<view:Settings DataContext="{Binding}" />
-			</DataTemplate>
-			<DataTemplate DataType="{x:Type viewModel:ContactAndHelpViewModel}">
-				<view:ContactAndHelp DataContext="{Binding}" />
-			</DataTemplate>
 		</ResourceDictionary>
 	</Window.Resources>
 
@@ -83,37 +63,29 @@
 		</Grid.RowDefinitions>
 		<Rectangle Fill="{DynamicResource MahApps.Brushes.AccentBase}" Grid.Row="1"/>
 		<Rectangle Fill="White" Margin="0, 48, 0, 0"/>
+
 		<mah:HamburgerMenu  x:Name="HamburgerMenuControl"
 		                    DisplayMode="CompactInline"
 		                    IsPaneOpen="False"
 		                    ItemTemplate="{StaticResource MenuItemTemplate}"
 		                    ItemsSource="{Binding MenuItems}"
+							SelectedItem="{Binding SelectedItem}"
+							SelectedOptionsItem="{Binding SelectedOptionItem}"
 		                    OptionsItemTemplate="{StaticResource MenuItemTemplate}"
 		                    OptionsItemsSource="{Binding MenuOptionItems}"
 		                    SelectedIndex="0">
 			<mah:HamburgerMenu.ContentTemplate>
 				<DataTemplate DataType="{x:Type mah:HamburgerMenuItem}">
-					<Grid x:Name="TheContentGrid">
+					<Grid x:Name="TheContentGrid" DataContext="{Binding ElementName=mainWindow, Path=DataContext}">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="22" />
 							<RowDefinition Height="*"/>
 						</Grid.RowDefinitions>
-						<Grid.Resources>
-							<Style TargetType="Border">
-								<Style.Triggers>
-									<DataTrigger Binding="{Binding IsActive, ElementName=mainWindow}" Value="False">
-										<Setter Property="Background" Value="{Binding ElementName=mainWindow, Path=NonActiveWindowTitleBrush}"/>
-									</DataTrigger>
-									<DataTrigger Binding="{Binding IsActive, ElementName=mainWindow}" Value="True">
-										<Setter Property="Background" Value="{Binding ElementName=mainWindow, Path=WindowTitleBrush}"/>
-									</DataTrigger>
-								</Style.Triggers>
-							</Style>
-						</Grid.Resources>
 						<Border Grid.Row="0"
 						        HorizontalAlignment="Right"
 								Width="Auto"
-						        CornerRadius="0, 0, 0, 25">
+						        CornerRadius="0, 0, 0, 25"
+								Background="{DynamicResource MahApps.Brushes.AccentBase}">
 							<TextBlock x:Name="Header"
 							           HorizontalAlignment="Left"
 							           VerticalAlignment="Center"
@@ -124,27 +96,17 @@
 							           FontWeight="ExtraBold"
 							           Text="{Binding Label}"/>
 						</Border>
-						<ContentControl x:Name="TheContent"
-						                Grid.Row="1"
-						                Focusable="False"
-										Margin="-1, 0, 0, 0"
-						                Foreground="{DynamicResource BlackBrush}"
-						                Content="{Binding}" />
+						<Grid Grid.Row="1" Margin="-1, 0, 0, 0">
+							<view:Home DataContext="{Binding HomeVM}"/>
+							<view:BanksManager DataContext="{Binding BankMVM}"/>
+							<view:ServicesManager DataContext="{Binding ServiceMVM}"/>
+							<view:ReportsManager DataContext="{Binding ReportMVM}"/>
+							<view:ContactAndHelp DataContext="{Binding ContactVM}"/>
+							<view:Settings DataContext="{Binding SettingVM}"/>
+						</Grid>
 					</Grid>
 				</DataTemplate>
 			</mah:HamburgerMenu.ContentTemplate>
-			<mah:HamburgerMenu.Content>
-				<MultiBinding Converter="{StaticResource SelectedItemToContentConverter}">
-					<Binding FallbackValue="{x:Null}"
-					         Mode="OneWay"
-					         Path="SelectedItem"
-					         RelativeSource="{RelativeSource Self}" />
-					<Binding FallbackValue="{x:Null}"
-					         Mode="OneWay"
-					         Path="SelectedOptionsItem"
-					         RelativeSource="{RelativeSource Self}" />
-				</MultiBinding>
-			</mah:HamburgerMenu.Content>
 		</mah:HamburgerMenu>
 	</Grid>
 </ctrl:AssWindow>

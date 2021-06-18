@@ -18,7 +18,7 @@ namespace AcademicSavingService.View
 	/// <summary>
 	/// Interaction logic for BanksManager.xaml
 	/// </summary>
-	public partial class BanksManager : UserControl
+	public partial class BanksManager : Animation.UserControlSweptAnimation
 	{
 		public BanksManager()
 		{

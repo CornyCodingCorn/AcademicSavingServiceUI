@@ -21,7 +21,7 @@ namespace AcademicSavingService.ViewModel
         public object Icon {get; set;}
         public object Label { get; set; }
         public object ToolTip { get; set; }
-        public bool IsVisible { get; set; }
+        public object IsVisible { get; set; }
 
 		public ObservableCollection<TabItemViewModel> TabItems { get; set; }
 		public object SelectedIndex { get; set; }

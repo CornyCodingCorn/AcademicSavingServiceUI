@@ -52,7 +52,7 @@
 				<TextBlock Text="{Binding DataGridName}" Grid.Column="0" Foreground="{DynamicResource MahApps.Brushes.SystemControlBackgroundAltHigh}" FontSize="18" FontWeight="Bold"/>
 			</Grid>
 
-			<ScrollViewer Grid.Row="1" Margin="{StaticResource DataGridMargin}" HorizontalScrollBarVisibility="Disabled" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
+			<ScrollViewer Grid.Row="1" Margin="{StaticResource DataGridMargin}" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
 				<DataGrid FontSize="16"
 								  x:Name="dataGrid"
 								  ItemsSource="{Binding ItemsSource}"

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AcademicSavingService.Animation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace AcademicSavingService.View
 	/// <summary>
 	/// Interaction logic for ServicesManager.xaml
 	/// </summary>
-	public partial class ServicesManager : UserControl
+	public partial class ServicesManager : UserControlSweptAnimation
 	{
 		public ServicesManager()
 		{
