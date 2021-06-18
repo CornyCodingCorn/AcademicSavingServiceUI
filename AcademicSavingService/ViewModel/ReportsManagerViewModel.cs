@@ -18,6 +18,12 @@ namespace AcademicSavingService.ViewModel
 					Width = _tabsWidth,
 					Margin = _tabsMargin
 				},
+				new MonthlyReportsManagerViewModel(this)
+                {
+					Header = "Monthly reports",
+					Width = _tabsWidth,
+					Margin = _tabsMargin
+				}
 			};
 		}
 	}

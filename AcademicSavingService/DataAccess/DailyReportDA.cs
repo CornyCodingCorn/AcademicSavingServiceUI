@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using AcademicSavingService.INPC;
 using SqlKata.Execution;
+using MySql.Data.MySqlClient;
 
 namespace AcademicSavingService.DataAccess
 {
@@ -17,8 +18,12 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_NgayTaoVar, ngayTao);
 
             BaseDBConnection.OpenConnection();
-            cmd.ExecuteNonQuery();
-            BaseDBConnection.CloseConnection();
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch { throw; }
+            finally { BaseDBConnection.CloseConnection(); }
         }
 
         public override void Create(DailyReportINPC report)
@@ -30,8 +35,12 @@ namespace AcademicSavingService.DataAccess
             cmd.Parameters.AddWithValue(_KyHanBaoCaoVar, report.KyHan);
 
             BaseDBConnection.OpenConnection();
-            cmd.ExecuteNonQuery();
-            BaseDBConnection.CloseConnection();
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch { throw; }
+            finally { BaseDBConnection.CloseConnection(); }
         }
 
         public override void Delete(int key)

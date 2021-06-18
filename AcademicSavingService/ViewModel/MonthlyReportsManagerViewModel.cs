@@ -7,11 +7,11 @@ using MySql.Data.MySqlClient;
 
 namespace AcademicSavingService.ViewModel
 {
-    class DailyReportsManagerViewModel : CRUBPanel
+    class MonthlyReportsManagerViewModel : CRUBPanel
     {
-        public ObservableCollection<DailyReportINPC> Reports { get; set; }
+        public ObservableCollection<MonthlyReportINPC> Reports { get; set; }
         public ObservableCollection<int> Terms { get; set; }
-        public DailyReportINPC SelectedReport
+        public MonthlyReportINPC SelectedReport
         {
             get => _selectedReport;
             set
@@ -19,15 +19,14 @@ namespace AcademicSavingService.ViewModel
                 _selectedReport = value;
                 if (_selectedReport != null && !IsInsertMode)
                 {
-                    Ngay = _selectedReport.Ngay;
-                    KyHan = _selectedReport.KyHan;
-                    TongThu = _selectedReport.TongThu;
-                    TongChi = _selectedReport.TongChi;
-                    ChenhLech = _selectedReport.ChenhLech;
+                    SelectedDate = new DateTime(_selectedReport.Nam, _selectedReport.Thang, 30);
+                    SoMo = _selectedReport.SoMo;
+                    SoDong = _selectedReport.SoDong;
+                    ChenhLech = SoMo - SoDong;
 
                     for (int i = 0; i < Terms.Count; i++)
                     {
-                        if (Terms[i] == KyHan)
+                        if (Terms[i] == _selectedReport.KyHan)
                         {
                             SelectedTermIndex = i;
                             break;
@@ -36,61 +35,53 @@ namespace AcademicSavingService.ViewModel
                 }
                 else if (_selectedReport == null)
                 {
-                    Ngay = DateTime.Now;
+                    SelectedDate = DateTime.Now;
                     ResetReadOnlyFields();
                 }
             }
         }
 
-        public DateTime Ngay
+        public DateTime SelectedDate
         {
-            get => _ngayChosen;
+            get => _selectedDate;
             set
             {
-                _ngayChosen = value;
-                var collection = TermTypeContainer.Instance.GetClosestTermAndInterestToDate(_ngayChosen)
+                _selectedDate = value;
+                var collection = TermTypeContainer.Instance.GetClosestTermAndInterestToDate(_selectedDate)
                                                             .Select(item => item.Key);
                 Terms = new ObservableCollection<int>(collection);
             }
         }
-
-        public int KyHan { get; set; }
-        public decimal TongThu { get; set; }
-        public decimal TongChi { get; set; }
-        public decimal ChenhLech { get; set; }
-
         public int SelectedTermIndex { get; set; }
+        public int SoMo { get; set; }
+        public int SoDong { get; set; }
+        public int ChenhLech { get; set; }
 
-        private DailyReportINPC _selectedReport;
-        private DateTime _ngayChosen;
+        private MonthlyReportINPC _selectedReport;
+        private DateTime _selectedDate;
 
-        public DailyReportsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
+        public MonthlyReportsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
         {
-            Reports = DailyReportContainer.Instance.Collection;
+            Reports = MonthlyReportContainer.Instance.Collection;
+            SelectedDate = DateTime.Now;
         }
-
-        #region Private functions
 
         private void ResetReadOnlyFields()
         {
-            KyHan = 0;
-            TongThu = 0;
-            TongChi = 0;
+            SoMo = 0;
+            SoDong = 0;
             ChenhLech = 0;
         }
-
-        #endregion
-
-        #region Execute
 
         protected override void ExecuteInsertMode()
         {
             base.ExecuteInsertMode();
+
             if (IsInsertMode)
             {
-                Ngay = DateTime.Now;
-                SelectedTermIndex = -1;
+                SelectedDate = DateTime.Now;
                 ResetReadOnlyFields();
+                SelectedTermIndex = -1;
             }
             else
             {
@@ -106,29 +97,24 @@ namespace AcademicSavingService.ViewModel
 
         protected override void ExecuteAdd()
         {
-            var newReport = new DailyReportINPC()
+            MonthlyReportINPC report = new()
             {
-                Ngay = Ngay,
+                Thang = SelectedDate.Month,
+                Nam = SelectedDate.Year,
                 KyHan = Terms[SelectedTermIndex],
             };
 
             try
             {
-                DailyReportContainer.Instance.AddToCollection(newReport);
-                Reports = DailyReportContainer.Instance.Collection;
+                MonthlyReportContainer.Instance.AddToCollection(report);
+                Reports = MonthlyReportContainer.Instance.Collection;
             }
             catch (MySqlException e) { ShowErrorMessage(e); }
         }
-
-        #endregion
-
-        #region Can Execute
 
         protected override bool CanExecuteAdd()
         {
             return IsInsertMode && SelectedTermIndex != -1 && SelectedTermIndex < Terms.Count;
         }
-
-        #endregion
     }
 }
