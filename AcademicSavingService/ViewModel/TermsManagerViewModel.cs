@@ -83,7 +83,7 @@ namespace AcademicSavingService.ViewModel
             {
                 if (KyHanField == 0)
                 {
-                    ShowMessage("Warning!", "You cannot disable non-period term");
+                    ShowMessage("WARNING", "You cannot disable non-period term");
                     return;
                 }
 
@@ -103,7 +103,7 @@ namespace AcademicSavingService.ViewModel
                 && NgayTaoField == SelectedTerm.NgayTao
                 && NgayNgungSuDungField == SelectedTerm.NgayNgungSuDung)
             {
-                ShowMessage("Warning!", "You should make changes to term's values before trying to update it");
+                ShowMessage("WARNING", "You should make changes to term's values before trying to update it");
                 return;
             }
 
@@ -207,7 +207,7 @@ namespace AcademicSavingService.ViewModel
                     break;
             }
 
-            ShowMessage("Warning!", endMessage);
+            ShowMessage("WARNING", endMessage);
         }
     }
 }

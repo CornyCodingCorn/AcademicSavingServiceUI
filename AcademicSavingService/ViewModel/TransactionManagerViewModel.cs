@@ -145,7 +145,7 @@ namespace AcademicSavingService.ViewModel
 				}
 				else
 				{
-					if (!await AssApp.ShowConfirmDialogMessage("Confirmation", "Are you sure you want to proceed?"))
+					if (!await AssApp.ShowConfirmDialogMessage("CONFIRMATION", "Are you sure you want to proceed?"))
 						return;
 					var accountIndex = SelectedAccountIndex;
 					_containerInstance.UpdateOnCollection(slip);
@@ -172,7 +172,7 @@ namespace AcademicSavingService.ViewModel
 		{
 			try
 			{
-				if (!await AssApp.ShowConfirmDialogMessage("Confirmation", "Are you sure you want to proceed?"))
+				if (!await AssApp.ShowConfirmDialogMessage("CONFIRMATION", "Are you sure you want to proceed?"))
 					return;
 
 				var accountID = AccountID;
@@ -221,7 +221,7 @@ namespace AcademicSavingService.ViewModel
 					break;
 			}
 
-			ShowMessage("Warning!", endMessage);
+			ShowMessage("WARNING", endMessage);
 		}
 
 		protected override void ClearAllFields()

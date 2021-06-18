@@ -24,35 +24,17 @@ namespace AcademicSavingService.DataAccess
 
 		public readonly string ImageFolderPath = @"Images/";
 		public DirectoryInfo ImageFolder {get; private set; }
-		public int Counter = 0;
 
 		public ProfileDA()
 		{
 			ImageFolder = new DirectoryInfo(ImageFolderPath);
-			if (ImageFolder.Exists)
-			{
-				var Files = new List<FileInfo>(ImageFolder.GetFiles());
-				int currentCount;
-				for (int i = 0; i < Files.Count; i++)
-				{
-					if (int.TryParse(Files[i].Name, out currentCount))
-					{
-						if (currentCount < 0)
-							Files.RemoveAt(i);
-						else if (currentCount > Counter)
-							Counter = currentCount;
-					}
-					else
-						Files.RemoveAt(i);
-				}
-			}
-			else
+			if (!ImageFolder.Exists)
 			{
 				Directory.CreateDirectory(ImageFolderPath);
 			}
 		}
 
-		public string AddImage(string originalPath)
+		public string AddImage(string originalPath, int CustomerID)
 		{
 			if (File.Exists(originalPath))
 			{
@@ -63,7 +45,7 @@ namespace AcademicSavingService.DataAccess
 					return "";
 
 				FileInfo file = new FileInfo(originalPath);
-				var abPath = Path.Combine(ImageFolderPath, Counter.ToString());
+				var abPath = Path.Combine(ImageFolderPath, CustomerID.ToString());
 
 				var existingFile = new FileInfo(abPath);
 				if (existingFile.Exists)
@@ -72,7 +54,6 @@ namespace AcademicSavingService.DataAccess
 				file.CopyTo(abPath, true);
 
 				var copyFile = new FileInfo(abPath);
-				Counter++;
 				copyFile.IsReadOnly = true;
 
 				return abPath;
@@ -86,7 +67,10 @@ namespace AcademicSavingService.DataAccess
 			{
 				FileInfo deleteFile = new FileInfo(stringPath);
 				if (deleteFile.Exists)
+				{
+					deleteFile.IsReadOnly = false;
 					deleteFile.Delete();
+				}
 			}
 
 			return false;
