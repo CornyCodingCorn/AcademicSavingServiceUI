@@ -35,7 +35,6 @@ namespace AcademicSavingService.DataAccess
             {
                 BaseDBConnection.OpenConnection();
                 cmd.ExecuteNonQuery();
-                BaseDBConnection.CloseConnection();
             }
             catch (MySqlException)
             {

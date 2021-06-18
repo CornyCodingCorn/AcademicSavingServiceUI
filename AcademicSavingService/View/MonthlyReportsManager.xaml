@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AcademicSavingService.View.DailyReportsManager"
+﻿<UserControl x:Class="AcademicSavingService.View.MonthlyReportsManager"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,12 +8,12 @@
 			 xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
              xmlns:conv="clr-namespace:AcademicSavingService.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1000">
+             d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="10">
         <Grid.Resources>
             <ResourceDictionary>
                 <conv:DoubleGridLengthConverter x:Key="GridLengthConv"/>
-                <conv:DecimalToIntConverter x:Key="DecimalToIntConv"/>
+                <conv:IntConverter x:Key="IntConv"/>
                 <ResourceDictionary.MergedDictionaries>
                     <ResourceDictionary Source="../Resources/CRUDStyle.xaml"/>
                 </ResourceDictionary.MergedDictionaries>
@@ -21,47 +21,48 @@
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MinWidth="320" MaxWidth="450"/>
+            <ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MinWidth="350" MaxWidth="450"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <GridSplitter Grid.Column="0" Background="{DynamicResource MahApps.Brushes.Accent4}" HorizontalAlignment="Right" Width="4" Margin="-2, 0, 0, 0"/>
+        <GridSplitter Grid.Column="0" Background="{DynamicResource MahApps.Brushes.Accent4}" HorizontalAlignment="Right" Width="4" Margin="-3, 0, 0, 0"/>
 
-        <ctrl:AssDataGrid Grid.Column="1" Margin="10, 0, 0, 10"
+        <ctrl:AssDataGrid Grid.Column="1" Margin="10, 0, 0, 0"
                           EnableFullTextSearch="True"
-                          DataGridName="DAILY REPORTS"
+                          DataGridName="MONTHLY REPORTS"
                           ItemsSource="{Binding Reports}"
                           SelectedItem="{Binding SelectedReport, Mode=TwoWay}"
                           SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
             <ctrl:AssDataGrid.Columns>
-                <DataGridTextColumn Header="Date"       Binding="{Binding Ngay, StringFormat='dd/MM/yyyy'}" Width="120"/>
+                <DataGridTextColumn Header="Month"       Binding="{Binding Thang}" Width="100"/>
+                <DataGridTextColumn Header="Year"       Binding="{Binding Nam}" Width="100"/>
                 <DataGridTextColumn Header="Term"       Binding="{Binding KyHan}" Width="75"/>
-                <DataGridTextColumn Header="Income"     Binding="{Binding TongThu}" Width="*" MaxWidth="220">
+                <DataGridTextColumn Header="Opened accounts"     Binding="{Binding SoMo}" Width="*" MaxWidth="180">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
                             <Setter Property="FontWeight" Value="Bold"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Outcome"    Binding="{Binding TongChi}" Width="*" MaxWidth="220">
+                <DataGridTextColumn Header="Closed accounts"    Binding="{Binding SoDong}" Width="*" MaxWidth="180">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
                             <Setter Property="FontWeight" Value="Bold"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Difference" Binding="{Binding ChenhLech, StringFormat={}{0:0.00; #.00}}" Width="*">
+                <DataGridTextColumn Header="Difference" Binding="{Binding ChenhLech, StringFormat={}{0:0; #}}" Width="*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
                             <Setter Property="FontWeight" Value="Bold"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding ChenhLech, Converter={StaticResource DecimalToIntConv}}" Value="-1">
+                                <DataTrigger Binding="{Binding ChenhLech, Converter={StaticResource IntConv}}" Value="-1">
                                     <Setter Property="Foreground" Value="{StaticResource ForegroundRed}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding ChenhLech, Converter={StaticResource DecimalToIntConv}}" Value="0">
-                                    <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.SystemControlBackgroundChromeBlackMedium}"/>
+                                <DataTrigger Binding="{Binding ChenhLech, Converter={StaticResource IntConv}}" Value="0">
+                                    <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.SystemControlBackgroundChromeBlackHigh}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding ChenhLech, Converter={StaticResource DecimalToIntConv}}" Value="1">
+                                <DataTrigger Binding="{Binding ChenhLech, Converter={StaticResource IntConv}}" Value="1">
                                     <Setter Property="Foreground" Value="{StaticResource ForegroundGreen}"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -74,7 +75,6 @@
         <Grid Grid.Column="0" Margin="0, 0, 10, 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="60*" MaxHeight="500"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" BorderThickness="2" HorizontalAlignment="Stretch" CornerRadius="5">
@@ -100,39 +100,33 @@
                            FontSize="18" FontWeight="Bold"
                            Margin="0, -7, 0, 0"/>
 
-                    <Grid HorizontalAlignment="Center" Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="0, 10, 0, 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="0.5*" MaxHeight="25"/>
+                            <RowDefinition Height="2*"/>
+                        </Grid.RowDefinitions>
 
-                        <Grid Grid.Column="0">
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="Date"          Grid.Row="0" Margin="0"/>
-                            <TextBlock Text="Term"          Grid.Row="1" Margin="0"/>
-                            <TextBlock Text="Income"        Grid.Row="2" Margin="0"/>
-                            <TextBlock Text="Outcome"       Grid.Row="3" Margin="0"/>
-                            <TextBlock Text="Difference"    Grid.Row="4" Margin="0"/>
-                        </Grid>
-
-                        <Grid Grid.Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <DatePicker        Width="150" Grid.Row="0" Grid.Column="1" SelectedDate="{Binding Ngay}"/>
-                            <ComboBox          Width="75" Grid.Row="1" Grid.Column="1"  IsEnabled="{Binding IsInsertMode}" ItemsSource="{Binding Terms}" SelectedIndex="{Binding SelectedTermIndex}" mah:TextBoxHelper.Watermark="Term">
+                            <TextBlock  Text="Month" Grid.Row="0" Grid.Column="0" Margin="0, 0, 10, 0"/>
+                            <TextBlock  Text="Term" Grid.Row="0" Grid.Column="1" Margin="0"/>
+                            
+                            <DatePicker Width="120" Grid.Row="1" Grid.Column="0" Margin="0"
+                                        SelectedDate="{Binding SelectedDate, StringFormat='MM/yyyy'}"/>
+                            <ComboBox   Width="75" Grid.Row="1" Grid.Column="1" Margin="0"
+                                        IsEnabled="{Binding IsInsertMode}" 
+                                        ItemsSource="{Binding Terms}" 
+                                        SelectedIndex="{Binding SelectedTermIndex}"
+                                        mah:TextBoxHelper.Watermark="Term">
                                 <ComboBox.Resources>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Setter Property="Foreground" Value="{StaticResource MahApps.Brushes.Text}"/>
@@ -141,9 +135,38 @@
                                     </Style>
                                 </ComboBox.Resources>
                             </ComboBox>
-                            <ctrl:DigitTextBox Width="200" Grid.Row="2" Grid.Column="1" IsReadOnly="True" Text="{Binding TongThu}"/>
-                            <ctrl:DigitTextBox Width="200" Grid.Row="3" Grid.Column="1" IsReadOnly="True" Text="{Binding TongChi}"/>
-                            <ctrl:DigitTextBox Width="200" Grid.Row="4" Grid.Column="1" IsReadOnly="True" Text="{Binding ChenhLech, StringFormat={}{0:0.00; #.00}}"/>
+                        </Grid>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                
+                                <TextBlock Text="Opened accounts"   Grid.Row="0" Margin="0"/>
+                                <TextBlock Text="Closed accounts"   Grid.Row="1" Margin="0"/>
+                                <TextBlock Text="Difference"        Grid.Row="2" Margin="0"/>
+                            </Grid>
+
+                            <Grid Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <ctrl:DigitTextBox Width="120" Grid.Row="0" Grid.Column="1" IsReadOnly="True" Text="{Binding SoMo}"/>
+                                <ctrl:DigitTextBox Width="120" Grid.Row="1" Grid.Column="1" IsReadOnly="True" Text="{Binding SoDong}"/>
+                                <ctrl:DigitTextBox Width="120" Grid.Row="2" Grid.Column="1" IsReadOnly="True" Text="{Binding ChenhLech, StringFormat={}{0:0; #}}"/>
+                            </Grid>
                         </Grid>
                     </Grid>
 
@@ -163,7 +186,7 @@
                                 ToolTip="Enter insert mode"/>
                         <Button Width="130" Height="50" Margin="5, 10, 0, 0" Command="{Binding CreateCommand}" 
 						        Content="COMPOSE" Style="{DynamicResource InsertButtonStyle}"
-						        ToolTip="Automatically compose a new report for the selected day"/>
+						        ToolTip="Automatically compose a new report for the specified month-year"/>
                     </StackPanel>
                 </Grid>
             </Border>
