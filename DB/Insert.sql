@@ -288,16 +288,10 @@ CALL ThemSoTietKiem(1, 0, 1000000, '2016/07/12');
 
 SELECT * FROM SOTIETKIEM;
 
-UPDATE SOTIETKIEM
-SET NGAYTAO = '2016/08/12'
-WHERE MASO = 23;
-
 /*========== Phiếu ==========*/
 
 -- (IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 -- (IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
-DELETE FROM PHIEUGUI
-WHERE MAPHIEU = 3;
 
 CALL ThemPhieu(1, 10000000, 'Some things', '2016/03/01');
 CALL ThemPhieu(1, 100000, 'Some things', '2016/05/07');
@@ -351,13 +345,6 @@ CALL RutHetTien(22, 'The end game', '2020/04/15');
 SELECT * FROM PHIEUGUI;
 SELECT * FROM PHIEURUT;
 
-DELETE FROM PHIEURUT WHERE MaPhieu = 25;
-DELETE FROM PHIEURUT WHERE MaPhieu = 8;
-DELETE FROM PHIEURUT WHERE MaPhieu = 7;
-
-CALL LaySoTienVoiNgayQuery(6, '2021/06/17', @SoDuDung, @Ngay);
-SELECT CONCAT(@SoDuDung, ' ', @Ngay);
-
 /*========== Báo cáo ngày ==========*/
 
 CALL TongHopBaoCaoNgay('2016/06/15', 0);
@@ -371,6 +358,7 @@ CALL TongHopBaoCaoNgay('2019/02/15', 9);
 CALL TongHopBaoCaoNgay('2020/11/15', 12);
 CALL TongHopBaoCaoNgay('2020/11/15', 0);
 
+SELECT * FROM BAOCAONGAY;
 
 /*========== Báo cáo tháng ==========*/
 
