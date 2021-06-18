@@ -18,7 +18,7 @@ namespace AcademicSavingService.View
 	/// <summary>
 	/// Interaction logic for ReportsManager.xaml
 	/// </summary>
-	public partial class ReportsManager : UserControl
+	public partial class ReportsManager : Animation.UserControlSweptAnimation
 	{
 		public ReportsManager()
 		{

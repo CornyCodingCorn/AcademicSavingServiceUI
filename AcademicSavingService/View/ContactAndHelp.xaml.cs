@@ -18,7 +18,7 @@ namespace AcademicSavingService.View
 	/// <summary>
 	/// Interaction logic for ContactAndHelp.xaml
 	/// </summary>
-	public partial class ContactAndHelp : UserControl
+	public partial class ContactAndHelp : Animation.UserControlSweptAnimation
 	{
 		public ContactAndHelp()
 		{

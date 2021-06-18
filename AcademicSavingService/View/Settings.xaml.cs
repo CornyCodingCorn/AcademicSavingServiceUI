@@ -18,7 +18,7 @@ namespace AcademicSavingService.View
 	/// <summary>
 	/// Interaction logic for Settings.xaml
 	/// </summary>
-	public partial class Settings : UserControl
+	public partial class Settings : Animation.UserControlSweptAnimation
 	{
 		public Settings()
 		{
