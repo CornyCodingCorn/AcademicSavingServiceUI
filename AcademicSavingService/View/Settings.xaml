@@ -4,11 +4,70 @@
                                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                                 xmlns:local="clr-namespace:AcademicSavingService.View"
+                                xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
                                 xmlns:anim="clr-namespace:AcademicSavingService.Animation"
+								xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800"
 			                    AnimVisibility="{Binding IsVisible}">
-    <Grid Margin="0, 24, 0, 0">
-		<Button Content="Green" Command="{Binding GreenThemeCommand}"/>
+	<Grid Margin="0, 24, 0, 0" Background="{DynamicResource MahApps.Brushes.Accent4}">
+		<StackPanel>
+			<StackPanel.Resources>
+				<ResourceDictionary>
+					<Style TargetType="Label">
+						<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
+						<Setter Property="FontWeight" Value="Black"/>
+					</Style>
+				</ResourceDictionary>
+			</StackPanel.Resources>
+			
+			<Label Content="THEMES"/>
+			<Rectangle Height="5" Margin="5, 0, 5, 0" Fill="{DynamicResource MahApps.Brushes.AccentBase}"/>
+			<StackPanel Orientation="Horizontal" Margin="0, 10, 0, 20" AllowDrop="True">
+				<StackPanel.Resources>
+					<Style TargetType="ctrl:RoundedButton">
+						<Setter Property="Width" Value="30"/>
+						<Setter Property="Height" Value="30"/>
+						<Setter Property="Margin" Value="10"/>
+						<Setter Property="BorderThickness" Value="3"/>
+						<Setter Property="mah:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource MahApps.Brushes.Accent3}"/>
+					</Style>
+				</StackPanel.Resources>
+
+				<ctrl:RoundedButton Background="#FFFEDE06"  Command="{Binding ChangeThemeCommand}" CommandParameter="Yellow"/>
+				<ctrl:RoundedButton Background="#FFFA6800"  Command="{Binding ChangeThemeCommand}" CommandParameter="Orange"/>
+				<ctrl:RoundedButton Background="#FFA0522D"  Command="{Binding ChangeThemeCommand}" CommandParameter="Sienna"/>
+				<ctrl:RoundedButton Background="#FF825A2C"	   Command="{Binding ChangeThemeCommand}" CommandParameter="Brown"/>
+				<ctrl:RoundedButton Background="#FFE51400"	   Command="{Binding ChangeThemeCommand}" CommandParameter="Red"/>
+				<ctrl:RoundedButton Background="#FFA20025" Command="{Binding ChangeThemeCommand}" CommandParameter="Crimson"/>
+				<ctrl:RoundedButton Background="#FFAA00FF"   Command="{Binding ChangeThemeCommand}" CommandParameter="Violet"/>
+				<ctrl:RoundedButton Background="#FFF472D0"		Command="{Binding ChangeThemeCommand}" CommandParameter="Pink"/>
+				<ctrl:RoundedButton Background="#FFD80073"	Command="{Binding ChangeThemeCommand}" CommandParameter="Magenta"/>
+				<ctrl:RoundedButton Background="#FF0078D7"		Command="{Binding ChangeThemeCommand}" CommandParameter="Blue"/>
+				<ctrl:RoundedButton Background="#FF1BA1E2"		Command="{Binding ChangeThemeCommand}" CommandParameter="Cyan"/>
+				<ctrl:RoundedButton Background="#FF647687" Command="{Binding ChangeThemeCommand}" CommandParameter="Steel"/>
+				<ctrl:RoundedButton Background="#FF00ABA9"		Command="{Binding ChangeThemeCommand}" CommandParameter="Teal"/>
+				<ctrl:RoundedButton Background="#FFA4C400"		Command="{Binding ChangeThemeCommand}" CommandParameter="Lime"/>
+				<ctrl:RoundedButton Background="#FF60A917"		Command="{Binding ChangeThemeCommand}" CommandParameter="Green"/>
+			</StackPanel>
+
+			<Label Content="WARNING"/>
+			<Rectangle Height="5" Margin="5, 0, 5, 0" Fill="{DynamicResource MahApps.Brushes.AccentBase}"/>
+			<Grid Margin="10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="2*" MinWidth="100" MaxWidth="200"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+
+				<Label Grid.Row="0" Content="Show warning when delete" Foreground="{DynamicResource MahApps.HamburgerMenu.Pane.Background}"/>
+				<Label Grid.Row="1" Content="Show warning When update" Foreground="{DynamicResource MahApps.HamburgerMenu.Pane.Background}"/>
+				<CheckBox Grid.Column="1" Grid.Row="0" IsChecked="{Binding ShowDeleteWarning}"/>
+				<CheckBox Grid.Column="1" Grid.Row="1" IsChecked="{Binding ShowUpdateWarning}"/>
+			</Grid>
+		</StackPanel>
 	</Grid>
 </anim:UserControlSweptAnimation>

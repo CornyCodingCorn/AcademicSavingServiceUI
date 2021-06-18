@@ -51,7 +51,7 @@
 						CornerRadius="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth, UpdateSourceTrigger=PropertyChanged}">
 					<Image Source="{Binding ProfilePic}" Margin="10" RenderOptions.BitmapScalingMode="HighQuality">
 						<Image.OpacityMask>
-							<ImageBrush Stretch="Uniform" ImageSource="..\Resources\WillCrashIfDelete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+							<ImageBrush Stretch="Fill" ImageSource="..\Resources\WillCrashIfDelete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
 						</Image.OpacityMask>
 					</Image>
 				</Border>
