@@ -10,8 +10,9 @@ namespace AcademicSavingService.INPC
 		public string SDT { get; set; }
 		public string DiaChi { get; set; }
 		public DateTime NgayDangKy { get; set; }
+		public string AnhDaiDien { get; set; }
 
-		public CustomerINPC(int id, string name, string ctid, string phone, string address, DateTime registerDate)
+		public CustomerINPC(int id, string name, string ctid, string phone, string address, DateTime registerDate, string profilePic)
 		{
 			MaKH = id;
 			HoTen = name;
@@ -19,6 +20,7 @@ namespace AcademicSavingService.INPC
 			SDT = phone;
 			DiaChi = address;
 			NgayDangKy = registerDate;
+			AnhDaiDien = profilePic;
 		}
 
 		public CustomerINPC() { }

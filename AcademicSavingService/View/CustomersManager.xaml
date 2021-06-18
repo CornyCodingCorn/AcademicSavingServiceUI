@@ -24,10 +24,53 @@
             <RowDefinition Height="{Binding VerticleSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxHeight="520" MinHeight="200"/>
         </Grid.RowDefinitions>
 
-        <GridSplitter Background="{DynamicResource MahApps.Brushes.Accent4}" VerticalAlignment="Bottom" Height="4" Margin="0, 0, -8, -2"/>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="3*"/>
+			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="800" MinWidth="400"/>
+		</Grid.ColumnDefinitions>
 
-        <ctrl:AssDataGrid Margin="0,0,0,20" EnableFullTextSearch="True" 
-                          x:Name="fuck" ItemsSource="{Binding Customers}" 
+        <GridSplitter Background="{DynamicResource MahApps.Brushes.Accent4}" VerticalAlignment="Bottom" Height="4" Grid.ColumnSpan="2" Margin="0, 0, 0, -2"/>
+        <GridSplitter Background="{DynamicResource MahApps.Brushes.Accent4}" Grid.Column="1" HorizontalAlignment="Left" Width="4" Margin="-2, 0, 0, 2"/>
+
+		<!--IMAGE !-->
+		<Border Grid.Column="1" Background="{DynamicResource MahApps.Brushes.AccentBase}" Margin="10, 0, 0, 20" CornerRadius="5">
+			<Grid Margin="0, 0, 0, 16" x:Name="Content">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="7*"/>
+					<RowDefinition Height="1*" MaxHeight="50" MinHeight="30"/>
+					<RowDefinition Height="1*" MaxHeight="50" MinHeight="30"/>
+				</Grid.RowDefinitions>
+
+				<Border x:Name="HeightConstraint" Margin="20, 54, 20, 20"/>
+
+				<Border Background="{DynamicResource MahApps.Brushes.SystemControlBackgroundAltHigh}" 
+						Margin="20, 54, 20, 20" 
+						VerticalAlignment="Center" 
+						Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth, UpdateSourceTrigger=PropertyChanged}"
+						MaxWidth="{Binding ElementName=HeightConstraint, Path=ActualHeight}"
+						CornerRadius="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth, UpdateSourceTrigger=PropertyChanged}">
+					<Image Source="{Binding ProfilePic}" Margin="10" RenderOptions.BitmapScalingMode="HighQuality">
+						<Image.OpacityMask>
+							<ImageBrush Stretch="Uniform" ImageSource="..\Resources\WillCrashIfDelete.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+						</Image.OpacityMask>
+					</Image>
+				</Border>
+
+				<Button Grid.Row="1" Grid.Column="0" Margin="10, 0, 10, 5" Content="Add Image"	 
+						TextBlock.FontSize="{StaticResource CRUDFontSize}" 
+						Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
+						FontWeight="Bold"
+						Command="{Binding AddImageCommand}"/>
+				<Button Grid.Row="2" Grid.Column="1" Margin="10, 5, 10, 0" Content="Remove Image" 
+						TextBlock.FontSize="{StaticResource CRUDFontSize}" 
+						Foreground="{DynamicResource MahApps.Brushes.AccentBase}"
+						FontWeight="Bold"
+						Command="{Binding RemoveImageCommand}"/>
+			</Grid>
+		</Border>
+
+		<ctrl:AssDataGrid Margin="0,0,10,20" EnableFullTextSearch="True" 
+                          ItemsSource="{Binding Customers}" 
                           DataGridName="CUSTOMERS"
                           SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
                           SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
@@ -41,7 +84,7 @@
 			</ctrl:AssDataGrid.Columns>
 		</ctrl:AssDataGrid>
 
-		<ctrl:AssCRUDPanel Grid.Row="1" MinLeftMargin="0" LeftMargin="10*" MaxLeftMargin="120" RightMargin="60*">
+		<ctrl:AssCRUDPanel Grid.Row="1" Grid.ColumnSpan="2" MinLeftMargin="0" LeftMargin="10*" MaxLeftMargin="120" RightMargin="60*">
 			<ctrl:AssCRUDPanel.Left>
 				<Grid>
 					<Grid.RowDefinitions>
