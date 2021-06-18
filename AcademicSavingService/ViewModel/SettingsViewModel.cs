@@ -15,14 +15,16 @@ namespace AcademicSavingService.ViewModel
 		{
 		}
 
-		protected RelayCommand<SettingsViewModel> _greenThemeCommand;
-		public ICommand GreenThemeCommand => _greenThemeCommand ?? (_greenThemeCommand = new RelayCommand<SettingsViewModel>(param => ExecuteGreenTheme(), param => CanExecuteGreenTheme()));
 
-		protected void ExecuteGreenTheme()
+
+		protected RelayCommand<string> _greenThemeCommand;
+		public ICommand ChangeThemeCommand => _greenThemeCommand ?? (_greenThemeCommand = new RelayCommand<string>(param => ExecuteChangeTheme(param), param => CanExecuteChangeTheme()));
+
+		protected void ExecuteChangeTheme(string theme)
 		{
-			AssApp.ChangeTheme("Green");
+			AssApp.ChangeTheme(theme);
 		}
-		protected bool CanExecuteGreenTheme()
+		protected bool CanExecuteChangeTheme()
 		{ 
 			return true;
 		}	

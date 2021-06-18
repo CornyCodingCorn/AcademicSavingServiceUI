@@ -1,13 +1,9 @@
 ﻿using PropertyChanged;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using MahApps.Metro.IconPacks;
 using System.Windows.Media;
 using System.Windows;
-using ControlzEx.Theming;
-using AcademicSavingService.Controls;
-using AcademicSavingService.Animation;
 
 namespace AcademicSavingService.ViewModel
 {
@@ -79,14 +75,8 @@ namespace AcademicSavingService.ViewModel
         public MainViewModel()
         {
             Instance = this;
-            Load();
             CreateMenuItems();
         }
-
-        protected void Load()
-		{
-
-		}
 
         protected void CreateMenuItems()
         {
@@ -108,7 +98,7 @@ namespace AcademicSavingService.ViewModel
             };
             ServiceMVM = new ServicesManagerViewModel(this)
             {
-                Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.CurrencyEur },
+                Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.Safe },
                 Label = "Services manager",
                 ToolTip = "Where you manage services",
                 IsVisible = false
