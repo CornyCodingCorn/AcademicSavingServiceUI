@@ -62,7 +62,7 @@
 				<view:BanksManager DataContext="{Binding}" />
 			</DataTemplate>
 			<DataTemplate DataType="{x:Type viewModel:ServicesManagerViewModel}">
-				<view:ServicesManager DataContext="{Binding}" />
+				<view:ServicesManager DataContext="{Binding}"/>
 			</DataTemplate>
 			<DataTemplate DataType="{x:Type viewModel:ReportsManagerViewModel}">
 				<view:ReportsManager DataContext="{Binding}" />
@@ -90,8 +90,7 @@
 		                    ItemsSource="{Binding MenuItems}"
 		                    OptionsItemTemplate="{StaticResource MenuItemTemplate}"
 		                    OptionsItemsSource="{Binding MenuOptionItems}"
-		                    SelectedIndex="0"
-		                    ContentTransition="Left">
+		                    SelectedIndex="0">
 			<mah:HamburgerMenu.ContentTemplate>
 				<DataTemplate DataType="{x:Type mah:HamburgerMenuItem}">
 					<Grid x:Name="TheContentGrid">

@@ -44,7 +44,8 @@
 							  EnableFullTextSearch="True" 
 							  DataGridName="SAVING ACCOUNTS"
 							  SelectedItem="{Binding SelectedAccount,  Mode=TwoWay}"
-							  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+							  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+							  VirtualizingStackPanel.VirtualizationMode="Recycling">
 				<ctrl:AssDataGrid.Columns>
 					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 					<DataGridTextColumn Width="100" Header="Owner ID" Binding="{Binding MaKH}"/>
@@ -174,7 +175,8 @@
 						  EnableFullTextSearch="True" 
 						  DataGridName="CUSTOMERS" 
 						  ItemsSource="{Binding Customers}"
-						  SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}">
+						  SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
+						  VirtualizingStackPanel.VirtualizationMode="Recycling">
 			<ctrl:AssDataGrid.Columns>
 				<DataGridTextColumn Header="ID" Binding="{Binding MaKH}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 				<DataGridTextColumn Header="Identity Num" Binding="{Binding CMND}"/>
