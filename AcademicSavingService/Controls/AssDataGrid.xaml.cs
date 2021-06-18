@@ -101,7 +101,6 @@ namespace AcademicSavingService.Controls
 		}
 
 		protected CancellationTokenSource cancelCulture;
-		protected bool isSearching = false;
 		protected Task currentSearch;
 
 		public AssDataGrid()
@@ -112,6 +111,7 @@ namespace AcademicSavingService.Controls
 			{
 				StartSearch();
 			};
+			cancelCulture = new CancellationTokenSource();
 		}
 
 		private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -140,26 +140,17 @@ namespace AcademicSavingService.Controls
 
 		protected void StartSearch()
 		{
-			if (isSearching && cancelCulture != null)
-			{
-				cancelCulture.Cancel();
-				currentSearch.Wait();
-				cancelCulture.Dispose();
-			}
+			cancelCulture.Cancel();
 			cancelCulture = new CancellationTokenSource();
-			currentSearch = Search((SearchText ?? "").ToLower(), ItemsSize, cancelCulture);
-		}
+			CancellationToken token = cancelCulture.Token;
+			string searchText = SearchText ?? "";
+			int size = ItemsSize;
 
-		protected Task Search(string searchText, int size, CancellationTokenSource token)
-		{
-			isSearching = true;
-			Task task = null;
-
-			task = Task.Run(() =>
+			currentSearch = Task.Factory.StartNew(() =>
 			{
 				for (int i = 0; i < size; i++)
 				{
-					dataGrid.Dispatcher.Invoke(() =>
+					this.Dispatcher.Invoke(() =>
 					{
 						DataGridRow row = (DataGridRow)dataGrid.ItemContainerGenerator.ContainerFromIndex(i);
 						bool show = false;
@@ -188,11 +179,9 @@ namespace AcademicSavingService.Controls
 					});
 
 					if (token.IsCancellationRequested)
-						break;
+						token.ThrowIfCancellationRequested();
 				}
-			});
-
-			return task;
+			}, token);
 		}
 
 		public void ClearSort()
