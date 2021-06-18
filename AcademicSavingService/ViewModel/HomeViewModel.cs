@@ -14,7 +14,7 @@ namespace AcademicSavingService.ViewModel
 		public HomeViewModel(MainViewModel mainViewModel) : base(mainViewModel)
 		{
 			token = new CancellationTokenSource();
-			Task.Run(() =>
+			Task.Run(async () =>
 			{
 				while (!token.IsCancellationRequested)
 				{
@@ -23,10 +23,10 @@ namespace AcademicSavingService.ViewModel
 					if (NOW.Second == 59)
 					{
 						PAPAFRANKU = 1;
-						Task.Delay(1000);
+						await Task.Delay(1000);
 						PAPAFRANKU = 0;
 					}
-					Task.Delay(1000);
+					await Task.Delay(1000);
 				}
 			});
 		}

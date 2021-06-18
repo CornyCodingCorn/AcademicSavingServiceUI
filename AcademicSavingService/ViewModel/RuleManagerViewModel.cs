@@ -35,20 +35,20 @@ namespace AcademicSavingService.ViewModel
                     || !decimal.TryParse(SoTienMoTaiKhoanToiThieuText, out decimal soTienMoTaiKhoan)
                     || !int.TryParse(SoNgayToiThieuText, out int soNgay))
             {
-                ShowMessage("Warning!", "Minimum deposit amount and minimum initial balance to open account must be decimal values. " +
+                ShowMessage("WARNING", "Minimum deposit amount and minimum initial balance to open account must be decimal values. " +
                     "Minimum days to withdraw must be an integer value");
                 return;
             }
             else if (soTienNap < 0 || soTienMoTaiKhoan < 0 || soNgay < 0)
             {
-                ShowMessage("Warning!", "All values must be greater than 0");
+                ShowMessage("WARNING", "All values must be greater than 0");
                 return;
             }
             else if (soTienNap == CurrentRule.SoTienNapNhoNhat 
                 && soTienMoTaiKhoan == CurrentRule.SoTienMoTaiKhoanNhoNhat 
                 && soNgay == CurrentRule.SoNgayToiThieu)
             {
-                ShowMessage("Warning!", "You should make changes to the current rules before trying to update them");
+                ShowMessage("WARNING", "You should make changes to the current rules before trying to update them");
                 return;
             }
 
@@ -97,7 +97,7 @@ namespace AcademicSavingService.ViewModel
                     break;
             }
 
-            ShowMessage("Warning!", endMessage);
+            ShowMessage("WARNING", endMessage);
         }
     }
 }

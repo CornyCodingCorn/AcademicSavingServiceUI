@@ -1,14 +1,24 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using AcademicSavingService.Commands;
 using AcademicSavingService.INPC;
 using AcademicSavingService.Containers;
 using MySql.Data.MySqlClient;
+using AcademicSavingService.DataAccess;
+using System.Windows.Media;
+using Microsoft.Win32;
+using AcademicSavingService.Commands;
+using System.Windows.Input;
+using AcademicSavingService.Controls;
+using System.IO;
+using System.Collections.Generic;
 
 namespace AcademicSavingService.ViewModel
 {
 	class CustomersManagerViewModel : CRUBPanel
 	{
+		readonly ProfileDA _profileDA = new ProfileDA();
+		readonly OpenFileDialog _openFileDialog = new OpenFileDialog();
+
 		public ObservableCollection<CustomerINPC> Customers { get; set; }
 		public CustomerINPC SelectedCustomer
         {
@@ -24,6 +34,7 @@ namespace AcademicSavingService.ViewModel
 					SDTField = _selectedCustomer.SDT;
 					DiaChiField = _selectedCustomer.DiaChi;
 					NgayDangKyField = _selectedCustomer.NgayDangKy;
+					ProfilePic = _profileDA.LoadImage(_selectedCustomer.AnhDaiDien);
 				}
 				else if (_selectedCustomer == null)
 				{
@@ -39,16 +50,85 @@ namespace AcademicSavingService.ViewModel
 		public string SDTField { get; set; }
 		public string DiaChiField { get; set; }
 		public DateTime NgayDangKyField { get; set; }
+		public ImageSource ProfilePic { get; set; }
 
 		private CustomerINPC _selectedCustomer;
+
+		protected RelayCommand<CustomersManagerViewModel> _addImageCommand;
+		protected RelayCommand<CustomersManagerViewModel> _removeImageCommand;
+
+		public ICommand AddImageCommand => _addImageCommand ?? (_addImageCommand = new RelayCommand<CustomersManagerViewModel>(param => AddImage(), param => CanAddImage()));
+		public ICommand RemoveImageCommand => _removeImageCommand ?? (_removeImageCommand = new RelayCommand<CustomersManagerViewModel>(param => RemoveImage(), param => CanRemoveImage()));
 
 		public CustomersManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
 		{
 			Customers = CustomerContainer.Instance.Collection;
 			SelectedCustomer = null;
+			_openFileDialog.Filter = "Bitmaps|*.bmp|PNG files|*.png|JPEG files|*.jpg|GIF files|*.gif|TIFF files|*.tif|Image files|*.bmp;*.jpg;*.gif;*.png;*.tif|All files|*.*";
         }
 
-        protected override void ExecuteAdd()
+		protected bool CanAddImage()
+		{
+			return (SelectedCustomer != null) && IsReadOnly;
+		}
+
+		protected void AddImage()
+		{
+			bool continueWithAddImage = false;
+			var result = _openFileDialog.ShowDialog();
+			if (result.HasValue)
+			{
+				continueWithAddImage = result.Value;
+			}
+			if (continueWithAddImage)
+			{
+				try
+				{
+					var rPath = _profileDA.AddImage(_openFileDialog.FileName, SelectedCustomer.MaKH);
+					if (rPath != "")
+					{
+						_selectedCustomer.AnhDaiDien = rPath;
+						ProfilePic = _profileDA.LoadImage(rPath);
+						CustomerContainer.Instance.UpdateOnCollection(_selectedCustomer);
+					}
+					else
+					{
+						MessageBox.ShowMessage("WARNING", "Invalid file!");
+					}
+				}
+				catch
+				{
+					MessageBox.ShowMessage("WARNING", "To do this you need run the program as administrator!");
+				}
+			}
+		}
+
+		protected bool CanRemoveImage()
+		{
+			return SelectedCustomer != null && (SelectedCustomer.AnhDaiDien != "") && IsReadOnly;
+		}
+
+		protected async void RemoveImage()
+		{
+			try
+			{
+				var task = AssApp.ShowConfirmDialogMessage("CONFIRMATION", "Are you sure you want to remove this image?");
+				await task;
+				if (task.Result)
+				{
+					_profileDA.RemoveImage(_selectedCustomer.AnhDaiDien);
+					_selectedCustomer.AnhDaiDien = "";
+					CustomerContainer.Instance.UpdateOnCollection(_selectedCustomer);
+					ProfilePic = null;
+				}
+			}
+			catch
+			{
+				MessageBox.ShowMessage("WARNING", "To do this you need run the program as administrator!");
+			}
+		}
+
+		protected override void ExecuteAdd()
         {
 			CustomerINPC customer = new()
 			{
@@ -139,7 +219,7 @@ namespace AcademicSavingService.ViewModel
 					break;
 			}
 
-			ShowMessage("Warning!", endMessage);
+			ShowMessage("WARNING", endMessage);
 		}
 	}
 }

@@ -186,7 +186,7 @@ namespace AcademicSavingService.ViewModel
 				}
 				else
 				{
-					if (!await AssApp.ShowConfirmDialogMessage("Confirmation", "Are you sure you want to proceed?"))
+					if (!await AssApp.ShowConfirmDialogMessage("CONFIRMATION", "Are you sure you want to proceed?"))
 						return;
 					SavingAccountContainer.Instance.UpdateOnCollection(account);
 				}
@@ -210,7 +210,7 @@ namespace AcademicSavingService.ViewModel
 		{
 			try
 			{
-				if (!await AssApp.ShowConfirmDialogMessage("Confirmation", "Are you sure you want to proceed?"))
+				if (!await AssApp.ShowConfirmDialogMessage("CONFIRMATION", "Are you sure you want to proceed?"))
 					return;
 
 				int index = SelectedIndex;
@@ -268,7 +268,7 @@ namespace AcademicSavingService.ViewModel
 					break;
 			}
 
-			ShowMessage("Warning!", endMessage);
+			ShowMessage("WARNING", endMessage);
 		}
 
 		#endregion
