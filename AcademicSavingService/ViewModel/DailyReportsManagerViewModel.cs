@@ -20,14 +20,13 @@ namespace AcademicSavingService.ViewModel
                 if (_selectedReport != null && !IsInsertMode)
                 {
                     Ngay = _selectedReport.Ngay;
-                    KyHan = _selectedReport.KyHan;
                     TongThu = _selectedReport.TongThu;
                     TongChi = _selectedReport.TongChi;
                     ChenhLech = _selectedReport.ChenhLech;
 
                     for (int i = 0; i < Terms.Count; i++)
                     {
-                        if (Terms[i] == KyHan)
+                        if (Terms[i] == _selectedReport.KyHan)
                         {
                             SelectedTermIndex = i;
                             break;
@@ -44,17 +43,16 @@ namespace AcademicSavingService.ViewModel
 
         public DateTime Ngay
         {
-            get => _ngayChosen;
+            get => _selectedDate;
             set
             {
-                _ngayChosen = value;
-                var collection = TermTypeContainer.Instance.GetClosestTermAndInterestToDate(_ngayChosen)
+                _selectedDate = value;
+                var collection = TermTypeContainer.Instance.GetClosestTermAndInterestToDate(_selectedDate)
                                                             .Select(item => item.Key);
                 Terms = new ObservableCollection<int>(collection);
             }
         }
 
-        public int KyHan { get; set; }
         public decimal TongThu { get; set; }
         public decimal TongChi { get; set; }
         public decimal ChenhLech { get; set; }
@@ -62,7 +60,7 @@ namespace AcademicSavingService.ViewModel
         public int SelectedTermIndex { get; set; }
 
         private DailyReportINPC _selectedReport;
-        private DateTime _ngayChosen;
+        private DateTime _selectedDate;
 
         public DailyReportsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
         {
@@ -73,7 +71,6 @@ namespace AcademicSavingService.ViewModel
 
         private void ResetReadOnlyFields()
         {
-            KyHan = 0;
             TongThu = 0;
             TongChi = 0;
             ChenhLech = 0;
@@ -120,6 +117,15 @@ namespace AcademicSavingService.ViewModel
             catch (MySqlException e) { ShowErrorMessage(e); }
         }
 
+        protected override void ExecuteDelete()
+        {
+            try
+            {
+                DailyReportContainer.Instance.DeleteByCompositeKey(Ngay, Terms[SelectedTermIndex]);
+            }
+            catch (MySqlException e) { ShowErrorMessage(e); }
+        }
+
         #endregion
 
         #region Can Execute
@@ -127,6 +133,11 @@ namespace AcademicSavingService.ViewModel
         protected override bool CanExecuteAdd()
         {
             return IsInsertMode && SelectedTermIndex != -1 && SelectedTermIndex < Terms.Count;
+        }
+
+        protected override bool CanExecuteDelete()
+        {
+            return !IsInsertMode && SelectedReport != null && SelectedTermIndex != -1 && SelectedTermIndex < Terms.Count;
         }
 
         #endregion

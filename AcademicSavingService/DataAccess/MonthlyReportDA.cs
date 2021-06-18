@@ -7,6 +7,10 @@ namespace AcademicSavingService.DataAccess
 {
     public class MonthlyReportDA : BaseDataAccess<MonthlyReportINPC, int>
     {
+        public void DeleteByCompositeKey(int thang, int nam, int kyHan)
+        {
+            db.Query(_tableName).Where(_Thang, thang).Where(_Nam, nam).Where(_KyHan, kyHan).Delete();
+        }
 
         public override void Create(MonthlyReportINPC report)
         {
@@ -38,6 +42,9 @@ namespace AcademicSavingService.DataAccess
 
         private const string _NgayBaoCaoVar = "@NgayBaoCao";
         private const string _KyHanBaoCaoVar = "@KyHanBaoCao";
+        private const string _Thang = "Thang";
+        private const string _Nam = "Nam";
+        private const string _KyHan = "KyHan";
 
         protected override string _tableName => "BAOCAOTHANG";
     }

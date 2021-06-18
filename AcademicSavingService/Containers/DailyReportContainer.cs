@@ -2,11 +2,18 @@
 using AcademicSavingService.INPC;
 using AcademicSavingService.DataAccess;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AcademicSavingService.Containers
 {
     public class DailyReportContainer : BaseContainer<DailyReportINPC, int>
     {
+        public void DeleteByCompositeKey(DateTime ngay, int kyHan)
+        {
+            _reportDA.DeleteByCompositeKey(ngay, kyHan);
+            Collection.Remove(Collection.SingleOrDefault(item => item.Ngay == ngay && item.KyHan == kyHan));
+        }
+
         public override void AddToCollection(DailyReportINPC report)
         {
             _reportDA.Create(report);
