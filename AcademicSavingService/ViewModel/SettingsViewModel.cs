@@ -51,7 +51,8 @@ namespace AcademicSavingService.ViewModel
 			}
 			else
 			{
-				File.CreateText(SettingFilePath);
+				var stream = File.CreateText(SettingFilePath);
+				stream.Close();
 			}
 			File.WriteAllText(SettingFilePath, settings.ToString());
 		}
