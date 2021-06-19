@@ -26,7 +26,6 @@ ALTER TABLE PHIEURUT AUTO_INCREMENT = 1;
 ALTER TABLE QUYDINH AUTO_INCREMENT = 1;
 
 /*========== Error Table ==========*/
-
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK000', 'Thao tác với sổ tiêt kiệm thành công');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK001', 'Số tiền tạo tài khoản ít hơn số tiền tối thiểu trong quy định');
 INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('TK002', 'Loại kỳ hạn này không tồn tại hoặc không còn được sử dụng');
@@ -86,7 +85,6 @@ INSERT INTO ErrorTable (MaLoi, GhiChu) VALUES('FU006', 'Không được insert p
 SELECT * FROM ErrorTable;
 
 /*==========Quy định==========*/
-
 INSERT INTO QUYDINH (SoTienNapNhoNhat, SoTienMoTaiKhoanNhoNhat, SoNgayToiThieu, NgayTao)
 VALUES(100000, 500000, 10, '2016/01/01');
 INSERT INTO QUYDINH (SoTienNapNhoNhat, SoTienMoTaiKhoanNhoNhat, SoNgayToiThieu, NgayTao)
@@ -211,46 +209,45 @@ CALL ThemKyHan(12, 6.3, '2021/01/01', NULL);
 SELECT * FROM LoaiKyHan;
 
 /*==========Khách hàng==========*/
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Phạm Hà Liên', '0831126759', '149 Nguyễn Tri Phương, Phường 8, Quận 5, Thành phố Hồ Chí Minh', '038337899317', '2016/01/01', 'Images/1');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Đoàn Nhã Lý', '0433960399', '64 Nguyễn Thời Trung, Phường 6, Quận 5, Thành phố Hồ Chí Minh', '057760171219', '2016/01/01', 'Images/2');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Nguyễn Quang Hải', '0966643448', '4 Lý Thường Kiệt, Phường 12, Quận 5, Thành phố Hồ Chí Minh', '067268027033', '2016/01/01', 'Images/3');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Trầm Kiên Bình', '0289223796', '832 Huỳnh Tấn Phát, Phú Thuận, Quận 7, Thành phố Hồ Chí Minh', '096570502795', '2016/01/01', 'Images/4');
 
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Phạm Hà Liên', '0831126759', '149 Nguyễn Tri Phương, Phường 8, Quận 5, Thành phố Hồ Chí Minh', '038337899317', '2016/01/01');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Đoàn Nhã Lý', '0433960399', '64 Nguyễn Thời Trung, Phường 6, Quận 5, Thành phố Hồ Chí Minh', '057760171219', '2016/01/01');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Nguyễn Quang Hải', '0966643448', '4 Lý Thường Kiệt, Phường 12, Quận 5, Thành phố Hồ Chí Minh', '067268027033', '2016/01/01');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Trầm Kiên Bình', '0289223796', '832 Huỳnh Tấn Phát, Phú Thuận, Quận 7, Thành phố Hồ Chí Minh', '096570502795', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Thân Công Hậu', '0892522397', '15 Lâm Văn Bền, Tân Quy, Quận 7, Thành phố Hồ Chí Minh', '085842907170', '2016/01/01', 'Images/5');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Nguyễn Trọng Vinh', '0755423139', '34 Bá Trạc, Phường 2, Quận 8, Thành phố Hồ Chí Minh', '013671098619', '2016/01/01', 'Images/6');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Vũ Bảo Trúc', '0732349970', '870 Tạ Quang Bửu, Phường 5, Quận 8, Thành phố Hồ Chí Minh', '047424607765', '2016/01/01', 'Images/7');
 
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Thân Công Hậu', '0892522397', '15 Lâm Văn Bền, Tân Quy, Quận 7, Thành phố Hồ Chí Minh', '085842907170', '2016/01/01');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Nguyễn Trọng Vinh', '0755423139', '34 Bá Trạc, Phường 2, Quận 8, Thành phố Hồ Chí Minh', '013671098619', '2016/01/01');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Vũ Bảo Trúc', '0732349970', '870 Tạ Quang Bửu, Phường 5, Quận 8, Thành phố Hồ Chí Minh', '047424607765', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Đặng Thành Châu', '0459068869', '94 Ngô Quyền, Phường 5, Quận 10, Phường 6, Quận 10, Thành phố Hồ Chí Minh', '067327095361', '2016/01/01', 'Images/8');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Dương Mỹ Vân', '0452190962', '16 Lê Hồng Phong, Phường 12, Quận 10, Thành phố Hồ Chí Minh', '032505244096', '2016/01/01', 'Images/9');
 
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Đặng Thành Châu', '0459068869', '94 Ngô Quyền, Phường 5, Quận 10, Phường 6, Quận 10, Thành phố Hồ Chí Minh', '067327095361', '2016/01/01');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Dương Mỹ Vân', '0452190962', '16 Lê Hồng Phong, Phường 12, Quận 10, Thành phố Hồ Chí Minh', '032505244096', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Chu Kim Toàn', '0970238418', '88 Hà Huy Giáp, Thạnh Lộc, Quận 12, Thành phố Hồ Chí Minh', '029865643209', '2016/01/01', 'Images/10');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Dương Khắc Thành', '0112019039', '181 Nguyễn Thị Đặng, Tân Thới Hiệp, Quận 12, Thành phố Hồ Chí Minh', '069921609940', '2016/01/01', 'Images/11');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Phạm Chí Công', '0480047194', '98a2 Nguyễn Thị Đặng, Hiệp Thành, Quận 12, Thành phố Hồ Chí Minh', '057077252279', '2016/01/01', 'Images/12');
 
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Chu Kim Toàn', '0970238418', '88 Hà Huy Giáp, Thạnh Lộc, Quận 12, Thành phố Hồ Chí Minh', '029865643209', '2016/01/01');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Dương Khắc Thành', '0112019039', '181 Nguyễn Thị Đặng, Tân Thới Hiệp, Quận 12, Thành phố Hồ Chí Minh', '069921609940', '2016/01/01');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Phạm Chí Công', '0480047194', '98a2 Nguyễn Thị Đặng, Hiệp Thành, Quận 12, Thành phố Hồ Chí Minh', '057077252279', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Phạm Thanh Đan', '0317657970', '54 Hà Huy Giáp, Thạnh Lộc, Quận 12, Thành phố Hồ Chí Minh', '046064694856', '2016/01/01', 'Images/13');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Hoàng Phượng Loan', '0127187121', '219C Lê Quang Sung, Phường 6, Quận 6, Thành phố Hồ Chí Minh', '079787412158', '2016/01/01', 'Images/14');
 
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Phạm Thanh Đan', '0317657970', '54 Hà Huy Giáp, Thạnh Lộc, Quận 12, Thành phố Hồ Chí Minh', '046064694856', '2016/01/01');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Hoàng Phượng Loan', '0127187121', '219C Lê Quang Sung, Phường 6, Quận 6, Thành phố Hồ Chí Minh', '079787412158', '2016/01/01');
-
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Đinh Minh Trí', '0700019229', 'Hẻm 942 Kha Vạn Cân, Trường Thọ, Thủ Đức, Thành phố Hồ Chí Minh', '082654211937', '2016/01/01');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Nguyễn Xuân Khoa', '0359736526', '252 Đô Ngọc Vân, Linh Đông, Thủ Đức, Thành phố Hồ Chí Minh', '035719129304', '2016/01/01');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
-VALUES('Huỳnh Hải Phong', '0433233328', '146 Hoàng Diệu 2, Phường Linh Trung, Thủ Đức, Thành phố Hồ Chí Minh', '041898885155', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Đinh Minh Trí', '0700019229', 'Hẻm 942 Kha Vạn Cân, Trường Thọ, Thủ Đức, Thành phố Hồ Chí Minh', '082654211937', '2016/01/01', 'Images/15');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Nguyễn Xuân Khoa', '0359736526', '252 Đô Ngọc Vân, Linh Đông, Thủ Đức, Thành phố Hồ Chí Minh', '035719129304', '2016/01/01', 'Images/16');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy, AnhDaiDien)
+VALUES('Huỳnh Hải Phong', '0433233328', '146 Hoàng Diệu 2, Phường Linh Trung, Thủ Đức, Thành phố Hồ Chí Minh', '041898885155', '2016/01/01', 'Images/17');
 
 SELECT * FROM KHACHHANG;
 
@@ -326,7 +323,6 @@ SELECT * FROM SOTIETKIEM;
 /*========== Phiếu ==========*/
 -- ThemPhieu(IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 -- RutHetTien(IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
-
 -- 2016
 CALL ThemPhieu(2, 100000, 'Some things', '2016/02/15');
 CALL ThemPhieu(2, 800000, 'Some things', '2016/03/15');
