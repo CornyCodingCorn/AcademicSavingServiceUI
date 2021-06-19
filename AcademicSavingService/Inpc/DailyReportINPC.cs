@@ -9,6 +9,10 @@ namespace AcademicSavingService.INPC
         public decimal TongThu { get; set; }
         public decimal TongChi { get; set; }
         public decimal ChenhLech { get; set; }
+        public decimal ChenhLechAbs
+        {
+            get => Math.Abs(ChenhLech);
+        }
 
         public DailyReportINPC() { }
 
@@ -18,7 +22,7 @@ namespace AcademicSavingService.INPC
             KyHan = kyHan;
             TongThu = tongThu;
             TongChi = tongChi;
-            ChenhLech = Math.Abs(TongThu - TongChi);
+            ChenhLech = TongThu - TongChi;
         }
     }
 }

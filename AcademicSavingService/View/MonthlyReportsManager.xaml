@@ -47,7 +47,7 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Difference" Binding="{Binding ChenhLech, StringFormat={}{0:0; #}}" Width="*">
+                <DataGridTextColumn Header="Difference" Binding="{Binding ChenhLechAbs}" Width="*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
                             <Setter Property="FontWeight" Value="Bold"/>
@@ -79,7 +79,8 @@
                 </Style>
             </Grid.Resources>
             <Grid.RowDefinitions>
-                <RowDefinition Height="60*"/>
+                <RowDefinition Height="60*" MaxHeight="550"/>
+                <RowDefinition Height="*" MinHeight="75"/>
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" BorderThickness="2" HorizontalAlignment="Stretch" CornerRadius="5">
@@ -107,8 +108,8 @@
                     <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="0, 10, 0, 0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*"/>
+                            <RowDefinition Height="5*"/>
                             <RowDefinition Height="4*"/>
-                            <RowDefinition Height="3*"/>
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0" Margin="0, 0, 0, 10">
@@ -117,7 +118,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="0.1*" MaxHeight="10"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="2*" MaxHeight="75"/>
                             </Grid.RowDefinitions>
@@ -177,7 +178,7 @@
 
                                     <ctrl:DigitTextBox Width="120" Grid.Row="0" Grid.Column="1" IsReadOnly="True" Text="{Binding SoMo}"/>
                                     <ctrl:DigitTextBox Width="120" Grid.Row="1" Grid.Column="1" IsReadOnly="True" Text="{Binding SoDong}"/>
-                                    <ctrl:DigitTextBox Width="120" Grid.Row="2" Grid.Column="1" IsReadOnly="True" Text="{Binding ChenhLech, StringFormat={}{0:0; #}}"/>
+                                    <ctrl:DigitTextBox Width="120" Grid.Row="2" Grid.Column="1" IsReadOnly="True" Text="{Binding ChenhLechAbs}"/>
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -195,20 +196,29 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 
-                                <Button Grid.Column="0" Width="130" Height="50" Margin="0, 10, 10, 0" Command="{Binding StartInsertCommand}"
+                                <Button Grid.Column="0" Width="130" Height="45" Margin="0, 10, 10, 0" Command="{Binding StartInsertCommand}"
                                 Content="ADD NEW" Style="{DynamicResource InsertButtonStyle}"
                                 ToolTip="Enter insert mode"/>
-                                <Button Grid.Column="1" Width="130" Height="50" Margin="5, 10, 0, 0" Command="{Binding CreateCommand}" 
+                                <Button Grid.Column="1" Width="130" Height="45" Margin="5, 10, 0, 0" Command="{Binding CreateCommand}" 
 						        Content="COMPOSE" Style="{DynamicResource InsertButtonStyle}"
 						        ToolTip="Automatically compose a new report for the specified month-year"/>
                             </Grid>
 
-                            <Button Grid.Row="2" Width="130" Height="50" Margin="0" Command="{Binding DeleteCommand}"
+                            <Button Grid.Row="2" Width="130" Height="45" Margin="0" Command="{Binding DeleteCommand}"
                                     Content="DELETE"/>
                         </Grid>
                     </Grid>
                 </Grid>
             </Border>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" MaxHeight="40"/>
+                    <RowDefinition Height="*" MinHeight="50"/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="1" Width="160" Height="45" Content="EXPORT REPORTS" Command="{Binding ExportCommand}"/>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

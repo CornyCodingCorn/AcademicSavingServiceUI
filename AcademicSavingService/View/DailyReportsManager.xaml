@@ -46,7 +46,7 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Difference" Binding="{Binding ChenhLech, StringFormat={}{0:0.00; #.00}}" Width="*">
+                <DataGridTextColumn Header="Difference" Binding="{Binding ChenhLechAbs}" Width="*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
                             <Setter Property="FontWeight" Value="Bold"/>
@@ -68,9 +68,18 @@
         </ctrl:AssDataGrid>
 
         <Grid Grid.Column="0" Margin="0, 0, 10, 0">
+            <Grid.Resources>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
+                    <Setter Property="Margin" Value="0, 3, 0, 3"/>
+                    <Setter Property="FontSize" Value="16"/>
+                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
+                    <Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+            </Grid.Resources>
             <Grid.RowDefinitions>
-                <RowDefinition Height="60*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="60*" MaxHeight="550"/>
+                <RowDefinition Height="*" MinHeight="75"/>
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" BorderThickness="2" HorizontalAlignment="Stretch" CornerRadius="5">
@@ -88,7 +97,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" MaxHeight="50"/>
                         <RowDefinition Height="5*"/>
-                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="2.5*"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="SELECTED REPORT" Grid.Row="0"
@@ -98,9 +107,9 @@
 
                     <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="0.5*"/>
+                            <RowDefinition Height="0.5*" MaxHeight="10"/>
                             <RowDefinition Height="8*"/>
-                            <RowDefinition Height="0.5*"/>
+                            <RowDefinition Height="0.5*" MaxHeight="20"/>
                         </Grid.RowDefinitions>
 
                         <Grid HorizontalAlignment="Center" Grid.Row="1">
@@ -146,21 +155,12 @@
                                 </ComboBox>
                                 <ctrl:DigitTextBox Width="200" Grid.Row="2" Grid.Column="1" IsReadOnly="True" Text="{Binding TongThu}"/>
                                 <ctrl:DigitTextBox Width="200" Grid.Row="3" Grid.Column="1" IsReadOnly="True" Text="{Binding TongChi}"/>
-                                <ctrl:DigitTextBox Width="200" Grid.Row="4" Grid.Column="1" IsReadOnly="True" Text="{Binding ChenhLech, StringFormat={}{0:0.00; #.00}}"/>
+                                <ctrl:DigitTextBox Width="200" Grid.Row="4" Grid.Column="1" IsReadOnly="True" Text="{Binding ChenhLechAbs, Mode=OneWay}"/>
                             </Grid>
                         </Grid>
                     </Grid>
 
                     <Grid Grid.Row="2">
-                        <Grid.Resources>
-                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
-                                <Setter Property="Margin" Value="0, 3, 0, 3"/>
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
-                                <Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
-                                <Setter Property="FontWeight" Value="Bold"/>
-                            </Style>
-                        </Grid.Resources>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.1*"/>
                             <RowDefinition Height="*"/>
@@ -173,20 +173,29 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             
-                            <Button Grid.Column="0" Width="130" Height="50" Margin="0, 0, 10, 0" Command="{Binding StartInsertCommand}"
+                            <Button Grid.Column="0" Width="130" Height="45" Margin="0, 0, 10, 0" Command="{Binding StartInsertCommand}"
                                 Content="ADD NEW" Style="{DynamicResource InsertButtonStyle}"
                                 ToolTip="Enter insert mode"/>
-                            <Button Grid.Column="1" Width="130" Height="50" Margin="5, 0, 0, 0" Command="{Binding CreateCommand}" 
+                            <Button Grid.Column="1" Width="130" Height="45" Margin="5, 0, 0, 0" Command="{Binding CreateCommand}" 
 						        Content="COMPOSE" Style="{DynamicResource InsertButtonStyle}"
 						        ToolTip="Automatically compose a new report for the selected day"/>
                         </Grid>
 
-                        <Button Grid.Row="2" Width="130" Height="50"
+                        <Button Grid.Row="2" Width="130" Height="45"
                                 Content="DELETE" Command="{Binding DeleteCommand}"
                                 ToolTip="Delete selected report"/>
                     </Grid>
                 </Grid>
             </Border>
+
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" MaxHeight="40"/>
+                    <RowDefinition Height="*" MinHeight="50"/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="1" Width="180" Height="45" Content="EXPORT REPORTS" Command="{Binding ExportCommand}"/>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

@@ -10,5 +10,9 @@ namespace AcademicSavingService.INPC
         public int SoMo { get; set; }
         public int SoDong { get; set; }
         public int ChenhLech { get; set; }
+        public int ChenhLechAbs
+        {
+            get => Math.Abs(ChenhLech);
+        }
     }
 }
