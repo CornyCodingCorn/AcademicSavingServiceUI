@@ -85,7 +85,7 @@
 			</ctrl:AssDataGrid.Columns>
 		</ctrl:AssDataGrid>
 
-		<ctrl:AssCRUDPanel Grid.Row="1" Grid.ColumnSpan="2" MinLeftMargin="0" LeftMargin="10*" MaxLeftMargin="120" RightMargin="60*">
+		<ctrl:AssCRUDPanel Grid.Row="1" Grid.ColumnSpan="2" MinLeftMargin="120" LeftMargin="10*" MaxLeftMargin="120" RightMargin="60*">
 			<ctrl:AssCRUDPanel.Left>
 				<Grid>
 					<Grid.RowDefinitions>

@@ -27,46 +27,66 @@
 			<ColumnDefinition Width="{Binding HorizontalSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxWidth="550" MinWidth="350"/>
 		</Grid.ColumnDefinitions>
 
+		<Grid.RowDefinitions>
+			<RowDefinition Height="70*"/>
+			<RowDefinition Height="{Binding VerticleSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxHeight="520" MinHeight="200"/>
+		</Grid.RowDefinitions>
+
+		<!-- VERTICLE GRID SPLITTER !!! -->
+		<GridSplitter Grid.ColumnSpan="2" Background="{DynamicResource MahApps.Brushes.Accent4}" VerticalAlignment="Bottom" Height="4" Margin="0, 0, 0, -2"/>
 		<!-- HORIZONTAL GRID SPLITTER !!! -->
 		<GridSplitter Grid.Column="1" Background="{DynamicResource MahApps.Brushes.Accent4}" HorizontalAlignment="Left" Width="4" Margin="-2, 0, 0, 0"/>
 
-		<!-- Saving account parts -->
-		<Grid Grid.Column="0" Margin="0, 0, 10, 0" >
-			<Grid.RowDefinitions>
-				<RowDefinition Height="70*"/>
-				<RowDefinition Height="{Binding VerticleSplit, Converter={StaticResource GridLengthConv}, Mode=TwoWay}" MaxHeight="520" MinHeight="200"/>
-			</Grid.RowDefinitions>
-
-			<!-- VERTICLE GRID SPLITTER !!! -->
-			<GridSplitter Background="{DynamicResource MahApps.Brushes.Accent4}" VerticalAlignment="Bottom" Height="4" Margin="0, 0, -8, -2"/>
-
-			<!-- Customer Data grid-->
-			<ctrl:AssDataGrid Margin="0, 0, 0, 10" 
+		<ctrl:AssDataGrid Margin="0, 0, 10, 10" 
 							  ItemsSource="{Binding Slips}" 
 							  EnableFullTextSearch="True" 
 							  DataGridName="WITHDRAW SLIPS"
 							  SelectedItem="{Binding SelectedSlip,  Mode=TwoWay}"
 							  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
 							  VirtualizingStackPanel.VirtualizationMode="Recycling">
-				<ctrl:AssDataGrid.Columns>
-					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaPhieu}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
-					<DataGridTextColumn Width="100" Header="Account ID" Binding="{Binding MaSo}"/>
-					<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='dd/MM/yyyy'}" TextBlock.TextAlignment="Center"/>
-					<DataGridTextColumn Width="120" Header="Amount" Binding="{Binding SoTien, StringFormat=N2}">
-						<DataGridTextColumn.CellStyle>
-							<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
-								<Setter Property="Foreground" Value="{StaticResource ForegroundRed}"/>
-								<Setter Property="FontWeight" Value="Bold"/>
-							</Style>
-						</DataGridTextColumn.CellStyle>
-					</DataGridTextColumn>
-					<DataGridTextColumn Width="*" Header="Note" Binding="{Binding GhiChu}" CellStyle="{StaticResource LeftAllignedTextCell}"/>
-				</ctrl:AssDataGrid.Columns>
-			</ctrl:AssDataGrid>
+			<ctrl:AssDataGrid.Columns>
+				<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaPhieu}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
+				<DataGridTextColumn Width="100" Header="Account ID" Binding="{Binding MaSo}"/>
+				<DataGridTextColumn Width="120" Header="Create date" Binding="{Binding NgayTao, StringFormat='dd/MM/yyyy'}" TextBlock.TextAlignment="Center"/>
+				<DataGridTextColumn Width="120" Header="Amount" Binding="{Binding SoTien, StringFormat=N2}">
+					<DataGridTextColumn.CellStyle>
+						<Style TargetType="DataGridCell" BasedOn="{StaticResource MahApps.Styles.DataGridCell.Azure}">
+							<Setter Property="Foreground" Value="{StaticResource ForegroundRed}"/>
+							<Setter Property="FontWeight" Value="Bold"/>
+						</Style>
+					</DataGridTextColumn.CellStyle>
+				</DataGridTextColumn>
+				<DataGridTextColumn Width="*" Header="Note" Binding="{Binding GhiChu}" CellStyle="{StaticResource LeftAllignedTextCell}"/>
+			</ctrl:AssDataGrid.Columns>
+		</ctrl:AssDataGrid>
 
-			<ctrl:AssCRUDPanel Grid.Row="1" MinLeftMargin="50" LeftMargin="15*" MaxLeftMargin="120" RightMargin="15*" MaxRightMargin="160">
-				<ctrl:AssCRUDPanel.Left>
-					<Grid>
+		<ctrl:AssCRUDPanel Grid.Row="1" Grid.ColumnSpan="2" MinLeftMargin="120" LeftMargin="10*" MaxLeftMargin="120" RightMargin="15*" MaxRightMargin="160">
+			<ctrl:AssCRUDPanel.Left>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+						<RowDefinition Height="*"/>
+					</Grid.RowDefinitions>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="ID"	Grid.Column="0" Grid.Row="0"/>
+						<TextBox				Grid.Column="1" Grid.Row="1" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding ID}"/>
+					</StackPanel>
+				</Grid>
+			</ctrl:AssCRUDPanel.Left>
+			<ctrl:AssCRUDPanel.Middle>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="50*" MaxWidth="400" MinWidth="200"/>
+						<ColumnDefinition Width="70*"/>
+					</Grid.ColumnDefinitions>
+					<Grid Grid.Column="0" Margin="20, 0, 0, 0">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="50*" MaxWidth="130"/>
+							<ColumnDefinition Width="80*"/>
+						</Grid.ColumnDefinitions>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="*"/>
 							<RowDefinition Height="*"/>
@@ -74,64 +94,40 @@
 							<RowDefinition Height="*"/>
 						</Grid.RowDefinitions>
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="ID"	Grid.Column="0" Grid.Row="0"/>
-							<TextBox				Grid.Column="1" Grid.Row="1" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="ID" Text="{Binding ID}"/>
-						</StackPanel>
+						<TextBlock Text="Create date"	Grid.Column="0" Grid.Row="0"/>
+						<TextBlock Text="Amount"		Grid.Column="0" Grid.Row="1"/>
+						<TextBlock Text="Withdraw All"	Grid.Column="0" Grid.Row="2"/>
+						<TextBlock Text="Account ID"	Grid.Column="0" Grid.Row="3"/>
+
+						<DatePicker	Grid.Column="1" Grid.Row="0" Width="140" IsEnabled="{Binding IsInsertMode}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"  SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
+						<TextBox Grid.Column="1" Grid.Row="0" Width="140" Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVis}}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
+						<ctrl:DigitTextBox Grid.Column="1" Grid.Row="1" Width="140" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}">
+							<ctrl:DigitTextBox.Style>
+								<Style TargetType="{x:Type ctrl:DigitTextBox}" BasedOn="{StaticResource CrudTextBox}">
+									<Setter Property="IsReadOnly">
+										<Setter.Value>
+											<MultiBinding Converter="{StaticResource BoolANDConverter}">
+												<Binding Path="IsInsertMode"/>
+												<Binding Path="WithDrawAll"/>
+											</MultiBinding>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ctrl:DigitTextBox.Style>
+						</ctrl:DigitTextBox>
+						<CheckBox Grid.Column="1" Grid.Row="2" Margin="20, 0, 0, 0" IsChecked="{Binding WithDrawAll}" IsEnabled="{Binding IsInsertMode}"/>
+						<TextBox			Grid.Column="1" Grid.Row="3" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="A ID" Text="{Binding AccountID}"/>
 					</Grid>
-				</ctrl:AssCRUDPanel.Left>
-				<ctrl:AssCRUDPanel.Middle>
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="50*" MaxWidth="400" MinWidth="200"/>
-							<ColumnDefinition Width="70*"/>
-						</Grid.ColumnDefinitions>
-						<Grid Grid.Column="0" Margin="20, 0, 0, 0">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="50*" MaxWidth="130"/>
-								<ColumnDefinition Width="80*"/>
-							</Grid.ColumnDefinitions>
-							<Grid.RowDefinitions>
-								<RowDefinition Height="*"/>
-								<RowDefinition Height="*"/>
-								<RowDefinition Height="*"/>
-								<RowDefinition Height="*"/>
-							</Grid.RowDefinitions>
 
-							<TextBlock Text="Create date"	Grid.Column="0" Grid.Row="0"/>
-							<TextBlock Text="Amount"		Grid.Column="0" Grid.Row="1"/>
-							<TextBlock Text="Withdraw All"	Grid.Column="0" Grid.Row="2"/>
-							<TextBlock Text="Account ID"	Grid.Column="0" Grid.Row="3"/>
-
-							<DatePicker	Grid.Column="1" Grid.Row="0" Width="140" IsEnabled="{Binding IsInsertMode}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date"  SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
-							<TextBox Grid.Column="1" Grid.Row="0" Width="140" Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVis}}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
-							<ctrl:DigitTextBox Grid.Column="1" Grid.Row="1" Width="140" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Amount" IsReadOnly="{Binding IsReadOnly}" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}">
-								<ctrl:DigitTextBox.Style>
-									<Style TargetType="{x:Type ctrl:DigitTextBox}" BasedOn="{StaticResource CrudTextBox}">
-										<Setter Property="IsReadOnly">
-											<Setter.Value>
-												<MultiBinding Converter="{StaticResource BoolANDConverter}">
-													<Binding Path="IsInsertMode"/>
-													<Binding Path="WithDrawAll"/>
-												</MultiBinding>
-											</Setter.Value>
-										</Setter>
-									</Style>
-								</ctrl:DigitTextBox.Style>
-							</ctrl:DigitTextBox>
-							<CheckBox Grid.Column="1" Grid.Row="2" Margin="20, 0, 0, 0" IsChecked="{Binding WithDrawAll}" IsEnabled="{Binding IsInsertMode}"/>
-							<TextBox			Grid.Column="1" Grid.Row="3" Width="60" IsReadOnly="True" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="A ID" Text="{Binding AccountID}"/>
-						</Grid>
-
-						<Grid Grid.Column="1" Margin="0, 0, 40, 0">
-							<Grid.RowDefinitions>
-								<RowDefinition Height="*"/>
-								<RowDefinition Height="*"/>
-								<RowDefinition Height="*"/>
-								<RowDefinition Height="*"/>
-							</Grid.RowDefinitions>
-							<TextBlock Grid.Row="0" Text="Note"/>
-							<TextBox Grid.Row="1" 
+					<Grid Grid.Column="1" Margin="0, 0, 40, 0">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+							<RowDefinition Height="*"/>
+						</Grid.RowDefinitions>
+						<TextBlock Grid.Row="0" Text="Note"/>
+						<TextBox Grid.Row="1" 
 									 Grid.RowSpan="3"
 									 VerticalAlignment="Stretch" 
 									 HorizontalAlignment="Stretch" 
@@ -141,14 +137,12 @@
 									 AcceptsReturn="True" 
 									 VerticalScrollBarVisibility="Visible"
 									 Text="{Binding Note}"/>
-						</Grid>
 					</Grid>
-				</ctrl:AssCRUDPanel.Middle>
-			</ctrl:AssCRUDPanel>
-		</Grid>
-
+				</Grid>
+			</ctrl:AssCRUDPanel.Middle>
+		</ctrl:AssCRUDPanel>
 		<!-- Customer parts -->
-		<ctrl:AssDataGrid Grid.Column="1" Margin="10, 0, 0, 0" 
+		<ctrl:AssDataGrid Grid.Column="1" Margin="10, 0, 0, 10" 
 						  EnableFullTextSearch="True" 
 						  DataGridName="ACCOUNTS" 
 						  SelectedIndex="{Binding SelectedAccountIndex}"

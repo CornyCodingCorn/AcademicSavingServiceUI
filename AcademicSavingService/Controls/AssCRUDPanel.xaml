@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:AcademicSavingService.Controls"
              xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
 			 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+			 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
 			 xmlns:conv="clr-namespace:AcademicSavingService.Converters"
              mc:Ignorable="d" 
 			 x:Name="userControl"
@@ -32,7 +33,7 @@
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="{Binding ElementName=userControl, Path=LeftMargin}" MinWidth="{Binding ElementName=userControl, Path=MinLeftMargin}" MaxWidth="{Binding ElementName=userControl, Path=MaxLeftMargin}"/>
 				<ColumnDefinition Width="80*"/>
-				<ColumnDefinition Width="{Binding ElementName=userControl, Path=RightMargin}" MinWidth="{Binding ElementName=userControl, Path=MinRightMargin}" MaxWidth="{Binding ElementName=userControl, Path=MaxRightMargin}"/>
+				<ColumnDefinition Width="{Binding ElementName=userControl, Path=RightMargin, FallbackValue=180}" MinWidth="{Binding ElementName=userControl, Path=MinRightMargin}" MaxWidth="{Binding ElementName=userControl, Path=MaxRightMargin}"/>
 			</Grid.ColumnDefinitions>
 			
 			<ContentControl Grid.Column="0" x:Name="leftChild"/>
@@ -47,27 +48,88 @@
 					<RowDefinition Height="*"/>
 				</Grid.RowDefinitions>
 				<Grid.Resources>
-					<Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button}">
+					<Style TargetType="TextBlock" BasedOn="{StaticResource MahApps.Styles.TextBlock}">
 						<Setter Property="Margin" Value="0, 3, 0, 3"/>
 						<Setter Property="FontSize" Value="16"/>
 						<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
 						<Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
 						<Setter Property="FontWeight" Value="Bold"/>
+						<Setter Property="VerticalAlignment" Value="Center"/>
 					</Style>
 				</Grid.Resources>
 
 				<Button Grid.Row="0" Margin="0, 2, 0, 2" Command="{Binding StartInsertCommand}" 
-						Content="ADD NEW" Style="{DynamicResource InsertButtonStyle}"
-						ToolTip="Enter insert mode"/>
+						Style="{DynamicResource InsertButtonStyle}"
+						ToolTip="Enter insert mode"
+						x:Name="insertModeButton">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<iconPacks:PackIconMaterial Kind="Import" VerticalAlignment="Center" Width="13" Height="13" Margin="5" Foreground="{Binding ElementName=insertModeButton, Path=Foreground}"/>
+							<TextBlock Text="INSERT MODE" Foreground="{Binding ElementName=insertModeButton, Path=Foreground}"/>
+						</StackPanel>
+					</Button.Content>
+				</Button>
 				<Button Grid.Row="1" Margin="0, 2, 0, 2" Command="{Binding CreateCommand}" 
-						Content="SAVE" Style="{DynamicResource InsertButtonStyle}"
-						ToolTip="Add a new row into the table"/>
+						Style="{DynamicResource InsertButtonStyle}"
+						ToolTip="Add a new row into or update onto the table">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<iconPacks:PackIconMaterial VerticalAlignment="Center" Width="13" Height="13" Margin="5">
+								<iconPacks:PackIconMaterial.Style>
+									<Style TargetType="iconPacks:PackIconMaterial">
+										<Setter Property="Kind" Value="ContentSaveEdit"/>
+										<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding IsInsertMode}" Value="True">
+												<Setter Property="Kind" Value="Pencil"/>
+												<Setter Property="Foreground" Value="{DynamicResource ForegroundYellow}"/>
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</iconPacks:PackIconMaterial.Style>
+							</iconPacks:PackIconMaterial>
+							<TextBlock>
+								<TextBlock.Style>
+									<Style TargetType="TextBlock" BasedOn="{StaticResource MahApps.Styles.TextBlock}">
+										<Setter Property="Margin" Value="0, 3, 0, 3"/>
+										<Setter Property="FontSize" Value="16"/>
+										<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}"/>
+										<Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
+										<Setter Property="FontWeight" Value="Bold"/>
+										<Setter Property="Text" Value="SAVE"/>
+										<Setter Property="VerticalAlignment" Value="Center"/>
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding IsInsertMode}" Value="True">
+												<Setter Property="Text" Value="ADD NEW"/>
+												<Setter Property="Foreground" Value="{DynamicResource ForegroundYellow}"/>
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</TextBlock.Style>
+							</TextBlock>
+						</StackPanel>
+					</Button.Content>
+				</Button>
 				<Button Grid.Row="2" Margin="0, 2, 0, 2" Command="{Binding ClearCommand}" 
-						Content="CLEAR" Style="{DynamicResource InsertButtonStyle}"
-						ToolTip="Clear all the field text boxes"/>
+						Style="{DynamicResource InsertButtonStyle}"
+						ToolTip="Clear all the field text boxes"
+						x:Name="clearButton">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<iconPacks:PackIconMaterial Kind="Eraser" VerticalAlignment="Center" Width="13" Height="13" Margin="5" Foreground="{Binding ElementName=insertModeButton, Path=Foreground}"/>
+							<TextBlock Text="CLEAR" Foreground="{Binding ElementName=insertModeButton, Path=Foreground}"/>
+						</StackPanel>
+					</Button.Content>
+				</Button>
 				<Button Grid.Row="3" Margin="0, 2, 0, 2" Command="{Binding DeleteCommand}" 
-						Content="DELETE" 
-						ToolTip="Delete selected row"/>
+						ToolTip="Delete selected row">
+					<Button.Content>
+						<StackPanel Orientation="Horizontal">
+							<iconPacks:PackIconMaterial Kind="Delete" VerticalAlignment="Center" Width="13" Height="13" Margin="5" Foreground="{Binding ElementName=insertModeButton, Path=Foreground}"/>
+							<TextBlock Text="DELETE" Foreground="{Binding ElementName=insertModeButton, Path=Foreground}"/>
+						</StackPanel>
+					</Button.Content>
+				</Button>
 			</Grid>
 		</Grid>
 	</Border>
