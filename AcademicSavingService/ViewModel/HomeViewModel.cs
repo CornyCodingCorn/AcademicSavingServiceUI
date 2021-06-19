@@ -9,6 +9,8 @@ namespace AcademicSavingService.ViewModel
 	{
 		public DateTime NOW { get; set; } = DateTime.Now;
 		public double PAPAFRANKU { get; set; } = 0;
+		public int MinutePerFRANKU { get ; set; } = 69;
+
 		protected CancellationTokenSource token;
 
 		public HomeViewModel(MainViewModel mainViewModel) : base(mainViewModel)
@@ -24,7 +26,7 @@ namespace AcademicSavingService.ViewModel
 					if (NOW.Second == 59)
 					{
 						minutePassed++;
-						if (minutePassed == 1)
+						if (minutePassed == MinutePerFRANKU)
 						{
 							while (PAPAFRANKU < 1)
 							{
