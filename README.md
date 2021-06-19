@@ -1,0 +1,6 @@
+# AcademicSavingServiceUI RELEASE v0.00001
+
+A NON COOMERCIAL PROFESSIONAL IMAGINARY SAVING ACCOUNT MANAGEMENT SOFTWARE.
+TOTALLY 100% LIGIT NO VIRUS.
+
+But seriously tho we are so depress and stressed.
