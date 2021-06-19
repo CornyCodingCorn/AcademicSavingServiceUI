@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Windows.Input;
+using MySql.Data.MySqlClient;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using AcademicSavingService.Containers;
 using AcademicSavingService.INPC;
-using MySql.Data.MySqlClient;
+using AcademicSavingService.Commands;
+using AcademicSavingService.Helpers;
 
 namespace AcademicSavingService.ViewModel
 {
@@ -22,7 +26,7 @@ namespace AcademicSavingService.ViewModel
                     Ngay = _selectedReport.Ngay;
                     TongThu = _selectedReport.TongThu;
                     TongChi = _selectedReport.TongChi;
-                    ChenhLech = _selectedReport.ChenhLech;
+                    ChenhLechAbs = _selectedReport.ChenhLechAbs;
 
                     for (int i = 0; i < Terms.Count; i++)
                     {
@@ -55,12 +59,13 @@ namespace AcademicSavingService.ViewModel
 
         public decimal TongThu { get; set; }
         public decimal TongChi { get; set; }
-        public decimal ChenhLech { get; set; }
-
+        public decimal ChenhLechAbs { get; set; }
         public int SelectedTermIndex { get; set; }
+        public ICommand ExportCommand => _exportCommand ??= new RelayCommand<DailyReportINPC>(param => ExportReportsToCSVFile(), param => true);
 
         private DailyReportINPC _selectedReport;
         private DateTime _selectedDate;
+        private RelayCommand<DailyReportINPC> _exportCommand;
 
         public DailyReportsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
         {
@@ -73,7 +78,23 @@ namespace AcademicSavingService.ViewModel
         {
             TongThu = 0;
             TongChi = 0;
-            ChenhLech = 0;
+            ChenhLechAbs = 0;
+        }
+
+        private void ExportReportsToCSVFile()
+        {
+            SaveFileDialog saveDialog = new();
+            saveDialog.Title = "Export to CSV file";
+            saveDialog.FileName = $"daily-reports-generated-{DateTime.Now.Day.ToString("0#") + DateTime.Now.Month.ToString("0#") + DateTime.Now.Year}";
+            saveDialog.DefaultExt = ".csv";
+            saveDialog.Filter = "CSV file (.csv)|*.csv";
+
+            bool? result = saveDialog.ShowDialog();
+
+            if (result == true)
+            {
+                ExportToCSVHelper.GenerateCSVFileForDailyReports(Reports, saveDialog.FileName);
+            }
         }
 
         #endregion

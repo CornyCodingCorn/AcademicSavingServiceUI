@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Microsoft.Win32;
 using AcademicSavingService.Containers;
 using AcademicSavingService.INPC;
+using AcademicSavingService.Commands;
+using AcademicSavingService.Helpers;
 using MySql.Data.MySqlClient;
 
 namespace AcademicSavingService.ViewModel
@@ -22,7 +26,7 @@ namespace AcademicSavingService.ViewModel
                     SelectedDate = new DateTime(_selectedReport.Nam, _selectedReport.Thang, 30);
                     SoMo = _selectedReport.SoMo;
                     SoDong = _selectedReport.SoDong;
-                    ChenhLech = SoMo - SoDong;
+                    ChenhLechAbs = _selectedReport.ChenhLechAbs;
 
                     for (int i = 0; i < Terms.Count; i++)
                     {
@@ -55,10 +59,12 @@ namespace AcademicSavingService.ViewModel
         public int SelectedTermIndex { get; set; }
         public int SoMo { get; set; }
         public int SoDong { get; set; }
-        public int ChenhLech { get; set; }
+        public int ChenhLechAbs { get; set; }
+        public ICommand ExportCommand => _exportCommand ??= new RelayCommand<MonthlyReportINPC>(param => ExportReportsToCSVFile(), param => true);
 
         private MonthlyReportINPC _selectedReport;
         private DateTime _selectedDate;
+        private RelayCommand<MonthlyReportINPC> _exportCommand;
 
         public MonthlyReportsManagerViewModel(MenuItemViewModel menuItem) : base(menuItem)
         {
@@ -70,7 +76,23 @@ namespace AcademicSavingService.ViewModel
         {
             SoMo = 0;
             SoDong = 0;
-            ChenhLech = 0;
+            ChenhLechAbs = 0;
+        }
+
+        private void ExportReportsToCSVFile()
+        {
+            SaveFileDialog saveDialog = new();
+            saveDialog.Title = "Export to CSV file";
+            saveDialog.FileName = $"monthly-reports-generated-{DateTime.Now.Day.ToString("0#") + DateTime.Now.Month.ToString("0#") + DateTime.Now.Year}";
+            saveDialog.DefaultExt = ".csv";
+            saveDialog.Filter = "CSV file (.csv)|*.csv";
+
+            bool? result = saveDialog.ShowDialog();
+
+            if (result == true)
+            {
+                ExportToCSVHelper.GenerateCSVFileForMonthlyReports(Reports, saveDialog.FileName);
+            }
         }
 
         protected override void ExecuteInsertMode()
