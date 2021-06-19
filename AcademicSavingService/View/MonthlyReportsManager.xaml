@@ -7,6 +7,7 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
 			 xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
              xmlns:conv="clr-namespace:AcademicSavingService.Converters"
+			 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks" 
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid Margin="10">
@@ -217,8 +218,13 @@
                     <RowDefinition Height="*" MinHeight="50"/>
                 </Grid.RowDefinitions>
 
-                <Button Grid.Row="1" Width="160" Height="45" Content="EXPORT REPORTS" Command="{Binding ExportCommand}"/>
-            </Grid>
+				<Border Grid.Row="1" Background="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="5" VerticalAlignment="Center" Padding="10">
+					<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+						<iconPacks:PackIconMaterial Kind="Export" VerticalAlignment="Center" Width="40" Height="40" Margin="10" Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+						<Button Width="180" Height="45" Content="EXPORT REPORTS" Command="{Binding ExportCommand}"/>
+					</StackPanel>
+				</Border>
+			</Grid>
         </Grid>
     </Grid>
 </UserControl>

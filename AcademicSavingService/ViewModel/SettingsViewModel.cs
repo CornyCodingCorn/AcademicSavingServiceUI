@@ -76,7 +76,7 @@ namespace AcademicSavingService.ViewModel
 				MessageBox.ShowMessage("WARNING!", "Setting file is corrupted, all the setting will be reseted.");
 				AskBeforeDelete = true;
 				AskBeforeUpdate = true;
-				AssApp.ChangeTheme("Cyan");
+				AssApp.ChangeTheme("Steel");
 			}
 		}
 
