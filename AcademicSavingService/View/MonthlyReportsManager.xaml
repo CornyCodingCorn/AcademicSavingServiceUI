@@ -32,7 +32,8 @@
                           DataGridName="MONTHLY REPORTS"
                           ItemsSource="{Binding Reports}"
                           SelectedItem="{Binding SelectedReport, Mode=TwoWay}"
-                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+						  VirtualizingStackPanel.VirtualizationMode="Recycling">
             <ctrl:AssDataGrid.Columns>
                 <DataGridTextColumn Header="Month"       Binding="{Binding Thang}" Width="100"/>
                 <DataGridTextColumn Header="Year"       Binding="{Binding Nam}" Width="100"/>
@@ -99,7 +100,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="SELECTED REPORT" Grid.Row="0"
-                           Foreground="{DynamicResource MahApps.Brushes.SystemControlBackgroundAltHigh}" 
+                           Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
                            FontSize="18" FontWeight="Bold"
                            Margin="0, -7, 0, 0"/>
 

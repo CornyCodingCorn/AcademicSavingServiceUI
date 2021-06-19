@@ -21,7 +21,7 @@
 					<ColumnDefinition Width="40*"/>
 				</Grid.ColumnDefinitions>
 
-				<Border CornerRadius="1000" Width="500" Height="500"  Background="{DynamicResource MahApps.Brushes.Accent}">
+				<Border CornerRadius="1000" Width="500" Height="500"  Background="{DynamicResource MahApps.Brushes.AccentBase}">
 					<iconPacks:PackIconMaterial Kind="Safe"
 										HorizontalAlignment="Center" 
 										VerticalAlignment="Center" 
@@ -39,17 +39,17 @@
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
 
-					<Border Grid.Column="0" Background="{DynamicResource MahApps.Brushes.Accent}" HorizontalAlignment="Right" Width="150" Margin="20" CornerRadius="5">
+					<Border Grid.Column="0" Background="{DynamicResource MahApps.Brushes.AccentBase}" HorizontalAlignment="Right" Width="150" Margin="20" CornerRadius="5">
 						<TextBlock Text="{Binding NOW, StringFormat={}{0:HH}}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="120" FontWeight="Bold" Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
 					</Border>
-					<Border Grid.Column="1" Background="{DynamicResource MahApps.Brushes.Accent}" HorizontalAlignment="Left"  Width="150" Margin="20" CornerRadius="5">
+					<Border Grid.Column="1" Background="{DynamicResource MahApps.Brushes.AccentBase}" HorizontalAlignment="Left"  Width="150" Margin="20" CornerRadius="5">
 						<TextBlock Text="{Binding NOW, StringFormat={}{0:mm}}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="120" FontWeight="Bold" Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
 					</Border>
-					<Border Grid.ColumnSpan="2" Background="{DynamicResource MahApps.Brushes.Accent}"  Width="20" Height="20" 
+					<Border Grid.ColumnSpan="2" Background="{DynamicResource MahApps.Brushes.AccentBase}"  Width="20" Height="20" 
 					VerticalAlignment="Bottom"  Margin="20, 70" CornerRadius="5"/>
-					<Border Grid.ColumnSpan="2" Background="{DynamicResource MahApps.Brushes.Accent}"  Width="20" Height="20" 
+					<Border Grid.ColumnSpan="2" Background="{DynamicResource MahApps.Brushes.AccentBase}"  Width="20" Height="20" 
 					VerticalAlignment="Top"		Margin="20, 70" CornerRadius="5"/>
-					<Border Grid.Row="1" Grid.ColumnSpan="2" Background="{DynamicResource MahApps.Brushes.Accent}"  CornerRadius="5">
+					<Border Grid.Row="1" Grid.ColumnSpan="2" Background="{DynamicResource MahApps.Brushes.AccentBase}"  CornerRadius="5">
 						<TextBlock Text="{Binding NOW, StringFormat='dd MMM yyy'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" FontSize="40" FontWeight="Bold" Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
 					</Border>
 

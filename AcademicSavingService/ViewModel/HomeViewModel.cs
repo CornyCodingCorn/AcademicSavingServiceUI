@@ -16,15 +16,38 @@ namespace AcademicSavingService.ViewModel
 			token = new CancellationTokenSource();
 			Task.Run(async () =>
 			{
+				int minutePassed = 0;
 				while (!token.IsCancellationRequested)
 				{
 					if (NOW != DateTime.Now)
 						NOW = DateTime.Now;
 					if (NOW.Second == 59)
 					{
-						PAPAFRANKU = 1;
-						await Task.Delay(1000);
-						PAPAFRANKU = 0;
+						minutePassed++;
+						if (minutePassed == 1)
+						{
+							while (PAPAFRANKU < 1)
+							{
+								PAPAFRANKU += 0.01;
+								await Task.Delay(10);
+							}
+							PAPAFRANKU = 1;
+							int seizureCounter = 0;
+							while (seizureCounter < 100)
+							{
+								PAPAFRANKU = seizureCounter % 2;
+								await Task.Delay(10);
+								seizureCounter++;
+							}
+							PAPAFRANKU = 1;
+							while (PAPAFRANKU > 0)
+							{
+								PAPAFRANKU -= 0.01;
+								await Task.Delay(10);
+							}
+							PAPAFRANKU = 0;
+							minutePassed = 0;
+						}
 					}
 					await Task.Delay(1000);
 				}

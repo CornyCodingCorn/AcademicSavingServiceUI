@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using MahApps.Metro.IconPacks;
 using System.Windows.Media;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace AcademicSavingService.ViewModel
 {
@@ -18,6 +19,13 @@ namespace AcademicSavingService.ViewModel
         public static MainViewModel Instance { get; protected set; }
         public bool AskBeforeUpdate { get; set; }
         public bool AskBeforeDelete { get; set; }
+
+        protected bool _showDarkBackGround = false;
+        public bool ShowDarkBackGround
+		{
+            get { return _showDarkBackGround; }
+            set { if (_showDarkBackGround != value) _showDarkBackGround = value; }
+		}
 
         public MenuItemViewModel HomeVM { get; set; }
         public MenuItemViewModel BankMVM { get; set; }
@@ -64,6 +72,11 @@ namespace AcademicSavingService.ViewModel
                     {
                         var item = _selectedMenu;
                         item.IsVisible = false;
+
+                        if (_darkMenu.Contains(value) && _darkMenu.Contains(_selectedMenu))
+                            ShowDarkBackGround = true;
+                        else
+                            ShowDarkBackGround = false;
                     }
 
                     _selectedMenu = value;
@@ -71,6 +84,8 @@ namespace AcademicSavingService.ViewModel
                 }
             }    
         }
+
+        protected List<MenuItemViewModel> _darkMenu;
 
         public MainViewModel()
         {
@@ -139,6 +154,12 @@ namespace AcademicSavingService.ViewModel
             {
                 ContactVM,
                 SettingVM
+            };
+
+            _darkMenu = new List<MenuItemViewModel>
+            {
+                ContactVM,
+                HomeVM
             };
         }
     }

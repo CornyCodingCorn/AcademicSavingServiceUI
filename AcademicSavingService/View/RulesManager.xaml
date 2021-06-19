@@ -45,7 +45,7 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="CURRENT RULES" Grid.Row="0" Margin="0, 5, 0, 0" Foreground="{DynamicResource MahApps.Brushes.SystemControlBackgroundAltHigh}" 
+                        <TextBlock Text="CURRENT RULES" Grid.Row="0" Margin="0, 5, 0, 0" Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
                                    FontSize="18" FontWeight="Bold"/>
                         <Grid Grid.Row="2" Margin="0, 10, 0, 0">
                             <Grid.ColumnDefinitions>
@@ -85,7 +85,8 @@
                           Margin="10, 0, 0, 0" 
 					      ItemsSource="{Binding History}" 
 						  EnableFullTextSearch="True" 
-						  DataGridName="RULE CHANGE HISTORY">
+						  DataGridName="RULE CHANGE HISTORY"
+						  VirtualizingStackPanel.VirtualizationMode="Recycling">
             <ctrl:AssDataGrid.Columns>
                 <DataGridTextColumn Header="Min. deposit amount" Width="*" Binding="{Binding SoTienNapNhoNhat}" CellStyle="{StaticResource GreenKeyStyle}"/>
                 <DataGridTextColumn Header="Min. initial balance" Width="*" Binding="{Binding SoTienMoTaiKhoanNhoNhat}" CellStyle="{StaticResource GreenKeyStyle}"/>

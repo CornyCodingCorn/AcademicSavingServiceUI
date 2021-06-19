@@ -128,7 +128,7 @@ namespace AcademicSavingService.ViewModel
 			}
 		}
 
-		protected override void ExecuteAdd()
+		protected async override void ExecuteAdd()
         {
 			CustomerINPC customer = new()
 			{
@@ -149,7 +149,12 @@ namespace AcademicSavingService.ViewModel
 					MaKHField = CustomerContainer.Instance.GetNextAutoID();
 				}
 				else
+				{
+					if (AssApp.AskBeforeUpdate && !await AssApp.ShowConfirmDialogMessage("CONFIRMATION!", "Are you sure you want to update customer account?"))
+						return;
+
 					CustomerContainer.Instance.UpdateOnCollection(customer);
+				}
 			}
 			catch (MySqlException e) { ShowErrorMessage(e); }
 		}
@@ -159,10 +164,13 @@ namespace AcademicSavingService.ViewModel
 			return IsInsertMode || SelectedCustomer != null;
         }
 
-        protected override void ExecuteDelete()
+        protected async override void ExecuteDelete()
         {
 			try
             {
+				if (AssApp.AskBeforeDelete && !await AssApp.ShowConfirmDialogMessage("WARNING!", "Are you sure you want to delete customer account?"))
+					return;
+
 				CustomerContainer.Instance.DeleteFromCollectionByDefaultKey(MaKHField);
 			}
 			catch (MySqlException e) { ShowErrorMessage(e); }

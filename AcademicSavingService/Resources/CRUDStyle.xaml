@@ -95,7 +95,7 @@
 	<Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MahApps.Styles.TextBlock}">
 		<Setter Property="HorizontalAlignment" Value="Left"/>
 		<Setter Property="VerticalAlignment" Value="Center"/>
-		<Setter Property="Foreground" Value="White"/>
+		<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}"/>
 		<Setter Property="FontFamily" Value="{StaticResource MahApps.Fonts.Family.Button}"/>
 		<Setter Property="FontSize" Value="{StaticResource CRUDFontSize}"/>
 		<Setter Property="FontWeight" Value="Bold"/>

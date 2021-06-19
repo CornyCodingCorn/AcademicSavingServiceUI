@@ -73,7 +73,8 @@
                           ItemsSource="{Binding Customers}" 
                           DataGridName="CUSTOMERS"
                           SelectedItem="{Binding SelectedCustomer, Mode=TwoWay}"
-                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+						  VirtualizingStackPanel.VirtualizationMode="Recycling">
 			<ctrl:AssDataGrid.Columns>
 				<DataGridTextColumn Header="ID" Binding="{Binding MaKH}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 				<DataGridTextColumn Header="FULL NAME" Binding="{Binding HoTen}" CellStyle="{StaticResource LeftAllignedTextCell}"/>

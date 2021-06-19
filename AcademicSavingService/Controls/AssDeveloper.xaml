@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="AcademicSavingService.Controls.AssDeveloper"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AcademicSavingService.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid x:Name="content" Height="120">
+		<Grid.Resources>
+			<ResourceDictionary>
+				<!--Header-->
+				<Style TargetType="TextBlock">
+					<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+					<Setter Property="FontSize" Value="16"/>
+					<Setter Property="FontWeight" Value="Bold"/>
+					<Setter Property="TextDecorations" Value="Underline"/>
+				</Style>
+
+				<!--Body-->
+				<Style TargetType="Label">
+					<Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+					<Setter Property="FontSize" Value="14"/>
+					<Setter Property="Margin" Value="20, 0, 0, 0"/>
+				</Style>
+			</ResourceDictionary>
+		</Grid.Resources>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Text="{Binding DevTitle}" VerticalAlignment="Center" TextDecorations="Underline"/>
+		
+		<Label Grid.Row="1" Content="Name: "  Width="70" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Center"/>
+		<Label Grid.Row="2" Content="Email: " Width="70" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Center"/>
+		<Label Grid.Row="3" Content="Phone: " Width="70" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Center"/>
+		
+		<Label Grid.Row="1" Content="{Binding DevName}"  Margin="90, 0, 0, 0" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Center"/>
+		<Label Grid.Row="2" Content="{Binding DevEmail}" Margin="90, 0, 0, 0" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Center"/>
+		<Label Grid.Row="3" Content="{Binding DevPhone}" Margin="90, 0, 0, 0" HorizontalAlignment="Left" FontWeight="Bold" VerticalAlignment="Center"/>
+	</Grid>
+</UserControl>

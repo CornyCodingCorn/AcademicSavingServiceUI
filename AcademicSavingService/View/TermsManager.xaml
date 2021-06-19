@@ -39,7 +39,8 @@
 							  EnableFullTextSearch="True" 
 							  DataGridName="ACTIVE TERMS"
 							  SelectedItem="{Binding SelectedTerm,  Mode=TwoWay}"
-							  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+							  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+							  VirtualizingStackPanel.VirtualizationMode="Recycling">
                 <ctrl:AssDataGrid.Columns>
                     <DataGridTextColumn Header="ID" Width="50" Binding="{Binding MaKyHan}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
                     <DataGridTextColumn Header="Term length" Width="130" Binding="{Binding KyHan}"/>
@@ -150,7 +151,8 @@
         <ctrl:AssDataGrid Grid.Column="2" Margin="10, 0, 0, 0"
 						  ItemsSource="{Binding PastTerms}" 
 						  EnableFullTextSearch="True" 
-						  DataGridName="PAST TERMS">
+						  DataGridName="PAST TERMS"
+						  VirtualizingStackPanel.VirtualizationMode="Recycling">
             <ctrl:AssDataGrid.Columns>
                 <DataGridTextColumn Header="ID" Width="50" Binding="{Binding MaKyHan}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
                 <DataGridTextColumn Header="Term length" Width="130" Binding="{Binding KyHan}"/>

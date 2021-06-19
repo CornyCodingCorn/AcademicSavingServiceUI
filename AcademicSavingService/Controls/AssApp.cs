@@ -30,6 +30,9 @@ namespace AcademicSavingService.Controls
 			get { return _activeWindowCount > 0; }
 		}
 
+		static public bool AskBeforeDelete { get; set; } = true;
+		static public bool AskBeforeUpdate { get; set; } = true;
+		
 		static public async Task<bool> ShowConfirmDialogMessage(string title, string message)
 		{
 			if (ActiveWindow is null)

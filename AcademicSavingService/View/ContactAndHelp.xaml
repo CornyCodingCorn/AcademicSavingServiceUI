@@ -5,10 +5,54 @@
                                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                                 xmlns:local="clr-namespace:AcademicSavingService.View"
                                 xmlns:anim="clr-namespace:AcademicSavingService.Animation"
+                                xmlns:ctrl="clr-namespace:AcademicSavingService.Controls"
+								xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                                 mc:Ignorable="d" 
 			                    AnimVisibility="{Binding IsVisible}"
+								Background="{DynamicResource MahApps.HamburgerMenu.Pane.Background}"
                                 d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <Grid Margin="70, 24, 70, 0">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" MaxWidth="400"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<ScrollViewer MaxWidth="900">
+			<Border Margin="0, 24, 0, 24" CornerRadius="5" Padding="10" Background="{DynamicResource MahApps.Brushes.AccentBase}">
+				<StackPanel Orientation="Vertical">
+					<StackPanel.Resources>
+						<Style TargetType="ctrl:AssDeveloper">
+							<Setter Property="Margin" Value="10"/>
+						</Style>
+					</StackPanel.Resources>
+					<ctrl:AssDeveloper DevTitle="FULL STACK PROGRAMMER"
+									   DevName="PHAM PHUC NGUYEN"
+									   DevPhone="09xxxxxxxx"
+									   DevEmail="19521918@gm.uit.edu.vn"/>
+					
+					<ctrl:AssDeveloper DevTitle="FULL STACK PROGRAMMER"
+									   DevName="DO PHI LONG"
+									   DevPhone="09xxxxxxxx"
+									   DevEmail="19521777@gm.uit.edu.vn"/>
+					
+					<ctrl:AssDeveloper DevTitle="DATABASE TESTER"
+									   DevName="NGUYEN BAO DUY"
+									   DevPhone="09xxxxxxxx"
+									   DevEmail="19520488@gm.uit.edu.vn"/>
+					
+					<ctrl:AssDeveloper DevTitle="DEAD WEIGHT"
+									   DevName="HOANG PHUC"
+									   DevPhone="09xxxxxxxx"
+									   DevEmail="SomeReallyUNProfessionalEmail@gmail.com"/>
+				</StackPanel>
+			</Border>
+		</ScrollViewer>
+
+		<Border Grid.Column="1" Background="{DynamicResource MahApps.Brushes.AccentBase}" CornerRadius="300" Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}" Margin="30" MaxWidth="500">
+			<iconPacks:PackIconMaterial Kind="Safe"
+										HorizontalAlignment="Center" 
+										VerticalAlignment="Center" 
+										Width="200" Height="200"
+										Foreground="{DynamicResource MahApps.Brushes.IdealForeground}"/>
+		</Border>
+	</Grid>
 </anim:UserControlSweptAnimation>
