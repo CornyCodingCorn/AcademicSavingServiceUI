@@ -24,12 +24,14 @@ namespace AcademicSavingService.Controls
 		}
 
 		static public Theme ActiveTheme { get; private set; }
+		static public string ActiveThemeColor { get; private set; } = "Cyan";
 
 		static public bool IsActive
 		{
 			get { return _activeWindowCount > 0; }
 		}
 
+		static public App App { get; set; }
 		static public bool AskBeforeDelete { get; set; } = true;
 		static public bool AskBeforeUpdate { get; set; } = true;
 		
@@ -81,9 +83,12 @@ namespace AcademicSavingService.Controls
 
 		static public void ChangeTheme(string theme)
 		{
+			if (theme == ActiveThemeColor)
+				return;
+
+			ActiveThemeColor = theme;
 			ActiveTheme = ThemeManager.Current.GetTheme("Light." + theme);
-			foreach (var window in _windows)
-				ThemeManager.Current.ChangeTheme(window, ActiveTheme);
+			ThemeManager.Current.ChangeTheme(App, ActiveTheme);
 		}
 
 		static public void RegisterWindow(AssWindow window)

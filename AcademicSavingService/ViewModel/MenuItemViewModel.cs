@@ -2,11 +2,12 @@
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System;
 
 namespace AcademicSavingService.ViewModel
 {
 	[AddINotifyPropertyChangedInterface]
-	class MenuItemViewModel : INotifyPropertyChanged
+	class MenuItemViewModel : INotifyPropertyChanged, IDisposable
 	{
 		public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 
@@ -15,6 +16,10 @@ namespace AcademicSavingService.ViewModel
 			MainViewModel = mainViewModel;
 			_tabsMargin = new Thickness(0, 0, -1, 0);
 			SelectedIndex = 0;
+		}
+
+		public virtual void Dispose()
+		{
 		}
 
         public MainViewModel MainViewModel { get; }

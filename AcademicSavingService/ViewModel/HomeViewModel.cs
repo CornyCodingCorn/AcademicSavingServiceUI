@@ -54,9 +54,10 @@ namespace AcademicSavingService.ViewModel
 			});
 		}
 
-		~HomeViewModel()
+		public override void Dispose()
 		{
 			token.Cancel();
+			base.Dispose();
 		}
 	}
 }
