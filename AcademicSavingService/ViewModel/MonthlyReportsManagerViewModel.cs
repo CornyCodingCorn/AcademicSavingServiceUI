@@ -23,7 +23,7 @@ namespace AcademicSavingService.ViewModel
                 _selectedReport = value;
                 if (_selectedReport != null && !IsInsertMode)
                 {
-                    SelectedDate = new DateTime(_selectedReport.Nam, _selectedReport.Thang, 30);
+                    SelectedDate = new DateTime(_selectedReport.Nam, _selectedReport.Thang, DateTime.DaysInMonth(_selectedReport.Nam, _selectedReport.Thang));
                     SoMo = _selectedReport.SoMo;
                     SoDong = _selectedReport.SoDong;
                     ChenhLechAbs = _selectedReport.ChenhLechAbs;

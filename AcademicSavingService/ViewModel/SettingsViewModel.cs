@@ -49,10 +49,6 @@ namespace AcademicSavingService.ViewModel
 				FileInfo fileInfo = new FileInfo(SettingFilePath);
 				fileInfo.IsReadOnly = false;
 			}
-			else
-			{
-				File.CreateText(SettingFilePath);
-			}
 			File.WriteAllText(SettingFilePath, settings.ToString());
 		}
 
