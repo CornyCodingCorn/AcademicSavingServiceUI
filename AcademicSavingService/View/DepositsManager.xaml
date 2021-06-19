@@ -45,7 +45,8 @@
 							  EnableFullTextSearch="True" 
 							  DataGridName="DEPOSIT SLIPS"
 							  SelectedItem="{Binding SelectedSlip,  Mode=TwoWay}"
-							  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+							  SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+							  VirtualizingStackPanel.VirtualizationMode="Recycling">
 				<ctrl:AssDataGrid.Columns>
 					<DataGridTextColumn Width="50" Header="ID" Binding="{Binding MaPhieu}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 					<DataGridTextColumn Width="100" Header="Account ID" Binding="{Binding MaSo}"/>
@@ -133,7 +134,8 @@
 						  DataGridName="ACCOUNTS" 
 						  SelectedIndex="{Binding SelectedAccountIndex}"
 						  ItemsSource="{Binding SavingAccounts}"
-						  SelectedItem="{Binding SelectedAccount, Mode=TwoWay}">
+						  SelectedItem="{Binding SelectedAccount, Mode=TwoWay}"
+						  VirtualizingStackPanel.VirtualizationMode="Recycling">
 			<ctrl:AssDataGrid.Columns>
 				<DataGridTextColumn Header="ID" Binding="{Binding MaSo}" CellStyle="{StaticResource PrimaryKeyStyle}"/>
 				<DataGridTextColumn Header="Term" Binding="{Binding KyHan}"/>

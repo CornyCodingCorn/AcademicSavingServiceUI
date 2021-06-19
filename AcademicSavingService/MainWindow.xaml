@@ -75,7 +75,18 @@
 			<RowDefinition Height="5"/>
 		</Grid.RowDefinitions>
 		<Rectangle Fill="{DynamicResource MahApps.Brushes.AccentBase}" Grid.Row="1"/>
-		<Rectangle Fill="White" Margin="0, 48, 0, 0"/>
+		<Rectangle Margin="0, 48, 0, 0">
+			<Rectangle.Style>
+				<Style TargetType="Rectangle">
+					<Setter Property="Fill" Value="{DynamicResource MahApps.Brushes.SystemControlForegroundAltHigh}"/>
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding ShowDarkBackGround}" Value="True">
+							<Setter Property="Fill" Value="{DynamicResource MahApps.HamburgerMenu.Pane.Background}"/>
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</Rectangle.Style>
+		</Rectangle>
 
 		<mah:HamburgerMenu  x:Name="HamburgerMenuControl"
 		                    DisplayMode="CompactInline"

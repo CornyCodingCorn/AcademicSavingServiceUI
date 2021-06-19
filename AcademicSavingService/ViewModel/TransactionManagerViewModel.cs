@@ -145,7 +145,7 @@ namespace AcademicSavingService.ViewModel
 				}
 				else
 				{
-					if (!await AssApp.ShowConfirmDialogMessage("CONFIRMATION", "Are you sure you want to proceed?"))
+					if (AssApp.AskBeforeUpdate && !await AssApp.ShowConfirmDialogMessage("CONFIRMATION!", "Are you sure you want to update this slip?"))
 						return;
 					var accountIndex = SelectedAccountIndex;
 					_containerInstance.UpdateOnCollection(slip);
@@ -172,7 +172,7 @@ namespace AcademicSavingService.ViewModel
 		{
 			try
 			{
-				if (!await AssApp.ShowConfirmDialogMessage("CONFIRMATION", "Are you sure you want to proceed?"))
+				if (AssApp.AskBeforeDelete && !await AssApp.ShowConfirmDialogMessage($"WARNING!", "Are you sure you want to delete this slip?"))
 					return;
 
 				var accountID = AccountID;

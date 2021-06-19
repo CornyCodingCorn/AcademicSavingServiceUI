@@ -49,7 +49,7 @@
 						 mah:TextBoxHelper.Watermark="Search..." 
 						 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
 						 TextChanged="txtFullTextSearch_TextChanged"/>
-				<TextBlock Text="{Binding DataGridName}" Grid.Column="0" Foreground="{DynamicResource MahApps.Brushes.SystemControlBackgroundAltHigh}" FontSize="18" FontWeight="Bold"/>
+				<TextBlock Text="{Binding DataGridName}" Grid.Column="0" Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" FontSize="18" FontWeight="Bold"/>
 			</Grid>
 
 			<ScrollViewer Grid.Row="1" Margin="{StaticResource DataGridMargin}" HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">

@@ -32,7 +32,8 @@
                           DataGridName="DAILY REPORTS"
                           ItemsSource="{Binding Reports}"
                           SelectedItem="{Binding SelectedReport, Mode=TwoWay}"
-                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"
+						  VirtualizingStackPanel.VirtualizationMode="Recycling">
             <ctrl:AssDataGrid.Columns>
                 <DataGridTextColumn Header="Date"       Binding="{Binding Ngay, StringFormat='dd/MM/yyyy'}" Width="120"/>
                 <DataGridTextColumn Header="Term"       Binding="{Binding KyHan}" Width="75"/>
@@ -91,7 +92,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="SELECTED REPORT" Grid.Row="0"
-                           Foreground="{DynamicResource MahApps.Brushes.SystemControlBackgroundAltHigh}" 
+                           Foreground="{DynamicResource MahApps.Brushes.IdealForeground}" 
                            FontSize="18" FontWeight="Bold"
                            Margin="0, -7, 0, 0"/>
 
