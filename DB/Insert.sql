@@ -212,199 +212,528 @@ SELECT * FROM LoaiKyHan;
 
 /*==========Khách hàng==========*/
 
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Phạm Hà Liên', '0831126759', '149 Nguyễn Tri Phương, Phường 8, Quận 5, Thành phố Hồ Chí Minh', '038337899317');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Đoàn Nhã Lý', '0433960399', '64 Nguyễn Thời Trung, Phường 6, Quận 5, Thành phố Hồ Chí Minh', '057760171219');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Nguyễn Quang Hải', '0966643448', '4 Lý Thường Kiệt, Phường 12, Quận 5, Thành phố Hồ Chí Minh', '067268027033');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Trầm Kiên Bình', '0289223796', '832 Huỳnh Tấn Phát, Phú Thuận, Quận 7, Thành phố Hồ Chí Minh', '096570502795');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Phạm Hà Liên', '0831126759', '149 Nguyễn Tri Phương, Phường 8, Quận 5, Thành phố Hồ Chí Minh', '038337899317', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Đoàn Nhã Lý', '0433960399', '64 Nguyễn Thời Trung, Phường 6, Quận 5, Thành phố Hồ Chí Minh', '057760171219', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Nguyễn Quang Hải', '0966643448', '4 Lý Thường Kiệt, Phường 12, Quận 5, Thành phố Hồ Chí Minh', '067268027033', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Trầm Kiên Bình', '0289223796', '832 Huỳnh Tấn Phát, Phú Thuận, Quận 7, Thành phố Hồ Chí Minh', '096570502795', '2016/01/01');
 
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Thân Công Hậu', '0892522397', '15 Lâm Văn Bền, Tân Quy, Quận 7, Thành phố Hồ Chí Minh', '085842907170');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Nguyễn Trọng Vinh', '0755423139', '34 Bá Trạc, Phường 2, Quận 8, Thành phố Hồ Chí Minh', '013671098619');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Vũ Bảo Trúc', '0732349970', '870 Tạ Quang Bửu, Phường 5, Quận 8, Thành phố Hồ Chí Minh', '047424607765');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Thân Công Hậu', '0892522397', '15 Lâm Văn Bền, Tân Quy, Quận 7, Thành phố Hồ Chí Minh', '085842907170', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Nguyễn Trọng Vinh', '0755423139', '34 Bá Trạc, Phường 2, Quận 8, Thành phố Hồ Chí Minh', '013671098619', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Vũ Bảo Trúc', '0732349970', '870 Tạ Quang Bửu, Phường 5, Quận 8, Thành phố Hồ Chí Minh', '047424607765', '2016/01/01');
 
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Đặng Thành Châu', '0459068869', '94 Ngô Quyền, Phường 5, Quận 10, Phường 6, Quận 10, Thành phố Hồ Chí Minh', '067327095361');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Dương Mỹ Vân', '0452190962', '16 Lê Hồng Phong, Phường 12, Quận 10, Thành phố Hồ Chí Minh', '032505244096');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Đặng Thành Châu', '0459068869', '94 Ngô Quyền, Phường 5, Quận 10, Phường 6, Quận 10, Thành phố Hồ Chí Minh', '067327095361', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Dương Mỹ Vân', '0452190962', '16 Lê Hồng Phong, Phường 12, Quận 10, Thành phố Hồ Chí Minh', '032505244096', '2016/01/01');
 
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Chu Kim Toàn', '0970238418', '88 Hà Huy Giáp, Thạnh Lộc, Quận 12, Thành phố Hồ Chí Minh', '029865643209');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Dương Khắc Thành', '0112019039', '181 Nguyễn Thị Đặng, Tân Thới Hiệp, Quận 12, Thành phố Hồ Chí Minh', '069921609940');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Phạm Chí Công', '0480047194', '98a2 Nguyễn Thị Đặng, Hiệp Thành, Quận 12, Thành phố Hồ Chí Minh', '057077252279');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Chu Kim Toàn', '0970238418', '88 Hà Huy Giáp, Thạnh Lộc, Quận 12, Thành phố Hồ Chí Minh', '029865643209', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Dương Khắc Thành', '0112019039', '181 Nguyễn Thị Đặng, Tân Thới Hiệp, Quận 12, Thành phố Hồ Chí Minh', '069921609940', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Phạm Chí Công', '0480047194', '98a2 Nguyễn Thị Đặng, Hiệp Thành, Quận 12, Thành phố Hồ Chí Minh', '057077252279', '2016/01/01');
 
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Phạm Thanh Đan', '0317657970', '54 Hà Huy Giáp, Thạnh Lộc, Quận 12, Thành phố Hồ Chí Minh', '046064694856');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Hoàng Phượng Loan', '0127187121', '219C Lê Quang Sung, Phường 6, Quận 6, Thành phố Hồ Chí Minh', '079787412158');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Phạm Thanh Đan', '0317657970', '54 Hà Huy Giáp, Thạnh Lộc, Quận 12, Thành phố Hồ Chí Minh', '046064694856', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Hoàng Phượng Loan', '0127187121', '219C Lê Quang Sung, Phường 6, Quận 6, Thành phố Hồ Chí Minh', '079787412158', '2016/01/01');
 
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Đinh Minh Trí', '0700019229', 'Hẻm 942 Kha Vạn Cân, Trường Thọ, Thủ Đức, Thành phố Hồ Chí Minh', '082654211937');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Nguyễn Xuân Khoa', '0359736526', '252 Đô Ngọc Vân, Linh Đông, Thủ Đức, Thành phố Hồ Chí Minh', '035719129304');
-INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND)
-VALUES('Huỳnh Hải Phong', '0433233328', '146 Hoàng Diệu 2, Phường Linh Trung, Thủ Đức, Thành phố Hồ Chí Minh', '041898885155');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Đinh Minh Trí', '0700019229', 'Hẻm 942 Kha Vạn Cân, Trường Thọ, Thủ Đức, Thành phố Hồ Chí Minh', '082654211937', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Nguyễn Xuân Khoa', '0359736526', '252 Đô Ngọc Vân, Linh Đông, Thủ Đức, Thành phố Hồ Chí Minh', '035719129304', '2016/01/01');
+INSERT INTO KHACHHANG(HoTen, SDT, DiaChi, CMND, NgayDangKy)
+VALUES('Huỳnh Hải Phong', '0433233328', '146 Hoàng Diệu 2, Phường Linh Trung, Thủ Đức, Thành phố Hồ Chí Minh', '041898885155', '2016/01/01');
 
 SELECT * FROM KHACHHANG;
 
 /*==========Sổ tiết kiệm==========*/
 -- ThemSoTietKiem(IN MaKH INT, IN KyHan TINYINT, IN SoTienBanDau DECIMAL(15, 2), IN NgayTao DATE)
 -- 2016
-CALL ThemSoTietKiem(1, 12, 1000000, '2016/01/02');
-CALL ThemSoTietKiem(1, 0, 1000000, '2016/02/15');
-CALL ThemSoTietKiem(1, 1, 2000000, '2016/07/12');
-
-CALL ThemSoTietKiem(2, 3, 1000000, '2016/04/07');
-CALL ThemSoTietKiem(2, 6, 2000000, '2016/06/05');
-
-CALL ThemSoTietKiem(3, 6, 1000000, '2016/09/15');
-
-CALL ThemSoTietKiem(5, 3, 1000000, '2016/03/23');
-
-CALL ThemSoTietKiem(7, 3, 1000000, '2016/08/15');
-CALL ThemSoTietKiem(7, 1, 1000000, '2016/09/05');
-
-CALL ThemSoTietKiem(9, 3, 1000000, '2016/03/15');
-
-CALL ThemSoTietKiem(12, 1, 1000000, '2016/01/15');
-
-CALL ThemSoTietKiem(16, 3, 1000000, '2016/12/15');
-
+CALL ThemSoTietKiem(17, 12, 1000000, '2016/01/03'); --
+CALL ThemSoTietKiem(12, 1, 5000000, '2016/01/15'); --
+CALL ThemSoTietKiem(1, 0, 2000000, '2016/02/15'); --
+CALL ThemSoTietKiem(9, 3, 4000000, '2016/03/15'); --
+CALL ThemSoTietKiem(5, 3, 5000000, '2016/03/23'); --
+CALL ThemSoTietKiem(2, 3, 9000000, '2016/04/07'); --
+CALL ThemSoTietKiem(7, 1, 5000000, '2016/09/05'); --
+CALL ThemSoTietKiem(3, 6, 9000000, '2016/09/15'); --
+CALL ThemSoTietKiem(15, 3, 7000000, '2016/10/12'); --
+CALL ThemSoTietKiem(16, 3, 8000000, '2016/12/15'); -- 10
 
 -- 2017
-CALL ThemSoTietKiem(1, 12, 1000000, '2017/01/01');
-CALL ThemSoTietKiem(10, 1, 1000000, '2017/01/15');
-CALL ThemSoTietKiem(11, 1, 1000000, '2017/01/15');
-CALL ThemSoTietKiem(4, 6, 1000000, '2017/04/15');
-CALL ThemSoTietKiem(12, 3, 1000000, '2017/08/15');
+CALL ThemSoTietKiem(9, 12, 1000000, '2017/01/01'); --
+CALL ThemSoTietKiem(16, 12, 10000000, '2017/02/05'); --
+CALL ThemSoTietKiem(4, 6, 1000000, '2017/02/25'); --
+CALL ThemSoTietKiem(11, 3, 1000000, '2017/03/07'); --
+CALL ThemSoTietKiem(10, 1, 9000000, '2017/04/20'); --
+CALL ThemSoTietKiem(8, 6, 4000000, '2017/07/16'); --
+CALL ThemSoTietKiem(12, 3, 5000000, '2017/08/08'); --
+CALL ThemSoTietKiem(11, 0, 7000000, '2017/09/03'); --
+CALL ThemSoTietKiem(4, 6, 1000000, '2017/09/29'); --
+CALL ThemSoTietKiem(16, 1, 1000000, '2017/12/30'); -- 20
 
 -- 2018
-CALL ThemSoTietKiem(5, 6, 1000000, '2018/09/15');
-CALL ThemSoTietKiem(12, 0, 1000000, '2018/02/15');
-CALL ThemSoTietKiem(12, 9, 1000000, '2018/05/15');
-CALL ThemSoTietKiem(13, 3, 1000000, '2018/08/15');
+CALL ThemSoTietKiem(12, 0, 2000000, '2018/02/09'); --
+CALL ThemSoTietKiem(10, 3, 6000000, '2018/04/05');  --
+CALL ThemSoTietKiem(12, 9, 1000000, '2018/05/07'); --
+CALL ThemSoTietKiem(9, 3, 10000000, '2018/05/16'); --
+CALL ThemSoTietKiem(13, 3, 5000000, '2018/08/23'); --
+CALL ThemSoTietKiem(5, 6, 4000000, '2018/09/12'); --
+CALL ThemSoTietKiem(3, 0, 6000000, '2018/09/21'); --
+CALL ThemSoTietKiem(11, 9, 3000000, '2018/10/04'); --
+CALL ThemSoTietKiem(14, 12, 1000000, '2018/10/09'); --
+CALL ThemSoTietKiem(2, 9, 1000000, '2018/12/11'); -- 30
 
 -- 2019
-CALL ThemSoTietKiem(6, 12, 1000000, '2019/11/15');
-CALL ThemSoTietKiem(14, 12, 1000000, '2019/11/15');
+CALL ThemSoTietKiem(7, 3, 9000000, '2019/03/07'); --
+CALL ThemSoTietKiem(6, 12, 10000000, '2019/06/29'); --
+CALL ThemSoTietKiem(9, 3, 7000000, '2019/07/08'); --
+CALL ThemSoTietKiem(12, 12, 9000000, '2019/07/18'); --
+CALL ThemSoTietKiem(1, 1, 6000000, '2019/09/17'); --
+CALL ThemSoTietKiem(4, 6, 3000000, '2019/09/24'); --
+CALL ThemSoTietKiem(15, 3, 9000000, '2019/10/19'); --
+CALL ThemSoTietKiem(14, 1, 3000000, '2019/11/01'); --
+CALL ThemSoTietKiem(16, 0, 8000000, '2019/12/14'); --
+CALL ThemSoTietKiem(17, 0, 5000000, '2019/12/20'); -- 40
 
 -- 2020
-CALL ThemSoTietKiem(8, 6, 1000000, '2020/04/15');
-CALL ThemSoTietKiem(15, 6, 1000000, '2020/12/15');
-CALL ThemSoTietKiem(17, 1, 1000000, '2020/01/15');
+CALL ThemSoTietKiem(17, 1, 1000000, '2020/01/24'); --
+CALL ThemSoTietKiem(8, 6, 6000000, '2020/04/11'); --
+CALL ThemSoTietKiem(13, 3, 1000000, '2020/06/25'); --
+CALL ThemSoTietKiem(3, 1, 9000000, '2020/07/11'); --
+CALL ThemSoTietKiem(1, 12, 3000000, '2020/07/14'); --
+CALL ThemSoTietKiem(15, 1, 8000000, '2020/08/01'); --
+CALL ThemSoTietKiem(8, 6, 4000000, '2020/11/05'); --
+CALL ThemSoTietKiem(11, 6, 3000000, '2020/11/22'); --
+CALL ThemSoTietKiem(15, 0, 2000000, '2020/12/01'); -- 49
 
 -- 2021
-CALL ThemSoTietKiem(1, 12, 1000000, '2021/01/01');
-CALL ThemSoTietKiem(17, 1, 1000000, '2021/01/15');
-
+CALL ThemSoTietKiem(1, 12, 8000000, '2021/01/09'); --
+CALL ThemSoTietKiem(8, 3, 9000000, '2021/01/14'); --
+CALL ThemSoTietKiem(7, 0, 5000000, '2021/02/11'); --
+CALL ThemSoTietKiem(17, 1, 9000000, '2021/03/22'); --
 
 SELECT * FROM SOTIETKIEM;
 
 /*========== Phiếu ==========*/
-
 -- ThemPhieu(IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 -- RutHetTien(IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 
 -- 2016
-CALL ThemPhieu(1, 10000000, 'Some things', '2016/03/01');
-CALL ThemPhieu(1, 100000, 'Some things', '2016/05/07');
-CALL ThemPhieu(1, 500000, 'Some things', '2016/06/15');
-CALL ThemPhieu(1, -100000, 'Some things', '2016/06/15');
-CALL RutHetTien(1, 'The end game', '2016/07/15');
+CALL ThemPhieu(2, 100000, 'Some things', '2016/02/15');
+CALL ThemPhieu(2, 800000, 'Some things', '2016/03/15');
+CALL ThemPhieu(2, 900000, 'Some things', '2016/05/15');
+CALL RutHetTien(2, 'The end game', '2016/06/15');
+
+CALL ThemPhieu(3, 100000, 'Some things', '2016/03/15');
+CALL ThemPhieu(3, 200000, 'Some things', '2016/04/15');
+CALL ThemPhieu(3, 1000000, 'Some things', '2016/05/15');
+CALL ThemPhieu(3, -700000, 'Some things', '2016/05/15');
+CALL ThemPhieu(3, 100000, 'Some things', '2016/06/15');
+CALL ThemPhieu(3, -900000, 'Some things', '2016/07/15');
+CALL RutHetTien(3, 'The end game', '2016/08/15');
+
+CALL ThemPhieu(4, 400000, 'Some things', '2016/06/15');
+CALL RutHetTien(4, 'The end game', '2016/07/15');
+
+CALL ThemPhieu(5, 700000, 'Some things', '2016/06/15');
+CALL ThemPhieu(5, 300000, 'Some things', '2016/07/15');
+CALL ThemPhieu(5, 600000, 'Some things', '2016/08/15');
+CALL ThemPhieu(5, 700000, 'Some things', '2016/09/15');
+CALL ThemPhieu(5, 200000, 'Some things', '2016/10/15');
+CALL ThemPhieu(5, 400000, 'Some things', '2016/11/15');
+CALL ThemPhieu(5, 800000, 'Some things', '2016/12/15');
+
+CALL ThemPhieu(6, 300000, 'Some things', '2016/07/15');
+CALL ThemPhieu(6, 300000, 'Some things', '2016/08/15');
+CALL ThemPhieu(6, 400000, 'Some things', '2016/09/15');
+CALL RutHetTien(6, 'The end game', '2017/10/15');
+
+CALL ThemPhieu(7, 1000000, 'Some things', '2016/10/15');
+CALL ThemPhieu(7, 400000, 'Some things', '2016/11/15');
+CALL RutHetTien(7, 'The end game', '2017/12/15');
 
 -- 2017
-CALL RutHetTien(2, 'The end game', '2018/01/01');
+CALL RutHetTien(1, 'The end game', '2017/01/15');
 
+CALL RutHetTien(5, 'The end game', '2017/01/15');
+
+CALL ThemPhieu(8, 900000, 'Some things', '2017/03/15');
+CALL ThemPhieu(8, 500000, 'Some things', '2017/04/15');
+CALL ThemPhieu(8, 200000, 'Some things', '2017/05/15');
+CALL RutHetTien(8, 'The end game', '2017/06/15');
+
+CALL ThemPhieu(9, 400000, 'Some things', '2017/01/15');
+CALL RutHetTien(9, 'The end game', '2017/02/15');
+
+CALL ThemPhieu(10, 100000, 'Some things', '2017/04/15');
+CALL ThemPhieu(10, 500000, 'Some things', '2017/05/15');
+CALL RutHetTien(10, 'The end game', '2017/06/15');
+
+CALL ThemPhieu(13, 600000, 'Some things', '2017/09/15');
+CALL ThemPhieu(13, 500000, 'Some things', '2017/10/15');
+CALL ThemPhieu(13, 400000, 'Some things', '2017/11/15');
+CALL RutHetTien(13, 'The end game', '2017/12/15');
+
+CALL RutHetTien(14, 'The end game', '2017/06/15');
+
+CALL ThemPhieu(15, 1000000, 'Some things', '2017/06/15');
+CALL ThemPhieu(15, 600000, 'Some things', '2017/07/15');
+CALL ThemPhieu(15, 900000, 'Some things', '2017/08/15');
+CALL ThemPhieu(15, 300000, 'Some things', '2017/09/15');
+CALL RutHetTien(15, 'The end game', '2017/10/15');
+
+CALL ThemPhieu(17, 1000000, 'Some things', '2017/12/15');
+
+CALL ThemPhieu(18, -300000, 'Some things', '2017/10/15');
+CALL ThemPhieu(18, 400000, 'Some things', '2017/11/15');
+CALL ThemPhieu(18, 700000, 'Some things', '2017/12/15');
 
 -- 2018
+CALL ThemPhieu(11, 300000, 'Some things', '2018/01/15');
+CALL RutHetTien(11, 'The end game', '2018/02/15');
+
+CALL ThemPhieu(12, 300000, 'Some things', '2018/02/15');
+CALL ThemPhieu(12, 200000, 'Some things', '2018/03/15');
+CALL ThemPhieu(12, 500000, 'Some things', '2018/04/15');
+CALL ThemPhieu(12, 500000, 'Some things', '2018/05/15');
+CALL ThemPhieu(12, 800000, 'Some things', '2018/06/15');
+CALL RutHetTien(12, 'The end game', '2018/07/15');
+
+CALL ThemPhieu(16, 500000, 'Some things', '2018/02/15');
+CALL ThemPhieu(16, 200000, 'Some things', '2018/03/15');
+CALL ThemPhieu(16, 800000, 'Some things', '2018/04/15');
+CALL ThemPhieu(16, 800000, 'Some things', '2018/05/15');
+CALL RutHetTien(16, 'The end game', '2018/06/15');
+
+CALL ThemPhieu(17, 700000, 'Some things', '2018/01/15');
+CALL RutHetTien(17, 'The end game', '2018/02/15');
+
+CALL ThemPhieu(18, 200000, 'Some things', '2018/01/15');
+CALL ThemPhieu(18, -300000, 'Some things', '2018/02/15');
+CALL ThemPhieu(18, 300000, 'Some things', '2018/03/15');
+CALL ThemPhieu(18, -500000, 'Some things', '2018/04/15');
+CALL ThemPhieu(18, -700000, 'Some things', '2018/05/15');
+CALL RutHetTien(18, 'The end game', '2018/06/15');
+
+CALL ThemPhieu(19, 800000, 'Some things', '2018/04/15');
+CALL ThemPhieu(19, 300000, 'Some things', '2018/05/15');
+CALL ThemPhieu(19, 900000, 'Some things', '2018/06/15');
+CALL ThemPhieu(19, 400000, 'Some things', '2018/07/15');
+CALL ThemPhieu(19, 700000, 'Some things', '2018/08/15');
+CALL ThemPhieu(19, 200000, 'Some things', '2018/09/15');
+CALL RutHetTien(19, 'The end game', '2018/10/15');
+
+CALL ThemPhieu(20, 800000, 'Some things', '2018/02/15');
+CALL ThemPhieu(20, 900000, 'Some things', '2018/03/15');
+CALL RutHetTien(20, 'The end game', '2018/04/15');
+
+CALL ThemPhieu(21, 800000, 'Some things', '2018/03/15');
+CALL ThemPhieu(21, 900000, 'Some things', '2018/04/15');
+CALL ThemPhieu(21, 400000, 'Some things', '2018/05/15');
+CALL RutHetTien(21, 'The end game', '2018/06/15');
+
+CALL RutHetTien(22, 'The end game', '2018/07/15');
+
+CALL ThemPhieu(24, 900000, 'Some things', '2018/09/15');
+CALL ThemPhieu(24, 800000, 'Some things', '2018/10/15');
+CALL ThemPhieu(24, 400000, 'Some things', '2018/11/15');
+CALL RutHetTien(24, 'The end game', '2018/12/15');
+
+CALL ThemPhieu(25, 300000, 'Some things', '2018/12/15');
+
+CALL ThemPhieu(27, 600000, 'Some things', '2018/10/15');
+CALL ThemPhieu(27, 400000, 'Some things', '2018/11/15');
+CALL ThemPhieu(27, 200000, 'Some things', '2018/12/15');
 
 -- 2019
+CALL ThemPhieu(23, 200000, 'Some things', '2019/03/15');
+CALL RutHetTien(23, 'The end game', '2019/04/15');
+
+CALL ThemPhieu(25, 200000, 'Some things', '2019/01/15');
+CALL RutHetTien(25, 'The end game', '2019/02/15');
+
+CALL ThemPhieu(26, 900000, 'Some things', '2019/03/15');
+CALL ThemPhieu(26, 900000, 'Some things', '2019/04/15');
+CALL RutHetTien(26, 'The end game', '2019/05/15');
+
+CALL ThemPhieu(27, 800000, 'Some things', '2019/01/15');
+CALL ThemPhieu(27, -200000, 'Some things', '2019/01/15');
+CALL ThemPhieu(27, -1000000, 'Some things', '2019/02/15');
+CALL ThemPhieu(27, 200000, 'Some things', '2019/03/15');
+CALL ThemPhieu(27, -200000, 'Some things', '2019/04/15');
+CALL ThemPhieu(27, 700000, 'Some things', '2019/05/15');
+CALL RutHetTien(27, 'The end game', '2019/06/15');
+
+CALL ThemPhieu(28, 200000, 'Some things', '2019/07/15');
+CALL ThemPhieu(28, 800000, 'Some things', '2019/08/15');
+CALL ThemPhieu(28, 500000, 'Some things', '2019/09/15');
+CALL ThemPhieu(28, 200000, 'Some things', '2019/10/15');
+CALL RutHetTien(28, 'The end game', '2019/11/15');
+
+CALL ThemPhieu(29, 200000, 'Some things', '2019/10/15');
+CALL ThemPhieu(29, 600000, 'Some things', '2019/11/15');
+CALL ThemPhieu(29, 300000, 'Some things', '2019/12/15');
+
+CALL ThemPhieu(30, 600000, 'Some things', '2019/10/15');
+CALL ThemPhieu(30, 400000, 'Some things', '2019/11/15');
+CALL RutHetTien(30, 'The end game', '2019/12/15');
+
+CALL ThemPhieu(31, 800000, 'Some things', '2019/06/15');
+CALL RutHetTien(31, 'The end game', '2019/07/15');
+
+CALL ThemPhieu(35, 300000, 'Some things', '2019/10/15');
+CALL RutHetTien(35, 'The end game', '2019/11/15');
+
+CALL RutHetTien(38, 'The end game', '2019/12/15');
 
 -- 2020
+CALL ThemPhieu(29, 300000, 'Some things', '2020/01/15');
+CALL RutHetTien(29, 'The end game', '2020/02/15');
+
+CALL ThemPhieu(32, 700000, 'Some things', '2020/07/15');
+CALL ThemPhieu(32, 900000, 'Some things', '2020/08/15');
+CALL ThemPhieu(32, 600000, 'Some things', '2020/09/15');
+CALL ThemPhieu(32, 1000000, 'Some things', '2020/10/15');
+CALL ThemPhieu(32, 900000, 'Some things', '2020/11/15');
+CALL ThemPhieu(32, 400000, 'Some things', '2020/12/15');
+
+CALL ThemPhieu(33, 900000, 'Some things', '2020/10/15');
+CALL ThemPhieu(33, 1000000, 'Some things', '2020/11/15');
+CALL RutHetTien(33, 'The end game', '2020/12/15');
+
+CALL ThemPhieu(34, 800000, 'Some things', '2020/08/15');
+CALL ThemPhieu(34, 100000, 'Some things', '2020/09/15');
+CALL ThemPhieu(34, 100000, 'Some things', '2020/10/15');
+CALL RutHetTien(34, 'The end game', '2020/11/15');
+
+CALL ThemPhieu(36, 200000, 'Some things', '2020/04/15');
+CALL ThemPhieu(36, 800000, 'Some things', '2020/05/15');
+CALL ThemPhieu(36, 400000, 'Some things', '2020/06/15');
+CALL RutHetTien(36, 'The end game', '2020/07/15');
+
+CALL ThemPhieu(37, 500000, 'Some things', '2020/02/15');
+CALL RutHetTien(37, 'The end game', '2020/03/15');
+
+CALL ThemPhieu(39, 900000, 'Some things', '2020/01/15');
+CALL ThemPhieu(39, -1000000, 'Some things', '2020/01/15');
+CALL ThemPhieu(39, -600000, 'Some things', '2020/02/15');
+CALL ThemPhieu(39, 600000, 'Some things', '2020/03/15');
+CALL ThemPhieu(39, 400000, 'Some things', '2020/04/15');
+CALL ThemPhieu(39, -100000, 'Some things', '2020/05/15');
+CALL ThemPhieu(39, 100000, 'Some things', '2020/06/15');
+CALL RutHetTien(39, 'The end game', '2020/07/15');
+
+CALL ThemPhieu(40, -300000, 'Some things', '2020/01/15');
+CALL RutHetTien(40, 'The end game', '2020/02/15');
+
+CALL ThemPhieu(41, 100000, 'Some things', '2020/03/15');
+CALL ThemPhieu(41, 300000, 'Some things', '2020/04/15');
+CALL ThemPhieu(41, 800000, 'Some things', '2020/05/15');
+CALL ThemPhieu(41, 200000, 'Some things', '2020/06/15');
+CALL RutHetTien(41, 'The end game', '2020/07/15');
+
+CALL ThemPhieu(42, 200000, 'Some things', '2020/10/15');
+CALL ThemPhieu(42, 400000, 'Some things', '2020/11/15');
+CALL ThemPhieu(42, 800000, 'Some things', '2020/12/15');
+
+CALL ThemPhieu(43, 500000, 'Some things', '2020/10/15');
+CALL ThemPhieu(43, 1000000, 'Some things', '2020/11/15');
+CALL ThemPhieu(43, 400000, 'Some things', '2020/12/15');
+
+CALL ThemPhieu(44, 200000, 'Some things', '2020/08/15');
+CALL RutHetTien(44, 'The end game', '2020/09/15');
+
+CALL ThemPhieu(46, 300000, 'Some things', '2020/10/15');
+CALL ThemPhieu(46, 800000, 'Some things', '2020/10/15');
+CALL ThemPhieu(46, 1000000, 'Some things', '2020/11/15');
+CALL ThemPhieu(46, 600000, 'Some things', '2020/12/15');
 
 -- 2021
-CALL ThemPhieu(3, 100000, 'Some things', '2016/05/17');
-CALL ThemPhieu(3, 100000, 'Some things', '2016/05/18');
-CALL RutHetTien(3, 'The end game', '2016/07/01');
+CALL RutHetTien(32, 'The end game', '2021/01/15');
 
-CALL ThemPhieu(4, 100000, 'Some things', '2017/04/20');
-CALL RutHetTien(4, 'The end game', '2017/05/30');
+CALL ThemPhieu(42, 600000, 'Some things', '2021/01/15');
+CALL RutHetTien(42, 'The end game', '2021/02/15');
 
-CALL RutHetTien(5, 'The end game', '2017/10/15');
+CALL ThemPhieu(43, 1000000, 'Some things', '2021/01/15');
+CALL ThemPhieu(43, 700000, 'Some things', '2021/02/15');
+CALL ThemPhieu(43, 200000, 'Some things', '2021/03/15');
+CALL ThemPhieu(43, 800000, 'Some things', '2021/04/15');
+CALL RutHetTien(43, 'The end game', '2021/05/15');
 
-CALL ThemPhieu(6, 100000, 'Some things', '2016/06/15');
-CALL ThemPhieu(6, -100000, 'Some things', '2016/07/15');
-CALL ThemPhieu(6, -100000, 'Some things', '2016/07/15');
-CALL RutHetTien(6, 'The end game', '2017/01/01');
+CALL RutHetTien(46, 'The end game', '2021/01/15');
 
-CALL ThemPhieu(7, 200000, 'Some things', '2019/04/15');
-CALL RutHetTien(7, 'The end game', '2019/06/15');
+CALL ThemPhieu(47, 900000, 'Some things', '2021/05/15');
 
-CALL RutHetTien(8, 'The end game', '2020/11/15');
-CALL RutHetTien(9, 'The end game', '2017/02/15');
-CALL RutHetTien(10, 'The end game', '2020/11/15');
-CALL RutHetTien(11, 'The end game', '2016/7/15');
-CALL RutHetTien(12, 'The end game', '2017/04/15');
-CALL RutHetTien(13, 'The end game', '2017/03/15');
+CALL ThemPhieu(49, 100000, 'Some things', '2021/01/15');
+CALL ThemPhieu(49, 800000, 'Some things', '2021/02/15');
+CALL ThemPhieu(49, -700000, 'Some things', '2021/03/15');
+CALL RutHetTien(49, 'The end game', '2021/04/15');
 
-CALL ThemPhieu(14, 200000, 'Some things', '2018/03/15');
-CALL RutHetTien(14, 'The end game', '2018/06/15');
+CALL ThemPhieu(51, 900000, 'Some things', '2021/04/15');
+CALL ThemPhieu(51, 400000, 'Some things', '2021/05/15');
 
-CALL ThemPhieu(15, 200000, 'Some things', '2016/02/15');
-CALL RutHetTien(15, 'The end game', '2016/05/15');
+CALL ThemPhieu(52, -600000, 'Some things', '2021/03/15');
+CALL ThemPhieu(52, 900000, 'Some things', '2021/04/15');
+CALL ThemPhieu(52, -100000, 'Some things', '2021/05/15');
 
-CALL RutHetTien(16, 'The end game', '2018/02/15');
-
-CALL RutHetTien(17, 'The end game', '2019/02/15');
-CALL RutHetTien(18, 'The end game', '2019/02/15');
-CALL RutHetTien(19, 'The end game', '2020/12/15');
-
-CALL RutHetTien(21, 'The end game', '2017/12/15');
-
-CALL ThemPhieu(22, 200000, 'Some things', '2020/03/15');
-CALL RutHetTien(22, 'The end game', '2020/04/15');
+CALL ThemPhieu(53, 1000000, 'Some things', '2021/05/15');
 
 SELECT * FROM PHIEUGUI;
 SELECT * FROM PHIEURUT;
 
-DELETE FROM PHIEURUT WHERE MaPhieu = 25;
-DELETE FROM PHIEURUT WHERE MaPhieu = 8;
-DELETE FROM PHIEURUT WHERE MaPhieu = 7;
-
-CALL LaySoTienVoiNgayQuery(6, '2021/06/17', @SoDuDung, @Ngay);
-SELECT CONCAT(@SoDuDung, ' ', @Ngay);
-
 /*========== Báo cáo ngày ==========*/
-
-CALL TongHopBaoCaoNgay('2016/06/15', 0);
-CALL TongHopBaoCaoNgay('2016/10/01', 0);
 CALL TongHopBaoCaoNgay('2016/01/15', 0);
-CALL TongHopBaoCaoNgay('2017/10/15', 1);
-CALL TongHopBaoCaoNgay('2017/01/01', 0);
-CALL TongHopBaoCaoNgay('2017/12/15', 3);
-CALL TongHopBaoCaoNgay('2020/04/15', 6);
-CALL TongHopBaoCaoNgay('2019/02/15', 9);
-CALL TongHopBaoCaoNgay('2020/11/15', 12);
-CALL TongHopBaoCaoNgay('2020/11/15', 0);
+CALL TongHopBaoCaoNgay('2016/02/15', 0);
+CALL TongHopBaoCaoNgay('2016/03/15', 0);
+CALL TongHopBaoCaoNgay('2016/04/15', 0);
+CALL TongHopBaoCaoNgay('2016/05/15', 0);
+CALL TongHopBaoCaoNgay('2016/06/15', 1);
+CALL TongHopBaoCaoNgay('2016/07/15', 0);
+CALL TongHopBaoCaoNgay('2016/08/15', 0);
+CALL TongHopBaoCaoNgay('2016/09/15', 0);
+CALL TongHopBaoCaoNgay('2016/10/15', 0);
+CALL TongHopBaoCaoNgay('2016/11/15', 0);
+CALL TongHopBaoCaoNgay('2016/12/15', 0);
 
+CALL TongHopBaoCaoNgay('2017/01/15', 12);
+CALL TongHopBaoCaoNgay('2017/02/15', 0);
+CALL TongHopBaoCaoNgay('2017/03/15', 0);
+CALL TongHopBaoCaoNgay('2017/04/15', 0);
+CALL TongHopBaoCaoNgay('2017/05/15', 0);
+CALL TongHopBaoCaoNgay('2017/06/15', 0);
+CALL TongHopBaoCaoNgay('2017/07/15', 0);
+CALL TongHopBaoCaoNgay('2017/08/15', 0);
+CALL TongHopBaoCaoNgay('2017/09/15', 0);
+CALL TongHopBaoCaoNgay('2017/10/15', 0);
+CALL TongHopBaoCaoNgay('2017/11/15', 0);
+CALL TongHopBaoCaoNgay('2017/12/15', 0);
+
+CALL TongHopBaoCaoNgay('2018/01/15', 0);
+CALL TongHopBaoCaoNgay('2018/02/15', 12);
+CALL TongHopBaoCaoNgay('2018/03/15', 0);
+CALL TongHopBaoCaoNgay('2018/04/15', 0);
+CALL TongHopBaoCaoNgay('2018/05/15', 0);
+CALL TongHopBaoCaoNgay('2018/06/15', 6);
+CALL TongHopBaoCaoNgay('2018/07/15', 12);
+CALL TongHopBaoCaoNgay('2018/08/15', 0);
+CALL TongHopBaoCaoNgay('2018/09/15', 0);
+CALL TongHopBaoCaoNgay('2018/10/15', 6);
+CALL TongHopBaoCaoNgay('2018/11/15', 0);
+CALL TongHopBaoCaoNgay('2018/12/15', 3);
+
+CALL TongHopBaoCaoNgay('2019/01/15', 0);
+CALL TongHopBaoCaoNgay('2019/02/15', 3);
+CALL TongHopBaoCaoNgay('2019/03/15', 0);
+CALL TongHopBaoCaoNgay('2019/04/15', 9);
+CALL TongHopBaoCaoNgay('2019/05/15', 6);
+CALL TongHopBaoCaoNgay('2019/06/15', 0);
+CALL TongHopBaoCaoNgay('2019/07/15', 3);
+CALL TongHopBaoCaoNgay('2019/08/15', 0);
+CALL TongHopBaoCaoNgay('2019/09/15', 0);
+CALL TongHopBaoCaoNgay('2019/10/15', 0);
+CALL TongHopBaoCaoNgay('2019/11/15', 9);
+CALL TongHopBaoCaoNgay('2019/12/15', 9);
+
+CALL TongHopBaoCaoNgay('2020/01/15', 0);
+CALL TongHopBaoCaoNgay('2020/02/15', 12);
+CALL TongHopBaoCaoNgay('2020/03/15', 3);
+CALL TongHopBaoCaoNgay('2020/04/15', 0);
+CALL TongHopBaoCaoNgay('2020/05/15', 0);
+CALL TongHopBaoCaoNgay('2020/06/15', 0);
+CALL TongHopBaoCaoNgay('2020/07/15', 6);
+CALL TongHopBaoCaoNgay('2020/08/15', 0);
+CALL TongHopBaoCaoNgay('2020/09/15', 1);
+CALL TongHopBaoCaoNgay('2020/10/15', 0);
+CALL TongHopBaoCaoNgay('2020/11/15', 12);
+CALL TongHopBaoCaoNgay('2020/12/15', 3);
+
+CALL TongHopBaoCaoNgay('2021/01/15', 12);
+CALL TongHopBaoCaoNgay('2021/02/15', 6);
+CALL TongHopBaoCaoNgay('2021/03/15', 0);
+CALL TongHopBaoCaoNgay('2021/04/15', 0);
+CALL TongHopBaoCaoNgay('2021/05/15', 3);
+
+SELECT * FROM BAOCAONGAY;
 
 /*========== Báo cáo tháng ==========*/
-
-CALL TongHopBaoCaoThang('2016/07/15', 0);
-CALL TongHopBaoCaoThang('2018/06/07', 1);
-CALL TongHopBaoCaoThang('2017/01/07', 12);
-CALL TongHopBaoCaoThang('2017/01/07', 0);
-CALL TongHopBaoCaoThang('2018/03/07', 6);
-CALL TongHopBaoCaoThang('2017/01/07', 6);
-CALL TongHopBaoCaoThang('2016/01/07', 6);
-CALL TongHopBaoCaoThang('2019/06/07', 9);
-CALL TongHopBaoCaoThang('2020/03/07', 12);
+CALL TongHopBaoCaoThang('2016/01/15', 0);
+CALL TongHopBaoCaoThang('2016/02/15', 1);
+CALL TongHopBaoCaoThang('2016/03/15', 3);
+CALL TongHopBaoCaoThang('2016/04/15', 0);
+CALL TongHopBaoCaoThang('2016/05/15', 1);
+CALL TongHopBaoCaoThang('2016/06/15', 3);
+CALL TongHopBaoCaoThang('2016/07/15', 1);
+CALL TongHopBaoCaoThang('2016/08/15', 1);
+CALL TongHopBaoCaoThang('2016/09/15', 6);
+CALL TongHopBaoCaoThang('2016/10/15', 0);
+CALL TongHopBaoCaoThang('2016/11/15', 3);
+CALL TongHopBaoCaoThang('2016/12/15', 1);
+                       
+CALL TongHopBaoCaoThang('2017/01/15', 6);
+CALL TongHopBaoCaoThang('2017/02/15', 12);
+CALL TongHopBaoCaoThang('2017/03/15', 3);
+CALL TongHopBaoCaoThang('2017/04/15', 0);
+CALL TongHopBaoCaoThang('2017/05/15', 1);
+CALL TongHopBaoCaoThang('2017/06/15', 0);
+CALL TongHopBaoCaoThang('2017/07/15', 0);
+CALL TongHopBaoCaoThang('2017/08/15', 3);
+CALL TongHopBaoCaoThang('2017/09/15', 6);
+CALL TongHopBaoCaoThang('2017/10/15', 1);
+CALL TongHopBaoCaoThang('2017/11/15', 0);
+CALL TongHopBaoCaoThang('2017/12/15', 12);
+                       
+CALL TongHopBaoCaoThang('2018/01/15', 1);
+CALL TongHopBaoCaoThang('2018/02/15', 12);
+CALL TongHopBaoCaoThang('2018/03/15', 6);
+CALL TongHopBaoCaoThang('2018/04/15', 3);
+CALL TongHopBaoCaoThang('2018/05/15', 1);
+CALL TongHopBaoCaoThang('2018/06/15', 1);
+CALL TongHopBaoCaoThang('2018/07/15', 6);
+CALL TongHopBaoCaoThang('2018/08/15', 12);
+CALL TongHopBaoCaoThang('2018/09/15', 3);
+CALL TongHopBaoCaoThang('2018/10/15', 1);
+CALL TongHopBaoCaoThang('2018/11/15', 1);
+CALL TongHopBaoCaoThang('2018/12/15', 3);
+                       
+CALL TongHopBaoCaoThang('2019/01/15', 9);
+CALL TongHopBaoCaoThang('2019/02/15', 3);
+CALL TongHopBaoCaoThang('2019/03/15', 9);
+CALL TongHopBaoCaoThang('2019/04/15', 6);
+CALL TongHopBaoCaoThang('2019/05/15', 0);
+CALL TongHopBaoCaoThang('2019/06/15', 1);
+CALL TongHopBaoCaoThang('2019/07/15', 12);
+CALL TongHopBaoCaoThang('2019/08/15', 0);
+CALL TongHopBaoCaoThang('2019/09/15', 9);
+CALL TongHopBaoCaoThang('2019/10/15', 1);
+CALL TongHopBaoCaoThang('2019/11/15', 1);
+CALL TongHopBaoCaoThang('2019/12/15', 3);
+                       
+CALL TongHopBaoCaoThang('2020/01/15', 3);
+CALL TongHopBaoCaoThang('2020/02/15', 6);
+CALL TongHopBaoCaoThang('2020/03/15', 1);
+CALL TongHopBaoCaoThang('2020/04/15', 9);
+CALL TongHopBaoCaoThang('2020/05/15', 12);
+CALL TongHopBaoCaoThang('2020/06/15', 1);
+CALL TongHopBaoCaoThang('2020/07/15', 3);
+CALL TongHopBaoCaoThang('2020/08/15', 0);
+CALL TongHopBaoCaoThang('2020/09/15', 9);
+CALL TongHopBaoCaoThang('2020/10/15', 0);
+CALL TongHopBaoCaoThang('2020/11/15', 6);
+CALL TongHopBaoCaoThang('2020/12/15', 1);
+                       
+CALL TongHopBaoCaoThang('2021/01/15', 12);
+CALL TongHopBaoCaoThang('2021/02/15', 1);
+CALL TongHopBaoCaoThang('2021/03/15', 3);
+CALL TongHopBaoCaoThang('2021/04/15', 6);
+CALL TongHopBaoCaoThang('2021/05/15', 0);
 
 SELECT * FROM BAOCAOTHANG;
