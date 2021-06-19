@@ -121,12 +121,12 @@
 							           Text="{Binding Label}"/>
 						</Border>
 						<Grid Grid.Row="1" Margin="-1, 0, 0, 0">
-							<view:Home DataContext="{Binding HomeVM}"/>
-							<view:BanksManager DataContext="{Binding BankMVM}"/>
-							<view:ServicesManager DataContext="{Binding ServiceMVM}"/>
-							<view:ReportsManager DataContext="{Binding ReportMVM}"/>
-							<view:ContactAndHelp DataContext="{Binding ContactVM}"/>
-							<view:Settings DataContext="{Binding SettingVM}"/>
+							<view:Home									DataContext="{Binding HomeVM}"/>
+							<view:BanksManager		Visibility="Hidden" DataContext="{Binding BankMVM}"/>
+							<view:ServicesManager	Visibility="Hidden" DataContext="{Binding ServiceMVM}"/>
+							<view:ReportsManager	Visibility="Hidden" DataContext="{Binding ReportMVM}"/>
+							<view:ContactAndHelp	Visibility="Hidden" DataContext="{Binding ContactVM}"/>
+							<view:Settings			Visibility="Hidden" DataContext="{Binding SettingVM}"/>
 						</Grid>
 					</Grid>
 				</DataTemplate>
