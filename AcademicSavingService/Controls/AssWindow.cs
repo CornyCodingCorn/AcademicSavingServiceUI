@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace AcademicSavingService.Controls
 {
-	public class AssWindow : MetroWindow
+	public class AssWindow : MetroWindow, IDisposable
 	{
 		public static readonly DependencyProperty IsActivatedProperty = 
 			DependencyProperty.Register("IsActivated", typeof(bool), typeof(AssWindow));
@@ -14,7 +14,7 @@ namespace AcademicSavingService.Controls
 			AssApp.RegisterWindow(this);
 		}
 
-		~AssWindow()
+		public void Dispose()
 		{
 			AssApp.RemoveWindow(this);
 		}

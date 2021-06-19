@@ -5,11 +5,12 @@ using MahApps.Metro.IconPacks;
 using System.Windows.Media;
 using System.Windows;
 using System.Collections.Generic;
+using System;
 
 namespace AcademicSavingService.ViewModel
 {
 	[AddINotifyPropertyChangedInterface]
-	class MainViewModel : INotifyPropertyChanged
+	class MainViewModel : INotifyPropertyChanged, IDisposable
 	{
 		public event PropertyChangedEventHandler PropertyChanged = (sender, e) => { };
 		public ObservableCollection<MenuItemViewModel> MenuItems { get; set; }
@@ -162,5 +163,13 @@ namespace AcademicSavingService.ViewModel
                 HomeVM
             };
         }
+
+        public void Dispose()
+		{
+            foreach (var item in MenuItems)
+                item.Dispose();
+            foreach (var item in MenuOptionItems)
+                item.Dispose();
+		}
     }
 }

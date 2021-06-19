@@ -5,7 +5,9 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
 			 xmlns:viewModel="clr-namespace:AcademicSavingService.ViewModel"
 			 xmlns:anim="clr-namespace:AcademicSavingService.Animation"
-             StartupUri="MainWindow.xaml">
+             Startup="Application_Startup"
+			 ShutdownMode="OnLastWindowClose"
+			 Exit="Application_Exit">
 	<Application.Resources>
 		<ResourceDictionary>
 			<DataTemplate x:Key="TabItemTemplate" DataType="{x:Type viewModel:TabItemViewModel}">
