@@ -1,9 +1,3 @@
--- Thời gian từ 2016 đến 2021
--- Thay đổi quy định 6 - 12 tháng 1 lần
--- Tạo sổ tiết kiệm mới mỗi 3 tháng
--- Thêm cái phiếu rút và gửi tiền
--- 1 triệu : 1000000
-
 CALL ForceDeleteAllSoTietKiem();
 TRUNCATE TABLE ErrorTable;
 DELETE FROM QUYDINH;
@@ -252,77 +246,74 @@ VALUES('Huỳnh Hải Phong', '0433233328', '146 Hoàng Diệu 2, Phường Linh
 SELECT * FROM KHACHHANG;
 
 /*==========Sổ tiết kiệm==========*/
--- ThemSoTietKiem(IN MaKH INT, IN KyHan TINYINT, IN SoTienBanDau DECIMAL(15, 2), IN NgayTao DATE)
 -- 2016
-CALL ThemSoTietKiem(17, 12, 1000000, '2016/01/03'); --
-CALL ThemSoTietKiem(12, 1, 5000000, '2016/01/15'); --
-CALL ThemSoTietKiem(1, 0, 2000000, '2016/02/15'); --
-CALL ThemSoTietKiem(9, 3, 4000000, '2016/03/15'); --
-CALL ThemSoTietKiem(5, 3, 5000000, '2016/03/23'); --
-CALL ThemSoTietKiem(2, 3, 9000000, '2016/04/07'); --
-CALL ThemSoTietKiem(7, 1, 5000000, '2016/09/05'); --
-CALL ThemSoTietKiem(3, 6, 9000000, '2016/09/15'); --
-CALL ThemSoTietKiem(15, 3, 7000000, '2016/10/12'); --
-CALL ThemSoTietKiem(16, 3, 8000000, '2016/12/15'); -- 10
+CALL ThemSoTietKiem(17, 12, 1000000, '2016/01/03');
+CALL ThemSoTietKiem(12, 1, 5000000, '2016/01/15');
+CALL ThemSoTietKiem(1, 0, 2000000, '2016/02/15');
+CALL ThemSoTietKiem(9, 3, 4000000, '2016/03/15');
+CALL ThemSoTietKiem(5, 3, 5000000, '2016/03/23');
+CALL ThemSoTietKiem(2, 3, 9000000, '2016/04/07');
+CALL ThemSoTietKiem(7, 1, 5000000, '2016/09/05');
+CALL ThemSoTietKiem(3, 6, 9000000, '2016/09/15');
+CALL ThemSoTietKiem(15, 3, 7000000, '2016/10/12');
+CALL ThemSoTietKiem(16, 3, 8000000, '2016/12/15');
 
 -- 2017
-CALL ThemSoTietKiem(9, 12, 1000000, '2017/01/01'); --
-CALL ThemSoTietKiem(16, 12, 10000000, '2017/02/05'); --
-CALL ThemSoTietKiem(4, 6, 1000000, '2017/02/25'); --
-CALL ThemSoTietKiem(11, 3, 1000000, '2017/03/07'); --
-CALL ThemSoTietKiem(10, 1, 9000000, '2017/04/20'); --
-CALL ThemSoTietKiem(8, 6, 4000000, '2017/07/16'); --
-CALL ThemSoTietKiem(12, 3, 5000000, '2017/08/08'); --
-CALL ThemSoTietKiem(11, 0, 7000000, '2017/09/03'); --
-CALL ThemSoTietKiem(4, 6, 1000000, '2017/09/29'); --
-CALL ThemSoTietKiem(16, 1, 1000000, '2017/12/30'); -- 20
+CALL ThemSoTietKiem(9, 12, 1000000, '2017/01/01');
+CALL ThemSoTietKiem(16, 12, 10000000, '2017/02/05');
+CALL ThemSoTietKiem(4, 6, 1000000, '2017/02/25');
+CALL ThemSoTietKiem(11, 3, 1000000, '2017/03/07');
+CALL ThemSoTietKiem(10, 1, 9000000, '2017/04/20');
+CALL ThemSoTietKiem(8, 6, 4000000, '2017/07/16');
+CALL ThemSoTietKiem(12, 3, 5000000, '2017/08/08');
+CALL ThemSoTietKiem(11, 0, 7000000, '2017/09/03');
+CALL ThemSoTietKiem(4, 6, 1000000, '2017/09/29');
+CALL ThemSoTietKiem(16, 1, 1000000, '2017/12/30');
 
 -- 2018
-CALL ThemSoTietKiem(12, 0, 2000000, '2018/02/09'); --
-CALL ThemSoTietKiem(10, 3, 6000000, '2018/04/05');  --
-CALL ThemSoTietKiem(12, 9, 1000000, '2018/05/07'); --
-CALL ThemSoTietKiem(9, 3, 10000000, '2018/05/16'); --
-CALL ThemSoTietKiem(13, 3, 5000000, '2018/08/23'); --
-CALL ThemSoTietKiem(5, 6, 4000000, '2018/09/12'); --
-CALL ThemSoTietKiem(3, 0, 6000000, '2018/09/21'); --
-CALL ThemSoTietKiem(11, 9, 3000000, '2018/10/04'); --
-CALL ThemSoTietKiem(14, 12, 1000000, '2018/10/09'); --
-CALL ThemSoTietKiem(2, 9, 1000000, '2018/12/11'); -- 30
+CALL ThemSoTietKiem(12, 0, 2000000, '2018/02/09');
+CALL ThemSoTietKiem(10, 3, 6000000, '2018/04/05');
+CALL ThemSoTietKiem(12, 9, 1000000, '2018/05/07');
+CALL ThemSoTietKiem(9, 3, 10000000, '2018/05/16');
+CALL ThemSoTietKiem(13, 3, 5000000, '2018/08/23');
+CALL ThemSoTietKiem(5, 6, 4000000, '2018/09/12');
+CALL ThemSoTietKiem(3, 0, 6000000, '2018/09/21');
+CALL ThemSoTietKiem(11, 9, 3000000, '2018/10/04');
+CALL ThemSoTietKiem(14, 12, 1000000, '2018/10/09');
+CALL ThemSoTietKiem(2, 9, 1000000, '2018/12/11');
 
 -- 2019
-CALL ThemSoTietKiem(7, 3, 9000000, '2019/03/07'); --
-CALL ThemSoTietKiem(6, 12, 10000000, '2019/06/29'); --
-CALL ThemSoTietKiem(9, 3, 7000000, '2019/07/08'); --
-CALL ThemSoTietKiem(12, 12, 9000000, '2019/07/18'); --
-CALL ThemSoTietKiem(1, 1, 6000000, '2019/09/17'); --
-CALL ThemSoTietKiem(4, 6, 3000000, '2019/09/24'); --
-CALL ThemSoTietKiem(15, 3, 9000000, '2019/10/19'); --
-CALL ThemSoTietKiem(14, 1, 3000000, '2019/11/01'); --
-CALL ThemSoTietKiem(16, 0, 8000000, '2019/12/14'); --
-CALL ThemSoTietKiem(17, 0, 5000000, '2019/12/20'); -- 40
+CALL ThemSoTietKiem(7, 3, 9000000, '2019/03/07');
+CALL ThemSoTietKiem(6, 12, 10000000, '2019/06/29');
+CALL ThemSoTietKiem(9, 3, 7000000, '2019/07/08');
+CALL ThemSoTietKiem(12, 12, 9000000, '2019/07/18');
+CALL ThemSoTietKiem(1, 1, 6000000, '2019/09/17');
+CALL ThemSoTietKiem(4, 6, 3000000, '2019/09/24');
+CALL ThemSoTietKiem(15, 3, 9000000, '2019/10/19');
+CALL ThemSoTietKiem(14, 1, 3000000, '2019/11/01');
+CALL ThemSoTietKiem(16, 0, 8000000, '2019/12/14');
+CALL ThemSoTietKiem(17, 0, 5000000, '2019/12/20');
 
 -- 2020
-CALL ThemSoTietKiem(17, 1, 1000000, '2020/01/24'); --
-CALL ThemSoTietKiem(8, 6, 6000000, '2020/04/11'); --
-CALL ThemSoTietKiem(13, 3, 1000000, '2020/06/25'); --
-CALL ThemSoTietKiem(3, 1, 9000000, '2020/07/11'); --
-CALL ThemSoTietKiem(1, 12, 3000000, '2020/07/14'); --
-CALL ThemSoTietKiem(15, 1, 8000000, '2020/08/01'); --
-CALL ThemSoTietKiem(8, 6, 4000000, '2020/11/05'); --
-CALL ThemSoTietKiem(11, 6, 3000000, '2020/11/22'); --
-CALL ThemSoTietKiem(15, 0, 2000000, '2020/12/01'); -- 49
+CALL ThemSoTietKiem(17, 1, 1000000, '2020/01/24');
+CALL ThemSoTietKiem(8, 6, 6000000, '2020/04/11');
+CALL ThemSoTietKiem(13, 3, 1000000, '2020/06/25');
+CALL ThemSoTietKiem(3, 1, 9000000, '2020/07/11');
+CALL ThemSoTietKiem(1, 12, 3000000, '2020/07/14');
+CALL ThemSoTietKiem(15, 1, 8000000, '2020/08/01');
+CALL ThemSoTietKiem(8, 6, 4000000, '2020/11/05');
+CALL ThemSoTietKiem(11, 6, 3000000, '2020/11/22');
+CALL ThemSoTietKiem(15, 0, 2000000, '2020/12/01');
 
 -- 2021
-CALL ThemSoTietKiem(1, 12, 8000000, '2021/01/09'); --
-CALL ThemSoTietKiem(8, 3, 9000000, '2021/01/14'); --
-CALL ThemSoTietKiem(7, 0, 5000000, '2021/02/11'); --
-CALL ThemSoTietKiem(17, 1, 9000000, '2021/03/22'); --
+CALL ThemSoTietKiem(1, 12, 8000000, '2021/01/09');
+CALL ThemSoTietKiem(8, 3, 9000000, '2021/01/14');
+CALL ThemSoTietKiem(7, 0, 5000000, '2021/02/11');
+CALL ThemSoTietKiem(17, 1, 9000000, '2021/03/22');
 
 SELECT * FROM SOTIETKIEM;
 
 /*========== Phiếu ==========*/
--- ThemPhieu(IN MaSo INT, IN SoTien DECIMAL(15, 2), IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
--- RutHetTien(IN MaSo INT, IN MaKH INT, IN MaNV INT, IN GhiChu TEXT, IN NgayTao DATE)
 -- 2016
 CALL ThemPhieu(2, 100000, 'Some things', '2016/02/15');
 CALL ThemPhieu(2, 800000, 'Some things', '2016/03/15');
