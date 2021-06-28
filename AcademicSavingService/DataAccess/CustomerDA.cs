@@ -33,8 +33,6 @@ namespace AcademicSavingService.DataAccess
 
         public void UpdateCustomerByMaKH(CustomerINPC updatedCustomer)
         {
-            if (updatedCustomer.AnhDaiDien is null)
-                updatedCustomer.AnhDaiDien = "";
             db.Query(_tableName).Where(_MaKH, updatedCustomer.MaKH).Update(updatedCustomer);
         }
 

@@ -35,6 +35,7 @@ namespace AcademicSavingService.ViewModel
 					DiaChiField = _selectedCustomer.DiaChi;
 					NgayDangKyField = _selectedCustomer.NgayDangKy;
 					ProfilePic = _profileDA.LoadImage(_selectedCustomer.AnhDaiDien);
+					AnhDaiDienField = _selectedCustomer.AnhDaiDien;
 				}
 				else if (_selectedCustomer == null)
 				{
@@ -51,6 +52,7 @@ namespace AcademicSavingService.ViewModel
 		public string DiaChiField { get; set; }
 		public DateTime NgayDangKyField { get; set; }
 		public ImageSource ProfilePic { get; set; }
+		public string AnhDaiDienField { get; set; }
 
 		private CustomerINPC _selectedCustomer;
 
@@ -138,6 +140,7 @@ namespace AcademicSavingService.ViewModel
 				SDT = SDTField,
 				DiaChi = DiaChiField,
 				NgayDangKy = NgayDangKyField,
+				AnhDaiDien = AnhDaiDienField
 			};
 
 			try
