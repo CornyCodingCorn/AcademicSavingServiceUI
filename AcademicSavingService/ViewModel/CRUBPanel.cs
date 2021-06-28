@@ -105,7 +105,7 @@ namespace AcademicSavingService.ViewModel
 				case ("PG000"): trueMessage = "Deposit complete"; break;
 				case ("PG001"): trueMessage = "The amount of money you're trying deposit is lesser than the minimum requirement"; break;
 				case ("PG002"): trueMessage = "Transaction complete"; break;
-				case ("PG003"): trueMessage = "You can't complete transaction on the saving account before due date!"; break;
+				case ("PG003"): trueMessage = "You can't complete transaction on the saving account before due date or before minimum day required!"; break;
 				case ("PG004"): trueMessage = "You can't deposit the date before you withdraw!"; break;
 				case ("PR000"): trueMessage = "Withdraw complete"; break;
 				case ("PR001"): trueMessage = "You can't withdraw before due date or before the minimum days"; break;
@@ -117,7 +117,7 @@ namespace AcademicSavingService.ViewModel
 				case ("PR007"): trueMessage = "You can't update withdraw slip that exists before another withdraw slip"; break;
 				case ("PH001"): trueMessage = "This account is closed or not exists"; break;
 				case ("PH002"): trueMessage = "You have to delete the slips in orders"; break;
-				case ("PH003"): trueMessage = "You can only withdraw after you created the account"; break;
+				case ("PH003"): trueMessage = "You can only withdraw or deposit after you created the account"; break;
 				case ("PH005"): trueMessage = "You aren't allow to update slips other than Note"; break;
 				case ("QD000"): trueMessage = "Add/Delete rules successfully"; break;
 				case ("QD001"): trueMessage = "You are not allow to update rules"; break;
