@@ -31,7 +31,7 @@ BEGIN
 
 	IF (NEW.NgayTao = '0/0/0') THEN SET NEW.NgayTao = NOW(); END IF;
     SELECT STK.NgayTao, LKH.KyHan, STK.NgayDongSo, STK.LanCapNhatCuoi, COUNT(*) INTO NgayTao, KyHan, NgayDongSo, LanCapNhatCuoi, Size
-    FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKH = LKH.MaKyHan
+    FROM SOTIETKIEM STK JOIN LOAIKYHAN LKH ON STK.MaKyHan = LKH.MaKyHan
     WHERE MaSo = NEW.MaSo;
     
     IF (Size = 0 OR NgayDongSo IS NOT NULL) THEN CALL ThrowException('PH001'); END IF;
