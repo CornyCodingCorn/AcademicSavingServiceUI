@@ -65,7 +65,7 @@ BEGIN
 		CALL ThrowException('TK004');
 	END IF;
 	IF (NgayDongSo IS NULL) THEN
-		IF (LanCapNhatCuoi >= NgayCanUpdate) THEN
+		IF (LanCapNhatCuoi > NgayCanUpdate) THEN
 			SET SoDuDung = SoDuLanCapNhatCuoi;
 	        SET NgayUpdate = LanCapNhatCuoi;
 		ELSE
