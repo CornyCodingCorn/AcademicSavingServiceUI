@@ -96,7 +96,10 @@ namespace AcademicSavingService.ViewModel
 					if (value < 0 || value >= InterestRateList.Count)
 						InterestRate = 0;
 					else
-						InterestRate = InterestRateList[value];
+                    {
+						if (IsInsertMode) InterestRate = InterestRateList[value];
+						else InterestRate = SelectedAccount.LaiSuat;
+					}
 				}
 			}
 		}
