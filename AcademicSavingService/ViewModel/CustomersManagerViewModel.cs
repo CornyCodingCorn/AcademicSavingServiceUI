@@ -147,6 +147,7 @@ namespace AcademicSavingService.ViewModel
 			{
 				if (IsInsertMode)
                 {
+					customer.AnhDaiDien = "";
 					CustomerContainer.Instance.AddToCollection(customer);
 					ClearAllFields();
 					MaKHField = CustomerContainer.Instance.GetNextAutoID();
