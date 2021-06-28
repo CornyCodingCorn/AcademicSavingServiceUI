@@ -38,11 +38,7 @@ BEGIN
     IF (NEW.NgayTao < NgayTao) THEN CALL ThrowException('PH003'); END IF;
     IF (NEW.NgayTao < LanCapNhatCuoi) THEN CALL ThrowException('PG004'); END IF;
 
-    IF (KyHan = 0) THEN
-        IF (NEW.NgayTao < TIMESTAMPADD(DAY, LaySoNgayKhongKyHanNhoNhat(NgayTao), NgayTao)) THEN
-			CALL ThrowException('PG005');
-        END IF;
-    ELSE
+    IF (KyHan > 0) THEN
         IF (NEW.NgayTao < TIMESTAMPADD(MONTH, KyHan, NgayTao)) THEN
             CALL ThrowException('PG003');
         END IF;

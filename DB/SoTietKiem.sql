@@ -82,9 +82,9 @@ BEGIN
 				END IF;
 
 				SET SoDuDung = SoDuDung * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(LanCapNhatCuoi, NgayCanUpdate));
-	    		SELECT COUNT(*) INTO _size FROM PHIEUGUI PG WHERE PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi AND PG.MaSo = MaSo;
+	    		SELECT COUNT(*) INTO _size FROM PHIEUGUI PG WHERE PG.NgayTao <= NgayCanUpdate AND PG.NgayTao >= LanCapNhatCuoi AND PG.MaSo = MaSo;
 	   			WHILE (_counter < _size) DO
-					SELECT PG.SoTien, PG.NgayTao INTO _money, _createDate FROM PHIEUGUI PG WHERE  PG.NgayTao <= NgayCanUpdate AND PG.NgayTao > LanCapNhatCuoi AND PG.MaSo = MaSo ORDER BY MaPhieu LIMIT _counter, 1;
+					SELECT PG.SoTien, PG.NgayTao INTO _money, _createDate FROM PHIEUGUI PG WHERE  PG.NgayTao <= NgayCanUpdate AND PG.NgayTao >= LanCapNhatCuoi AND PG.MaSo = MaSo ORDER BY MaPhieu LIMIT _counter, 1;
 					SET SoDuDung = SoDuDung + (_money * (1 + LayLaiSuatKhongKyHanTrongKhoangThoiGian(_createDate, NgayCanUpdate)));
 					SET _counter = _counter + 1;
 	    		END WHILE;

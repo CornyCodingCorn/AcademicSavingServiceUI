@@ -148,7 +148,7 @@
 
 							<DatePicker Grid.Column="1" Grid.Row="0" Width="140" IsEnabled="{Binding IsInsertMode}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" SelectedDate="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
 							<TextBox Grid.Column="1" Grid.Row="0" Width="140" IsReadOnly="True" Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVis}}" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Create date" Text="{Binding CreateDate, UpdateSourceTrigger=PropertyChanged, StringFormat='dd/MM/yyyy'}"/>
-							<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="1" Width="140" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Initial Balance" mah:TextBoxHelper.ClearTextButton="True" Text="{Binding InitialBalance, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}"/>
+							<ctrl:DigitTextBox	Grid.Column="1" Grid.Row="1" Width="140" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Initial Balance" mah:TextBoxHelper.ClearTextButton="True" IsReadOnly="{Binding IsReadOnly}" Text="{Binding InitialBalance, FallbackValue=0, UpdateSourceTrigger=PropertyChanged}"/>
 
 							<ComboBox Grid.Column="1" Grid.Row="2" Width="70" HorizontalAlignment="Left" mah:TextBoxHelper.Watermark="Term" IsEnabled="{Binding IsInsertMode}" ItemsSource="{Binding TermsList}" SelectedIndex="{Binding SelectedTermIndex}">
 								<ComboBox.Resources>

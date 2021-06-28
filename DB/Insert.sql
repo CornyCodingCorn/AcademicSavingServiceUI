@@ -340,7 +340,6 @@ CALL RutHetTien(3, 'The end game', '2016/08/15');
 CALL ThemPhieu(4, 400000, 'Some things', '2016/06/15');
 CALL RutHetTien(4, 'The end game', '2016/07/15');
 
-CALL ThemPhieu(5, 700000, 'Some things', '2016/06/15');
 CALL ThemPhieu(5, 300000, 'Some things', '2016/07/15');
 CALL ThemPhieu(5, 600000, 'Some things', '2016/08/15');
 CALL ThemPhieu(5, 700000, 'Some things', '2016/09/15');
@@ -486,7 +485,7 @@ CALL RutHetTien(30, 'The end game', '2019/12/15');
 CALL ThemPhieu(31, 800000, 'Some things', '2019/06/15');
 CALL RutHetTien(31, 'The end game', '2019/07/15');
 
-CALL ThemPhieu(35, 300000, 'Some things', '2019/10/15');
+CALL ThemPhieu(35, 300000, 'Some things', '2019/10/19');
 CALL RutHetTien(35, 'The end game', '2019/11/15');
 
 CALL RutHetTien(38, 'The end game', '2019/12/15');

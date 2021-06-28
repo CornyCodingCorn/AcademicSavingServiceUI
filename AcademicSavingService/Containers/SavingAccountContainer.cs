@@ -41,19 +41,22 @@ namespace AcademicSavingService.Containers
         public override void UpdateOnCollection(SavingAccountINPC item)
         {
             _accountDA.Update(item);
+            var result = _accountDA.GetSavingAccountByMaSo(item.MaSo);
             for (int i = 0; i < Collection.Count; i++)
                 if (Collection[i].MaSo == item.MaSo)
                 {
                     Collection[i].MaKH = item.MaKH;
                     Collection[i].NgayTao = item.NgayTao;
                     Collection[i].SoTienBanDau = item.SoTienBanDau;
+                    Collection[i].SoDu = result[0].SoDu;
                 }
         }
 
         public override void AddToCollection(SavingAccountINPC savingAccount)
         {
             _accountDA.Create(savingAccount);
-            Collection.Add(savingAccount);
+            var newOne = _accountDA.GetSavingAccountByMaSo(savingAccount.MaSo);
+            Collection.Add(newOne[0]);
         }
 
         public override void DeleteFromCollectionByDefaultKey(int MaSo)

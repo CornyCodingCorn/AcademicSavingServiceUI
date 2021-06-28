@@ -11,7 +11,17 @@ namespace AcademicSavingService.DataAccess
     {
         public ObservableCollection<SavingAccountINPC> GetSavingAccountByMaSo(int MaSo)
         {
-            var collection = db.Query(_tableName).Where(_MaSo, MaSo).Get<SavingAccountINPC>();
+            var collection = db.Query(_tableName).Where(_MaSo, MaSo).Join(_termTypeTableName, _stkTermTypeID, _loaiKyHanTermTypeID).Select(
+                    _tableName + ".MaSo",
+                    _tableName + ".MaKH",
+                    _tableName + ".NgayTao",
+                    _tableName + ".NgayDongSo",
+                    _termTypeTableName + ".KyHan",
+                    _termTypeTableName + ".LaiSuat",
+                    _tableName + ".SoTienBanDau",
+                    _tableName + ".SoDu",
+                    _tableName + ".LanCapNhatCuoi"
+                ).Get<SavingAccountINPC>();
             return new ObservableCollection<SavingAccountINPC>(collection);
         }
 
