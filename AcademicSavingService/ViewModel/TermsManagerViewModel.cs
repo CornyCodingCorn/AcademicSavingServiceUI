@@ -130,9 +130,6 @@ namespace AcademicSavingService.ViewModel
                 var currentTerm = ActiveTerms.SingleOrDefault(item => item.KyHan == KyHanField);
                 if (currentTerm != null)
                 {
-                    //TODO: PROMPT USER FOR CONFIRMATION 
-                    //
-
                     TermTypeContainer.Instance.DisableTerm(currentTerm, term.NgayTao);
                 }
                 TermTypeContainer.Instance.AddToCollection(term);
@@ -156,6 +153,7 @@ namespace AcademicSavingService.ViewModel
             try
             {
                 TermTypeContainer.Instance.DeleteFromCollectionByDefaultKey(MaKyHanField);
+                UpdateCollections();
             }
             catch (MySqlException e) { ShowErrorMessage(e); }
         }
