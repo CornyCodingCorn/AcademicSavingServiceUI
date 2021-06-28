@@ -16,6 +16,7 @@
 				<conv:DoubleGridLengthConverter x:Key="GridLengthConv"/>
 				<conv:BoolVisabilityConverter x:Key="BoolToVis"/>
 				<conv:BoolAndConverter x:Key="BoolANDConverter"/>
+				<conv:BoolOrConverter x:Key="BoolORConverter"/>
 				<ResourceDictionary.MergedDictionaries>
 					<ResourceDictionary Source="../Resources/CRUDStyle.xaml"/>
 				</ResourceDictionary.MergedDictionaries>
@@ -106,8 +107,8 @@
 								<Style TargetType="{x:Type ctrl:DigitTextBox}" BasedOn="{StaticResource CrudTextBox}">
 									<Setter Property="IsReadOnly">
 										<Setter.Value>
-											<MultiBinding Converter="{StaticResource BoolANDConverter}">
-												<Binding Path="IsInsertMode"/>
+											<MultiBinding Converter="{StaticResource BoolORConverter}">
+												<Binding Path="IsReadOnly"/>
 												<Binding Path="WithDrawAll"/>
 											</MultiBinding>
 										</Setter.Value>

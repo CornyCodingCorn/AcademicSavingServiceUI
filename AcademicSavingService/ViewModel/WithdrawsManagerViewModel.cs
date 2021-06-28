@@ -19,7 +19,7 @@ namespace AcademicSavingService.ViewModel
 
 		protected override void ExecuteAdd()
 		{
-			if (WithDrawAll)
+			if (WithDrawAll && IsInsertMode)
 			{
 				ExecuteWithdrawAll();
 			}
