@@ -91,7 +91,14 @@ namespace AcademicSavingService.ViewModel
                     NgayNgungSuDungField ?? DateTime.Now);
                 UpdateCollections();
             }
-            catch (MySqlException e) { ShowErrorMessage(e); }
+            catch (MySqlException e) 
+            { 
+                if (KyHanField > 0)
+				{
+                    ShowMessage("WARNING", "You can't disable term while there is saving account using it!");
+                }
+                    ShowErrorMessage(e); 
+            }
         }
 
         protected override void ExecuteAdd()

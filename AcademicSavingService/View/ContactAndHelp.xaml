@@ -39,10 +39,6 @@
 									   DevPhone="09xxxxxxxx"
 									   DevEmail="19520488@gm.uit.edu.vn"/>
 					
-					<ctrl:AssDeveloper DevTitle="DEAD WEIGHT"
-									   DevName="HOANG PHUC"
-									   DevPhone="09xxxxxxxx"
-									   DevEmail="SomeReallyUNProfessionalEmail@gmail.com"/>
 				</StackPanel>
 			</Border>
 		</ScrollViewer>
